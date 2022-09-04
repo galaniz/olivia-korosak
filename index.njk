@@ -1,0 +1,14 @@
+---
+layout: layout.njk
+pagination:
+  data: contentful
+  size: 1
+  alias: c
+permalink: "/{{ c.fields.slug }}/"
+eleventyComputed:
+  title: "{{ c.fields.title }}"
+---
+
+<h1>
+  {{ title }}
+</h1>
