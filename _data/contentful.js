@@ -6,9 +6,21 @@
 
 const contentful = require('contentful')
 
+const config = {
+  space: process.env.CTFL_SPACE_ID,
+  accessToken: process.env.CTFL_CPA_TOKEN,
+  host: 'preview.contentful.com'
+}
+
+if (process.env.NODE_ENV === 'production') {
+  config.accessToken = process.env.CTFL_CDA_TOKEN
+  config.host = 'cdn.contentful.com'
+}
+
 const client = contentful.createClient({
-  space: process.env.CONTENTFUL_SPACE_ID,
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
+  space: config.space,
+  accessToken: config.accessToken,
+  host: config.host
 })
 
 /* Get pages */

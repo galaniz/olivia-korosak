@@ -3,10 +3,10 @@ layout: layout.njk
 pagination:
   data: contentful
   size: 1
-  alias: c
-permalink: "/{{ c.fields.slug }}/"
+  alias: ctfl
+permalink: "/{{ ctfl.fields.slug }}/"
 eleventyComputed:
-  title: "{{ c.fields.title }}"
+  title: "{{ ctfl.fields.title }}"
 ---
 
 <h1>
