@@ -25,8 +25,6 @@ const client = contentful.createClient({
 
 /* Meta data */
 
-const siteTitle = 'Olivia Korosak'
-
 const meta = {
   page: {
     slugBase: '/'
@@ -72,6 +70,16 @@ module.exports = async () => {
       content_type: 'genre'
     })
 
+    /* NAVIGATION 
+    
+    content.genre = await client.getEntries({
+      content_type: 'navigation'
+    })
+
+    // recurse to create tree
+    
+    */
+
     for (const contentType in content) {
       const slugBase = meta[contentType].slugBase
 
@@ -114,7 +122,6 @@ module.exports = async () => {
         }
 
         data.push({
-          siteTitle,
           title,
           slug: slugBase + slug,
           contentType,

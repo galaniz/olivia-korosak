@@ -5,7 +5,6 @@
 /* Imports */
 
 require('dotenv').config()
-
 const htmlmin = require("html-minifier")
 
 /* Config */
