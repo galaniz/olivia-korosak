@@ -2,7 +2,7 @@
  * Contentful data
  */
 
-/* Setup */
+/* Config */
 
 const contentful = require('contentful')
 
@@ -23,32 +23,74 @@ const client = contentful.createClient({
   host: config.host
 })
 
-/* Get pages */
+/* Get content */
 
 module.exports = async () => {
   try {
-    const response = await client.getEntries({
+    const content = {}
+    const data = []
+
+    const meta = {
+      page: {
+        slugBase: '/'
+      },
+      project: {
+        slugBase: '/projects/'
+      },
+      track: {
+        slugBase: '/tracks/'
+      },
+      type: {
+        slugBase: '/projects/types/'
+      },
+      genre: {
+        slugBase: '/tracks/genres/'
+      }
+    }
+
+    content.page = await client.getEntries({
       content_type: 'page'
     })
 
-    const pages = response.items
-
-    pages.map(function (page) {
-      const fields = page.fields
-
-      const {
-        slug = '',
-        parent = false
-      } = fields
-
-      if (parent) {
-        fields.slug = `${parent.fields.slug}/${slug}`
-      }
-
-      return fields
+    /*content.project = await client.getEntries({
+      content_type: 'project'
     })
 
-    return pages
+    content.track = await client.getEntries({
+      content_type: 'track'
+    })
+
+    content.type = await client.getEntries({
+      content_type: 'type'
+    })
+
+    content.genre = await client.getEntries({
+      content_type: 'genre'
+    })*/
+
+    for (const type in content) {
+      const items = content[type].items
+      const slugBase = meta[type].slugBase
+
+      items.map(i => {
+        const fields = i.fields
+
+        const { slug = '' } = fields
+
+        fields.slug = slugBase + slug + '/index.html'
+        fields.contentType = type
+
+        console.log("SLUG", fields.slug)
+
+        data.push(fields)
+
+        return fields
+      })
+    }
+
+    console.log("DATA", data)
+
+    return data
   } catch (error) {
     console.log(error.message)
   }
