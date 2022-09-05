@@ -4,11 +4,10 @@ pagination:
   data: contentful
   size: 1
   alias: ctfl
-permalink: "/{{ ctfl.fields.slug }}/"
-eleventyComputed:
-  title: "{{ ctfl.fields.title }}"
+permalink: "/{{ ctfl.slug }}/"
 ---
 
-<h1>
-  {{ title }}
-</h1>
+<main>
+  {% include ('_includes/hero.njk') %}
+  {% include ('_includes/sections.njk') %}
+</main>

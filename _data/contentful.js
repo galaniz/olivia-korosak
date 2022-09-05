@@ -23,6 +23,28 @@ const client = contentful.createClient({
   host: config.host
 })
 
+/* Meta data */
+
+const siteTitle = 'Olivia Korosak'
+
+const meta = {
+  page: {
+    slugBase: '/'
+  },
+  project: {
+    slugBase: '/projects/'
+  },
+  track: {
+    slugBase: '/tracks/'
+  },
+  projectType: {
+    slugBase: '/projects/types/'
+  },
+  genre: {
+    slugBase: '/tracks/genres/'
+  }
+}
+
 /* Get content */
 
 module.exports = async () => {
@@ -30,29 +52,11 @@ module.exports = async () => {
     const content = {}
     const data = []
 
-    const meta = {
-      page: {
-        slugBase: '/'
-      },
-      project: {
-        slugBase: '/projects/'
-      },
-      track: {
-        slugBase: '/tracks/'
-      },
-      type: {
-        slugBase: '/projects/types/'
-      },
-      genre: {
-        slugBase: '/tracks/genres/'
-      }
-    }
-
     content.page = await client.getEntries({
       content_type: 'page'
     })
 
-    /*content.project = await client.getEntries({
+    content.project = await client.getEntries({
       content_type: 'project'
     })
 
@@ -60,35 +64,70 @@ module.exports = async () => {
       content_type: 'track'
     })
 
-    content.type = await client.getEntries({
-      content_type: 'type'
+    content.projectType = await client.getEntries({
+      content_type: 'projectType'
     })
 
     content.genre = await client.getEntries({
       content_type: 'genre'
-    })*/
+    })
 
-    for (const type in content) {
-      const items = content[type].items
-      const slugBase = meta[type].slugBase
+    for (const contentType in content) {
+      const slugBase = meta[contentType].slugBase
 
-      items.map(i => {
-        const fields = i.fields
+      content[contentType].items.forEach(item => {
+        const {
+          title = '',
+          slug = '',
+          featuredMedia = false,
+          heroType = 'minimal',
+          type = false,
+          project = false,
+          genre = false,
+          audio = false
+        } = item.fields
 
-        const { slug = '' } = fields
+        let { sections } = item.fields
 
-        fields.slug = slugBase + slug + '/index.html'
-        fields.contentType = type
+        if (sections) {
+          sections = sections.map(section => {
+            const {
+              internalTitle = '',
+              alignment = 'Top',
+              justification = 'Left',
+              gap = 'None',
+              paddingTop = 'None',
+              paddingBottom = 'None',
+              column = []
+            } = section.fields
 
-        console.log("SLUG", fields.slug)
+            return {
+              internalTitle,
+              alignment,
+              justification,
+              gap,
+              paddingTop,
+              paddingBottom,
+              column
+            }
+          })
+        }
 
-        data.push(fields)
-
-        return fields
+        data.push({
+          siteTitle,
+          title,
+          slug: slugBase + slug,
+          contentType,
+          featuredMedia,
+          heroType,
+          type,
+          project,
+          genre,
+          audio,
+          sections
+        })
       })
     }
-
-    console.log("DATA", data)
 
     return data
   } catch (error) {
