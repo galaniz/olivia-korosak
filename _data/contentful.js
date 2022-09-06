@@ -132,6 +132,43 @@ const recurseNavigationItemChildren = (children = [], store = []) => {
   })
 }
 
+const getNavigationOutput = (title = '', items = []) => {
+  if (!title && !items.length) {
+    return ''
+  }
+
+  const output = []
+
+  recurseNavigationOutput(items, output)
+
+  return `<nav aria-label="${title}">${output.join('')}</nav>`
+}
+
+const recurseNavigationOutput = (items = [], output = [], depth = -1) => {
+  depth += 1
+
+  output.push(`<ul data-depth="${depth}">`)
+
+  items.forEach(item => {
+    const {
+      id = '',
+      title = '',
+      slug = '',
+      children = []
+    } = item
+
+    output.push(`<li data-depth="${depth}">${title}`)
+
+    if (children.length) {
+      recurseNavigationOutput(children, output, depth)
+    }
+
+    output.push('</li>')
+  })
+
+  output.push('</ul>')
+}
+
 const setNavigations = (navs = [], obj = {}) => {
   if (!navs.length) {
     return
@@ -144,9 +181,14 @@ const setNavigations = (navs = [], obj = {}) => {
       items: []
     }, nav.fields)
 
+    const title = navFields.title
+    const items = getNavigationItems(navFields.items)
+    const output = getNavigationOutput(title, items)
+
     obj[navFields.location] = {
-      title: navFields.title,
-      items: getNavigationItems(navFields.items)
+      title,
+      items,
+      output
     }
   })
 }
@@ -223,6 +265,8 @@ module.exports = async () => {
     })
 
     setNavigations(navigation.items, navigations)
+
+    console.log(JSON.stringify(navigations, null, 4))
 
     return data
   } catch (error) {
