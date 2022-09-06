@@ -43,6 +43,114 @@ const meta = {
   }
 }
 
+const navigationItems = {}
+
+const navigations = {
+  Main: false,
+  Footer: false,
+  Social: false
+}
+
+const getSlug = (contentType = 'page', slug = '') => {
+  const slugBase = meta[contentType].slugBase
+
+  return slugBase + slug
+}
+
+const getNavigationItems = (items = []) => {
+  if (!items.length) {
+    return []
+  }
+
+  return items.map(item => {
+    return navigationItems[item.fields.entry.sys.id]
+  })
+}
+
+const setNavigationItems = (items = [], obj = {}) => {
+  if (!items.length) {
+    return
+  }
+
+  items.forEach(item => {
+    let fields = item.fields
+
+    fields = Object.assign({
+      title: '',
+      entry: false,
+      children: false
+    }, fields)
+
+    if (!fields.entry) {
+      return
+    }
+
+    const entry = fields.entry
+    const entryId = entry.sys.id
+    const entryContentType = entry.sys.contentType.sys.id
+    const entryFields = Object.assign({ slug: '' }, entry.fields)
+
+    const props = {
+      id: entryId,
+      title: fields.title,
+      slug: getSlug(entryContentType, entryFields.slug)
+    }
+
+    if (fields.children) {
+      const children = []
+
+      recurseNavigationItemChildren(fields.children, children)
+
+      props.children = children
+    }
+
+    obj[entryId] = props
+  })
+}
+
+const recurseNavigationItemChildren = (children = [], store = []) => {
+  children.forEach(child => {
+    const childEntry = child.fields.entry
+    const childEntryContentType = childEntry.sys.contentType.sys.id
+    const childEntryFields = Object.assign({ slug: '' }, childEntry.fields)
+
+    const props = {
+      id: childEntry.sys.id,
+      title: child.fields.title,
+      slug: getSlug(childEntryContentType, childEntryFields.slug)
+    }
+
+    if (Object.getOwnPropertyDescriptor(child.fields, 'children')) {
+      const newStore = []
+
+      recurseNavigationItemChildren(child.fields.children, newStore)
+
+      props.children = newStore
+    }
+
+    store.push(props)
+  })
+}
+
+const setNavigations = (navs = [], obj = {}) => {
+  if (!navs.length) {
+    return
+  }
+
+  navs.forEach(nav => {
+    const navFields = Object.assign({
+      title: '',
+      location: '',
+      items: []
+    }, nav.fields)
+
+    obj[navFields.location] = {
+      title: navFields.title,
+      items: getNavigationItems(navFields.items)
+    }
+  })
+}
+
 /* Get content */
 
 module.exports = async () => {
@@ -70,71 +178,51 @@ module.exports = async () => {
       content_type: 'genre'
     })
 
-    /* NAVIGATION 
-    
-    content.genre = await client.getEntries({
-      content_type: 'navigation'
-    })
-
-    // recurse to create tree
-    
-    */
-
     for (const contentType in content) {
-      const slugBase = meta[contentType].slugBase
-
       content[contentType].items.forEach(item => {
-        const {
-          title = '',
-          slug = '',
-          featuredMedia = false,
-          heroType = 'minimal',
-          type = false,
-          project = false,
-          genre = false,
-          audio = false
-        } = item.fields
+        const itemFields = Object.assign({
+          title: '',
+          slug: '',
+          featuredMedia: false,
+          heroType: 'minimal',
+          type: false,
+          project: false,
+          genre: false,
+          audio: false,
+          sections: []
+        }, item.fields)
 
-        let { sections } = item.fields
+        itemFields.slug = getSlug(contentType, itemFields.slug)
 
-        if (sections) {
-          sections = sections.map(section => {
-            const {
-              internalTitle = '',
-              alignment = 'Top',
-              justification = 'Left',
-              gap = 'None',
-              paddingTop = 'None',
-              paddingBottom = 'None',
-              column = []
-            } = section.fields
-
-            return {
-              internalTitle,
-              alignment,
-              justification,
-              gap,
-              paddingTop,
-              paddingBottom,
-              column
-            }
+        if (itemFields.sections.length) {
+          itemFields.sections = itemFields.sections.map(section => {
+            return Object.assign({
+              internalTitle: '',
+              alignment: 'Top',
+              justification: 'Left',
+              gap: 'None',
+              paddingTop: 'None',
+              paddingBottom: 'None',
+              column: []
+            }, section.fields)
           })
         }
 
-        data.push({
-          title,
-          slug: slugBase + slug,
-          contentType,
-          featuredMedia,
-          heroType,
-          type,
-          project,
-          genre,
-          audio,
-          sections
-        })
+        data.push(itemFields)
       })
     }
+
+    const navigationItem = await client.getEntries({
+      content_type: 'navigationItem'
+    })
+
+    setNavigationItems(navigationItem.items, navigationItems)
+
+    const navigation = await client.getEntries({
+      content_type: 'navigation'
+    })
+
+    setNavigations(navigation.items, navigations)
 
     return data
   } catch (error) {
