@@ -1,9 +1,4 @@
 {
   "title": "Olivia Korosak",
-  "themeColor": "#17181D",
-  "url": {
-    "dev": "http://localhost:8080",
-    "preview": "https://preview-oliviakorosak.netlify.app",
-    "live": "https://oliviakorosak.netlify.app"
-  }
+  "themeColor": "#17181D"
 }

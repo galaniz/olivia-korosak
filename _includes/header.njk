@@ -2,5 +2,7 @@
   <div>Skip to main content</div>
 </a>
 <header>
-  
+  {% if contentful.navigations.main %}
+    {{ contentful.navigations.main.output | safe }}
+  {% endif %}
 </header>

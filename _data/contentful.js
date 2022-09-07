@@ -2,17 +2,23 @@
  * Contentful data
  */
 
-/* Config */
+/* Imports */
 
+const { getSlug } = require('../utils/base')
+const { setNavigationItems, setNavigations } = require('../utils/navigation')
 const contentful = require('contentful')
 
+/* Config */
+
+const env = process.env
+
 const config = {
-  space: process.env.CTFL_SPACE_ID,
-  accessToken: process.env.CTFL_CPA_TOKEN,
+  space: env.CTFL_SPACE_ID,
+  accessToken: env.CTFL_CPA_TOKEN,
   host: 'preview.contentful.com'
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (env.NODE_ENV === 'production' || env.NODE_ENV === 'preview') {
   config.accessToken = process.env.CTFL_CDA_TOKEN
   config.host = 'cdn.contentful.com'
 }
@@ -23,182 +29,24 @@ const client = contentful.createClient({
   host: config.host
 })
 
-/* Meta data */
-
-const meta = {
-  page: {
-    slugBase: '/'
-  },
-  project: {
-    slugBase: '/projects/'
-  },
-  track: {
-    slugBase: '/tracks/'
-  },
-  projectType: {
-    slugBase: '/projects/types/'
-  },
-  genre: {
-    slugBase: '/tracks/genres/'
-  }
-}
+/* Store navigation data */
 
 const navigationItems = {}
 
 const navigations = {
-  Main: false,
-  Footer: false,
-  Social: false
+  main: false,
+  footer: false,
+  social: false
 }
 
-const getSlug = (contentType = 'page', slug = '') => {
-  const slugBase = meta[contentType].slugBase
-
-  return slugBase + slug
-}
-
-const getNavigationItems = (items = []) => {
-  if (!items.length) {
-    return []
-  }
-
-  return items.map(item => {
-    return navigationItems[item.fields.entry.sys.id]
-  })
-}
-
-const setNavigationItems = (items = [], obj = {}) => {
-  if (!items.length) {
-    return
-  }
-
-  items.forEach(item => {
-    let fields = item.fields
-
-    fields = Object.assign({
-      title: '',
-      entry: false,
-      children: false
-    }, fields)
-
-    if (!fields.entry) {
-      return
-    }
-
-    const entry = fields.entry
-    const entryId = entry.sys.id
-    const entryContentType = entry.sys.contentType.sys.id
-    const entryFields = Object.assign({ slug: '' }, entry.fields)
-
-    const props = {
-      id: entryId,
-      title: fields.title,
-      slug: getSlug(entryContentType, entryFields.slug)
-    }
-
-    if (fields.children) {
-      const children = []
-
-      recurseNavigationItemChildren(fields.children, children)
-
-      props.children = children
-    }
-
-    obj[entryId] = props
-  })
-}
-
-const recurseNavigationItemChildren = (children = [], store = []) => {
-  children.forEach(child => {
-    const childEntry = child.fields.entry
-    const childEntryContentType = childEntry.sys.contentType.sys.id
-    const childEntryFields = Object.assign({ slug: '' }, childEntry.fields)
-
-    const props = {
-      id: childEntry.sys.id,
-      title: child.fields.title,
-      slug: getSlug(childEntryContentType, childEntryFields.slug)
-    }
-
-    if (Object.getOwnPropertyDescriptor(child.fields, 'children')) {
-      const newStore = []
-
-      recurseNavigationItemChildren(child.fields.children, newStore)
-
-      props.children = newStore
-    }
-
-    store.push(props)
-  })
-}
-
-const getNavigationOutput = (title = '', items = []) => {
-  if (!title && !items.length) {
-    return ''
-  }
-
-  const output = []
-
-  recurseNavigationOutput(items, output)
-
-  return `<nav aria-label="${title}">${output.join('')}</nav>`
-}
-
-const recurseNavigationOutput = (items = [], output = [], depth = -1) => {
-  depth += 1
-
-  output.push(`<ul data-depth="${depth}">`)
-
-  items.forEach(item => {
-    const {
-      id = '',
-      title = '',
-      slug = '',
-      children = []
-    } = item
-
-    output.push(`<li data-depth="${depth}">${title}`)
-
-    if (children.length) {
-      recurseNavigationOutput(children, output, depth)
-    }
-
-    output.push('</li>')
-  })
-
-  output.push('</ul>')
-}
-
-const setNavigations = (navs = [], obj = {}) => {
-  if (!navs.length) {
-    return
-  }
-
-  navs.forEach(nav => {
-    const navFields = Object.assign({
-      title: '',
-      location: '',
-      items: []
-    }, nav.fields)
-
-    const title = navFields.title
-    const items = getNavigationItems(navFields.items)
-    const output = getNavigationOutput(title, items)
-
-    obj[navFields.location] = {
-      title,
-      items,
-      output
-    }
-  })
-}
-
-/* Get content */
+/* Get content + navigations */
 
 module.exports = async () => {
   try {
+    /* Content data */
+
     const content = {}
-    const data = []
+    const contentData = []
 
     content.page = await client.getEntries({
       content_type: 'page'
@@ -250,9 +98,11 @@ module.exports = async () => {
           })
         }
 
-        data.push(itemFields)
+        contentData.push(itemFields)
       })
     }
+
+    /* Navigation data */
 
     const navigationItem = await client.getEntries({
       content_type: 'navigationItem'
@@ -264,11 +114,14 @@ module.exports = async () => {
       content_type: 'navigation'
     })
 
-    setNavigations(navigation.items, navigations)
+    setNavigations(navigation.items, navigations, navigationItems)
 
-    console.log(JSON.stringify(navigations, null, 4))
+    /* Output */
 
-    return data
+    return {
+      data: contentData,
+      navigations
+    }
   } catch (error) {
     console.log(error.message)
   }

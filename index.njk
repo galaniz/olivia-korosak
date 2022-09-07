@@ -1,7 +1,7 @@
 ---
 layout: layout.njk
 pagination:
-  data: contentful
+  data: contentful.data
   size: 1
   alias: ctfl
 permalink: "/{{ ctfl.slug }}/"
@@ -9,7 +9,7 @@ permalink: "/{{ ctfl.slug }}/"
 
 {% include ('_includes/header.njk') %}
 
-<main>
+<main id="main">
   {% include ('_includes/hero.njk') %}
   {% include ('_includes/sections.njk') %}
 </main>
