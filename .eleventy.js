@@ -25,4 +25,20 @@ module.exports = (eleventyConfig) => {
 
     return content
   })
+
+  /* Copy static asset folders */
+
+  eleventyConfig.addPassthroughCopy('src/assets/fonts');
+  eleventyConfig.addPassthroughCopy('src/assets/svg');
+
+  /* Output */
+
+  return {
+    dir: {
+      input: 'src',
+      output: 'site',
+      includes: 'includes',
+      data: 'data'
+    }
+  }
 }
