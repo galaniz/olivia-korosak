@@ -1,0 +1,134 @@
+/**
+ * Text: sizes
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+
+/* Styles */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.t-h1,
+.t-h2,
+.t-h3,
+.t-h4,
+.t-h5,
+.t-h6 {
+  @extend %u-font-family-secondary;
+
+  color: var(--heading-color);
+}
+
+h2,
+h3,
+h4,
+h5,
+h6,
+.t-h2,
+.t-h3,
+.t-h4,
+.t-h5,
+.t-h6 {
+  @extend %u-font-weight-normal;
+  @extend %u-line-height-130-pc;
+}
+
+p,
+.t-l,
+.t-quote,
+.t-m,
+.t-s,
+.t-xs,
+.t-2xs,
+.t-3xs {
+  @extend %u-letter-spacing-1-pc;
+  @extend %u-line-height-160-pc;
+}
+
+h1,
+.t-h1 {
+  @extend %u-font-weight-bold;
+  @extend %u-letter-spacing-1-pc;
+
+  line-height: 1.15;
+  font-size: var(--h1);
+}
+
+h2,
+.t-h2 {
+  @extend %u-letter-spacing-1-pc;
+
+  font-size: var(--h2);
+}
+
+h3,
+.t-h3 {
+  @extend %u-letter-spacing-2-pc;
+
+  font-size: var(--h3);
+}
+
+h4,
+.t-h4 {
+  @extend %u-letter-spacing-2-pc;
+
+  font-size: var(--h4);
+}
+
+h5,
+.t-h5 {
+  @extend %u-letter-spacing-3-pc;
+
+  font-size: var(--h5);
+}
+
+h6,
+.t-h6 {
+  @extend %u-letter-spacing-3-pc;
+
+  font-size: var(--h6);
+}
+
+.t-quote {
+  font-size: var(--t-quote);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+p,
+.t-l {
+  font-size: var(--t-l);
+}
+
+.t-m {
+  font-size: var(--t-m);
+}
+
+.t-s {
+  font-size: var(--t-s);
+}
+
+.t-xs {
+  font-size: var(--t-xs);
+}
+
+.t-2xs {
+  font-size: var(--t-2xs);
+}
+
+.t-3xs {
+  font-size: var(--t-3xs);
+}
+
+.t-inherit {
+  p,
+  li {
+    font-size: inherit;
+  }
+}
