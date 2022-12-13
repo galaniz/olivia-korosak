@@ -10,7 +10,7 @@ const { getPermalink } = require('../utils/base')
 
 module.exports = {
   title: 'Olivia Korosak',
-  description: '',
+  metaDescription: 'Lorem ipsum sed dolorem quisque',
   themeColor: '#17181d',
   styles: `${getPermalink('', true)}/assets/css/mp.css`
 }

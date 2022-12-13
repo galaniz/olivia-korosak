@@ -1,8 +1,8 @@
 {
   "name": "olivia-korosak",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Static site for Olivia Korosak",
+  "main": "index.njk",
   "scripts": {
     "start": "NODE_ENV=development npm-run-all -l --parallel start:*",
     "start:webpack": "webpack --watch",
@@ -41,5 +41,11 @@
     "stylelint-config-standard-scss": "^6.1.0",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
-  }
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
+  },
+  "browserslist": [
+    "edge 16"
+  ]
 }

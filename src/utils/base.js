@@ -6,28 +6,28 @@
 
 const meta = {
   page: {
-    slugBase: '/'
+    slugBase: ['']
   },
   project: {
-    slugBase: '/projects/'
+    slugBase: ['projects']
   },
   track: {
-    slugBase: '/tracks/'
+    slugBase: ['tracks']
   },
   projectType: {
-    slugBase: '/projects/types/'
+    slugBase: ['projects', 'types']
   },
   genre: {
-    slugBase: '/tracks/genres/'
+    slugBase: ['tracks', 'genres']
   }
 }
 
 /* Return slug with base from meta data */
 
-const getSlug = (contentType = 'page', slug = '') => {
-  const slugBase = meta[contentType].slugBase
+const getSlug = (contentType = 'page', slug = '', parent = '') => {
+  const slugBase = meta[contentType].slugBase.join('/')
 
-  return slugBase + slug
+  return `${parent}/${slugBase}/${slug}`
 }
 
 /* Return absolute url */

@@ -6,6 +6,56 @@
 
 const { getSlug, getPermalink } = require('./base')
 
+/* Normalize navigation item props */
+
+const _getItemInfo = (item) => {
+  const fields = item.fields
+
+  const {
+    title = '',
+    internalLink = '',
+    externalLink = '',
+    children = false
+  } = fields
+
+  let id = ''
+  let link = ''
+  let external = false
+
+  if (externalLink) {
+    id = externalLink
+    link = externalLink
+    external = true
+  } else {
+    id = internalLink.sys.id
+
+    const contentType = internalLink.sys.contentType.sys.id
+    const internalFields = Object.assign({ slug: '' }, internalLink.fields)
+
+    link = getPermalink(getSlug(contentType, internalFields.slug))
+  }
+
+  const props = {
+    id,
+    title,
+    link,
+    external
+  }
+
+  if (children) {
+    const c = []
+
+    _recurseNavigationItemChildren(children, c)
+
+    props.children = c
+  }
+
+  return {
+    id,
+    props
+  }
+}
+
 /* Set object with navigation items */
 
 const setNavigationItems = (items = [], obj = {}) => {
@@ -14,38 +64,9 @@ const setNavigationItems = (items = [], obj = {}) => {
   }
 
   items.forEach(item => {
-    let fields = item.fields
+    const info = _getItemInfo(item)
 
-    fields = Object.assign({
-      title: '',
-      entry: false,
-      children: false
-    }, fields)
-
-    if (!fields.entry) {
-      return
-    }
-
-    const entry = fields.entry
-    const entryId = entry.sys.id
-    const entryContentType = entry.sys.contentType.sys.id
-    const entryFields = Object.assign({ slug: '' }, entry.fields)
-
-    const props = {
-      id: entryId,
-      title: fields.title,
-      slug: getSlug(entryContentType, entryFields.slug)
-    }
-
-    if (fields.children) {
-      const children = []
-
-      _recurseNavigationItemChildren(fields.children, children)
-
-      props.children = children
-    }
-
-    obj[entryId] = props
+    obj[info.id] = info.props
   })
 }
 
@@ -83,7 +104,18 @@ const _getNavigationItems = (items = [], itemsObj = {}) => {
   }
 
   return items.map(item => {
-    return itemsObj[item.fields.entry.sys.id]
+    const { fields } = item
+    const { externalLink = '' } = fields
+
+    let f = {}
+
+    if (externalLink) {
+      f = item.fields.externalLink
+    } else {
+      f = item.fields.internalLink.sys.id
+    }
+
+    return itemsObj[f]
   })
 }
 
@@ -91,25 +123,9 @@ const _getNavigationItems = (items = [], itemsObj = {}) => {
 
 const _recurseNavigationItemChildren = (children = [], store = []) => {
   children.forEach(child => {
-    const childEntry = child.fields.entry
-    const childEntryContentType = childEntry.sys.contentType.sys.id
-    const childEntryFields = Object.assign({ slug: '' }, childEntry.fields)
+    const info = _getItemInfo(child)
 
-    const props = {
-      id: childEntry.sys.id,
-      title: child.fields.title,
-      slug: getSlug(childEntryContentType, childEntryFields.slug)
-    }
-
-    if (Object.getOwnPropertyDescriptor(child.fields, 'children')) {
-      const newStore = []
-
-      _recurseNavigationItemChildren(child.fields.children, newStore)
-
-      props.children = newStore
-    }
-
-    store.push(props)
+    store.push(info.props)
   })
 }
 
@@ -137,13 +153,20 @@ const _recurseNavigationOutput = (items = [], output = [], depth = -1) => {
   items.forEach(item => {
     const {
       title = '',
-      slug = '',
+      link = '',
+      external = false,
       children = []
     } = item
 
+    let attr = ''
+
+    if (external) {
+      attr = ' target="_blank" rel="noreferrer"'
+    }
+
     output.push(`
       <li data-depth="${depth}">
-        <a href="${getPermalink(slug)}" data-depth="${depth}">${title}</a>
+        <a href="${link}" data-depth="${depth}"${attr}>${title}</a>
     `)
 
     if (children.length) {

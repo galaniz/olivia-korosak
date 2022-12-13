@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="format-detection" content="telephone=no">
   <title>{{ ctfl.title }} | {{ site.title }}</title>
-  <meta name="description" content="{{ {{ ctfl.description }} | site.description }}">
+  <meta name="description" content="{{ ctfl.metaDescription if ctfl.metaDescription else site.metaDescription }}">
 </head>
 <body>
   {{ content | safe }}

@@ -1,0 +1,17 @@
+---
+layout: layout.njk
+pagination:
+  data: contentful.data
+  size: 1
+  alias: ctfl
+permalink: "/{{ ctfl.slug }}/"
+---
+
+{% include ('./includes/header.njk') %}
+
+<main id="main">
+  {% include ('./includes/hero.njk') %}
+  {% include ('./includes/sections.njk') %}
+</main>
+
+{% include ('./includes/footer.njk') %}

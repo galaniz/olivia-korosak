@@ -4,7 +4,7 @@
 
 /* Imports */
 
-const { getSlug } = require('../utils/base')
+const { getSlug, meta } = require('../utils/base')
 const { setNavigationItems, setNavigations } = require('../utils/navigation')
 const contentful = require('contentful')
 
@@ -39,6 +39,10 @@ const navigations = {
   social: false
 }
 
+/* */
+
+
+
 /* Get content + navigations */
 
 module.exports = async () => {
@@ -70,33 +74,39 @@ module.exports = async () => {
 
     for (const contentType in content) {
       content[contentType].items.forEach(item => {
+        /* Set defaults */
+
         const itemFields = Object.assign({
           title: '',
           slug: '',
-          featuredMedia: false,
-          heroType: 'minimal',
-          type: false,
-          project: false,
-          genre: false,
-          audio: false,
-          sections: []
+          parent: false,
+          heroTitle: '',
+          heroImage: false,
+          heroText: '',
+          content: [],
+          colorFrom: '',
+          colorTo: '',
+          metaDescription: '',
+          metaImage: false
         }, item.fields)
 
-        itemFields.slug = getSlug(contentType, itemFields.slug)
+        /* Slug */
 
-        if (itemFields.sections.length) {
-          itemFields.sections = itemFields.sections.map(section => {
-            return Object.assign({
-              internalTitle: '',
-              alignment: 'Top',
-              justification: 'Left',
-              gap: 'None',
-              paddingTop: 'None',
-              paddingBottom: 'None',
-              column: []
-            }, section.fields)
-          })
+        let parent = ''
+
+        if (itemFields.parent) {
+          parent = itemFields.parent.fields.slug
+
+          if (Object.getOwnPropertyDescriptor(meta, itemFields.slug)) {
+            meta[itemFields.slug].slugBase.unshift(parent)
+          }
+
+          parent = `${parent}/`
         }
+
+        itemFields.slug = getSlug(contentType, itemFields.slug, parent)
+
+        /* Push data */
 
         contentData.push(itemFields)
       })
