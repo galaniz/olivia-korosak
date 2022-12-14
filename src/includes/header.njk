@@ -1,7 +1,7 @@
-<a href="#main">
-  <div>Skip to main content</div>
-</a>
 <header>
+  <a href="#main">
+    <div>Skip to main content</div>
+  </a>
   {% if contentful.navigations.main %}
     {{ contentful.navigations.main.output | safe }}
   {% endif %}

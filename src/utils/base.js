@@ -2,32 +2,56 @@
  * Base variables and functions
  */
 
+/* Store parent items for slug generation */
+
+const parents = {}
+
 /* Meta data by content type */
 
 const meta = {
   page: {
-    slugBase: ['']
+    slugBase: ''
   },
   project: {
-    slugBase: ['projects']
+    slugBase: 'projects'
   },
   track: {
-    slugBase: ['tracks']
+    slugBase: 'tracks'
   },
   projectType: {
-    slugBase: ['projects', 'types']
+    slugBase: 'types'
   },
   genre: {
-    slugBase: ['tracks', 'genres']
+    slugBase: 'genres'
   }
 }
 
-/* Return slug with base from meta data */
+/* Return slug with base from meta data and parents */
 
-const getSlug = (contentType = 'page', slug = '', parent = '') => {
-  const slugBase = meta[contentType].slugBase.join('/')
+const getSlug = (contentType = 'page', slug = '') => {
+  const slugBase = meta[contentType].slugBase
 
-  return `${parent}/${slugBase}/${slug}`
+  let p = []
+
+  getParentSlug(contentType === 'page' ? slug : slugBase, p)
+
+  if (p.length) {
+    p = `${p.join('/')}/`
+  } else {
+    p = ''
+  }
+
+  return `${p}${slugBase}/${slug}`
+}
+
+const getParentSlug = (slug = '', p = []) => {
+  if (Object.getOwnPropertyDescriptor(parents, slug)) {
+    const parent = parents[slug]
+
+    p.unshift(parent)
+
+    getParentSlug(parent, p)
+  }
 }
 
 /* Return absolute url */
@@ -54,6 +78,7 @@ const getPermalink = (slug = '', asset = false) => {
 /* Exports */
 
 module.exports = {
+  parents,
   meta,
   getSlug,
   getPermalink

@@ -4,7 +4,7 @@
 
 /* Imports */
 
-const { getSlug, meta } = require('../utils/base')
+const { getSlug, getPermalink, parents } = require('../utils/base')
 const { setNavigationItems, setNavigations } = require('../utils/navigation')
 const contentful = require('contentful')
 
@@ -39,10 +39,6 @@ const navigations = {
   social: false
 }
 
-/* */
-
-
-
 /* Get content + navigations */
 
 module.exports = async () => {
@@ -72,6 +68,21 @@ module.exports = async () => {
       content_type: 'genre'
     })
 
+    /* Loop through for to store parents */
+
+    content.page.items.forEach(item => {
+      const {
+        slug = '',
+        parent = false
+      } = item.fields
+
+      if (parent) {
+        parents[slug] = parent.fields.slug
+      }
+    })
+
+    /* */
+
     for (const contentType in content) {
       content[contentType].items.forEach(item => {
         /* Set defaults */
@@ -90,21 +101,10 @@ module.exports = async () => {
           metaImage: false
         }, item.fields)
 
-        /* Slug */
+        /* Permalink */
 
-        let parent = ''
-
-        if (itemFields.parent) {
-          parent = itemFields.parent.fields.slug
-
-          if (Object.getOwnPropertyDescriptor(meta, itemFields.slug)) {
-            meta[itemFields.slug].slugBase.unshift(parent)
-          }
-
-          parent = `${parent}/`
-        }
-
-        itemFields.slug = getSlug(contentType, itemFields.slug, parent)
+        itemFields.slug = getSlug(contentType, itemFields.slug)
+        itemFields.permalink = getPermalink(itemFields.slug)
 
         /* Push data */
 

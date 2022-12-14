@@ -30,6 +30,7 @@ module.exports = (eleventyConfig) => {
 
   eleventyConfig.addPassthroughCopy('src/assets/fonts');
   eleventyConfig.addPassthroughCopy('src/assets/svg');
+  eleventyConfig.addPassthroughCopy('src/assets/favicon');
 
   /* Output */
 
