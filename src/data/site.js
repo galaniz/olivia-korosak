@@ -15,6 +15,18 @@ module.exports = {
   title: 'Olivia Korosak',
   metaDescription: 'Lorem ipsum sed dolorem quisque',
   theme: {
+    foreground: {
+      base: '#17181d',
+      light: '#232428',
+      dark: '#000000',
+      tint: '#45464a'
+    },
+    background: {
+      light: '#ffffff'
+    },
+    negative: '#cf6f74',
+    positive: '#509976',
+
     base: '#17181d',
     tint: '#45464a'
   },
@@ -23,5 +35,7 @@ module.exports = {
   scripts: {
     main: `${assetsLink}js/${namespace}.js`,
     compat: `${assetsLink}js/${namespace}-compat.js`
-  }
+  },
+  env: process.env.NODE_ENV,
+  context: process.env.CONTEXT
 }

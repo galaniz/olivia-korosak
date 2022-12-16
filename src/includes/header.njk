@@ -1,8 +1,12 @@
 <header>
-  <a href="#main">
-    <div>Skip to main content</div>
+  <a href="#main" class="c-skip-link t-l t-weight-medium bg-background-light t-foreground-base l-block l-absolute l-left-0 l-right-0 l-top-0 l-padding-right-2xs l-padding-left-2xs l-padding-top-3xs l-padding-bottom-3xs t-align-center">
+    Skip to main content
   </a>
   {% if contentful.navigations.main %}
-    {{ contentful.navigations.main.output | safe }}
+    <nav class="c-nav l-container l-padding-top-xs l-padding-bottom-xs l-padding-top-m-l l-padding-bottom-m-l" aria-label="Site">
+      <div class="l-flex l-justify-between l-align-center">
+        {{ contentful.navigations.main.output | safe }}
+      </div>
+    </nav>
   {% endif %}
 </header>

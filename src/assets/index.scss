@@ -13,6 +13,7 @@
 /* Base */
 
 @use "base/fonts";
+@use "@alanizcreative/formation/src/base/focus";
 @use "@alanizcreative/formation/src/base";
 @use "base" as b;
 
@@ -26,18 +27,28 @@
 
 /* Text */
 
+@use "@alanizcreative/formation/src/text/color" as c;
 @use "@alanizcreative/formation/src/text/align";
+@use "@alanizcreative/formation/src/text/weight";
+@use "text/list";
 @use "text/sizes";
+@use "text/line-height";
 
 /* Layouts */
 
+@use "@alanizcreative/formation/src/layouts/position";
+@use "@alanizcreative/formation/src/layouts/container";
 @use "@alanizcreative/formation/src/layouts/display";
 @use "@alanizcreative/formation/src/layouts/flex";
-@use "@alanizcreative/formation/src/layouts/container";
+@use "@alanizcreative/formation/src/layouts/gap-margin";
 @use "@alanizcreative/formation/src/layouts/padding";
 @use "@alanizcreative/formation/src/layouts/margin";
 @use "@alanizcreative/formation/src/layouts/height";
 @use "@alanizcreative/formation/src/layouts/width";
+
+/* Components */
+
+@use "@alanizcreative/formation/src/components/skip-link";
 
 /* Objects */
 

@@ -6,6 +6,28 @@
 
 const { getSlug, getPermalink } = require('./base')
 
+/* Default output options */
+
+const outputArgs = {}
+
+const outputDefaultArgs = {
+  navWrap: true,
+  navClass: '',
+  navAttr: '',
+  listClass: '',
+  listAttr: '',
+  itemClass: '',
+  itemAttr: '',
+  linkClass: '',
+  linkAttr: '',
+  filterBeforeItem: () => {},
+  filterAfterItem: () => {},
+  filterBeforeLink: () => {},
+  filterAfterLink: () => {},
+  filterBeforeLinkText: () => {},
+  filterAfterLinkText: () => {}
+}
+
 /* Normalize navigation item props */
 
 const _getItemInfo = (item) => {
@@ -85,10 +107,11 @@ const setNavigations = (navs = [], obj = {}, itemsObj = {}) => {
     }, nav.fields)
 
     const title = navFields.title
+    const location = navFields.location.toLowerCase().replace(/ /g, '')
     const items = _getNavigationItems(navFields.items, itemsObj)
-    const output = _getNavigationOutput(title, items)
+    const output = _getNavigationOutput(title, location, items)
 
-    obj[navFields.location.toLowerCase()] = {
+    obj[location] = {
       title,
       items,
       output
@@ -131,24 +154,46 @@ const _recurseNavigationItemChildren = (children = [], store = []) => {
 
 /* Return navigation html output */
 
-const _getNavigationOutput = (title = '', items = []) => {
+const _getNavigationOutput = (title = '', location = '', items = []) => {
   if (!title || !items.length) {
     return ''
   }
 
-  const output = []
+  let args = {}
 
-  _recurseNavigationOutput(items, output)
+  if (Object.getOwnPropertyDescriptor(outputArgs, location)) {
+    args = outputArgs[location]
+  }
 
-  return `<nav aria-label="${title}">${output.join('')}</nav>`
+  args = Object.assign(outputDefaultArgs, args)
+
+  const { navWrap, navClass, navAttr } = args
+
+  const output = {
+    string: ''
+  }
+
+  _recurseNavigationOutput(items, output, -1, args)
+
+  if (navWrap) {
+    const navClasses = navClass ? ` class="${navClass}"` : ''
+    const navAttrs = navAttr ? ` ${navAttr}` : ''
+
+    output.string = `<nav aria-label="${title}"${navClasses}${navAttrs}>${output.string}</nav>`
+  }
+
+  return output.string
 }
 
 /* Loop through items to create navigation html */
 
-const _recurseNavigationOutput = (items = [], output = [], depth = -1) => {
+const _recurseNavigationOutput = (items = [], output = {}, depth = -1, args = {}) => {
   depth += 1
 
-  output.push(`<ul data-depth="${depth}">`)
+  const listClasses = args.listClass ? ` class="${args.listClass}"` : ''
+  const listAttrs = args.listAttr ? ` ${args.listAttr}` : ''
+
+  output.string += `<ul data-depth="${depth}"${listClasses}${listAttrs}>`
 
   items.forEach(item => {
     const {
@@ -158,30 +203,50 @@ const _recurseNavigationOutput = (items = [], output = [], depth = -1) => {
       children = []
     } = item
 
-    let attr = ''
+    args.filterBeforeItem(args, output)
+
+    const itemClasses = args.itemClass ? ` class="${args.itemClass}"` : ''
+    const itemAttrs = args.itemAttr ? ` ${args.itemAttr}` : ''
+
+    output.string += `<li data-depth="${depth}"${itemClasses}${itemAttrs}>`
+
+    args.filterBeforeLink(args, output)
+
+    const linkClasses = args.linkClass ? ` class="${args.linkClass}"` : ''
+    let linkAttrs = args.linkAttr ? ` ${args.linkAttr}` : ''
 
     if (external) {
-      attr = ' target="_blank" rel="noreferrer"'
+      linkAttrs += ' target="_blank" rel="noreferrer"'
     }
 
-    output.push(`
-      <li data-depth="${depth}">
-        <a href="${link}" data-depth="${depth}"${attr}>${title}</a>
-    `)
+    output.string += `<a href="${link}" data-depth="${depth}"${linkClasses}${linkAttrs}>`
+
+    args.filterBeforeLinkText(args, output)
+
+    output.string += title
+
+    args.filterAfterLinkText(args, output)
+
+    output.string += '</a>'
+
+    args.filterAfterLink(args, output)
 
     if (children.length) {
-      _recurseNavigationOutput(children, output, depth)
+      _recurseNavigationOutput(children, output, depth, args)
     }
 
-    output.push('</li>')
+    output.string += '</li>'
+
+    args.filterAfterItem(args, output)
   })
 
-  output.push('</ul>')
+  output.string += '</ul>'
 }
 
 /* Exports */
 
 module.exports = {
+  outputArgs,
   setNavigationItems,
   setNavigations
 }

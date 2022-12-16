@@ -5,7 +5,7 @@
 /* Imports */
 
 const { getSlug, getPermalink, parents } = require('../utils/base')
-const { setNavigationItems, setNavigations } = require('../utils/navigation')
+const { setNavigationItems, setNavigations, outputArgs } = require('../utils/navigation')
 const contentful = require('contentful')
 
 /* Config */
@@ -113,6 +113,16 @@ module.exports = async () => {
     }
 
     /* Navigation data */
+
+    outputArgs.main = {
+      navWrap: false,
+      listClass: 'c-nav__list l-relative l-flex l-align-center l-gap-margin-m t-list-style-none l-overflow-x-auto l-overflow-y-hidden',
+      listAttr: 'role="list"',
+      itemClass: 'c-nav__item',
+      linkClass: 'c-nav__link t-m t-line-height-130-pc'
+    }
+
+    outputArgs.social = {}
 
     const navigationItem = await client.getEntries({
       content_type: 'navigationItem'
