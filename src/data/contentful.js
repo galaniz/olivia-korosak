@@ -105,6 +105,8 @@ module.exports = async () => {
 
         itemFields.slug = getSlug(contentType, itemFields.slug)
         itemFields.permalink = getPermalink(itemFields.slug)
+        itemFields.href = `href="${itemFields.permalink}"`
+        itemFields.hrefCurrent = `href="${itemFields.permalink}" aria-current="page"`
 
         /* Push data */
 
