@@ -1,0 +1,53 @@
+/**
+ * Base
+ */
+
+/* Imports */
+
+@use "../config/mixins" as m;
+@use "@alanizcreative/formation/src/base/mixins" as mix;
+@use "@alanizcreative/formation/src/utils/functions" as func;
+@use "@alanizcreative/formation/src/utils/mixins" as mixi;
+
+/* Root */
+
+:root {
+  @include mix.set-root;
+  @include m.set-text;
+
+  --text-color: #{rgba(func.get-color("background-light"), 0.8)};
+  --heading-color: var(--background-light);
+  --link-color: var(--background-light);
+}
+
+html,
+body {
+  @extend %u-font-weight-normal;
+  @extend %u-font-family-primary;
+
+  color: var(--text-color);
+  background: var(--foreground-base);
+}
+
+a {
+  color: var(--link-color);
+}
+
+p {
+  color: var(--text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+blockquote {
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

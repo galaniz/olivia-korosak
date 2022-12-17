@@ -1,0 +1,13 @@
+/**
+ * Text: line height
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+
+/* Styles */
+
+.t-line-height-130-pc {
+  @extend %u-line-height-130-pc;
+}
