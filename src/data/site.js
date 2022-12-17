@@ -30,6 +30,7 @@ module.exports = {
     base: '#17181d',
     tint: '#45464a'
   },
+  baseLink: `${getPermalink()}/`,
   assetsLink,
   styles: `${assetsLink}css/${namespace}.css`,
   scripts: {

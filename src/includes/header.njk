@@ -5,6 +5,9 @@
   {% if contentful.navigations.main %}
     <nav class="c-nav l-container l-padding-top-xs l-padding-bottom-xs l-padding-top-m-l l-padding-bottom-m-l" aria-label="Site">
       <div class="l-flex l-justify-between l-align-center">
+        <a class="o-logo l-svg" href="{{ site.baseLink }}">
+          {% include "../assets/svg/logo.svg" %}
+        </a>
         {{ contentful.navigations.main.output | safe }}
       </div>
     </nav>
