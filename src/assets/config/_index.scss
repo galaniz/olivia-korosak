@@ -146,6 +146,22 @@ $padding-horizontal: (
     )
   ),
 
+  $borders: (
+    "sides": ("all", "top"),
+    "colors": (
+      "default": "var(--background-light-35)",
+      "background-light-20": "var(--background-light-20)",
+    ),
+    "widths": (
+      "default": 0.0625rem,
+    ),
+  ),
+
+  $border-radius: (
+    "s": 6px,
+    "m": 12px,
+  ),
+
   $outline: (
     "width": 0.25rem,
     "color": "var(--background-light)",

@@ -83,8 +83,7 @@ const getPermalink = (slug = '', asset = false) => {
 /* Get file as string */
 
 const getFile = (path = '') => {
-  const buffer = fs.readFileSync(path)
-  const fileContent = buffer.toString()
+  const fileContent = fs.readFileSync(path, { encoding: 'utf8' })
 
   return fileContent
 }

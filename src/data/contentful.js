@@ -59,7 +59,7 @@ module.exports = async () => {
       navLabel: 'Social',
       listClass: 'l-flex l-flex-wrap l-justify-center l-gap-margin-2xs t-list-style-none',
       listAttr: 'role="list"',
-      linkClass: 'l-flex l-align-center l-justify-center l-width-l l-height-l b-all',
+      linkClass: 'l-flex l-align-center l-justify-center l-width-l l-height-l b-radius-100-pc b-all',
       filterBeforeLinkText: (args, item, output) => {
         output.html += '<span class="a11y-visually-hidden">'
       },
@@ -69,7 +69,11 @@ module.exports = async () => {
 
         output.html += '</span>'
 
-        const icon = getFile(`../assets/svg/${t}.svg`)
+        const icon = `
+          <div class="l-flex l-width-2xs l-height-2xs l-svg">
+            ${getFile(`./src/assets/svg/${t}.svg`)}
+          </div>
+        `
 
         output.html += icon
       }

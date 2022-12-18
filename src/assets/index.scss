@@ -49,6 +49,11 @@
 @use "@alanizcreative/formation/src/layouts/width";
 @use "layouts/svg";
 
+/* Borders */
+
+@use "@alanizcreative/formation/src/borders";
+@use "@alanizcreative/formation/src/borders/radius";
+
 /* Components */
 
 @use "@alanizcreative/formation/src/components/skip-link";
