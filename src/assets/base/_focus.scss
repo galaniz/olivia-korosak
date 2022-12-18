@@ -1,0 +1,13 @@
+/**
+ * Base: focus
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/base/focus";
+
+/* Styles */
+
+.outline-tight {
+  --outline-offset: -0.5rem;
+}

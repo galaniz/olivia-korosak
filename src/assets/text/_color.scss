@@ -1,0 +1,25 @@
+/**
+ * Text: color
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/text/color";
+
+/* Styles */
+
+.t-dark {
+  --outline-color: var(--foreground-base);
+  --heading-color: var(--foreground-base);
+  --text-color: var(--foreground-base);
+
+  color: var(--text-color);
+}
+
+.t-link-current {
+  --link-color: currentcolor;
+}
+
+.t-current {
+  color: currentcolor;
+}

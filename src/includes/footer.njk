@@ -1,1 +1,35 @@
-<footer></footer>
+{#
+  Template for displaying footer
+#}
+
+<footer class="l-padding-top-2xl l-padding-bottom-xl l-padding-bottom-2xl-l">
+  <div class="l-container">
+    <div class="l-flex l-flex-column l-align-center l-justify-center l-gap-margin-m">
+      <div>
+        <a class="o-logo-s l-block l-svg" href="{{ site.baseLink }}">
+          <span class="a11y-visually-hidden">{{ site.title }} home</span>
+          {% include "../assets/svg/logo.svg" %}
+        </a>
+      </div>
+      {% if ctfl.navigations.footer or ctfl.navigations.social %}
+        <div>
+          <div class="l-flex l-flex-wrap l-align-center l-gap-margin-s">
+            {% if ctfl.navigations.footer %}
+              <div>
+                {{ ctfl.navigations.footer.output | safe }}
+              </div>
+            {% endif %}
+            {% if ctfl.navigations.social %}
+              <div>
+                {{ ctfl.navigations.social.output | safe }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      <div class="t-align-center">
+        <span class="t-xs">&copy; {{ site.year }} {{ site.title }}. All Rights Reserved.</span>
+      </div>
+    </div>
+  </div>
+</footer>

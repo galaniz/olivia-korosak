@@ -4,9 +4,9 @@
 
 /* Imports */
 
-const { getSlug, getPermalink, parents } = require('../utils/base')
-const { setNavigationItems, setNavigations, outputArgs } = require('../utils/navigation')
 const contentful = require('contentful')
+const { getSlug, getPermalink, getFile, parents } = require('../utils/base')
+const { setNavigationItems, setNavigations, outputArgs } = require('../utils/navigation')
 
 /* Config */
 
@@ -33,16 +33,58 @@ const client = contentful.createClient({
 
 const navigationItems = {}
 
-const navigations = {
-  main: false,
-  footer: false,
-  social: false
-}
-
 /* Get content + navigations */
 
 module.exports = async () => {
   try {
+    /* Navigation data */
+
+    outputArgs.main = {
+      navWrap: false,
+      listClass: 'c-nav__list l-relative l-flex l-align-center l-gap-margin-m t-list-style-none l-overflow-x-auto l-overflow-y-hidden',
+      listAttr: 'role="list"',
+      itemClass: 'c-nav__item',
+      itemAttr: 'data-overflow-group="0"',
+      linkClass: 'c-nav__link t-m t-line-height-130-pc l-inline-flex l-relative l-after l-padding-top-5xs l-padding-bottom-5xs'
+    }
+
+    outputArgs.footer = {
+      navLabel: 'Main',
+      listClass: 'l-flex l-flex-wrap l-justify-center l-gap-margin-2xs l-gap-margin-s-l t-list-style-none',
+      listAttr: 'role="list"',
+      linkClass: 't-s'
+    }
+
+    outputArgs.social = {
+      navLabel: 'Social',
+      listClass: 'l-flex l-flex-wrap l-justify-center l-gap-margin-2xs t-list-style-none',
+      listAttr: 'role="list"',
+      linkClass: 'l-flex l-align-center l-justify-center l-width-l l-height-l b-all',
+      filterBeforeLinkText: (args, item, output) => {
+        output.html += '<span class="a11y-visually-hidden">'
+      },
+      filterAfterLinkText: (args, item, output) => {
+        const { title = '' } = item
+        const t = title.toLowerCase()
+
+        output.html += '</span>'
+
+        const icon = getFile(`../assets/svg/${t}.svg`)
+
+        output.html += icon
+      }
+    }
+
+    const navigationItem = await client.getEntries({
+      content_type: 'navigationItem'
+    })
+
+    setNavigationItems(navigationItem.items, navigationItems)
+
+    const navigation = await client.getEntries({
+      content_type: 'navigation'
+    })
+
     /* Content data */
 
     const content = {}
@@ -105,8 +147,18 @@ module.exports = async () => {
 
         itemFields.slug = getSlug(contentType, itemFields.slug)
         itemFields.permalink = getPermalink(itemFields.slug)
-        itemFields.href = `href="${itemFields.permalink}"`
-        itemFields.hrefCurrent = `href="${itemFields.permalink}" aria-current="page"`
+
+        /* Navigations */
+
+        const navigations = {
+          main: false,
+          footer: false,
+          social: false
+        }
+
+        setNavigations(navigation.items, navigations, navigationItems, itemFields.permalink)
+
+        itemFields.navigations = navigations
 
         /* Push data */
 
@@ -114,35 +166,10 @@ module.exports = async () => {
       })
     }
 
-    /* Navigation data */
-
-    outputArgs.main = {
-      navWrap: false,
-      listClass: 'c-nav__list l-relative l-flex l-align-center l-gap-margin-m t-list-style-none l-overflow-x-auto l-overflow-y-hidden',
-      listAttr: 'role="list"',
-      itemClass: 'c-nav__item',
-      linkClass: 'c-nav__link t-m t-line-height-130-pc'
-    }
-
-    outputArgs.social = {}
-
-    const navigationItem = await client.getEntries({
-      content_type: 'navigationItem'
-    })
-
-    setNavigationItems(navigationItem.items, navigationItems)
-
-    const navigation = await client.getEntries({
-      content_type: 'navigation'
-    })
-
-    setNavigations(navigation.items, navigations, navigationItems)
-
     /* Output */
 
     return {
-      data: contentData,
-      navigations
+      data: contentData
     }
   } catch (error) {
     console.log(error.message)

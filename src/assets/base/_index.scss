@@ -15,9 +15,20 @@
   @include mix.set-root;
   @include m.set-text;
 
+  --foreground-base-80: #{rgba(func.get-color("foreground-base"), 0.8)};
   --text-color: #{rgba(func.get-color("background-light"), 0.8)};
   --heading-color: var(--background-light);
   --link-color: var(--background-light);
+}
+
+html {
+  scroll-behavior: smooth;
+
+  @include mixi.fluid-size(
+    --logo-height,
+    func.calc-rem(20px) func.calc-rem(25px),
+    "s" "xl"
+  );
 }
 
 html,
@@ -50,4 +61,8 @@ blockquote {
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+main {
+  min-height: calc(100vh - var(--logo-height) - var(--m));
 }

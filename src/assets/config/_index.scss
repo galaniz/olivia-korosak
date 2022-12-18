@@ -14,7 +14,14 @@ $padding-vertical: (
   "m",
   "xl",
   "2xl",
+  "3xl",
   "4xl",
+);
+
+/* Horizontal padding */
+
+$padding-horizontal: (
+  "s",
 );
 
 /* Config variables */
@@ -63,10 +70,10 @@ $padding-vertical: (
   ),
 
   $font-weights: (
-    "bold": 700,
-    "medium": 500,
-    "normal": 400,
     "light": 300,
+    "normal": 400,
+    "medium": 500,
+    "bold": 700,
   ),
 
   $breakpoints: (
@@ -97,6 +104,19 @@ $padding-vertical: (
   $padding-bottom: $padding-vertical,
   $padding-vertical-breakpoints: ("l"),
 
+  $padding-left: $padding-horizontal,
+  $padding-right: $padding-horizontal,
+
+  $widths: (
+    "m",
+    "l",
+  ),
+
+  $heights: (
+    "m",
+    "l",
+  ),
+
   $gaps: (
     "5xs",
     "4xs",
@@ -116,6 +136,20 @@ $padding-vertical: (
     "default": 1340px,
     "medium": 1080px,
     "small": 690px,
+  ),
+
+  $nav: (
+    "icon": (
+      "width": 40px,
+      "line-width": 1.5px,
+      "margin": 4px,
+    )
+  ),
+
+  $outline: (
+    "width": 0.25rem,
+    "color": "var(--background-light)",
+    "offset": 0.25rem,
   ),
 
   $placeholders: (

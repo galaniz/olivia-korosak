@@ -6,27 +6,9 @@
 
 const { getSlug, getPermalink } = require('./base')
 
-/* Default output options */
+/* Output options */
 
 const outputArgs = {}
-
-const outputDefaultArgs = {
-  navWrap: true,
-  navClass: '',
-  navAttr: '',
-  listClass: '',
-  listAttr: '',
-  itemClass: '',
-  itemAttr: '',
-  linkClass: '',
-  linkAttr: '',
-  filterBeforeItem: () => {},
-  filterAfterItem: () => {},
-  filterBeforeLink: () => {},
-  filterAfterLink: () => {},
-  filterBeforeLinkText: () => {},
-  filterAfterLinkText: () => {}
-}
 
 /* Normalize navigation item props */
 
@@ -94,7 +76,7 @@ const setNavigationItems = (items = [], obj = {}) => {
 
 /* Set object with navigations including output */
 
-const setNavigations = (navs = [], obj = {}, itemsObj = {}) => {
+const setNavigations = (navs = [], obj = {}, itemsObj = {}, current = '') => {
   if (!navs.length) {
     return
   }
@@ -108,7 +90,7 @@ const setNavigations = (navs = [], obj = {}, itemsObj = {}) => {
 
     const title = navFields.title
     const location = navFields.location.toLowerCase().replace(/ /g, '')
-    const items = _getNavigationItems(navFields.items, itemsObj)
+    const items = _getNavigationItems(navFields.items, itemsObj, current)
     const output = _getNavigationOutput(title, location, items)
 
     obj[location] = {
@@ -121,7 +103,7 @@ const setNavigations = (navs = [], obj = {}, itemsObj = {}) => {
 
 /* Return navigation items by id */
 
-const _getNavigationItems = (items = [], itemsObj = {}) => {
+const _getNavigationItems = (items = [], itemsObj = {}, current = '') => {
   if (!items.length) {
     return []
   }
@@ -137,6 +119,10 @@ const _getNavigationItems = (items = [], itemsObj = {}) => {
     } else {
       f = item.fields.internalLink.sys.id
     }
+
+    const obj = itemsObj[f]
+
+    obj.current = externalLink ? false : obj.link === current
 
     return itemsObj[f]
   })
@@ -165,12 +151,29 @@ const _getNavigationOutput = (title = '', location = '', items = []) => {
     args = outputArgs[location]
   }
 
-  args = Object.assign(outputDefaultArgs, args)
+  args = Object.assign({
+    navWrap: true,
+    navClass: '',
+    navLabel: '',
+    navAttr: '',
+    listClass: '',
+    listAttr: '',
+    itemClass: '',
+    itemAttr: '',
+    linkClass: '',
+    linkAttr: '',
+    filterBeforeItem: () => {},
+    filterAfterItem: () => {},
+    filterBeforeLink: () => {},
+    filterAfterLink: () => {},
+    filterBeforeLinkText: () => {},
+    filterAfterLinkText: () => {}
+  }, args)
 
-  const { navWrap, navClass, navAttr } = args
+  const { navWrap, navClass, navLabel, navAttr } = args
 
   const output = {
-    string: ''
+    html: ''
   }
 
   _recurseNavigationOutput(items, output, -1, args)
@@ -179,10 +182,10 @@ const _getNavigationOutput = (title = '', location = '', items = []) => {
     const navClasses = navClass ? ` class="${navClass}"` : ''
     const navAttrs = navAttr ? ` ${navAttr}` : ''
 
-    output.string = `<nav aria-label="${title}"${navClasses}${navAttrs}>${output.string}</nav>`
+    output.html = `<nav aria-label="${navLabel || title}"${navClasses}${navAttrs}>${output.html}</nav>`
   }
 
-  return output.string
+  return output.html
 }
 
 /* Loop through items to create navigation html */
@@ -193,24 +196,29 @@ const _recurseNavigationOutput = (items = [], output = {}, depth = -1, args = {}
   const listClasses = args.listClass ? ` class="${args.listClass}"` : ''
   const listAttrs = args.listAttr ? ` ${args.listAttr}` : ''
 
-  output.string += `<ul data-depth="${depth}"${listClasses}${listAttrs}>`
+  output.html += `<ul data-depth="${depth}"${listClasses}${listAttrs}>`
 
   items.forEach(item => {
     const {
       title = '',
       link = '',
       external = false,
-      children = []
+      children = [],
+      current = false
     } = item
 
-    args.filterBeforeItem(args, output)
+    args.filterBeforeItem(args, item, output)
 
     const itemClasses = args.itemClass ? ` class="${args.itemClass}"` : ''
-    const itemAttrs = args.itemAttr ? ` ${args.itemAttr}` : ''
+    let itemAttrs = args.itemAttr ? ` ${args.itemAttr}` : ''
 
-    output.string += `<li data-depth="${depth}"${itemClasses}${itemAttrs}>`
+    if (current) {
+      itemAttrs += ' data-current="true"'
+    }
 
-    args.filterBeforeLink(args, output)
+    output.html += `<li data-depth="${depth}"${itemClasses}${itemAttrs}>`
+
+    args.filterBeforeLink(args, item, output)
 
     const linkClasses = args.linkClass ? ` class="${args.linkClass}"` : ''
     let linkAttrs = args.linkAttr ? ` ${args.linkAttr}` : ''
@@ -219,28 +227,32 @@ const _recurseNavigationOutput = (items = [], output = {}, depth = -1, args = {}
       linkAttrs += ' target="_blank" rel="noreferrer"'
     }
 
-    output.string += `<a href="${link}" data-depth="${depth}"${linkClasses}${linkAttrs}>`
+    if (current) {
+      linkAttrs += ' aria-current="page" data-current="true"'
+    }
 
-    args.filterBeforeLinkText(args, output)
+    output.html += `<a href="${link}" data-depth="${depth}"${linkClasses}${linkAttrs}>`
 
-    output.string += title
+    args.filterBeforeLinkText(args, item, output)
 
-    args.filterAfterLinkText(args, output)
+    output.html += title
 
-    output.string += '</a>'
+    args.filterAfterLinkText(args, item, output)
 
-    args.filterAfterLink(args, output)
+    output.html += '</a>'
+
+    args.filterAfterLink(args, item, output)
 
     if (children.length) {
       _recurseNavigationOutput(children, output, depth, args)
     }
 
-    output.string += '</li>'
+    output.html += '</li>'
 
-    args.filterAfterItem(args, output)
+    args.filterAfterItem(args, item, output)
   })
 
-  output.string += '</ul>'
+  output.html += '</ul>'
 }
 
 /* Exports */
