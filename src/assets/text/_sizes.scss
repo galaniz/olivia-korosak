@@ -42,6 +42,7 @@ h6,
 p,
 .t-l,
 .t-quote,
+.t,
 .t-m,
 .t-s,
 .t-xs,
@@ -105,6 +106,10 @@ h6,
 p,
 .t-l {
   font-size: var(--t-l);
+}
+
+.t {
+  font-size: var(--t);
 }
 
 .t-m {

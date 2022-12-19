@@ -150,7 +150,7 @@ $padding-horizontal: (
     "sides": ("all", "top"),
     "colors": (
       "default": "var(--background-light-35)",
-      "background-light-20": "var(--background-light-20)",
+      "separator": "var(--background-light-20)",
     ),
     "widths": (
       "default": 0.0625rem,
@@ -163,9 +163,9 @@ $padding-horizontal: (
   ),
 
   $outline: (
-    "width": 0.25rem,
+    "width": 0.2rem,
     "color": "var(--background-light)",
-    "offset": 0.25rem,
+    "offset": 0.3rem,
   ),
 
   $placeholders: (

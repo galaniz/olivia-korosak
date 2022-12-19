@@ -1,43 +1,36 @@
 /**
- * Base variables and functions
+ * Base functions
  */
 
 /* Imports */
 
 const fs = require('fs')
+const { slugParents, slugBases, urls } = require('./constants')
 
-/* Store parent items for slug generation */
+/* Get slug helper */
 
-const parents = {}
+const _getParentSlug = (slug = '', p = []) => {
+  if (Object.getOwnPropertyDescriptor(slugParents, slug)) {
+    const parent = slugParents[slug]
 
-/* Meta data by content type */
+    p.unshift(parent)
 
-const meta = {
-  page: {
-    slugBase: ''
-  },
-  project: {
-    slugBase: 'projects'
-  },
-  track: {
-    slugBase: 'tracks'
-  },
-  projectType: {
-    slugBase: 'types'
-  },
-  genre: {
-    slugBase: 'genres'
+    _getParentSlug(parent, p)
   }
 }
 
-/* Return slug with base from meta data and parents */
+/* Return slug with base from slug base and parents */
 
 const getSlug = (contentType = 'page', slug = '') => {
-  const slugBase = meta[contentType].slugBase
+  if (slug === '/') {
+    return ''
+  }
+
+  const slugBase = slugBases[contentType]
 
   let p = []
 
-  getParentSlug(contentType === 'page' ? slug : slugBase, p)
+  _getParentSlug(contentType === 'page' ? slug : slugBase, p)
 
   if (p.length) {
     p = `${p.join('/')}/`
@@ -45,17 +38,7 @@ const getSlug = (contentType = 'page', slug = '') => {
     p = ''
   }
 
-  return `${p}${slugBase}/${slug}`
-}
-
-const getParentSlug = (slug = '', p = []) => {
-  if (Object.getOwnPropertyDescriptor(parents, slug)) {
-    const parent = parents[slug]
-
-    p.unshift(parent)
-
-    getParentSlug(parent, p)
-  }
+  return `${p}${slugBase}${slugBase ? '/' : ''}${slug}`
 }
 
 /* Return absolute url */
@@ -63,21 +46,21 @@ const getParentSlug = (slug = '', p = []) => {
 const getPermalink = (slug = '', asset = false) => {
   const context = process.env.CONTEXT
 
-  let url = 'http://localhost:8080'
+  let url = urls.local
 
   if (context === 'production') {
-    url = 'https://oliviakorosak.netlify.app'
+    url = urls.production
   }
 
   if (context === 'preview') {
-    url = 'https://preview--oliviakorosak.netlify.app'
+    url = urls.preview
   }
 
   if (asset && context === 'deploy-preview') {
     url = '.'
   }
 
-  return `${url}${slug}/`
+  return `${url}${slug}${slug ? '/' : ''}`
 }
 
 /* Get file as string */
@@ -91,8 +74,6 @@ const getFile = (path = '') => {
 /* Exports */
 
 module.exports = {
-  parents,
-  meta,
   getSlug,
   getPermalink,
   getFile

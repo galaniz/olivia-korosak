@@ -2,8 +2,9 @@
   Template for displaying footer
 #}
 
-<footer class="l-padding-top-2xl l-padding-bottom-xl l-padding-bottom-2xl-l">
-  <div class="l-container">
+<footer>
+  <hr>
+  <div class="l-container l-padding-top-2xl l-padding-bottom-xl l-padding-bottom-2xl-l">
     <div class="l-flex l-flex-column l-align-center l-justify-center l-gap-margin-m">
       <div>
         <a class="o-logo-s l-block l-svg" href="{{ site.baseLink }}">
@@ -11,18 +12,18 @@
           {% include "../assets/svg/logo.svg" %}
         </a>
       </div>
-      {% if ctfl.navigations.footer or ctfl.navigations.social %}
+      {% if ctfl.navigations.footer or ctfl.navigations.social.center %}
         <div>
           <div class="l-flex l-flex-wrap l-align-center l-justify-center l-gap-margin-s">
             {% if ctfl.navigations.footer %}
-              <div>
-                {{ ctfl.navigations.footer.output | safe }}
-              </div>
+              <nav aria-label="Main">
+                {{ ctfl.navigations.footer | safe }}
+              </nav>
             {% endif %}
-            {% if ctfl.navigations.social %}
-              <div>
-                {{ ctfl.navigations.social.output | safe }}
-              </div>
+            {% if ctfl.navigations.social.center %}
+              <nav aria-label="Social">
+                {{ ctfl.navigations.social.center | safe }}
+              </nav>
             {% endif %}
           </div>
         </div>

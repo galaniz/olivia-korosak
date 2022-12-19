@@ -17,9 +17,11 @@
 
   --foreground-base-80: #{rgba(func.get-color("foreground-base"), 0.8)};
   --background-light-35: #{rgba(func.get-color("background-light"), 0.35)};
+  --background-light-20: #{rgba(func.get-color("background-light"), 0.20)};
   --text-color: #{rgba(func.get-color("background-light"), 0.8)};
   --heading-color: var(--background-light);
   --link-color: var(--background-light);
+  --underline: #{func.calc-rem(1px)};
 }
 
 html {
@@ -66,4 +68,11 @@ blockquote {
 
 main {
   min-height: calc(100vh - var(--logo-height) - var(--m));
+}
+
+hr {
+  height: var(--border-width);
+  background: var(--background-light-20);
+  margin: 0;
+  border: 0;
 }
