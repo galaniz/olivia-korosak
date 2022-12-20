@@ -8,6 +8,10 @@
 
 /* Styles */
 
+.t-line-height-100-pc {
+  line-height: 1;
+}
+
 .t-line-height-130-pc {
   @extend %u-line-height-130-pc;
 }

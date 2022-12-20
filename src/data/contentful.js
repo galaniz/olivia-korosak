@@ -4,13 +4,13 @@
 
 /* Imports */
 
-const { getSlug, getPermalink, parents } = require('../utils/base')
-const { setNavigationItems, setNavigations, outputArgs } = require('../utils/navigation')
 const contentful = require('contentful')
+const { setData } = require('../utils/process')
 
 /* Config */
 
 const env = process.env
+const context = env.CONTEXT
 
 const config = {
   space: env.CTFL_SPACE_ID,
@@ -18,7 +18,7 @@ const config = {
   host: 'preview.contentful.com'
 }
 
-if (env.NODE_ENV === 'production' || env.NODE_ENV === 'preview') {
+if (context === 'production' || context === 'staging') {
   config.accessToken = process.env.CTFL_CDA_TOKEN
   config.host = 'cdn.contentful.com'
 }
@@ -29,118 +29,99 @@ const client = contentful.createClient({
   host: config.host
 })
 
-/* Store navigation data */
-
-const navigationItems = {}
-
-const navigations = {
-  main: false,
-  footer: false,
-  social: false
-}
-
 /* Get content + navigations */
 
 module.exports = async () => {
   try {
-    /* Content data */
-
-    const content = {}
-    const contentData = []
-
-    content.page = await client.getEntries({
-      content_type: 'page'
-    })
-
-    content.project = await client.getEntries({
-      content_type: 'project'
-    })
-
-    content.track = await client.getEntries({
-      content_type: 'track'
-    })
-
-    content.projectType = await client.getEntries({
-      content_type: 'projectType'
-    })
-
-    content.genre = await client.getEntries({
-      content_type: 'genre'
-    })
-
-    /* Loop through for to store parents */
-
-    content.page.items.forEach(item => {
-      const {
-        slug = '',
-        parent = false
-      } = item.fields
-
-      if (parent) {
-        parents[slug] = parent.fields.slug
-      }
-    })
-
-    /* */
-
-    for (const contentType in content) {
-      content[contentType].items.forEach(item => {
-        /* Set defaults */
-
-        const itemFields = Object.assign({
-          title: '',
-          slug: '',
-          parent: false,
-          heroTitle: '',
-          heroImage: false,
-          heroText: '',
-          content: [],
-          colorFrom: '',
-          colorTo: '',
-          metaDescription: '',
-          metaImage: false
-        }, item.fields)
-
-        /* Permalink */
-
-        itemFields.slug = getSlug(contentType, itemFields.slug)
-        itemFields.permalink = getPermalink(itemFields.slug)
-
-        /* Push data */
-
-        contentData.push(itemFields)
-      })
-    }
-
     /* Navigation data */
 
-    outputArgs.main = {
-      navWrap: false,
-      listClass: 'c-nav__list l-relative l-flex l-align-center l-gap-margin-m t-list-style-none l-overflow-x-auto l-overflow-y-hidden',
-      listAttr: 'role="list"',
-      itemClass: 'c-nav__item',
-      linkClass: 'c-nav__link t-m t-line-height-130-pc'
-    }
+    let navs = []
+    let navItems = []
 
-    outputArgs.social = {}
-
-    const navigationItem = await client.getEntries({
-      content_type: 'navigationItem'
-    })
-
-    setNavigationItems(navigationItem.items, navigationItems)
-
-    const navigation = await client.getEntries({
+    const navigations = await client.getEntries({
       content_type: 'navigation'
     })
 
-    setNavigations(navigation.items, navigations, navigationItems)
+    if (Object.getOwnPropertyDescriptor(navigations, 'items')) {
+      navs = navigations.items
+    }
+
+    const navigationItems = await client.getEntries({
+      content_type: 'navigationItem'
+    })
+
+    if (Object.getOwnPropertyDescriptor(navigationItems, 'items')) {
+      navItems = navigationItems.items
+    }
+
+    /* Content data */
+
+    const content = {
+      page: [],
+      project: [],
+      track: [],
+      projectType: [],
+      genre: []
+    }
+
+    /* Pages */
+
+    const pages = await client.getEntries({
+      content_type: 'page'
+    })
+
+    if (Object.getOwnPropertyDescriptor(pages, 'items')) {
+      content.page = pages.items
+    }
+
+    /* Projects */
+
+    const projects = await client.getEntries({
+      content_type: 'project'
+    })
+
+    if (Object.getOwnPropertyDescriptor(projects, 'items')) {
+      content.project = projects.items
+    }
+
+    /* Tracks */
+
+    const tracks = await client.getEntries({
+      content_type: 'track'
+    })
+
+    if (Object.getOwnPropertyDescriptor(tracks, 'items')) {
+      content.track = tracks.items
+    }
+
+    /* Project types */
+
+    const projectTypes = await client.getEntries({
+      content_type: 'projectType'
+    })
+
+    if (Object.getOwnPropertyDescriptor(projectTypes, 'items')) {
+      content.projectType = projectTypes.items
+    }
+
+    /* Genres */
+
+    const genres = await client.getEntries({
+      content_type: 'genre'
+    })
+
+    if (Object.getOwnPropertyDescriptor(genres, 'items')) {
+      content.genre = genres.items
+    }
 
     /* Output */
 
     return {
-      data: contentData,
-      navigations
+      data: setData({
+        content,
+        navs,
+        navItems
+      })
     }
   } catch (error) {
     console.log(error.message)

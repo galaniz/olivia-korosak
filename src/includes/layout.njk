@@ -21,5 +21,7 @@
 </head>
 <body>
   {{ content | safe }}
+  <script nomodule src="{{ site.scripts.compat }}"></script>
+  <script type="module" src="{{ site.scripts.main }}"></script>
 </body>
 </html>

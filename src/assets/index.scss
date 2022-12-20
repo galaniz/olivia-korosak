@@ -13,9 +13,10 @@
 /* Base */
 
 @use "base/fonts";
-@use "@alanizcreative/formation/src/base/focus";
 @use "@alanizcreative/formation/src/base";
+@use "@alanizcreative/formation/src/base/inputs-reset";
 @use "base" as b;
+@use "base/focus";
 
 /* A11y */
 
@@ -23,20 +24,21 @@
 
 /* Backgrounds */
 
-@use "@alanizcreative/formation/src/backgrounds/color";
+@use "backgrounds";
 
 /* Text */
 
-@use "@alanizcreative/formation/src/text/color" as c;
-@use "@alanizcreative/formation/src/text/align";
-@use "@alanizcreative/formation/src/text/weight";
+@use "text/color" as c;
 @use "text/list";
 @use "text/sizes";
 @use "text/line-height";
+@use "@alanizcreative/formation/src/text/weight";
+@use "@alanizcreative/formation/src/text/align";
 
 /* Layouts */
 
 @use "@alanizcreative/formation/src/layouts/position";
+@use "@alanizcreative/formation/src/layouts/overflow";
 @use "@alanizcreative/formation/src/layouts/container";
 @use "@alanizcreative/formation/src/layouts/display";
 @use "@alanizcreative/formation/src/layouts/flex";
@@ -47,10 +49,22 @@
 @use "@alanizcreative/formation/src/layouts/width";
 @use "layouts/svg";
 
+/* Borders */
+
+@use "@alanizcreative/formation/src/borders";
+@use "@alanizcreative/formation/src/borders/radius";
+
 /* Components */
 
 @use "@alanizcreative/formation/src/components/skip-link";
+@use "components/nav";
 
 /* Objects */
 
 @use "objects/logo";
+
+/* Effects */
+
+@use "@alanizcreative/formation/src/effects/transition";
+@use "effects/border";
+@use "effects/underline";
