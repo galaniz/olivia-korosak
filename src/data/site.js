@@ -40,6 +40,7 @@ module.exports = {
     main: `${assetsLink}js/${namespace}.js`,
     compat: `${assetsLink}js/${namespace}-compat.js`
   },
+  env: JSON.stringify(process.env),
   context: process.env.CONTEXT,
   year: date.getFullYear()
 }
