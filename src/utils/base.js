@@ -44,9 +44,7 @@ const getSlug = (contentType = 'page', slug = '') => {
 /* Return absolute url */
 
 const getPermalink = (slug = '') => {
-  // const context = process.env.CONTEXT
-
-  const context = 'deploy-preview'
+  const context = process.env.CONTEXT
 
   let url = urls.local
 
