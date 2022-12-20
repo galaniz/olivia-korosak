@@ -9,7 +9,7 @@ const { getPermalink } = require('../utils/base')
 /* */
 
 const namespace = 'ok'
-const assetsLink = `${getPermalink('', true)}assets/`
+const assetsLink = `${getPermalink()}assets/`
 const date = new Date()
 
 /* Data */

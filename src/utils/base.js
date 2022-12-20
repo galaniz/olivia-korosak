@@ -43,8 +43,10 @@ const getSlug = (contentType = 'page', slug = '') => {
 
 /* Return absolute url */
 
-const getPermalink = (slug = '', asset = false) => {
-  const context = process.env.CONTEXT
+const getPermalink = (slug = '') => {
+  // const context = process.env.CONTEXT
+
+  const context = 'deploy-preview'
 
   let url = urls.local
 
@@ -56,8 +58,8 @@ const getPermalink = (slug = '', asset = false) => {
     url = urls.staging
   }
 
-  if (asset && context === 'deploy-preview') {
-    return './'
+  if (context === 'deploy-preview') {
+    url = '/'
   }
 
   return `${url}${slug}${slug ? '/' : ''}`
