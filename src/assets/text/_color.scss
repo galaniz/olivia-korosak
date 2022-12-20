@@ -1,0 +1,27 @@
+/**
+ * Text: color
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/text/color";
+@use "@alanizcreative/formation/src/utils/functions" as func;
+
+/* Styles */
+
+.t-dark {
+  --outline-color: var(--foreground-base);
+  --heading-color: var(--foreground-base);
+  --text-color: var(--foreground-base);
+  --border-color: #{rgba(func.get-color("foreground-base"), 0.5)};
+
+  color: var(--text-color);
+}
+
+.t-link-current {
+  --link-color: currentcolor;
+}
+
+.t-current {
+  color: currentcolor;
+}

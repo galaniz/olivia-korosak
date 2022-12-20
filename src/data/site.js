@@ -6,8 +6,11 @@
 
 const { getPermalink } = require('../utils/base')
 
+/* */
+
 const namespace = 'ok'
-const assetsLink = `${getPermalink('', true)}/assets/`
+const assetsLink = `${getPermalink('', true)}assets/`
+const date = new Date()
 
 /* Data */
 
@@ -30,13 +33,13 @@ module.exports = {
     base: '#17181d',
     tint: '#45464a'
   },
-  baseLink: `${getPermalink()}/`,
+  baseLink: `${getPermalink()}`,
   assetsLink,
   styles: `${assetsLink}css/${namespace}.css`,
   scripts: {
     main: `${assetsLink}js/${namespace}.js`,
     compat: `${assetsLink}js/${namespace}-compat.js`
   },
-  env: process.env.NODE_ENV,
-  context: process.env.CONTEXT
+  context: process.env.CONTEXT,
+  year: date.getFullYear()
 }
