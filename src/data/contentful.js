@@ -18,7 +18,7 @@ const config = {
   host: 'preview.contentful.com'
 }
 
-if (context === 'production' || context === 'staging') {
+if (context === 'production' || context === 'branch-deploy') {
   config.accessToken = process.env.CTFL_CDA_TOKEN
   config.host = 'cdn.contentful.com'
 }
