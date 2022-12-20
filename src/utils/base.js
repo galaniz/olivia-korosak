@@ -57,7 +57,7 @@ const getPermalink = (slug = '', asset = false) => {
   }
 
   if (asset && context === 'deploy-preview') {
-    url = './'
+    return './'
   }
 
   return `${url}${slug}${slug ? '/' : ''}`
