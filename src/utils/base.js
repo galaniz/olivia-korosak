@@ -44,15 +44,13 @@ const getSlug = (contentType = 'page', slug = '') => {
 /* Return absolute url */
 
 const getPermalink = (slug = '', asset = false) => {
-  const context = process.env.CONTEXT
+  // const context = process.env.CONTEXT
+
+  const context = 'production'
 
   let url = urls.local
 
   if (context === 'production') {
-    url = urls.production
-  }
-
-  if (context === 'preview') {
     url = urls.production
   }
 
