@@ -52,6 +52,10 @@ const getPermalink = (slug = '', asset = false) => {
     url = urls.production
   }
 
+  if (context === 'preview') {
+    url = urls.production
+  }
+
   if (context === 'staging') {
     url = urls.staging
   }
