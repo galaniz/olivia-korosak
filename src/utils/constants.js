@@ -21,7 +21,7 @@ const slugBases = {
 const urls = {
   local: 'http://localhost:8080/',
   production: 'https://oliviakorosak.netlify.app/',
-  preview: 'https://preview--oliviakorosak.netlify.app/'
+  staging: 'https://staging--oliviakorosak.netlify.app/'
 }
 
 /* Exports */

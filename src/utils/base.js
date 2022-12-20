@@ -52,8 +52,8 @@ const getPermalink = (slug = '', asset = false) => {
     url = urls.production
   }
 
-  if (context === 'preview') {
-    url = urls.preview
+  if (context === 'staging') {
+    url = urls.staging
   }
 
   if (asset && context === 'deploy-preview') {

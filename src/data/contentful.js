@@ -10,6 +10,7 @@ const { setData } = require('../utils/process')
 /* Config */
 
 const env = process.env
+const context = env.CONTEXT
 
 const config = {
   space: env.CTFL_SPACE_ID,
@@ -17,7 +18,7 @@ const config = {
   host: 'preview.contentful.com'
 }
 
-if (env.NODE_ENV === 'production' || env.NODE_ENV === 'preview') {
+if (context === 'production' || context === 'staging') {
   config.accessToken = process.env.CTFL_CDA_TOKEN
   config.host = 'cdn.contentful.com'
 }
