@@ -52,7 +52,7 @@ const getPermalink = (slug = '') => {
     url = urls.production
   }
 
-  if (context === 'staging') {
+  if (context === 'branch-deploy') {
     url = urls.staging
   }
 
