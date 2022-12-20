@@ -16,11 +16,7 @@
     "s" "xl"
   );
 
-  @include mix.fluid-size(
-    height,
-    func.calc-rem(20px) func.calc-rem(25px),
-    "s" "xl"
-  );
+  height: var(--logo-height);
 }
 
 .o-logo-s {
