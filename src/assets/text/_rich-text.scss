@@ -1,0 +1,22 @@
+/**
+ * Text: rich text
+ */
+
+/* Styles */
+
+.t-rich-text {
+  h2 {
+    margin: var(--m) 0 var(--4xs)
+  }
+
+  h2:first-child {
+    margin-top: 0;
+  }
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    
+  }
+}

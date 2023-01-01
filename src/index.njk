@@ -9,9 +9,10 @@ permalink: "/{{ ctfl.slug }}/"
 
 {% include ('./includes/header.njk') %}
 
+{% include ('./includes/breadcrumbs.njk') %}
+
 <main id="main">
-  {% include ('./includes/hero.njk') %}
-  {% include ('./includes/sections.njk') %}
+  {{ ctfl.content | safe }}
 </main>
 
 {% include ('./includes/footer.njk') %}

@@ -5,7 +5,7 @@
 /* Imports */
 
 const contentful = require('contentful')
-const { setData } = require('../utils/process')
+const { setData } = require('../utils/set-data')
 
 /* Config */
 
@@ -42,7 +42,7 @@ module.exports = async () => {
       content_type: 'navigation'
     })
 
-    if (Object.getOwnPropertyDescriptor(navigations, 'items')) {
+    if (navigations?.items) {
       navs = navigations.items
     }
 
@@ -50,7 +50,7 @@ module.exports = async () => {
       content_type: 'navigationItem'
     })
 
-    if (Object.getOwnPropertyDescriptor(navigationItems, 'items')) {
+    if (navigationItems?.items) {
       navItems = navigationItems.items
     }
 
@@ -67,10 +67,11 @@ module.exports = async () => {
     /* Pages */
 
     const pages = await client.getEntries({
-      content_type: 'page'
+      content_type: 'page',
+      include: 10
     })
 
-    if (Object.getOwnPropertyDescriptor(pages, 'items')) {
+    if (pages?.items) {
       content.page = pages.items
     }
 
@@ -80,7 +81,7 @@ module.exports = async () => {
       content_type: 'project'
     })
 
-    if (Object.getOwnPropertyDescriptor(projects, 'items')) {
+    if (projects?.items) {
       content.project = projects.items
     }
 
@@ -90,7 +91,7 @@ module.exports = async () => {
       content_type: 'track'
     })
 
-    if (Object.getOwnPropertyDescriptor(tracks, 'items')) {
+    if (tracks?.items) {
       content.track = tracks.items
     }
 
@@ -100,7 +101,7 @@ module.exports = async () => {
       content_type: 'projectType'
     })
 
-    if (Object.getOwnPropertyDescriptor(projectTypes, 'items')) {
+    if (projectTypes?.items) {
       content.projectType = projectTypes.items
     }
 
@@ -110,7 +111,7 @@ module.exports = async () => {
       content_type: 'genre'
     })
 
-    if (Object.getOwnPropertyDescriptor(genres, 'items')) {
+    if (genres?.items) {
       content.genre = genres.items
     }
 

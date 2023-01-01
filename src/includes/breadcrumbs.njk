@@ -1,0 +1,11 @@
+{#
+  Template for displaying breadcrumbs
+#}
+
+{% if ctfl.navigations.breadcrumbs %}
+  <nav aria-label="Breadcrumb">
+    <div class="l-container">
+      {{ ctfl.navigations.breadcrumbs | safe }}
+    </div>
+  </nav>
+{% endif %}
