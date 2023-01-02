@@ -1,0 +1,15 @@
+/**
+ * Effects: scale
+ */
+
+/* Styles */
+
+.e-scale {
+  [data-scale] {
+    --duration: 500ms;
+  }
+
+  &:hover [data-scale] {
+    transform: scale(1.03);
+  }
+}

@@ -21,7 +21,8 @@ const button = (args) => {
     title = '',
     internalLink = false,
     externalLink = '',
-    type = 'Main' // optionValues.button.type
+    type = 'Main', // optionValues.button.type
+    size = 'Default' // optionValues.button.size
   } = args
 
   /* Link and title required */
@@ -39,20 +40,25 @@ const button = (args) => {
   /* Normalize options */
 
   type = optionValues.button.type[type]
+  size = optionValues.button.size[size]
 
   /* Classes */
 
-  let linkClasses = 'o-button b-radius-s'
+  let linkClasses = 'o-button b-radius-s e-transition-quad'
 
   if (type === 'main') {
     linkClasses += ' bg-background-light t-foreground-base'
   } else if (type === 'secondary') {
-    linkClasses += ' t-background-light b-all b-current'
+    linkClasses += ' o-button-secondary t-background-light b-all b-current'
+  }
+
+  if (size === 'large') {
+    linkClasses += ' o-button-large'
   }
 
   /* Attributes */
 
-  let linkAttrs = ''
+  let linkAttrs = ' data-button'
 
   if (external) {
     linkAttrs = ' target="_blank" rel="noreferrer"'

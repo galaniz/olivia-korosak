@@ -2,8 +2,11 @@
  * Image output
  *
  * @param {object} args {
- *  @param {string} ?
+ *  @param {object} image
+ *  @param {string} aspectRatio
+ *  @param {object} caption
  * }
+ * @param {array} parents
  */
 
 /* Imports */
@@ -20,6 +23,16 @@ const image = (args = {}, parents = []) => {
     caption = {}
   } = args
 
+  /* Check card parent */
+
+  let card = false
+
+  if (parents.length) {
+    if (parents[0].type === 'card') {
+      card = true
+    }
+  }
+
   /* Normalize options */
 
   aspectRatio = optionValues.aspectRatio[aspectRatio]
@@ -34,14 +47,37 @@ const image = (args = {}, parents = []) => {
   }
 
   if (imageData) {
+    const imageClasses = []
+
+    if (aspectRatio) {
+      imageClasses.push('l-absolute l-top-0 l-left-0 l-width-100-pc l-height-100-pc l-object-cover')
+    }
+
+    if (card) {
+      imageClasses.push('e-transition')
+    }
+
     imageOutput = getImage({
       data: imageData,
-      classes: aspectRatio ? 'l-absolute l-top-0 l-left-0 l-width-100-pc l-height-100-pc l-object-cover' : ''
+      classes: imageClasses.join(' '),
+      attr: card ? 'data-scale' : ''
     })
 
     if (aspectRatio) {
-      imageOutput = `<div class="l-relative l-overflow-hidden l-aspect-ratio-${aspectRatio}">${imageOutput}</div>`
+      let classes = `l-relative l-overflow-hidden l-aspect-ratio-${aspectRatio}`
+
+      if (card) {
+        classes += ' l-after bg-gradient'
+      }
+
+      imageOutput = `<div class="${classes}">${imageOutput}</div>`
     }
+  }
+
+  /* Card wrapper */
+
+  if (imageOutput && card) {
+    imageOutput = `<div class="l-relative l-overflow-hidden l-after bg-overlay" data-overlay>${imageOutput}</div>`
   }
 
   /* Output */

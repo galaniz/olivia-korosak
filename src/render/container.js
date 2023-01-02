@@ -53,7 +53,13 @@ const container = (args) => {
 
   /* Classes */
 
-  const classes = [`l-${maxWidth}`]
+  const classes = []
+
+  /* Max width */
+
+  if (maxWidth) {
+    classes.push(`l-${maxWidth}`)
+  }
 
   /* Flex */
 

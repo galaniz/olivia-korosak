@@ -43,6 +43,8 @@ $gaps: (
 
 @use "@alanizcreative/formation/src/config" with (
 
+  /* Colors */
+
   $colors: (
     "foreground": (
       "base": #17181d,
@@ -69,6 +71,8 @@ $gaps: (
     "background-light",
   ),
 
+  /* Fonts */
+
   $font-families: (
     "primary": (
       "Questa Sans"
@@ -91,14 +95,18 @@ $gaps: (
     "bold": 700,
   ),
 
+  /* Breakpoints */
+
   $breakpoints: (
     "0": 0px,
     "xs": 400px,
     "s": 600px,
-    "m": 900px,
+    "m": 820px,
     "l": 1000px,
     "xl": 1200px,
   ),
+
+  /* Spacing */
 
   $spacing: (
     "5xs": 5px,
@@ -115,6 +123,8 @@ $gaps: (
     "4xl": 120px,
   ),
 
+  /* Padding */
+
   $padding-top: $padding-vertical,
   $padding-bottom: $padding-vertical,
   $padding-vertical-breakpoints: ("l"),
@@ -122,17 +132,25 @@ $gaps: (
   $padding-left: $padding-horizontal,
   $padding-right: $padding-horizontal,
 
+  /* Margin */
+
   $margin-bottom: $gaps,
   $margin-bottom-all: $gaps,
   $margin-vertical-breakpoints: ("l"),
+
+  /* Aspect ratios */
 
   $aspect-ratio-padding: (
     "56": 56.25%,
     "80": 80%,
   ),
 
+  /* Widths */
+
   $width-percentage-breakpoints: (
+    "s",
     "m",
+    "l",
   ),
 
   $widths: (
@@ -145,8 +163,12 @@ $gaps: (
     "l",
   ),
 
+  /* Gaps */
+
   $gaps: $gaps,
   $gap-breakpoints: ("m", "l"),
+
+  /* Containers */
 
   $container-padding: 20px,
   $containers: (
@@ -155,6 +177,8 @@ $gaps: (
     "s": 690px,
   ),
 
+  /* Nav icon */
+
   $nav: (
     "icon": (
       "width": 40px,
@@ -162,6 +186,8 @@ $gaps: (
       "margin": 4px,
     )
   ),
+
+  /* Borders */
 
   $borders: (
     "sides": ("all", "top"),
@@ -180,11 +206,26 @@ $gaps: (
     "m": 12px,
   ),
 
+  /* Outline */
+
   $outline: (
     "width": 0.2rem,
     "color": "var(--background-light)",
     "offset": 0.3rem,
   ),
+
+  /* Transitions */
+
+  $transitions: (
+    "default": (
+      "duration": 400ms,
+    ),
+    "quad": (
+      "easing": "cubic-bezier(0.45, 0, 0.55, 1)",
+    ),
+  ),
+
+  /* Placeholders */
 
   $placeholders: (
     (

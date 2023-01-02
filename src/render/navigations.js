@@ -76,7 +76,8 @@ const navigations = ({
       {
         listClass: 'l-flex l-flex-wrap l-justify-center l-gap-margin-2xs l-gap-margin-s-l t-list-style-none e-underline-reverse',
         listAttr: 'role="list"',
-        linkClass: 't l-inline-flex'
+        linkClass: 't l-inline-flex',
+        linkAttr: 'data-inline'
       }
     ),
     social: {

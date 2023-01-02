@@ -1,0 +1,17 @@
+/**
+ * Effects: overlay
+ */
+
+/* Styles */
+
+.e-overlay {
+  [data-overlay]::after {
+    --duration: 500ms;
+
+    transition: opacity var(--duration) var(--easing);
+  }
+
+  &:hover [data-overlay]::after {
+    opacity: 0
+  }
+}

@@ -32,6 +32,10 @@ const optionValues = {
       Main: 'main',
       Secondary: 'secondary',
       Icon: 'icon'
+    },
+    size: {
+      Default: '',
+      Large: 'large'
     }
   },
   tag: {
@@ -82,6 +86,7 @@ const optionValues = {
     Row: 'row'
   },
   maxWidth: {
+    None: '',
     '100%': 'width-1-1',
     '1300px': 'container',
     '1040px': 'container-m',

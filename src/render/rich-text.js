@@ -112,7 +112,7 @@ const richText = (type = 'paragraph', content = [], parents = []) => {
         const link = c.data.uri
         const linkText = c.content.map(cc => cc.value).join('')
 
-        output += `<a href="${link}">${linkText}</a>`
+        output += `<a href="${link}" data-inline>${linkText}</a>`
       }
     })
   }

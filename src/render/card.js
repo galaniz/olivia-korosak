@@ -10,7 +10,7 @@
 
 const card = (args = {}) => {
   return {
-    start: '<div class="l-relative">',
+    start: '<div class="l-relative e-scale e-overlay e-transition-quad">',
     end: '</div>'
   }
 }

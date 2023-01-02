@@ -5,10 +5,24 @@
 /* Imports */
 
 @use "@alanizcreative/formation/src/config";
+@use "@alanizcreative/formation/src/utils/functions" as func;
 @use "@alanizcreative/formation/src/backgrounds/color";
 
 /* Styles */
 
 .bg-current {
   background-color: currentcolor;
+}
+
+.bg-overlay::after {
+  background: var(--foreground-base);
+  opacity: 0.2;
+}
+
+.bg-gradient::after {
+  background: linear-gradient(
+    to top,
+    var(--foreground-base) 0%,
+    #{rgba(func.get-color("foreground-base"), 0)} 100%
+  );
 }

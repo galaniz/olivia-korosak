@@ -2,7 +2,6 @@
  * Content output
  *
  * @param {object} args {
- *  @param {boolean} linkListStyles
  *  @param {string} align
  * }
  */
@@ -15,7 +14,6 @@ const { optionValues } = require('../utils/constants')
 
 const content = (args = {}) => {
   let {
-    linkListStyles = false,
     align = 'Left' // optionValues.content.heading
   } = args
 
@@ -25,7 +23,7 @@ const content = (args = {}) => {
 
   /* Classes */
 
-  let classes = ['t-rich-text']
+  let classes = ['t-rich-text e-underline']
 
   if (align === 'center') {
     classes.push('t-align-center')

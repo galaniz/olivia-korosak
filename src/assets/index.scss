@@ -32,6 +32,7 @@
 @use "text/list";
 @use "text/sizes";
 @use "text/line-height";
+@use "text/rich-text";
 @use "@alanizcreative/formation/src/text/weight";
 @use "@alanizcreative/formation/src/text/align";
 
@@ -73,3 +74,5 @@
 @use "@alanizcreative/formation/src/effects/transition";
 @use "effects/border";
 @use "effects/underline";
+@use "effects/overlay";
+@use "effects/scale";

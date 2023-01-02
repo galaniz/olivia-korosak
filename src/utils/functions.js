@@ -107,6 +107,7 @@ const getLink = (internalLink = false, externalLink = '') => {
 const getImage = ({
   data = {},
   classes = '',
+  attr = '',
   quality = 75,
   width = 'auto',
   height = 'auto'
@@ -154,7 +155,7 @@ const getImage = ({
   /* Output */
 
   return `
-    <img${classes ? ` class="${classes}"` : ''} alt="${alt}" src="${src}" srcset="${srcset}" sizes="${sizes}" width="${w}" height="${h}">
+    <img${classes ? ` class="${classes}"` : ''} alt="${alt}" src="${src}" srcset="${srcset}" sizes="${sizes}" width="${w}" height="${h}"${attr ? ` ${attr}` : ''}>
   `
 }
 
