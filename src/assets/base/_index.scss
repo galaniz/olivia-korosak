@@ -30,7 +30,7 @@ html {
   @include mixi.fluid-size(
     --logo-height,
     func.calc-rem(20px) func.calc-rem(25px),
-    "s" "xl"
+    "s" "l"
   );
 }
 

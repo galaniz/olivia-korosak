@@ -21,12 +21,23 @@ const _getParentSlug = (slug = '', p = []) => {
 
 /* Return slug with base from slug base and parents */
 
-const getSlug = (contentType = 'page', slug = '', returnParents = false) => {
+const getSlug = ({
+  contentType = 'page',
+  slug = '',
+  returnParents = false,
+  page = 0
+}) => {
+  /* Index */
+
   if (slug === '/') {
     return ''
   }
 
+  /* Slug base */
+
   const slugBase = slugBases[contentType].slug
+
+  /* Parents */
 
   let p = []
   let pp = []
@@ -43,7 +54,11 @@ const getSlug = (contentType = 'page', slug = '', returnParents = false) => {
     p = ''
   }
 
-  const s = `${p}${slugBase}${slugBase ? '/' : ''}${slug}`
+  /* Slug */
+
+  const s = `${p}${slugBase}${slugBase ? '/' : ''}${slug}${page ? `/page/${page}` : ''}`
+
+  /* Parents and slug return */
 
   if (returnParents) {
     if (slugBase) {
@@ -55,6 +70,8 @@ const getSlug = (contentType = 'page', slug = '', returnParents = false) => {
       parents: pp
     }
   }
+
+  /* Slug return */
 
   return s
 }
@@ -98,7 +115,10 @@ const getLink = (internalLink = false, externalLink = '') => {
     const contentType = internalLink.sys.contentType.sys.id
     const internalFields = Object.assign({ slug: '' }, internalLink.fields)
 
-    return getPermalink(getSlug(contentType, internalFields.slug))
+    return getPermalink(getSlug({
+      contentType,
+      slug: internalFields.slug
+    }))
   }
 }
 

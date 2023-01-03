@@ -1,0 +1,20 @@
+/**
+ * Layouts: gap margin
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/layouts/gap-margin";
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Styles */
+
+[data-root] .l-gap-margin-xl-v-s {
+  @include mix.breakpoint-min("s") {
+    margin-top: calc(var(--xl) * -1);
+
+    > * {
+      padding-top: var(--xl);
+    }
+  }
+}

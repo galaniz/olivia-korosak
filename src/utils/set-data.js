@@ -28,106 +28,17 @@ const _nav = {
   items: []
 }
 
-/* Set content item fields */
+/* Store pagination page data */
 
-const _setItem = (item = {}, contentType = 'page') => {
-  /* Item data */
-
-  const data = {}
-
-  /* Item fields */
-
-  const fields = Object.assign({
-    title: '',
-    slug: '',
-    parent: false,
-    heroTitle: '',
-    heroImage: false,
-    heroText: '',
-    content: [],
-    colorFrom: '',
-    colorTo: '',
-    metaDescription: '',
-    metaImage: false
-  }, item.fields)
-
-  /* Meta */
-
-  data.title = fields.title
-  data.parent = fields.parent
-
-  data.meta = {
-    description: fields.metaDescription,
-    image: fields.metaImage
-  }
-
-  /* Gradient colors */
-
-  data.gradients = gradients({
-    from: fields.colorFrom ? fields.colorFrom.value : '',
-    to: fields.colorTo ? fields.colorTo.value : ''
-  })
-
-  /* Permalink */
-
-  const s = getSlug(contentType, fields.slug, true)
-
-  data.slug = s.slug
-  data.permalink = getPermalink(fields.slug)
-
-  /* Navigations */
-
-  data.navigations = navigations({
-    navs: _nav.navs,
-    items: _nav.items,
-    current: data.permalink,
-    title: data.title,
-    parents: s.parents
-  })
-
-  /* Content */
-
-  data.content = ''
-
-  /* Hero */
-
-  data.content += hero({
-    title: fields.heroTitle || fields.title,
-    text: fields.heroText,
-    image: fields.heroImage ? fields.heroImage.fields.file : false,
-    index: fields.slug !== '',
-    breadcrumbs: data.navigations.breadcrumbs || false
-  })
-
-  /* Content */
-
-  const contentOutput = { html: '' }
-
-  let contentData = fields.content
-
-  if (contentData?.nodeType) {
-    contentData = contentData.content
-  }
-
-  if (Array.isArray(contentData) && contentData.length) {
-    _getContent(
-      contentData,
-      contentOutput
-    )
-  }
-
-  data.content += contentOutput.html
-
-  /* Output */
-
-  return data
-}
+let _paginationPages = []
 
 /* Recurse and render nested content */
 
-const _getContent = (cc = [], output = {}, parents = []) => {
+const _getContent = async (cc = [], output = {}, parents = [], pageData = {}) => {
   if (Array.isArray(cc) && cc.length) {
-    cc.forEach((c, i) => {
+    for (let i = 0; i < cc.length; i++) {
+      let c = cc[i]
+
       /* Check for embedded entries and rich text */
 
       const richTextNode = c?.nodeType || false
@@ -194,9 +105,17 @@ const _getContent = (cc = [], output = {}, parents = []) => {
         case 'image':
           renderObj.start = image(fields, parents)
           break
-        case 'posts':
-          renderObj.start = posts(fields, parents)
+        case 'posts': {
+          const p = await posts(fields, parents, pageData)
+
+          renderObj.start = p.output
+
+          if (p.pages) {
+            _paginationPages = _paginationPages.concat(p.pages)
+          }
+
           break
+        }
         case 'testimonial':
           renderObj.start = testimonial(fields, parents)
           break
@@ -218,10 +137,11 @@ const _getContent = (cc = [], output = {}, parents = []) => {
           fields
         })
 
-        _getContent(
+        await _getContent(
           children,
           output,
-          parentsCopy
+          parentsCopy,
+          pageData
         )
       }
 
@@ -232,13 +152,154 @@ const _getContent = (cc = [], output = {}, parents = []) => {
       if (renderType && renderType !== 'content' && end) {
         parents = []
       }
-    })
+    }
   }
+}
+
+/* Set content item fields */
+
+const _setItem = async (item = {}, contentType = 'page') => {
+  /* Item data */
+
+  const data = {}
+
+  /* Item fields */
+
+  const fields = Object.assign({
+    title: '',
+    slug: '',
+    pagination: false,
+    parent: false,
+    heroTitle: '',
+    heroImage: false,
+    heroText: '',
+    content: [],
+    colorFrom: '',
+    colorTo: '',
+    metaTitle: '',
+    metaDescription: '',
+    metaImage: false
+  }, item.fields)
+
+  /* Meta */
+
+  data.title = fields.title
+  data.parent = fields.parent
+
+  data.meta = {
+    title: fields.metaTitle || data.title,
+    description: fields.metaDescription,
+    image: fields.metaImage
+  }
+
+  /* Gradient colors */
+
+  data.gradients = gradients({
+    from: fields.colorFrom ? fields.colorFrom.value : '',
+    to: fields.colorTo ? fields.colorTo.value : ''
+  })
+
+  /* Permalink */
+
+  const slugArgs = {
+    contentType,
+    slug: fields.slug,
+    returnParents: true
+  }
+
+  if (fields.pagination) {
+    slugArgs.page = fields.pagination.current > 1 ? fields.pagination.current : 0
+  }
+
+  const s = getSlug(slugArgs)
+
+  data.slug = s.slug
+  data.permalink = getPermalink(s.slug)
+
+  item.fields.basePermalink = getPermalink(
+    getSlug({
+      contentType,
+      slug: fields.slug
+    })
+  )
+
+  /* Navigations */
+
+  data.navigations = navigations({
+    navs: _nav.navs,
+    items: _nav.items,
+    current: data.permalink,
+    title: data.title,
+    parents: s.parents
+  })
+
+  /* Content */
+
+  data.content = ''
+
+  /* Hero */
+
+  data.content += hero({
+    title: fields.heroTitle || fields.title,
+    text: fields.heroText,
+    image: fields.heroImage ? fields.heroImage.fields.file : false,
+    index: fields.slug !== '',
+    breadcrumbs: data.navigations.breadcrumbs || false
+  })
+
+  /* Content */
+
+  const contentOutput = { html: '' }
+
+  let contentData = fields.content
+
+  if (contentData?.nodeType) {
+    contentData = contentData.content
+  }
+
+  if (Array.isArray(contentData) && contentData.length) {
+    await _getContent(
+      contentData,
+      contentOutput,
+      [],
+      item
+    )
+  }
+
+  data.content += contentOutput.html
+
+  /* Prev next pagination - end for pagination update from posts */
+
+  if (item?.fields?.pagination) {
+    const pagination = item.fields.pagination
+
+    if (pagination?.prev) {
+      slugArgs.page = pagination.prev > 1 ? pagination.prev : 0
+
+      const p = getSlug(slugArgs)
+
+      data.prev = getPermalink(p.slug)
+    }
+
+    if (pagination?.next) {
+      if (pagination.next > 1) {
+        slugArgs.page = pagination.next
+
+        const n = getSlug(slugArgs)
+
+        data.next = getPermalink(n.slug)
+      }
+    }
+  }
+
+  /* Output */
+
+  return data
 }
 
 /* Set content and navigation output */
 
-const setData = ({ content = {}, navs = [], navItems = [] }) => {
+const setData = async ({ content = {}, navs = [], navItems = [] }) => {
   /* Store navigations and items */
 
   _nav.navs = navs
@@ -267,9 +328,19 @@ const setData = ({ content = {}, navs = [], navItems = [] }) => {
   /* Loop through all content types */
 
   for (const contentType in content) {
-    content[contentType].forEach(item => {
-      data.push(_setItem(item, contentType))
-    })
+    for (let i = 0; i < content[contentType].length; i++) {
+      const item = content[contentType][i]
+
+      data.push(await _setItem(item, contentType))
+    }
+  }
+
+  /* Pagination pages */
+
+  if (_paginationPages.length) {
+    for (let i = 0; i < _paginationPages.length; i++) {
+      data.push(await _setItem(_paginationPages[i]))
+    }
   }
 
   /* Output */
@@ -279,6 +350,4 @@ const setData = ({ content = {}, navs = [], navItems = [] }) => {
 
 /* Exports */
 
-module.exports = {
-  setData
-}
+module.exports = setData

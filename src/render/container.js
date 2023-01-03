@@ -26,7 +26,7 @@ const container = (args) => {
   let {
     tag = 'Div', // optionValues.tag
     layout = 'Column', // optionValues.layout
-    maxWidth = '100%', // optionValues.maxWidth
+    maxWidth = 'None', // optionValues.maxWidth
     paddingTop = 'None', // optionValues.padding
     paddingTopLarge = 'None', // optionValues.padding
     paddingBottom = 'None', // optionValues.padding
@@ -34,7 +34,8 @@ const container = (args) => {
     gap = 'None', // optionValues.gap
     gapLarge = 'None', // optionValues.gap
     justify = 'None', // optionValues.justify
-    align = 'None' // optionValues.align
+    align = 'None', // optionValues.align
+    className = '' //
   } = args
 
   /* Normalize options */
@@ -54,6 +55,21 @@ const container = (args) => {
   /* Classes */
 
   const classes = []
+
+  if (className) {
+    classes.push(className)
+  }
+
+  /* Attributes */
+
+  const attr = []
+
+  /* List check */
+
+  if (tag === 'ul' || tag === 'ol') {
+    attr.push('role="list"')
+    classes.push('t-list-style-none')
+  }
 
   /* Max width */
 
@@ -85,7 +101,7 @@ const container = (args) => {
     if (layout === 'row') {
       classes.push(`l-gap-margin-${gapLarge}-l`)
     } else {
-      classes.push(`l-margin-bottom-${gapLarge}-all-l`)
+      classes.push(`l-margin-bottom-${gapLarge}-all-m`)
     }
   }
 
@@ -108,7 +124,7 @@ const container = (args) => {
   }
 
   if (paddingTopLarge && paddingTopLarge !== paddingTop) {
-    classes.push(`l-padding-top-${paddingTopLarge}-l`)
+    classes.push(`l-padding-top-${paddingTopLarge}-m`)
   }
 
   if (paddingBottom) {
@@ -116,13 +132,13 @@ const container = (args) => {
   }
 
   if (paddingBottomLarge && paddingBottomLarge !== paddingBottom) {
-    classes.push(`l-padding-bottom-${paddingBottomLarge}-l`)
+    classes.push(`l-padding-bottom-${paddingBottomLarge}-m`)
   }
 
   /* Output */
 
   return {
-    start: `<${tag} class="${classes.join(' ')}">`,
+    start: `<${tag} class="${classes.join(' ')}"${attr ? ` ${attr.join(' ')}` : ''}>`,
     end: `</${tag}>`
   }
 }

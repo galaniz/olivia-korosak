@@ -330,7 +330,7 @@ class Navigation {
 
       const linkClasses = args.linkClass ? ` class="${args.linkClass}"` : ''
 
-      output.html += `<a${linkClasses} href="${getPermalink(getSlug('page', item.slug))}">${item.title}</a>`
+      output.html += `<a${linkClasses} href="${getPermalink(getSlug({ slug: item.slug }))}">${item.title}</a>`
 
       args.filterAfterLink(output, isLastLevel)
 

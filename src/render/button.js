@@ -6,6 +6,8 @@
  *  @param {object/boolean} internalLink
  *  @param {string} externalLink
  *  @param {string} type
+ *  @param {string} size
+ *  @param {string} justify
  * }
  */
 
@@ -22,7 +24,8 @@ const button = (args) => {
     internalLink = false,
     externalLink = '',
     type = 'Main', // optionValues.button.type
-    size = 'Default' // optionValues.button.size
+    size = 'Default', // optionValues.button.size
+    justify = 'None' // optionValues.justify
   } = args
 
   /* Link and title required */
@@ -41,6 +44,7 @@ const button = (args) => {
 
   type = optionValues.button.type[type]
   size = optionValues.button.size[size]
+  justify = optionValues.justify[justify]
 
   /* Classes */
 
@@ -66,7 +70,13 @@ const button = (args) => {
 
   /* Output */
 
-  return `<a class="${linkClasses}" href="${link}"${linkAttrs}>${title}</a>`
+  let output = `<a class="${linkClasses}" href="${link}"${linkAttrs}>${title}</a>`
+
+  if (justify) {
+    output = `<div class="l-flex l-justify-${justify}">${output}</div>`
+  }
+
+  return output
 }
 
 /* Exports */

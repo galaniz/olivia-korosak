@@ -4,30 +4,8 @@
 
 /* Imports */
 
-const contentful = require('contentful')
-const { setData } = require('../utils/set-data')
-
-/* Config */
-
-const env = process.env
-const context = env.CONTEXT
-
-const config = {
-  space: env.CTFL_SPACE_ID,
-  accessToken: env.CTFL_CPA_TOKEN,
-  host: 'preview.contentful.com'
-}
-
-if (context === 'production' || context === 'branch-deploy') {
-  config.accessToken = process.env.CTFL_CDA_TOKEN
-  config.host = 'cdn.contentful.com'
-}
-
-const client = contentful.createClient({
-  space: config.space,
-  accessToken: config.accessToken,
-  host: config.host
-})
+const contentfulClient = require('../utils/contentful-client')
+const setData = require('../utils/set-data')
 
 /* Get content + navigations */
 
@@ -38,7 +16,7 @@ module.exports = async () => {
     let navs = []
     let navItems = []
 
-    const navigations = await client.getEntries({
+    const navigations = await contentfulClient.getEntries({
       content_type: 'navigation'
     })
 
@@ -46,7 +24,7 @@ module.exports = async () => {
       navs = navigations.items
     }
 
-    const navigationItems = await client.getEntries({
+    const navigationItems = await contentfulClient.getEntries({
       content_type: 'navigationItem'
     })
 
@@ -66,7 +44,7 @@ module.exports = async () => {
 
     /* Pages */
 
-    const pages = await client.getEntries({
+    const pages = await contentfulClient.getEntries({
       content_type: 'page',
       include: 10
     })
@@ -77,7 +55,7 @@ module.exports = async () => {
 
     /* Projects */
 
-    const projects = await client.getEntries({
+    const projects = await contentfulClient.getEntries({
       content_type: 'project'
     })
 
@@ -87,7 +65,7 @@ module.exports = async () => {
 
     /* Tracks */
 
-    const tracks = await client.getEntries({
+    const tracks = await contentfulClient.getEntries({
       content_type: 'track'
     })
 
@@ -97,7 +75,7 @@ module.exports = async () => {
 
     /* Project types */
 
-    const projectTypes = await client.getEntries({
+    const projectTypes = await contentfulClient.getEntries({
       content_type: 'projectType'
     })
 
@@ -107,7 +85,7 @@ module.exports = async () => {
 
     /* Genres */
 
-    const genres = await client.getEntries({
+    const genres = await contentfulClient.getEntries({
       content_type: 'genre'
     })
 
@@ -117,12 +95,14 @@ module.exports = async () => {
 
     /* Output */
 
+    const d = await setData({
+      content,
+      navs,
+      navItems
+    })
+
     return {
-      data: setData({
-        content,
-        navs,
-        navItems
-      })
+      data: d
     }
   } catch (error) {
     console.log(error.message)

@@ -33,7 +33,7 @@ const hero = ({
 
   /* Padding */
 
-  let padding = 'l-padding-top-xl l-padding-bottom-2xl l-padding-top-2xl-l l-padding-bottom-3xl-l'
+  let padding = 'l-padding-top-xl l-padding-bottom-2xl l-padding-top-2xl-m l-padding-bottom-3xl-m'
 
   if (breadcrumbs) {
     padding = 'l-padding-top-2xl l-padding-bottom-2xl'
@@ -51,13 +51,13 @@ const hero = ({
     }
 
     if (breadcrumbs) {
-      padding = 'l-padding-top-xl l-padding-bottom-2xl l-padding-top-2xl-l'
+      padding = 'l-padding-top-xl l-padding-bottom-2xl l-padding-top-2xl-m'
     } else {
-      padding = 'l-padding-top-m l-padding-bottom-2xl l-padding-top-2xl-l'
+      padding = 'l-padding-top-m l-padding-bottom-2xl l-padding-top-2xl-m'
     }
 
     if (container === 'default') {
-      padding += ' l-padding-bottom-4xl-l'
+      padding += ' l-padding-bottom-4xl-m'
     }
 
     imageOutput = getImage({
@@ -70,7 +70,7 @@ const hero = ({
 
   const textOutput = `
     <h1 class="l-margin-0">${title}</h1>
-    ${text ? `<p class="l-margin-0 l-padding-top-4xs l-padding-top-3xs-l">${text}</p>` : ''}
+    ${text ? `<p class="l-margin-0 l-padding-top-4xs l-padding-top-3xs-m">${text}</p>` : ''}
   `
 
   /* Main output */

@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-root>
 <head>
   <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>{{ ctfl.title }} | {{ site.title }}</title>
+	<title>{{ ctfl.meta.title }} | {{ site.title }}</title>
   {% if site.context !== 'production' %}
     <meta name="robots" content="noindex, nofollow">
   {% endif %}
   <meta name="description" content="{{ ctfl.meta.description if ctfl.meta.description else site.meta.description }}">
   <link rel="canonical" href="{{ ctfl.permalink }}">
+  {% if ctfl.prev %}
+    <link rel="prev" href="{{ ctfl.prev }}">
+  {% endif %}
+  {% if ctfl.next %}
+    <link rel="next" href="{{ ctfl.next }}">
+  {% endif %}
   <link rel="stylesheet" href="{{ site.styles }}" media="all">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ site.links.assets }}favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="{{ site.links.assets }}favicon/favicon-32x32.png">

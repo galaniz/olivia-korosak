@@ -22,6 +22,7 @@ const column = (args) => {
     tag = 'Div', // optionValues.tag
     width = 'None', // optionValues.width
     widthSmall = 'None', // optionValues.width
+    widthMedium = 'None', // optionValues.width
     widthLarge = 'None', // optionValues.width
     justify = 'None', // optionValues.justify
     align = 'None' // optionValues.align
@@ -32,6 +33,7 @@ const column = (args) => {
   tag = optionValues.tag[tag]
   width = optionValues.width[width]
   widthSmall = optionValues.width[widthSmall]
+  widthMedium = optionValues.width[widthMedium]
   widthLarge = optionValues.width[widthLarge]
   justify = optionValues.justify[justify]
   align = optionValues.align[align]
@@ -42,18 +44,24 @@ const column = (args) => {
 
   /* Width */
 
+  if (!width) {
+    width = '1-1'
+  }
+
   if (width) {
     classes.push(`l-width-${width}`)
-  } else {
-    classes.push('l-width-1-1')
   }
 
   if (widthSmall && widthSmall !== width) {
-    classes.push(`l-width-${width}-s`)
+    classes.push(`l-width-${widthSmall}-s`)
   }
 
-  if (widthLarge && widthLarge !== widthSmall) {
-    classes.push(`l-width-${widthLarge}-m`)
+  if (widthMedium && widthMedium !== widthSmall) {
+    classes.push(`l-width-${widthMedium}-m`)
+  }
+
+  if (widthLarge && widthLarge !== widthMedium) {
+    classes.push(`l-width-${widthLarge}-l`)
   }
 
   /* Justify */

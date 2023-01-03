@@ -19,7 +19,7 @@ const { optionValues } = require('../utils/constants')
 const image = (args = {}, parents = []) => {
   let {
     image = {},
-    aspectRatio = '100%', // optionValues.aspectRatio
+    aspectRatio = '1:1', // optionValues.aspectRatio
     caption = {}
   } = args
 
@@ -40,7 +40,7 @@ const image = (args = {}, parents = []) => {
   /* Image */
 
   let imageOutput = ''
-  let imageData = {}
+  let imageData = false
 
   if (image?.fields) {
     imageData = image.fields.file
@@ -63,15 +63,17 @@ const image = (args = {}, parents = []) => {
       attr: card ? 'data-scale' : ''
     })
 
+    let classes = 'l-relative l-overflow-hidden'
+
     if (aspectRatio) {
-      let classes = `l-relative l-overflow-hidden l-aspect-ratio-${aspectRatio}`
-
-      if (card) {
-        classes += ' l-after bg-gradient'
-      }
-
-      imageOutput = `<div class="${classes}">${imageOutput}</div>`
+      classes += ` l-aspect-ratio-${aspectRatio}`
     }
+
+    if (card) {
+      classes += ' l-after bg-gradient'
+    }
+
+    imageOutput = `<div class="${classes}">${imageOutput}</div>`
   }
 
   /* Card wrapper */

@@ -87,7 +87,6 @@ const optionValues = {
   },
   maxWidth: {
     None: '',
-    '100%': 'width-1-1',
     '1300px': 'container',
     '1040px': 'container-m',
     '650px': 'container-s'
@@ -106,6 +105,8 @@ const optionValues = {
   },
   gap: {
     None: '',
+    Default: '',
+    '5px': '5xs',
     '10px': '4xs',
     '15px': '3xs',
     '20px': '2xs',
@@ -148,11 +149,17 @@ const optionValues = {
       Genre: 'genre'
     },
     headingLevel: {
-      'Heading Two': 'h2',
-      'Heading Three': 'h3',
-      'Heading Four': 'h4',
-      'Heading Five': 'h5',
-      'Heading Six': 'h6'
+      'Heading Two': 'heading-2',
+      'Heading Three': 'heading-3',
+      'Heading Four': 'heading-4',
+      'Heading Five': 'heading-5',
+      'Heading Six': 'heading-6'
+    },
+    layout: {
+      project: 'card',
+      projectType: 'card',
+      track: 'table-grid',
+      genre: 'card'
     }
   }
 }

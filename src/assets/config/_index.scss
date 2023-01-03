@@ -99,11 +99,9 @@ $gaps: (
 
   $breakpoints: (
     "0": 0px,
-    "xs": 400px,
     "s": 600px,
-    "m": 820px,
-    "l": 1000px,
-    "xl": 1200px,
+    "m": 900px,
+    "l": 1200px,
   ),
 
   /* Spacing */
@@ -127,7 +125,7 @@ $gaps: (
 
   $padding-top: $padding-vertical,
   $padding-bottom: $padding-vertical,
-  $padding-vertical-breakpoints: ("l"),
+  $padding-vertical-breakpoints: ("m"),
 
   $padding-left: $padding-horizontal,
   $padding-right: $padding-horizontal,
@@ -136,7 +134,7 @@ $gaps: (
 
   $margin-bottom: $gaps,
   $margin-bottom-all: $gaps,
-  $margin-vertical-breakpoints: ("l"),
+  $margin-vertical-breakpoints: ("m"),
 
   /* Aspect ratios */
 
