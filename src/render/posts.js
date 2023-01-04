@@ -202,16 +202,76 @@ const posts = async (args = {}, parents = [], pageData = {}) => {
 
   if (pagination && pageData?.fields?.pagination && totalPages > 1) {
     const current = pageData.fields.pagination.current
+    const classes = 'l-height-s l-width-s l-height-m-s l-width-m-s l-flex l-align-center l-justify-center t-weight-medium t-m b-radius-s t-background-light'
 
-    paginationOutput += '<nav aria-label="Pagination">'
-    paginationOutput += '<ol class="t-list-style-none l-flex" role="list">'
+    /* Containing output */
 
-    for (let i = 1; i <= totalPages; i++) {
+    paginationOutput += '<nav class="l-padding-top-xl l-padding-top-2xl-m" aria-label="Pagination">'
+    paginationOutput += '<ol class="t-list-style-none l-flex l-justify-center l-gap-margin-4xs l-gap-margin-3xs-s t-number-normal" role="list">'
+
+    /* Loop variables */
+
+    let start = current < 4 ? 1 : current - 2
+
+    if (start > totalPages - 4) {
+      start = totalPages - 4
+    }
+
+    let length = start + 4
+
+    if (length > totalPages) {
+      length = totalPages
+    }
+
+    /* Max width */
+
+    let totalListItems = 7
+
+    if (current >= 4) {
+      totalListItems += 1
+    }
+
+    if (current < totalPages - 2) {
+      totalListItems += 1
+    }
+
+    const maxWidth = ` style="max-width:calc(${Math.round(100 / totalListItems)}vw - ${(130 / totalListItems / 16).toFixed(2)}rem)"`
+
+    /* Prev */
+
+    const prevIcon = ''
+
+    let prevLink = `<span class="${classes} b-all"${maxWidth}>${prevIcon}</span>`
+
+    if (current > 1) {
+      prevLink = `
+        <a
+          class="${classes} b-all e-transition e-b-solid"
+          href="${pageData.fields.basePermalink}${current > 2 ? `page/${current - 1}` : ''}"
+          aria-label="Previous page"
+          ${maxWidth}
+        >
+          ${prevIcon}
+        </a>
+      `
+    }
+
+    paginationOutput += `<li>${prevLink}</li>`
+
+    /* Ellipsis */
+
+    if (current >= 4) {
+      paginationOutput += `<li aria-hidden="true"><span class="${classes} b-all"${maxWidth}>&hellip;</span></li>`
+    }
+
+    /* Items loop */
+
+    for (let i = start; i <= length; i++) {
       let content = ''
 
       if (i === current) {
         content = `
-          <span>
+          <span class="${classes} bg-background-light-35"${maxWidth}>
             <span class="a11y-visually-hidden">Current page </span>
             ${i}
           </span>
@@ -220,7 +280,7 @@ const posts = async (args = {}, parents = [], pageData = {}) => {
         const link = i === 1 ? pageData.fields.basePermalink : `${pageData.fields.basePermalink}page/${i}`
 
         content = `
-          <a href="${link}">
+          <a class="${classes} b-all e-transition e-b-solid" href="${link}"${maxWidth}>
             <span class="a11y-visually-hidden">Page </span>
             ${i}
           </a>
@@ -229,6 +289,35 @@ const posts = async (args = {}, parents = [], pageData = {}) => {
 
       paginationOutput += `<li class="l-relative">${content}</li>`
     }
+
+    /* Ellipsis */
+
+    if (current < totalPages - 2) {
+      paginationOutput += `<li aria-hidden="true"><span class="${classes} b-all"${maxWidth}>&hellip;</span></li>`
+    }
+
+    /* Next */
+
+    const nextIcon = ''
+
+    let nextLink = `<span class="${classes} b-all"${maxWidth}>${nextIcon}</span>`
+
+    if (current < totalPages) {
+      nextLink = `
+        <a
+          class="${classes} b-all e-transition e-b-solid"
+          href="${pageData.fields.basePermalink}page/${current + 1}"
+          aria-label="Next page"
+          ${maxWidth}
+        >
+          ${nextIcon}
+        </a>
+      `
+    }
+
+    paginationOutput += `<li>${nextLink}</li>`
+
+    /* Containing output */
 
     paginationOutput += '</ol>'
     paginationOutput += '</nav>'

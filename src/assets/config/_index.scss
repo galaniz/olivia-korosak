@@ -152,19 +152,27 @@ $gaps: (
   ),
 
   $widths: (
+    "s",
     "m",
     "l",
   ),
 
+  $width-breakpoints: ("s"),
+
+  /* Heights */
+
   $heights: (
+    "s",
     "m",
     "l",
   ),
+
+  $height-breakpoints: ("s"),
 
   /* Gaps */
 
   $gaps: $gaps,
-  $gap-breakpoints: ("m", "l"),
+  $gap-breakpoints: ("s", "m", "l"),
 
   /* Containers */
 
