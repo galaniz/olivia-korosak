@@ -53,6 +53,10 @@ const posts = async (args = {}, parents = [], pageData = {}) => {
     limit: display
   }
 
+  if (type === 'project') {
+    queryArgs['fields.type.sys.id'] = '4B5la2l5Uc4tXjdAIff5up'
+  }
+
   if (pageData?.fields?.pagination?.filters) {
     filters = filters.concat(pageData.fields.pagination.filters)
   }
@@ -211,13 +215,22 @@ const posts = async (args = {}, parents = [], pageData = {}) => {
 
     /* Loop variables */
 
-    let start = current < 4 ? 1 : current - 2
+    const max = 4
+    const half = 2
+    const center = totalPages > max
+    const limit = center ? max : totalPages - 1
 
-    if (start > totalPages - 4) {
-      start = totalPages - 4
+    let start = 1
+
+    if (center) {
+      start = current < 4 ? 1 : current - half
     }
 
-    let length = start + 4
+    if (start > totalPages - limit) {
+      start = totalPages - limit
+    }
+
+    let length = start + limit
 
     if (length > totalPages) {
       length = totalPages
@@ -225,13 +238,13 @@ const posts = async (args = {}, parents = [], pageData = {}) => {
 
     /* Max width */
 
-    let totalListItems = 7
+    let totalListItems = limit
 
-    if (current >= 4) {
+    if (center && current >= limit) {
       totalListItems += 1
     }
 
-    if (current < totalPages - 2) {
+    if (center && current < totalPages - half) {
       totalListItems += 1
     }
 
@@ -260,7 +273,7 @@ const posts = async (args = {}, parents = [], pageData = {}) => {
 
     /* Ellipsis */
 
-    if (current >= 4) {
+    if (center && current >= limit) {
       paginationOutput += `<li aria-hidden="true"><span class="${classes} b-all"${maxWidth}>&hellip;</span></li>`
     }
 
@@ -292,7 +305,7 @@ const posts = async (args = {}, parents = [], pageData = {}) => {
 
     /* Ellipsis */
 
-    if (current < totalPages - 2) {
+    if (center && current < totalPages - half) {
       paginationOutput += `<li aria-hidden="true"><span class="${classes} b-all"${maxWidth}>&hellip;</span></li>`
     }
 
