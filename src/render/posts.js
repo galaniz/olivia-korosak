@@ -8,8 +8,11 @@
 
 /* Imports */
 
+const EleventyFetch = require('@11ty/eleventy-fetch')
+const resolveResponse = require('contentful-resolve-response')
+const escape = require('validator/lib/escape.js')
+const { getContentfulUrl } = require('../utils/contentful')
 const { optionValues } = require('../utils/constants')
-const contentfulClient = require('../utils/contentful-client')
 const container = require('./container')
 const column = require('./column')
 const card = require('./card')
@@ -19,7 +22,7 @@ const richText = require('./rich-text')
 
 /* Function */
 
-const posts = async (args = {}, parents = [], pageData = {}) => {
+const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => {
   let {
     type = 'Project', // optionValues.posts.type
     display = 1,
@@ -36,29 +39,24 @@ const posts = async (args = {}, parents = [], pageData = {}) => {
   /* Type required */
 
   if (!type) {
-    return {
-      output: '',
-      archives: []
-    }
+    return ''
   }
 
   /* Layout */
 
   const layout = optionValues.posts.layout[type]
 
-  /* Query */
+  /* Current for pagination */
+
+  let current = 1
+  let paginationFilters = ''
+
+  /* Query prep */
 
   const queryArgs = {
     content_type: type,
-    limit: display
-  }
-
-  if (type === 'project') {
-    queryArgs['fields.type.sys.id'] = '4B5la2l5Uc4tXjdAIff5up'
-  }
-
-  if (pageData?.fields?.pagination?.filters) {
-    filters = filters.concat(pageData.fields.pagination.filters)
+    limit: display,
+    include: 2
   }
 
   if (filters.length) {
@@ -71,294 +69,359 @@ const posts = async (args = {}, parents = [], pageData = {}) => {
     })
   }
 
-  const p = await contentfulClient.getEntries(queryArgs)
+  if (serverlessData) {
+    if (serverlessData?.query?.page) {
+      current = parseInt(escape(serverlessData.query.page))
 
-  /* Query output */
+      if (current) {
+        queryArgs.skip = display * (current - 1)
+      }
+    }
 
-  let output = []
+    if (serverlessData?.query?.filters) {
+      paginationFilters = `filters=${serverlessData.query.filters}`
 
-  if (p?.items) {
-    const items = p.items
+      try {
+        const urlFilters = decodeURI(serverlessData.query.filters).split('|')
 
-    items.forEach(item => {
-      const {
-        title = '',
-        heroImage = false
-      } = item.fields
+        if (urlFilters.length) {
+          urlFilters.forEach(filter => {
+            const filterArray = filter.split(',')
 
-      /* Item output */
+            if (filterArray.length) {
+              const prop = filterArray[0]
+              const value = filterArray[1]
 
-      let itemOutput = ''
-
-      if (layout === 'card') {
-        const containers = {
-          column: column({
-            tag: 'List Item',
-            widthSmall: '1/2',
-            widthMedium: '1/3',
-            widthLarge: '1/4'
-          }),
-          content: content({
-            gap: '15px'
-          }),
-          card: card({
-            gap: '5px',
-            gapLarge: '10px'
+              queryArgs[prop] = escape(value)
+            }
           })
         }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  }
 
-        itemOutput += image(
-          {
-            image: heroImage
-          },
-          [
+  console.log('QUERY_ARGS', current, queryArgs, serverlessData)
+
+  /* Query and output */
+
+  try {
+    const p = await EleventyFetch(
+      getContentfulUrl({
+        params: queryArgs
+      }),
+      {
+        duration: '1d',
+        type: 'json'
+      }
+    )
+
+    let output = []
+
+    if (p?.items) {
+      const items = resolveResponse(p)
+
+      items.forEach(item => {
+        const {
+          title = '',
+          heroImage = false
+        } = item.fields
+
+        /* Item output */
+
+        let itemOutput = ''
+
+        if (layout === 'card') {
+          const containers = {
+            column: column({
+              tag: 'List Item',
+              widthSmall: '1/2',
+              widthMedium: '1/3',
+              widthLarge: '1/4'
+            }),
+            content: content({
+              gap: '15px'
+            }),
+            card: card({
+              gap: '5px',
+              gapLarge: '10px'
+            })
+          }
+
+          itemOutput += image(
             {
-              type: 'card'
-            }
-          ]
-        )
-
-        itemOutput += (
-          containers.content.start +
-          richText(
-            headingLevel,
+              image: heroImage
+            },
             [
               {
-                nodeType: 'text',
-                value: title
-              }
-            ],
-            [
-              {
-                type: 'content',
-                fields: {
-                  textStyle: 'Extra Small',
-                  headingStyle: 'Heading Four'
-                }
-              },
-              {
-                type: 'card',
-                fields: {
-                  internalLink: item
-                }
+                type: 'card'
               }
             ]
-          ) +
-          containers.content.end
-        )
+          )
 
-        itemOutput = (
-          containers.column.start +
-          containers.card.start +
-          itemOutput +
-          containers.card.end +
-          containers.column.end
-        )
-      }
+          itemOutput += (
+            containers.content.start +
+            richText(
+              headingLevel,
+              [
+                {
+                  nodeType: 'text',
+                  value: title
+                }
+              ],
+              [
+                {
+                  type: 'content',
+                  fields: {
+                    textStyle: 'Extra Small',
+                    headingStyle: 'Heading Four'
+                  }
+                },
+                {
+                  type: 'card',
+                  fields: {
+                    internalLink: item
+                  }
+                }
+              ]
+            ) +
+            containers.content.end
+          )
 
-      if (itemOutput) {
-        output.push(itemOutput)
-      }
-    })
-  }
-
-  /* Pagination data */
-
-  const pages = []
-  const total = p.total
-  const totalPages = Math.round(total / display)
-
-  if (pagination && !pageData?.fields?.pagination && totalPages > 1) {
-    for (let i = 1; i <= totalPages; i++) {
-      if (i === 1) {
-        pageData.fields.pagination = {
-          current: i,
-          next: i + 1
+          itemOutput = (
+            containers.column.start +
+            containers.card.start +
+            itemOutput +
+            containers.card.end +
+            containers.column.end
+          )
         }
 
-        continue
-      }
-
-      /* Copy item */
-
-      const pageDataCopy = structuredClone(pageData)
-
-      /* Add data */
-
-      pageDataCopy.fields.metaTitle = `${pageDataCopy.fields.title} | Page ${i} of ${totalPages}`
-
-      pageDataCopy.fields.pagination = {
-        current: i,
-        next: i + 1 <= totalPages ? i + 1 : 0,
-        prev: i - 1,
-        filters: [
-          `skip:${display * (i - 1)}`
-        ]
-      }
-
-      pages.push(pageDataCopy)
-    }
-  }
-
-  /* Pagination output */
-
-  let paginationOutput = ''
-
-  if (pagination && pageData?.fields?.pagination && totalPages > 1) {
-    const current = pageData.fields.pagination.current
-    const classes = 'l-height-s l-width-s l-height-m-s l-width-m-s l-flex l-align-center l-justify-center t-weight-medium t-m b-radius-s t-background-light'
-
-    /* Containing output */
-
-    paginationOutput += '<nav class="l-padding-top-xl l-padding-top-2xl-m" aria-label="Pagination">'
-    paginationOutput += '<ol class="t-list-style-none l-flex l-justify-center l-gap-margin-4xs l-gap-margin-3xs-s t-number-normal" role="list">'
-
-    /* Loop variables */
-
-    const max = 4
-    const half = 2
-    const center = totalPages > max
-    const limit = center ? max : totalPages - 1
-
-    let start = 1
-
-    if (center) {
-      start = current < 4 ? 1 : current - half
+        if (itemOutput) {
+          output.push(itemOutput)
+        }
+      })
     }
 
-    if (start > totalPages - limit) {
-      start = totalPages - limit
-    }
+    /* Pagination data and output */
 
-    let length = start + limit
+    const total = p.total
+    const totalPages = Math.round(total / display)
 
-    if (length > totalPages) {
-      length = totalPages
-    }
+    let paginationOutput = ''
+    let prevPaginationFilters = paginationFilters
+    let nextPaginationFilters = paginationFilters
+    let currentPaginationFilters = paginationFilters
 
-    /* Max width */
-
-    let totalListItems = limit
-
-    if (center && current >= limit) {
-      totalListItems += 1
-    }
-
-    if (center && current < totalPages - half) {
-      totalListItems += 1
-    }
-
-    const maxWidth = ` style="max-width:calc(${Math.round(100 / totalListItems)}vw - ${(130 / totalListItems / 16).toFixed(2)}rem)"`
-
-    /* Prev */
-
-    const prevIcon = ''
-
-    let prevLink = `<span class="${classes} b-all"${maxWidth}>${prevIcon}</span>`
-
-    if (current > 1) {
-      prevLink = `
-        <a
-          class="${classes} b-all e-transition e-b-solid"
-          href="${pageData.fields.basePermalink}${current > 2 ? `page/${current - 1}` : ''}"
-          aria-label="Previous page"
-          ${maxWidth}
-        >
-          ${prevIcon}
-        </a>
-      `
-    }
-
-    paginationOutput += `<li>${prevLink}</li>`
-
-    /* Ellipsis */
-
-    if (center && current >= limit) {
-      paginationOutput += `<li aria-hidden="true"><span class="${classes} b-all"${maxWidth}>&hellip;</span></li>`
-    }
-
-    /* Items loop */
-
-    for (let i = start; i <= length; i++) {
-      let content = ''
-
-      if (i === current) {
-        content = `
-          <span class="${classes} bg-background-light-35"${maxWidth}>
-            <span class="a11y-visually-hidden">Current page </span>
-            ${i}
-          </span>
-        `
+    if (paginationFilters) {
+      if (current > 2) {
+        prevPaginationFilters = `&${prevPaginationFilters}`
       } else {
-        const link = i === 1 ? pageData.fields.basePermalink : `${pageData.fields.basePermalink}page/${i}`
+        prevPaginationFilters = `?${prevPaginationFilters}`
+      }
 
-        content = `
-          <a class="${classes} b-all e-transition e-b-solid" href="${link}"${maxWidth}>
-            <span class="a11y-visually-hidden">Page </span>
-            ${i}
+      nextPaginationFilters = `&${paginationFilters}`
+
+      if (current === 1) {
+        currentPaginationFilters = `?${currentPaginationFilters}`
+      } else {
+        currentPaginationFilters = `&${currentPaginationFilters}`
+      }
+    }
+
+    if (pagination && totalPages > 1) {
+      /* Pagination data for head */
+
+      pageData.fields.archive = true
+
+      if (current === 1) {
+        pageData.fields.pagination = {
+          current,
+          next: current + 1,
+          nextFilters: nextPaginationFilters,
+          currentFilters: currentPaginationFilters
+        }
+      } else {
+        pageData.fields.metaTitle = `${pageData.fields.title} | Page ${current} of ${totalPages}`
+
+        pageData.fields.pagination = {
+          current,
+          next: current + 1 <= totalPages ? current + 1 : 0,
+          prev: current - 1,
+          nextFilters: nextPaginationFilters,
+          prevFilters: prevPaginationFilters,
+          currentFilters: currentPaginationFilters
+        }
+      }
+
+      /* Pagination output */
+
+      const classes = 'l-height-s l-width-s l-height-m-s l-width-m-s l-flex l-align-center l-justify-center t-weight-medium t-m b-radius-s t-background-light'
+
+      /* Containing output */
+
+      paginationOutput += '<nav class="l-padding-top-xl l-padding-top-2xl-m" aria-label="Pagination">'
+      paginationOutput += '<ol class="t-list-style-none l-flex l-justify-center l-gap-margin-4xs l-gap-margin-3xs-s t-number-normal" role="list">'
+
+      /* Loop variables */
+
+      const max = 4
+      const half = 2
+      const center = totalPages > max
+      const limit = center ? max : totalPages - 1
+
+      let start = 1
+
+      if (center) {
+        start = current < 4 ? 1 : current - half
+      }
+
+      if (start > totalPages - limit) {
+        start = totalPages - limit
+      }
+
+      let length = start + limit
+
+      if (length > totalPages) {
+        length = totalPages
+      }
+
+      /* Max width */
+
+      let totalListItems = limit
+
+      if (center && current >= limit) {
+        totalListItems += 1
+      }
+
+      if (center && current < totalPages - half) {
+        totalListItems += 1
+      }
+
+      const maxWidth = ` style="max-width:calc(${Math.round(100 / totalListItems)}vw - ${(130 / totalListItems / 16).toFixed(2)}rem)"`
+
+      /* Prev */
+
+      const prevIcon = ''
+
+      let prevLink = `<span class="${classes} b-all"${maxWidth}>${prevIcon}</span>`
+
+      if (current > 1) {
+        prevLink = `
+          <a
+            class="${classes} b-all e-transition e-b-solid"
+            href="${pageData.fields.basePermalink}${current > 2 ? `?page=${current - 1}` : ''}${prevPaginationFilters}"
+            aria-label="Previous page"
+            ${maxWidth}
+          >
+            ${prevIcon}
           </a>
         `
       }
 
-      paginationOutput += `<li class="l-relative">${content}</li>`
+      paginationOutput += `<li>${prevLink}</li>`
+
+      /* Ellipsis */
+
+      if (center && current >= limit) {
+        paginationOutput += `<li aria-hidden="true"><span class="${classes} b-all"${maxWidth}>&hellip;</span></li>`
+      }
+
+      /* Items loop */
+
+      for (let i = start; i <= length; i++) {
+        let content = ''
+
+        if (i === current) {
+          content = `
+            <span class="${classes} bg-background-light-35"${maxWidth}>
+              <span class="a11y-visually-hidden">Current page </span>
+              ${i}
+            </span>
+          `
+        } else {
+          const link = i === 1 ? pageData.fields.basePermalink : `${pageData.fields.basePermalink}?page=${i}`
+
+          let currPaginationFilters = paginationFilters
+
+          if (paginationFilters) {
+            if (i === 1) {
+              currPaginationFilters = `?${currPaginationFilters}`
+            } else {
+              currPaginationFilters = `&${currPaginationFilters}`
+            }
+          }
+
+          content = `
+            <a class="${classes} b-all e-transition e-b-solid" href="${link}${currPaginationFilters}"${maxWidth}>
+              <span class="a11y-visually-hidden">Page </span>
+              ${i}
+            </a>
+          `
+        }
+
+        paginationOutput += `<li class="l-relative">${content}</li>`
+      }
+
+      /* Ellipsis */
+
+      if (center && current < totalPages - half) {
+        paginationOutput += `<li aria-hidden="true"><span class="${classes} b-all"${maxWidth}>&hellip;</span></li>`
+      }
+
+      /* Next */
+
+      const nextIcon = ''
+
+      let nextLink = `<span class="${classes} b-all"${maxWidth}>${nextIcon}</span>`
+
+      if (current < totalPages) {
+        nextLink = `
+          <a
+            class="${classes} b-all e-transition e-b-solid"
+            href="${pageData.fields.basePermalink}?page=${current + 1}${nextPaginationFilters}"
+            aria-label="Next page"
+            ${maxWidth}
+          >
+            ${nextIcon}
+          </a>
+        `
+      }
+
+      paginationOutput += `<li>${nextLink}</li>`
+
+      /* Containing output */
+
+      paginationOutput += '</ol>'
+      paginationOutput += '</nav>'
     }
 
-    /* Ellipsis */
+    /* Output */
 
-    if (center && current < totalPages - half) {
-      paginationOutput += `<li aria-hidden="true"><span class="${classes} b-all"${maxWidth}>&hellip;</span></li>`
+    output = output.length ? output.join('') : ''
+
+    if (layout === 'card') {
+      const insertContainer = container({
+        tag: 'Unordered List',
+        layout: 'Row',
+        gap: '40px',
+        className: 'l-gap-margin-xl-v-s'
+      })
+
+      output = (
+        insertContainer.start +
+        output +
+        insertContainer.end +
+        paginationOutput
+      )
     }
 
-    /* Next */
+    return output
+  } catch (e) {
+    console.error(e)
 
-    const nextIcon = ''
-
-    let nextLink = `<span class="${classes} b-all"${maxWidth}>${nextIcon}</span>`
-
-    if (current < totalPages) {
-      nextLink = `
-        <a
-          class="${classes} b-all e-transition e-b-solid"
-          href="${pageData.fields.basePermalink}page/${current + 1}"
-          aria-label="Next page"
-          ${maxWidth}
-        >
-          ${nextIcon}
-        </a>
-      `
-    }
-
-    paginationOutput += `<li>${nextLink}</li>`
-
-    /* Containing output */
-
-    paginationOutput += '</ol>'
-    paginationOutput += '</nav>'
-  }
-
-  /* Output */
-
-  output = output.length ? output.join('') : ''
-
-  if (layout === 'card') {
-    const insertContainer = container({
-      tag: 'Unordered List',
-      layout: 'Row',
-      gap: '40px',
-      className: 'l-gap-margin-xl-v-s'
-    })
-
-    output = (
-      insertContainer.start +
-      output +
-      insertContainer.end +
-      paginationOutput
-    )
-  }
-
-  return {
-    output,
-    pages
+    return ''
   }
 }
 

@@ -4,6 +4,7 @@
 
 /* Imports */
 
+const store = require('../data/store.json')
 const button = require('../render/button')
 const card = require('../render/card')
 const column = require('../render/column')
@@ -20,6 +21,7 @@ const hero = require('../render/hero')
 const gradients = require('../render/gradients')
 const { getSlug, getPermalink } = require('./functions')
 const { contentTypes, slugParents } = require('./constants')
+const { writeFile } = require('fs')
 
 /* Navigations params */
 
@@ -28,13 +30,17 @@ const _nav = {
   items: []
 }
 
-/* Store pagination page data */
+/* Store item data by slug */
 
-let _paginationPages = []
+const dataBySlug = {}
+
+/* Store serverless object */
+
+let _serverlessData = false
 
 /* Recurse and render nested content */
 
-const _getContent = async (cc = [], output = {}, parents = [], pageData = {}) => {
+const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, serverlessData) => {
   if (Array.isArray(cc) && cc.length) {
     for (let i = 0; i < cc.length; i++) {
       let c = cc[i]
@@ -106,14 +112,7 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}) =>
           renderObj.start = image(fields, parents)
           break
         case 'posts': {
-          const p = await posts(fields, parents, pageData)
-
-          renderObj.start = p.output
-
-          if (p.pages) {
-            _paginationPages = _paginationPages.concat(p.pages)
-          }
-
+          renderObj.start = await posts(fields, parents, pageData, serverlessData)
           break
         }
         case 'testimonial':
@@ -141,7 +140,8 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}) =>
           children,
           output,
           parentsCopy,
-          pageData
+          pageData,
+          serverlessData
         )
       }
 
@@ -159,6 +159,14 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}) =>
 /* Set content item fields */
 
 const _setItem = async (item = {}, contentType = 'page') => {
+  /* Template */
+
+  let template = 'index'
+
+  if (contentType === 'projectType' || contentType === 'genre') {
+    template = 'archive'
+  }
+
   /* Item data */
 
   const data = {}
@@ -207,14 +215,11 @@ const _setItem = async (item = {}, contentType = 'page') => {
     returnParents: true
   }
 
-  if (fields.pagination) {
-    slugArgs.page = fields.pagination.current > 1 ? fields.pagination.current : 0
-  }
-
   const s = getSlug(slugArgs)
 
   data.slug = s.slug
   data.permalink = getPermalink(s.slug)
+  data.canonical = data.permalink
 
   item.fields.basePermalink = getPermalink(
     getSlug({
@@ -222,6 +227,13 @@ const _setItem = async (item = {}, contentType = 'page') => {
       slug: fields.slug
     })
   )
+
+  /* Add to data by slug store */
+
+  dataBySlug[`/${data.slug}/`] = {
+    id: item.sys.id,
+    contentType
+  }
 
   /* Navigations */
 
@@ -257,28 +269,58 @@ const _setItem = async (item = {}, contentType = 'page') => {
     contentData = contentData.content
   }
 
+  let serverlessData = false
+
+  if (_serverlessData) {
+    if (_serverlessData?.path && _serverlessData?.query) {
+      if (_serverlessData.path === `/${data.slug}/`) {
+        serverlessData = _serverlessData
+      } else { // Avoid re-rendering non dynamic pages
+        return {
+          template,
+          data: false
+        }
+      }
+    }
+  }
+
   if (Array.isArray(contentData) && contentData.length) {
     await _getContent(
       contentData,
       contentOutput,
       [],
-      item
+      item,
+      serverlessData
     )
   }
 
   data.content += contentOutput.html
+
+  /* Archive - end for update from posts */
+
+  const isArchive = item?.fields?.archive ? item.fields.archive : false
+
+  if (contentType === 'page' && isArchive) {
+    template = 'archive'
+  }
 
   /* Prev next pagination - end for pagination update from posts */
 
   if (item?.fields?.pagination) {
     const pagination = item.fields.pagination
 
+    slugArgs.page = pagination.current > 1 ? pagination.current : 0
+
+    const c = getSlug(slugArgs)
+
+    data.canonical = getPermalink(c.slug, pagination.current === 1) + pagination.currentFilters
+
     if (pagination?.prev) {
       slugArgs.page = pagination.prev > 1 ? pagination.prev : 0
 
       const p = getSlug(slugArgs)
 
-      data.prev = getPermalink(p.slug)
+      data.prev = getPermalink(p.slug, pagination.prev === 1) + pagination.prevFilters
     }
 
     if (pagination?.next) {
@@ -287,19 +329,26 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
         const n = getSlug(slugArgs)
 
-        data.next = getPermalink(n.slug)
+        data.next = getPermalink(n.slug, false) + pagination.nextFilters
       }
     }
   }
 
   /* Output */
 
-  return data
+  return {
+    template,
+    data
+  }
 }
 
 /* Set content and navigation output */
 
-const setData = async ({ content = {}, navs = [], navItems = [] }) => {
+const setData = async ({ content = {}, navs = [], navItems = [], serverlessData }) => {
+  /* Store serverless data */
+
+  _serverlessData = serverlessData
+
   /* Store navigations and items */
 
   _nav.navs = navs
@@ -307,40 +356,66 @@ const setData = async ({ content = {}, navs = [], navItems = [] }) => {
 
   /* Store content data */
 
-  const data = []
+  const data = {
+    index: [],
+    archive: []
+  }
 
   /* Loop through pages first to set parent slugs */
 
-  content.page.forEach(item => {
-    const {
-      slug = '',
-      parent = false
-    } = item.fields
+  if (!serverlessData) {
+    content.page.forEach(item => {
+      const {
+        slug = '',
+        parent = false
+      } = item.fields
 
-    if (parent) {
-      slugParents[slug] = {
-        slug: parent.fields.slug,
-        title: parent.fields.title
+      if (parent) {
+        if (parent.fields?.slug && parent.fields?.title) {
+          slugParents[slug] = {
+            slug: parent.fields.slug,
+            title: parent.fields.title
+          }
+        }
+      }
+    })
+
+    dataBySlug.slugParents = slugParents
+  } else {
+    if (store?.slugParents) {
+      for (const s in store.slugParents) {
+        slugParents[s] = store.slugParents[s]
       }
     }
-  })
+  }
 
   /* Loop through all content types */
 
   for (const contentType in content) {
     for (let i = 0; i < content[contentType].length; i++) {
-      const item = content[contentType][i]
+      const item = await _setItem(content[contentType][i], contentType)
 
-      data.push(await _setItem(item, contentType))
+      const {
+        template = 'index',
+        data: itemData
+      } = item
+
+      if (itemData) {
+        data[template].push(itemData)
+      }
     }
   }
 
-  /* Pagination pages */
+  /* Write data by slug to json file */
 
-  if (_paginationPages.length) {
-    for (let i = 0; i < _paginationPages.length; i++) {
-      data.push(await _setItem(_paginationPages[i]))
-    }
+  if (!serverlessData) {
+    writeFile('./src/data/store.json', JSON.stringify(dataBySlug, null, 2), (error) => {
+      if (error) {
+        console.log('An error has occurred writing store.json ', error)
+        return
+      }
+      console.log('Store.json written successfully to disk')
+    })
   }
 
   /* Output */

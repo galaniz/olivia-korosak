@@ -1,5 +1,8 @@
 node_modules/
 site/
-assets/public/
 package-lock.json
+src/data/store.json
+netlify/functions/serverless/**
+!netlify/functions/serverless/index.js
 .DS_Store
+.cache

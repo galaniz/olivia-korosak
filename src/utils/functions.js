@@ -56,7 +56,7 @@ const getSlug = ({
 
   /* Slug */
 
-  const s = `${p}${slugBase}${slugBase ? '/' : ''}${slug}${page ? `/page/${page}` : ''}`
+  const s = `${p}${slugBase}${slugBase ? '/' : ''}${slug}${page ? `/?page=${page}` : ''}`
 
   /* Parents and slug return */
 
@@ -78,7 +78,7 @@ const getSlug = ({
 
 /* Return absolute url */
 
-const getPermalink = (slug = '') => {
+const getPermalink = (slug = '', trailingSlash = true) => {
   const context = process.env.CONTEXT
 
   let url = urls.local
@@ -95,7 +95,7 @@ const getPermalink = (slug = '') => {
     url = '/'
   }
 
-  return `${url}${slug}${slug ? '/' : ''}`
+  return `${url}${slug}${slug && trailingSlash ? '/' : ''}`
 }
 
 /* Get file as string */

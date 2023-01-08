@@ -10,22 +10,20 @@ const contentful = require('contentful')
 
 const env = process.env
 const context = env.CONTEXT
+const space = env.CTFL_SPACE_ID
 
-const config = {
-  space: env.CTFL_SPACE_ID,
-  accessToken: env.CTFL_CPA_TOKEN,
-  host: 'preview.contentful.com'
-}
+let accessToken = env.CTFL_CPA_TOKEN
+let host = 'preview.contentful.com'
 
 if (context === 'production' || context === 'branch-deploy') {
-  config.accessToken = process.env.CTFL_CDA_TOKEN
-  config.host = 'cdn.contentful.com'
+  accessToken = env.CTFL_CDA_TOKEN
+  host = 'cdn.contentful.com'
 }
 
 const contentfulClient = contentful.createClient({
-  space: config.space,
-  accessToken: config.accessToken,
-  host: config.host
+  space,
+  accessToken,
+  host
 })
 
 /* Exports */

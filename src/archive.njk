@@ -1,10 +1,12 @@
 ---
 layout: layout.njk
 pagination:
-  data: contentful.index
+  data: contentful.archive
   size: 1
   alias: ctfl
-permalink: "/{{ ctfl.slug }}/"
+permalink:
+  build: "/{{ ctfl.slug }}/"
+  serverless: "/{{ ctfl.slug }}/"
 ---
 
 {% include ('./includes/header.njk') %}

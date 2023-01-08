@@ -4,32 +4,58 @@
 
 /* Imports */
 
-const contentfulClient = require('../utils/contentful-client')
+const EleventyFetch = require('@11ty/eleventy-fetch')
+const resolveResponse = require('contentful-resolve-response')
+const store = require('./store.json')
 const setData = require('../utils/set-data')
+const { getContentfulUrl } = require('../utils/contentful')
 
 /* Get content + navigations */
 
-module.exports = async () => {
+module.exports = async (eleventyData) => {
+  /* Serverless data */
+
+  const serverlessData = eleventyData?.serverlessData?.query && eleventyData?.serverlessData?.path ? eleventyData.serverlessData : false
+
+  console.log('SERVERLESS_DATA', serverlessData)
+
+  /* Contentful queries */
+
+  const fetchArgs = {
+    duration: '1d',
+    type: 'json'
+  }
+
   try {
     /* Navigation data */
 
     let navs = []
     let navItems = []
 
-    const navigations = await contentfulClient.getEntries({
-      content_type: 'navigation'
-    })
+    const navigations = await EleventyFetch(
+      getContentfulUrl({
+        params: {
+          content_type: 'navigation'
+        }
+      }),
+      fetchArgs
+    )
 
     if (navigations?.items) {
-      navs = navigations.items
+      navs = resolveResponse(navigations)
     }
 
-    const navigationItems = await contentfulClient.getEntries({
-      content_type: 'navigationItem'
-    })
+    const navigationItems = await EleventyFetch(
+      getContentfulUrl({
+        params: {
+          content_type: 'navigationItem'
+        }
+      }),
+      fetchArgs
+    )
 
     if (navigationItems?.items) {
-      navItems = navigationItems.items
+      navItems = resolveResponse(navigationItems)
     }
 
     /* Content data */
@@ -42,69 +68,127 @@ module.exports = async () => {
       genre: []
     }
 
-    /* Pages */
+    let entry = false
 
-    const pages = await contentfulClient.getEntries({
-      content_type: 'page',
-      include: 10
-    })
+    if (serverlessData) {
+      if (store?.[serverlessData.path]) {
+        const item = store[serverlessData.path]
 
-    if (pages?.items) {
-      content.page = pages.items
+        const id = item.id
+        const type = item.contentType
+
+        entry = await EleventyFetch(
+          getContentfulUrl({
+            params: {
+              'sys.id': id,
+              include: 2
+            }
+          }),
+          fetchArgs
+        )
+
+        if (entry?.items) {
+          content[type] = resolveResponse(entry)
+        }
+      }
     }
 
-    /* Projects */
+    if (!serverlessData || !entry) {
+      /* Pages */
 
-    const projects = await contentfulClient.getEntries({
-      content_type: 'project'
-    })
+      const pages = await EleventyFetch(
+        getContentfulUrl({
+          params: {
+            content_type: 'page',
+            include: 2
+          }
+        }),
+        fetchArgs
+      )
 
-    if (projects?.items) {
-      content.project = projects.items
-    }
+      if (pages?.items) {
+        content.page = resolveResponse(pages)
+      }
 
-    /* Tracks */
+      /* Projects */
 
-    const tracks = await contentfulClient.getEntries({
-      content_type: 'track'
-    })
+      const projects = await EleventyFetch(
+        getContentfulUrl({
+          params: {
+            content_type: 'project'
+          }
+        }),
+        fetchArgs
+      )
 
-    if (tracks?.items) {
-      content.track = tracks.items
-    }
+      if (projects?.items) {
+        content.project = resolveResponse(projects)
+      }
 
-    /* Project types */
+      /* Tracks */
 
-    const projectTypes = await contentfulClient.getEntries({
-      content_type: 'projectType'
-    })
+      const tracks = await EleventyFetch(
+        getContentfulUrl({
+          params: {
+            content_type: 'track'
+          }
+        }),
+        fetchArgs
+      )
 
-    if (projectTypes?.items) {
-      content.projectType = projectTypes.items
-    }
+      if (tracks?.items) {
+        content.track = resolveResponse(tracks)
+      }
 
-    /* Genres */
+      /* Project types */
 
-    const genres = await contentfulClient.getEntries({
-      content_type: 'genre'
-    })
+      const projectTypes = await EleventyFetch(
+        getContentfulUrl({
+          params: {
+            content_type: 'projectType'
+          }
+        }),
+        fetchArgs
+      )
 
-    if (genres?.items) {
-      content.genre = genres.items
+      if (projectTypes?.items) {
+        content.projectType = resolveResponse(projectTypes)
+      }
+
+      /* Genres */
+
+      const genres = await EleventyFetch(
+        getContentfulUrl({
+          params: {
+            content_type: 'genre'
+          }
+        }),
+        fetchArgs
+      )
+
+      if (genres?.items) {
+        content.genre = resolveResponse(genres)
+      }
     }
 
     /* Output */
 
-    const d = await setData({
+    const data = await setData({
       content,
       navs,
-      navItems
+      navItems,
+      serverlessData
     })
 
-    return {
-      data: d
-    }
+    console.log('DATA', data.index.length, data.archive.length, content)
+
+    return data
   } catch (error) {
-    console.log(error.message)
+    console.log('Error getting Contentful and/or setting data: ', error)
+
+    return {
+      index: [],
+      archive: []
+    }
   }
 }
