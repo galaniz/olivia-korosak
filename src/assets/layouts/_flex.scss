@@ -9,6 +9,12 @@
 
 /* Styles */
 
+.l-order-first-s {
+  @include mix.breakpoint-min("s") {
+    order: -9999;
+  }
+}
+
 .l-order-first-m {
   @include mix.breakpoint-min("m") {
     order: -9999;

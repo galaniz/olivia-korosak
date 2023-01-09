@@ -50,11 +50,7 @@ const hero = ({
       container = 'medium'
     }
 
-    if (breadcrumbs) {
-      padding = 'l-padding-top-xl l-padding-bottom-2xl l-padding-top-2xl-m'
-    } else {
-      padding = 'l-padding-top-m l-padding-bottom-2xl l-padding-top-2xl-m'
-    }
+    padding = 'l-padding-top-xl l-padding-bottom-2xl l-padding-top-2xl-m'
 
     if (container === 'default') {
       padding += ' l-padding-bottom-4xl-m'
@@ -80,10 +76,10 @@ const hero = ({
   if (type === 'media-text') {
     output = `
       <div class="l-flex l-flex-wrap l-gap-margin-m l-gap-margin-2xl-l l-align-center">
-        <div class="${container === 'medium' ? 'l-width-3-5-m' : 'l-width-1-2-m'}">
+        <div class="${container === 'medium' ? 'l-width-1-2-s l-width-3-5-m' : 'l-width-1-2-m'}">
           ${textOutput}
         </div>
-        <div class="${container === 'medium' ? 'l-width-2-5-m l-order-first-m' : 'l-width-1-2-m l-order-first-m'}">
+        <div class="${container === 'medium' ? 'l-width-1-2-s l-width-2-5-m l-order-first-s' : 'l-width-1-2-m l-order-first-m'}">
           ${imageOutput}
         </div>
       </div>

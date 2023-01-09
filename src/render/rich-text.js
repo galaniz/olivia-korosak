@@ -11,6 +11,37 @@
 const { optionValues } = require('../utils/constants')
 const { getLink } = require('../utils/functions')
 
+/* Get inline start and end tags */
+
+const _getInlineTag = (marks) => {
+  if (!marks.length) {
+    return {
+      start: '',
+      end: ''
+    }
+  }
+
+  marks = marks.map(m => {
+    let tag = ''
+
+    switch (m.type) {
+      case 'bold':
+        tag = 'b'
+        break
+      case 'italic':
+        tag = 'i'
+        break
+    }
+
+    return tag
+  })
+
+  return {
+    start: marks.map(m => m ? `<${m}>` : ''),
+    end: marks.map(m => m ? `</${m}>` : '')
+  }
+}
+
 /* Function */
 
 const richText = (type = 'paragraph', content = [], parents = []) => {
@@ -110,11 +141,13 @@ const richText = (type = 'paragraph', content = [], parents = []) => {
 
       if (nodeType === 'hyperlink') {
         const link = c.data.uri
-        const linkText = c.content.map(cc => cc.value).join('')
+        const linkText = c.content.map(cc => {
+          const markTag = _getInlineTag(cc.marks)
 
-        // console.log("CC", c.content[0].marks)
+          return `${markTag.start}${cc.value}${markTag.end}`
+        })
 
-        output += `<a href="${link}" data-inline>${linkText}</a>`
+        output += `<a href="${link}" data-inline>${linkText.join('')}</a>`
       }
     })
   }

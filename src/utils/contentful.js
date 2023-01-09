@@ -2,7 +2,13 @@
  * Contentful utilities
  */
 
-/* Variables */
+/* Imports */
+
+const { AssetCache } = require('@11ty/eleventy-fetch')
+const safeJsonStringify = require('safe-json-stringify')
+const contentful = require('contentful')
+
+/* Client */
 
 const env = process.env
 const context = env.CONTEXT
@@ -16,26 +22,41 @@ if (context === 'production' || context === 'branch-deploy') {
   host = 'cdn.contentful.com'
 }
 
-const getContentfulUrl = ({ entry = '', params = {} }) => {
-  let url = `https://${host}/spaces/${space}/environments/master/entries`
+const contentfulClient = contentful.createClient({
+  space,
+  accessToken,
+  host
+})
 
-  if (entry) {
-    url += `/${entry}`
+/* Fetch data */
+
+const getContentfulData = async (key, params = {}) => {
+  if (!key) {
+    throw new Error('No key specified to get Contentful data')
   }
 
-  url += `?access_token=${accessToken}`
+  const cache = new AssetCache(key)
 
-  for (const p in params) {
-    url += `&${p}=${params[p]}`
+  /* Check if the cache is fresh within the last day */
+
+  if (cache.isCacheValid('1d')) {
+    return cache.getCachedValue()
   }
 
-  console.log('URL', url)
+  /* Fetch new data */
 
-  return url
+  let data = await contentfulClient.getEntries(params)
+
+  data = JSON.parse(safeJsonStringify(data, null, 2))
+
+  await cache.save(data, 'json')
+
+  return data
 }
 
 /* Exports */
 
 module.exports = {
-  getContentfulUrl
+  getContentfulData,
+  contentfulClient
 }

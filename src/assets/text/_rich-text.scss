@@ -24,8 +24,8 @@
     margin-bottom: var(--2xs);
   }
 
-  ul,
-  ol {
+  ul[data-inline],
+  ol[data-inline] {
     margin: var(--3xs) 0 var(--2xs);
   }
 
@@ -39,8 +39,8 @@
   h5,
   h6,
   p,
-  ul,
-  ol,
+  ul[data-inline],
+  ol[data-inline],
   a[data-button] {
     &:first-child {
       margin-top: 0;
@@ -67,8 +67,8 @@
       margin-bottom: var(--s);
     }
 
-    ul,
-    ol {
+    ul[data-inline],
+    ol[data-inline] {
       margin: var(--s) 0;
     }
   }

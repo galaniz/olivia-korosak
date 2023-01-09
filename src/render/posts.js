@@ -8,10 +8,8 @@
 
 /* Imports */
 
-const EleventyFetch = require('@11ty/eleventy-fetch')
-const resolveResponse = require('contentful-resolve-response')
 const escape = require('validator/lib/escape.js')
-const { getContentfulUrl } = require('../utils/contentful')
+const { getContentfulData } = require('../utils/contentful')
 const { optionValues } = require('../utils/constants')
 const container = require('./container')
 const column = require('./column')
@@ -53,10 +51,12 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
 
   /* Query prep */
 
+  let key = `posts_${pageData.sys.id}_${type}_${display}`
+
   const queryArgs = {
     content_type: type,
     limit: display,
-    include: 2
+    include: 10
   }
 
   if (filters.length) {
@@ -74,12 +74,14 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
       current = parseInt(escape(serverlessData.query.page))
 
       if (current) {
+        key += `_${current}`
         queryArgs.skip = display * (current - 1)
       }
     }
 
     if (serverlessData?.query?.filters) {
       paginationFilters = `filters=${serverlessData.query.filters}`
+      key += `_${paginationFilters}`
 
       try {
         const urlFilters = decodeURI(serverlessData.query.filters).split('|')
@@ -102,25 +104,18 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
     }
   }
 
-  console.log('QUERY_ARGS', current, queryArgs, serverlessData)
-
   /* Query and output */
 
   try {
-    const p = await EleventyFetch(
-      getContentfulUrl({
-        params: queryArgs
-      }),
-      {
-        duration: '1d',
-        type: 'json'
-      }
+    const p = await getContentfulData(
+      key,
+      queryArgs
     )
 
     let output = []
 
     if (p?.items) {
-      const items = resolveResponse(p)
+      const items = p.items
 
       items.forEach(item => {
         const {
@@ -242,6 +237,8 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
           nextFilters: nextPaginationFilters,
           currentFilters: currentPaginationFilters
         }
+
+        pageData.fields.metaTitle = pageData.fields.title
       } else {
         pageData.fields.metaTitle = `${pageData.fields.title} | Page ${current} of ${totalPages}`
 

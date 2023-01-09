@@ -40,7 +40,7 @@ let _serverlessData = false
 
 /* Recurse and render nested content */
 
-const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, serverlessData) => {
+const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, serverlessData, navs) => {
   if (Array.isArray(cc) && cc.length) {
     for (let i = 0; i < cc.length; i++) {
       let c = cc[i]
@@ -121,6 +121,18 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, se
         case 'button':
           renderObj.start = button(fields, parents)
           break
+        case 'navigation': {
+          const loc = fields.location.toLowerCase().replace(/ /g, '')
+
+          let nav = navs?.[loc] ? navs[loc] : ''
+
+          if (loc === 'social') {
+            nav = nav.left
+          }
+
+          renderObj.start = `<nav aria-label="${fields.title}">${nav}</nav>`
+          break
+        }
       }
 
       const start = renderObj.start
@@ -141,7 +153,8 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, se
           output,
           parentsCopy,
           pageData,
-          serverlessData
+          serverlessData,
+          navs
         )
       }
 
@@ -237,13 +250,15 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
   /* Navigations */
 
-  data.navigations = navigations({
+  const navs = navigations({
     navs: _nav.navs,
     items: _nav.items,
     current: data.permalink,
     title: data.title,
     parents: s.parents
   })
+
+  data.navigations = navs
 
   /* Content */
 
@@ -290,7 +305,8 @@ const _setItem = async (item = {}, contentType = 'page') => {
       contentOutput,
       [],
       item,
-      serverlessData
+      serverlessData,
+      navs
     )
   }
 
@@ -332,6 +348,8 @@ const _setItem = async (item = {}, contentType = 'page') => {
         data.next = getPermalink(n.slug, false) + pagination.nextFilters
       }
     }
+
+    data.meta.title = item.fields.metaTitle
   }
 
   /* Output */
@@ -414,6 +432,7 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
         console.log('An error has occurred writing store.json ', error)
         return
       }
+
       console.log('Store.json written successfully to disk')
     })
   }
