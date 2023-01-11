@@ -20,6 +20,10 @@
   --color: transparent;
 }
 
+.e-underline-thin a {
+  --line-width: 0.04rem;
+}
+
 .e-underline a[data-inline]:hover,
 .e-underline a[data-inline]:active {
   --color: transparent;

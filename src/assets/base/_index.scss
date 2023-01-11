@@ -16,6 +16,7 @@
   @include m.set-text;
 
   --foreground-base-80: #{rgba(func.get-color("foreground-base"), 0.8)};
+  --background-light-60: #{rgba(func.get-color("background-light"), 0.60)};
   --background-light-35: #{rgba(func.get-color("background-light"), 0.35)};
   --background-light-20: #{rgba(func.get-color("background-light"), 0.20)};
   --text-color: #{rgba(func.get-color("background-light"), 0.8)};

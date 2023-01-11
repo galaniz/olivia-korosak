@@ -158,7 +158,7 @@ const optionValues = {
     layout: {
       project: 'card',
       projectType: 'card',
-      track: 'table-grid',
+      track: 'tracks',
       genre: 'card'
     }
   }

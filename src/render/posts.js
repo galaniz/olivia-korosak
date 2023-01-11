@@ -17,6 +17,7 @@ const card = require('./card')
 const image = require('./image')
 const content = require('./content')
 const richText = require('./rich-text')
+const tracks = require('./tracks')
 
 /* Function */
 
@@ -57,6 +58,10 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
     content_type: type,
     limit: display,
     include: 10
+  }
+
+  if (type === 'project' || type === 'track') {
+    queryArgs.order = '-fields.date'
   }
 
   if (filters.length) {
@@ -116,6 +121,13 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
 
     if (p?.items) {
       const items = p.items
+
+      if (layout === 'tracks') {
+        output.push(tracks({
+          items,
+          contentType: type
+        }))
+      }
 
       items.forEach(item => {
         const {
@@ -202,7 +214,7 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
     /* Pagination data and output */
 
     const total = p.total
-    const totalPages = Math.round(total / display)
+    const totalPages = Math.ceil(total / display)
 
     let paginationOutput = ''
     let prevPaginationFilters = paginationFilters
@@ -412,6 +424,10 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
         insertContainer.end +
         paginationOutput
       )
+    }
+
+    if (layout === 'tracks') {
+      output = output + paginationOutput
     }
 
     return output
