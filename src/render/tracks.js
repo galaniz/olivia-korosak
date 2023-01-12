@@ -14,7 +14,10 @@
 
 const { getSlug, getPermalink, getFile } = require('../utils/functions')
 
-/* Get audio duration as hh:mm:ss */
+/*
+  Get audio duration as hh:mm:ss
+  Source: https://www.colincrawley.com/audio-duration-calculator/
+*/
 
 const _getAudioDuration = (bytes = 0, bitRate = 0) => {
   if (!bytes || !bitRate) {
@@ -45,13 +48,11 @@ const _getAudioDuration = (bytes = 0, bitRate = 0) => {
     output.push('0')
   }
 
-  if (seconds) {
-    if (seconds < 10) {
-      seconds = `0${seconds}`
-    }
-
-    output.push(seconds)
+  if (seconds < 10) {
+    seconds = `0${seconds}`
   }
+
+  output.push(seconds)
 
   return output.join(':')
 }
@@ -81,7 +82,7 @@ const _getCommaLinks = (items = [], contentType = '') => {
     return ''
   }
 
-  return `<span class="t-s t-background-light-60 e-underline-reverse e-underline-thin">${links.join(', ')}</span>`
+  return links.join(', ')
 }
 
 /* Function */
@@ -110,22 +111,40 @@ const tracks = ({
   }
 
   head.push('Duration')
+  head.push('Details')
 
   head = head.map((h, i) => {
-    let classes = 't-s t-background-light l-padding-bottom-3xs l-padding-bottom-2xs-m '
+    const lastIndex = i === head.length - 1
+    const secondLastIndex = i === head.length - 2
 
-    if (i === head.length - 1) {
-      classes += 't-align-right'
+    let classes = 't-s t-background-light l-padding-bottom-3xs l-padding-bottom-2xs-m'
+
+    if (lastIndex || secondLastIndex) {
+      classes += ' t-align-right'
     } else {
-      classes += 't-align-left'
+      classes += ' t-align-left'
+
+      if (!secondLastIndex) {
+        classes += ' l-padding-right-2xs l-padding-right-m-m'
+      }
     }
 
-    return `<th scope="col" class="${classes}">${h}</th>`
+    let attr = `${i !== 0 && !lastIndex ? ' data-desktop' : ''}`
+
+    if (lastIndex) {
+      attr = ' data-mobile'
+    }
+
+    return `
+      <th scope="col" class="${classes}" data-${attr}>
+        ${h}
+      </th>
+    `
   })
 
   /* Body rows from items */
 
-  const rows = items.map((item, i) => {
+  const rows = items.map((item) => {
     const {
       title = '',
       slug = '',
@@ -143,35 +162,66 @@ const tracks = ({
       })
     )
 
+    /* Description items for details */
+
+    const detailsItems = [{
+      title: 'Full Title',
+      desc: `<a href="${permalink}" class="t-current" data-inline>${title}</a>`
+    }]
+
     /* Cells */
 
-    const cells = [
-      `
-        <div class="l-flex l-gap-margin-2xs l-gap-margin-s-m l-align-center">
-          <div>
-            <button type="button" class="l-width-m l-height-m bg-background-light b-radius-100-pc" aria-label="Play ${title}" tabindex="-1">
-              <span class="l-flex l-width-m l-height-m l-svg t-foreground-base">
-                ${getFile('./src/assets/svg/play.svg')}
-              </span>
-            </button>
-          </div>
-          <div class="e-underline-reverse">
-            <a href="${permalink}" class="t-m t-weight-medium" tabindex="-1" data-inline>${title}</a>
-          </div>
+    const cells = [`
+      <div class="l-flex l-gap-margin-2xs l-gap-margin-s-m l-align-center">
+        <div>
+          <button type="button" class="l-width-m l-height-m bg-background-light b-radius-100-pc" aria-label="Play ${title}">
+            <span class="l-flex l-width-m l-height-m l-svg t-foreground-base">
+              ${getFile('./src/assets/svg/play.svg')}
+            </span>
+          </button>
         </div>
-      `
-    ]
+        <div class="e-underline-reverse">
+          <a href="${permalink}" class="t-m t-weight-medium" data-inline>${title}</a>
+        </div>
+      </div>
+    `]
 
     /* Projects */
 
     if (includeProjects) {
-      cells.push(_getCommaLinks(project, 'project'))
+      const projects = _getCommaLinks(project, 'project')
+
+      cells.push(`
+        <span class="t-s t-background-light-60 e-underline-reverse e-underline-thin">
+          ${projects}
+        </span>
+      `)
+
+      if (projects) {
+        detailsItems.push({
+          title: 'Projects',
+          desc: projects
+        })
+      }
     }
 
     /* Genres */
 
     if (includeGenres) {
-      cells.push(_getCommaLinks(genre, 'genre'))
+      const genres = _getCommaLinks(genre, 'genre')
+
+      cells.push(`
+        <span class="t-s t-background-light-60 e-underline-reverse e-underline-thin">
+          ${genres}
+        </span>
+      `)
+
+      if (genres) {
+        detailsItems.push({
+          title: 'Genres',
+          desc: genres
+        })
+      }
     }
 
     /* Duration */
@@ -183,20 +233,56 @@ const tracks = ({
 
       if (duration) {
         cells.push(`<p class="t-s t-number-normal t-align-right">${duration}</p>`)
+
+        detailsItems.push({
+          title: 'Duration',
+          desc: duration
+        })
       }
     }
+
+    /* Details */
+
+    cells.push('D')
 
     /* Output */
 
     return `
-      <tr role="row" class="l-relative b-top">
-        ${cells.map(c => {
+      <tr class="l-relative b-top">
+        ${cells.map((c, i) => {
+          const lastIndex = i === cells.length - 1
+          const secondLastIndex = i === cells.length - 2
+
+          let attr = `${i !== 0 && !lastIndex ? ' data-desktop' : ''}`
+
+          if (lastIndex) {
+            attr = ' data-mobile'
+          }
+
+          let classes = 'l-padding-top-2xs l-padding-bottom-2xs l-padding-top-s-m l-padding-bottom-s-m'
+
+          if (!secondLastIndex) {
+            classes += ' l-padding-right-2xs l-padding-right-m-m'
+          }
+
           return `
-            <td class="l-padding-top-2xs l-padding-bottom-2xs l-padding-top-s-m l-padding-bottom-s-m" tabindex="-1">
+            <td class="${classes}"${attr}>
               ${c}
             </td>
           `
         }).join('')}
+      </tr>
+      <tr data-mobile>
+        <td class="l-padding-bottom-2xs l-padding-bottom-s-m">
+          <dl class="t-s t-number-normal t-background-light-60 t-line-height-130-pc e-underline-reverse l-margin-0-last">
+            ${detailsItems.map(d => {
+              return `
+                <dt class="t-background-light l-margin-bottom-5xs">${d.title}</dt>
+                <dd class="l-margin-bottom-2xs">${d.desc}</dd>
+              `
+            }).join('')}
+          </dl>
+        </td>
       </tr>
     `
   })
@@ -204,7 +290,7 @@ const tracks = ({
   /* Output */
 
   return `
-    <table role="grid" class="b-separator" aria-label="${a11yLabel}">
+    <table role="grid" class="o-table b-separator" aria-label="${a11yLabel}" data-collapse="false">
       <thead>
         <tr>
           ${head.join('')}

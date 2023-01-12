@@ -15,9 +15,9 @@
 @use "base/fonts";
 @use "@alanizcreative/formation/src/base";
 @use "@alanizcreative/formation/src/base/inputs-reset";
+@use "@alanizcreative/formation/src/base/table";
 @use "base" as b;
 @use "base/focus";
-@use "base/table";
 
 /* A11y */
 
@@ -68,6 +68,7 @@
 
 /* Objects */
 
+@use "@alanizcreative/formation/src/objects/table" as t;
 @use "objects/logo";
 @use "objects/button";
 
