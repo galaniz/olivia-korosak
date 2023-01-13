@@ -9,6 +9,7 @@
 /* Imports */
 
 const escape = require('validator/lib/escape.js')
+const { getSlug, getPermalink } = require('../utils/functions')
 const { getContentfulData } = require('../utils/contentful')
 const { optionValues } = require('../utils/constants')
 const container = require('./container')
@@ -27,7 +28,8 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
     display = 1,
     headingLevel = 'Heading Three', // optionValues.posts.headingLevel
     pagination = false,
-    filters = []
+    filters = [],
+    include = []
   } = args
 
   /* Normalize options */
@@ -123,16 +125,31 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
       const items = p.items
 
       if (layout === 'tracks') {
-        output.push(tracks({
+        const tracksArgs = {
           items,
           contentType: type
-        }))
+        }
+
+        if (include.length) {
+          include.forEach(inc => {
+            if (inc === 'projects') {
+              tracksArgs.includeProjects = true
+            }
+
+            if (inc === 'genres') {
+              tracksArgs.includeGenres = true
+            }
+          })
+        }
+
+        output.push(tracks(tracksArgs))
       }
 
       items.forEach(item => {
         const {
           title = '',
-          heroImage = false
+          heroImage = false,
+          type: projectType
         } = item.fields
 
         /* Item output */
@@ -148,12 +165,85 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
               widthLarge: '1/4'
             }),
             content: content({
-              gap: '15px'
+              gap: '5px',
+              gapLarge: '10px',
+              richTextStyles: false
             }),
             card: card({
-              gap: '5px',
-              gapLarge: '10px'
+              gap: '15px'
             })
+          }
+
+          const cardTextParents = [
+            {
+              type: 'content',
+              fields: {
+                textStyle: 'Extra Small',
+                headingStyle: 'Heading Four'
+              }
+            },
+            {
+              type: 'card',
+              fields: {
+                internalLink: item
+              }
+            }
+          ]
+
+          const cardHeading = richText(
+            headingLevel,
+            [
+              {
+                nodeType: 'text',
+                value: title
+              }
+            ],
+            cardTextParents
+          )
+
+          let cardText = ''
+          let projectTypes = ''
+
+          if (projectType) {
+            projectTypes = projectType.map(pt => {
+              const projectTypeTitle = pt?.fields?.title || ''
+              const projectTypeSlug = pt?.fields?.slug || ''
+
+              if (!projectTypeSlug) {
+                return {
+                  nodeType: 'text',
+                  value: ''
+                }
+              }
+
+              const projectTypePermalink = getPermalink(
+                getSlug({
+                  contentType: 'projectType',
+                  slug: projectTypeSlug
+                })
+              )
+
+              return {
+                nodeType: 'hyperlink',
+                data: {
+                  uri: projectTypePermalink
+                },
+                content: [
+                  {
+                    nodeType: 'text',
+                    value: projectTypeTitle,
+                    data: {},
+                    marks: []
+                  }
+                ]
+              }
+            })
+
+            cardText = richText(
+              'paragraph',
+              projectTypes,
+              cardTextParents
+            )
           }
 
           itemOutput += image(
@@ -169,30 +259,8 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
 
           itemOutput += (
             containers.content.start +
-            richText(
-              headingLevel,
-              [
-                {
-                  nodeType: 'text',
-                  value: title
-                }
-              ],
-              [
-                {
-                  type: 'content',
-                  fields: {
-                    textStyle: 'Extra Small',
-                    headingStyle: 'Heading Four'
-                  }
-                },
-                {
-                  type: 'card',
-                  fields: {
-                    internalLink: item
-                  }
-                }
-              ]
-            ) +
+            cardHeading +
+            cardText +
             containers.content.end
           )
 
@@ -298,7 +366,7 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
 
       /* Max width */
 
-      let totalListItems = limit
+      let totalListItems = length + 2 // 2 for prev and next buttons
 
       if (center && current >= limit) {
         totalListItems += 1

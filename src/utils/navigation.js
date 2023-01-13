@@ -329,8 +329,9 @@ class Navigation {
       args.filterBeforeLink(output, isLastLevel)
 
       const linkClasses = args.linkClass ? ` class="${args.linkClass}"` : ''
+      const linkAttrs = args.linkAttr ? ` ${args.linkAttr}` : ''
 
-      output.html += `<a${linkClasses} href="${getPermalink(getSlug({ slug: item.slug }))}">${item.title}</a>`
+      output.html += `<a${linkClasses} href="${getPermalink(getSlug({ slug: item.slug }))}"${linkAttrs}>${item.title}</a>`
 
       args.filterAfterLink(output, isLastLevel)
 

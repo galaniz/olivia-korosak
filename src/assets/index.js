@@ -9,6 +9,8 @@ import { setElements, usingMouse } from 'Formation/utils'
 /* Classes */
 
 import Nav from 'Formation/components/nav'
+import Table from 'Formation/objects/table'
+import Collapsible from 'Formation/objects/collapsible'
 
 /* Variables */
 
@@ -57,6 +59,18 @@ const meta = [
         selector: '.c-nav__overlay'
       }
     ]
+  },
+  {
+    prop: 'tables',
+    selector: '.o-table',
+    all: true,
+    array: true
+  },
+  {
+    prop: 'collapsibles',
+    selector: '.o-collapsible',
+    all: true,
+    array: true
   }
 ]
 
@@ -95,6 +109,55 @@ const initialize = () => {
     }
 
     nav()
+  }
+
+  /* Data tables */
+
+  if (el.tables.length) {
+    const table = (args) => {
+      return new Table(args)
+    }
+
+    el.tables.forEach(t => {
+      table({
+        table: t,
+        equalWidthTo: t.parentElement
+      })
+    })
+  }
+
+  /* Collapsibles */
+
+  if (el.collapsibles.length) {
+    const collapsible = (args) => {
+      return new Collapsible(args)
+    }
+
+    el.collapsibles.forEach(c => {
+      const meta = [
+        {
+          prop: 'collapsible',
+          selector: '.o-collapsible__main'
+        },
+        {
+          prop: 'trigger',
+          selector: '.o-collapsible__toggle'
+        }
+      ]
+
+      const cc = {}
+
+      setElements(c, meta, cc)
+
+      const args = {
+        container: c,
+        collapsible: cc.collapsible,
+        accordionId: c.getAttribute('data-accordion'),
+        trigger: cc.trigger || document.getElementById(c.getAttribute('data-trigger'))
+      }
+
+      collapsible(args)
+    })
   }
 }
 

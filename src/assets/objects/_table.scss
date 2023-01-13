@@ -1,0 +1,29 @@
+/**
+ * Objects: table
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/objects/table" as t;
+@use "@alanizcreative/formation/src/utils/functions" as func;
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Styles */
+
+.o-table {
+  [data-size="l"] {
+    @include mix.fluid-size(
+      min-width,
+      func.calc-rem(230px) func.calc-rem(300px),
+      "xs" "m"
+    );
+  }
+
+  [data-size="m"] {
+    min-width: func.calc-rem(200px);
+  }
+
+  [data-size="s"] {
+    min-width: func.calc-rem(80px);
+  }
+}

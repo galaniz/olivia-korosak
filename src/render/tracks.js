@@ -12,6 +12,7 @@
 
 /* Imports */
 
+const { randomUUID } = require('crypto')
 const { getSlug, getPermalink, getFile } = require('../utils/functions')
 
 /*
@@ -91,27 +92,47 @@ const tracks = ({
   items = [],
   a11yLabel = '',
   contentType = 'track',
-  includeProjects = true,
-  includeGenres = true
+  includeProjects = false,
+  includeGenres = false
 }) => {
   if (!items.length) {
     return ''
   }
 
+  /* Accordion id */
+
+  const accordionId = `a-${randomUUID()}`
+
   /* Header cells */
 
-  let head = ['Title']
+  let head = [{
+    text: 'Title',
+    id: 'title'
+  }]
 
   if (includeProjects) {
-    head.push('Projects')
+    head.push({
+      text: 'Projects',
+      id: 'projects'
+    })
   }
 
   if (includeGenres) {
-    head.push('Genres')
+    head.push({
+      text: 'Genres',
+      id: 'genres'
+    })
   }
 
-  head.push('Duration')
-  head.push('Details')
+  head.push({
+    text: 'Duration',
+    id: 'duration'
+  })
+
+  head.push({
+    text: 'Details',
+    id: 'details'
+  })
 
   head = head.map((h, i) => {
     const lastIndex = i === head.length - 1
@@ -136,8 +157,8 @@ const tracks = ({
     }
 
     return `
-      <th scope="col" class="${classes}" data-${attr}>
-        ${h}
+      <th class="${classes}" id="${h.id}" data-${attr}>
+        ${h.text}
       </th>
     `
   })
@@ -152,6 +173,13 @@ const tracks = ({
       project = [],
       genre = []
     } = item.fields
+
+    /* Ids */
+
+    const id = randomUUID()
+    const detailsId = `d-${id}`
+    const triggerId = `t-${id}`
+    const collapsibleId = `c-${id}`
 
     /* Link */
 
@@ -171,31 +199,39 @@ const tracks = ({
 
     /* Cells */
 
-    const cells = [`
-      <div class="l-flex l-gap-margin-2xs l-gap-margin-s-m l-align-center">
-        <div>
-          <button type="button" class="l-width-m l-height-m bg-background-light b-radius-100-pc" aria-label="Play ${title}">
-            <span class="l-flex l-width-m l-height-m l-svg t-foreground-base">
-              ${getFile('./src/assets/svg/play.svg')}
-            </span>
-          </button>
+    const cells = [{
+      size: 'l',
+      headers: 'title',
+      output: `
+        <div class="l-flex l-gap-margin-2xs l-gap-margin-s-m l-align-center">
+          <div>
+            <button type="button" class="l-width-m l-height-m bg-background-light b-radius-100-pc" aria-label="Play ${title}">
+              <span class="l-flex l-width-m l-height-m l-svg t-foreground-base">
+                ${getFile('./src/assets/svg/play.svg')}
+              </span>
+            </button>
+          </div>
+          <div class="e-underline-reverse">
+            <a href="${permalink}" class="t-m t-weight-medium t-line-height-130-pc t-clamp" data-inline>${title}</a>
+          </div>
         </div>
-        <div class="e-underline-reverse">
-          <a href="${permalink}" class="t-m t-weight-medium" data-inline>${title}</a>
-        </div>
-      </div>
-    `]
+      `
+    }]
 
     /* Projects */
 
     if (includeProjects) {
       const projects = _getCommaLinks(project, 'project')
 
-      cells.push(`
-        <span class="t-s t-background-light-60 e-underline-reverse e-underline-thin">
-          ${projects}
-        </span>
-      `)
+      cells.push({
+        size: 'm',
+        headers: 'projects',
+        output: `
+          <span class="t-s t-background-light-60 e-underline-reverse e-underline-thin t-line-height-140-pc">
+            ${projects}
+          </span>
+        `
+      })
 
       if (projects) {
         detailsItems.push({
@@ -210,11 +246,15 @@ const tracks = ({
     if (includeGenres) {
       const genres = _getCommaLinks(genre, 'genre')
 
-      cells.push(`
-        <span class="t-s t-background-light-60 e-underline-reverse e-underline-thin">
-          ${genres}
-        </span>
-      `)
+      cells.push({
+        size: 'm',
+        headers: 'genres',
+        output: `
+          <span class="t-s t-background-light-60 e-underline-reverse e-underline-thin t-line-height-140-pc">
+            ${genres}
+          </span>
+        `
+      })
 
       if (genres) {
         detailsItems.push({
@@ -232,7 +272,11 @@ const tracks = ({
       duration = _getAudioDuration(audio.fields.file.details.size, 128)
 
       if (duration) {
-        cells.push(`<p class="t-s t-number-normal t-align-right">${duration}</p>`)
+        cells.push({
+          size: 's',
+          headers: 'duration',
+          output: `<p class="t-s t-number-normal t-align-right">${duration}</p>`
+        })
 
         detailsItems.push({
           title: 'Duration',
@@ -243,7 +287,17 @@ const tracks = ({
 
     /* Details */
 
-    cells.push('D')
+    cells.push({
+      size: 'xs',
+      headers: 'details',
+      output: `
+        <button class="l-width-s l-height-s l-flex l-align-center l-justify-center l-margin-left-auto" type="button" aria-label="Toggle ${title} details" id="${triggerId}" aria-controls="${detailsId}" aria-expanded="false">
+          <span class="l-flex l-width-xs l-height-xs l-svg t-background-light o-collapsible-icon e-transition">
+            ${getFile('./src/assets/svg/arrow-down.svg')}
+          </span>
+        </button>
+      `
+    })
 
     /* Output */
 
@@ -261,27 +315,29 @@ const tracks = ({
 
           let classes = 'l-padding-top-2xs l-padding-bottom-2xs l-padding-top-s-m l-padding-bottom-s-m'
 
-          if (!secondLastIndex) {
+          if (!lastIndex && !secondLastIndex) {
             classes += ' l-padding-right-2xs l-padding-right-m-m'
           }
 
           return `
-            <td class="${classes}"${attr}>
-              ${c}
+            <td headers="${c.headers}" class="${classes}" data-size="${c.size}"${attr}>
+              ${c.output}
             </td>
           `
         }).join('')}
       </tr>
       <tr data-mobile>
-        <td class="l-padding-bottom-2xs l-padding-bottom-s-m">
-          <dl class="t-s t-number-normal t-background-light-60 t-line-height-130-pc e-underline-reverse l-margin-0-last">
-            ${detailsItems.map(d => {
-              return `
-                <dt class="t-background-light l-margin-bottom-5xs">${d.title}</dt>
-                <dd class="l-margin-bottom-2xs">${d.desc}</dd>
-              `
-            }).join('')}
-          </dl>
+        <td headers="details" class="o-collapsible" id="${detailsId}" data-trigger="${triggerId}" data-accordion="${accordionId}" colspan="2">
+          <div id="${collapsibleId}" class="o-collapsible__main e-transition">
+            <dl class="t-s t-number-normal t-background-light-60 t-line-height-130-pc e-underline-reverse l-margin-0-last l-padding-bottom-2xs l-padding-bottom-s-m">
+              ${detailsItems.map(d => {
+                return `
+                  <dt class="t-background-light l-margin-bottom-5xs">${d.title}</dt>
+                  <dd class="l-margin-bottom-2xs">${d.desc}</dd>
+                `
+              }).join('')}
+            </dl>
+          </div>
         </td>
       </tr>
     `
@@ -290,16 +346,18 @@ const tracks = ({
   /* Output */
 
   return `
-    <table role="grid" class="o-table b-separator" aria-label="${a11yLabel}" data-collapse="false">
-      <thead>
-        <tr>
-          ${head.join('')}
-        </tr>
-      </thead>
-      <tbody>
-        ${rows.join('')}
-      </tbody>
-    </table>
+    <div data-table>
+      <table role="grid" class="o-table b-separator" aria-label="${a11yLabel}" data-collapse="false">
+        <thead>
+          <tr>
+            ${head.join('')}
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.join('')}
+        </tbody>
+      </table>
+    </div>
   `
 }
 

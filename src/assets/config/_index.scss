@@ -101,6 +101,7 @@ $gaps: (
 
   $breakpoints: (
     "0": 0px,
+    "xs": 300px,
     "s": 600px,
     "m": 900px,
     "l": 1200px,
@@ -154,6 +155,7 @@ $gaps: (
   ),
 
   $widths: (
+    "xs",
     "s",
     "m",
     "l",
@@ -164,6 +166,7 @@ $gaps: (
   /* Heights */
 
   $heights: (
+    "xs",
     "s",
     "m",
     "l",
@@ -240,6 +243,12 @@ $gaps: (
       "name": "line-height-160-pc",
       "prop": (
         line-height: 1.6
+      ),
+    ),
+    (
+      "name": "line-height-140-pc",
+      "prop": (
+        line-height: 1.4
       ),
     ),
     (

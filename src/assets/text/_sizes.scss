@@ -98,9 +98,10 @@ h6,
 }
 
 .t-quote {
+  @extend %u-line-height-140-pc;
+
   font-size: var(--t-quote);
   font-style: italic;
-  line-height: 1.4;
 }
 
 p,

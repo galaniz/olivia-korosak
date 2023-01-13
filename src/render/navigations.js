@@ -62,8 +62,10 @@ const navigations = ({
       {
         listClass: 'c-breadcrumbs l-flex t-list-style-none e-underline-reverse',
         listAttr: 'role="list"',
+        itemClass: 'l-flex',
         linkClass: 't-xs t-line-height-130-pc l-inline-flex',
-        currentClass: 't-xs t-line-height-130-pc t-weight-medium t-background-light',
+        linkAttr: 'data-inline',
+        currentClass: 't-xs t-line-height-130-pc t-weight-medium t-background-light t-clamp',
         a11yClass: 'a11y-visually-hidden',
         filterAfterLink: (output) => {
           output.html += '<span class="t-xs t-line-height-130-pc l-inline-flex l-padding-right-4xs l-padding-left-4xs" aria-hidden="true">&sol;</span>'

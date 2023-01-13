@@ -60,10 +60,3 @@ to = "/.netlify/functions/serverless"
 status = 200
 force = true
 _generated_by_eleventy_serverless = "serverless"
-
-[[redirects]]
-from = "/work/projects/"
-to = "/.netlify/functions/serverless"
-status = 200
-force = true
-_generated_by_eleventy_serverless = "serverless"

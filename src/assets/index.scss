@@ -35,6 +35,7 @@
 @use "text/line-height";
 @use "text/rich-text";
 @use "text/number";
+@use "text/clamp";
 @use "@alanizcreative/formation/src/text/weight";
 @use "@alanizcreative/formation/src/text/align";
 
@@ -68,9 +69,10 @@
 
 /* Objects */
 
-@use "@alanizcreative/formation/src/objects/table" as t;
 @use "objects/logo";
 @use "objects/button";
+@use "objects/table" as t;
+@use "objects/collapsible";
 
 /* Effects */
 
