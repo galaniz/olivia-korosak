@@ -26,7 +26,7 @@ const card = (args = {}) => {
 
   /* Classes */
 
-  let classes = 'l-relative e-scale e-overlay e-transition-quad'
+  let classes = 'l-relative l-flex l-flex-column l-flex-grow-1 e-overlay e-title-line'
 
   /* Gap */
 

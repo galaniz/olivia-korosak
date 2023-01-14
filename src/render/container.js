@@ -13,6 +13,7 @@
  *  @param {string} gapLarge
  *  @param {string} justify
  *  @param {string} align
+ *  @param {string} classes
  * }
  */
 
@@ -22,7 +23,7 @@ const { optionValues } = require('../utils/constants')
 
 /* Function */
 
-const container = (args) => {
+const container = (args = {}) => {
   let {
     tag = 'Div', // optionValues.tag
     layout = 'Column', // optionValues.layout
@@ -35,7 +36,7 @@ const container = (args) => {
     gapLarge = 'None', // optionValues.gap
     justify = 'None', // optionValues.justify
     align = 'None', // optionValues.align
-    className = '' //
+    classes = '' //
   } = args
 
   /* Normalize options */
@@ -54,11 +55,7 @@ const container = (args) => {
 
   /* Classes */
 
-  const classes = []
-
-  if (className) {
-    classes.push(className)
-  }
+  classes = [classes]
 
   /* Attributes */
 

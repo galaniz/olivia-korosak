@@ -42,9 +42,42 @@ const _getInlineTag = (marks) => {
   }
 }
 
+/* Link markup */
+
+const _getLink = (obj) => {
+  const {
+    data,
+    content = []
+  } = obj
+
+  const link = data.uri || ''
+
+  if (!link || !content.length) {
+    return ''
+  }
+
+  const text = content.map(c => {
+    const {
+      marks = [],
+      value = ''
+    } = c
+
+    const markTag = _getInlineTag(marks)
+
+    return `${markTag.start}${value}${markTag.end}`
+  })
+
+  return `<a href="${link}" data-inline>${text.join('')}</a>`
+}
+
 /* Function */
 
-const richText = (type = 'paragraph', content = [], parents = []) => {
+const richText = ({
+  type = 'paragraph',
+  content = [],
+  parents = [],
+  classes = ''
+}) => {
   if (type === 'hr') {
     return '<hr>'
   }
@@ -58,13 +91,18 @@ const richText = (type = 'paragraph', content = [], parents = []) => {
   let args = {}
 
   let cardLink = ''
+  let card = false
 
   if (parents.length) {
     if (parents[0].type === 'content') {
       args = parents[0].fields
     }
 
-    if (parents[1].type === 'card' && heading) {
+    if (parents[1].type === 'card') {
+      card = true
+    }
+
+    if (card && heading) {
       const {
         internalLink = false,
         externalLink = ''
@@ -108,7 +146,11 @@ const richText = (type = 'paragraph', content = [], parents = []) => {
 
   /* Classes */
 
-  let classes = []
+  classes = [classes]
+
+  if (card && tag === 'p') {
+    classes.push('t-link-current t-background-light-60')
+  }
 
   if (textStyle && (tag === 'p' || tag === 'li')) {
     classes.push(`t-${textStyle}`)
@@ -134,20 +176,13 @@ const richText = (type = 'paragraph', content = [], parents = []) => {
       /* Text */
 
       if (nodeType === 'text' && value) {
-        output += cardLink ? `<a class="l-before" href="${cardLink}">${value}</a>` : value
+        output += cardLink ? `<a class="l-before" href="${cardLink}" data-inline data-title>${value}</a>` : value
       }
 
       /* Link */
 
       if (nodeType === 'hyperlink') {
-        const link = c.data.uri
-        const linkText = c.content.map(cc => {
-          const markTag = _getInlineTag(cc.marks)
-
-          return `${markTag.start}${cc.value}${markTag.end}`
-        })
-
-        output += `<a href="${link}" data-inline>${linkText.join('')}</a>`
+        output += _getLink(c)
       }
     })
   }

@@ -20,7 +20,7 @@
   --color: transparent;
 }
 
-.e-underline-thin a {
+.e-underline-thin a[data-inline] {
   --line-width: 0.04rem;
 }
 

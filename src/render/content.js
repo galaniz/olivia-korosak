@@ -6,6 +6,7 @@
  *  @param {string} gap
  *  @param {string} gapLarge
  *  @param {boolean} richTextStyles
+ *  @param {string} classes
  * }
  */
 
@@ -20,7 +21,8 @@ const content = (args = {}) => {
     align = 'Left', // optionValues.content.heading
     gap = 'Default', // optionValues.gap
     gapLarge = 'Default', // optionValues.gap
-    richTextStyles = true
+    richTextStyles = true,
+    classes = ''
   } = args
 
   /* Normalize options */
@@ -31,7 +33,7 @@ const content = (args = {}) => {
 
   /* Classes */
 
-  let classes = []
+  classes = [classes]
 
   /* Rich text styles */
 

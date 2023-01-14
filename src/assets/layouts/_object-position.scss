@@ -1,0 +1,13 @@
+/**
+ * Layouts: object position
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+
+/* Styles */
+
+.l-object-left-top {
+  @extend %u-object-position-left-top;
+}

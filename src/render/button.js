@@ -18,7 +18,7 @@ const { getLink } = require('../utils/functions')
 
 /* Function */
 
-const button = (args) => {
+const button = (args = {}) => {
   let {
     title = '',
     internalLink = false,

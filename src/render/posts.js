@@ -20,6 +20,158 @@ const content = require('./content')
 const richText = require('./rich-text')
 const tracks = require('./tracks')
 
+/* Output card */
+
+const _renderCard = (item, headingLevel) => {
+  const {
+    title = '',
+    heroImage = false,
+    type
+  } = item.fields
+
+  /* Store */
+
+  let output = ''
+  let types = ''
+  let text = ''
+
+  /* Containers */
+
+  const containers = {
+    column: column({
+      tag: 'List Item',
+      widthSmall: '1/2',
+      widthMedium: '1/3',
+      widthLarge: '1/4',
+      classes: 'l-flex l-flex-column'
+    }),
+    card: card({
+      gap: '15px'
+    }),
+    content: content({
+      gap: '5px',
+      gapLarge: '10px',
+      richTextStyles: false,
+      classes: 'l-flex l-flex-column l-flex-grow-1'
+    })
+  }
+
+  /* Parents */
+
+  const parents = [
+    {
+      type: 'content',
+      fields: {
+        textStyle: 'Extra Small',
+        headingStyle: 'Heading Four'
+      }
+    },
+    {
+      type: 'card',
+      fields: {
+        internalLink: item
+      }
+    }
+  ]
+
+  /* Heading */
+
+  const heading = richText({
+    type: headingLevel,
+    content: [
+      {
+        nodeType: 'text',
+        value: title
+      }
+    ],
+    parents
+  })
+
+  /* Text from project types */
+
+  if (type) {
+    types = type.map(t => {
+      const projectTypeTitle = t?.fields?.title || ''
+      const projectTypeSlug = t?.fields?.slug || ''
+
+      if (!projectTypeSlug) {
+        return {
+          nodeType: 'text',
+          value: ''
+        }
+      }
+
+      const projectTypePermalink = getPermalink(
+        getSlug({
+          contentType: 'projectType',
+          slug: projectTypeSlug
+        })
+      )
+
+      return {
+        nodeType: 'hyperlink',
+        data: {
+          uri: projectTypePermalink
+        },
+        content: [
+          {
+            nodeType: 'text',
+            value: projectTypeTitle
+          }
+        ]
+      }
+    })
+
+    const typesLength = types.length
+
+    for (let i = 0; i < typesLength; i++) {
+      if (i !== typesLength - 1) {
+        types.splice(i + 1, 0, {
+          nodeType: 'text',
+          value: ', '
+        })
+      }
+    }
+
+    text = richText({
+      type: 'paragraph',
+      content: types,
+      parents,
+      classes: 't-xs l-relative l-margin-top-auto'
+    })
+  }
+
+  /* Image */
+
+  output += image(
+    {
+      image: heroImage
+    },
+    [
+      {
+        type: 'card'
+      }
+    ]
+  )
+
+  /* Output */
+
+  output += (
+    containers.content.start +
+    heading +
+    text +
+    containers.content.end
+  )
+
+  return (
+    containers.column.start +
+    containers.card.start +
+    output +
+    containers.card.end +
+    containers.column.end
+  )
+}
+
 /* Function */
 
 const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => {
@@ -124,6 +276,8 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
     if (p?.items) {
       const items = p.items
 
+      /* Tracks */
+
       if (layout === 'tracks') {
         const tracksArgs = {
           items,
@@ -145,132 +299,13 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
         output.push(tracks(tracksArgs))
       }
 
+      /* Cards */
+
       items.forEach(item => {
-        const {
-          title = '',
-          heroImage = false,
-          type: projectType
-        } = item.fields
-
-        /* Item output */
-
         let itemOutput = ''
 
         if (layout === 'card') {
-          const containers = {
-            column: column({
-              tag: 'List Item',
-              widthSmall: '1/2',
-              widthMedium: '1/3',
-              widthLarge: '1/4'
-            }),
-            content: content({
-              gap: '5px',
-              gapLarge: '10px',
-              richTextStyles: false
-            }),
-            card: card({
-              gap: '15px'
-            })
-          }
-
-          const cardTextParents = [
-            {
-              type: 'content',
-              fields: {
-                textStyle: 'Extra Small',
-                headingStyle: 'Heading Four'
-              }
-            },
-            {
-              type: 'card',
-              fields: {
-                internalLink: item
-              }
-            }
-          ]
-
-          const cardHeading = richText(
-            headingLevel,
-            [
-              {
-                nodeType: 'text',
-                value: title
-              }
-            ],
-            cardTextParents
-          )
-
-          let cardText = ''
-          let projectTypes = ''
-
-          if (projectType) {
-            projectTypes = projectType.map(pt => {
-              const projectTypeTitle = pt?.fields?.title || ''
-              const projectTypeSlug = pt?.fields?.slug || ''
-
-              if (!projectTypeSlug) {
-                return {
-                  nodeType: 'text',
-                  value: ''
-                }
-              }
-
-              const projectTypePermalink = getPermalink(
-                getSlug({
-                  contentType: 'projectType',
-                  slug: projectTypeSlug
-                })
-              )
-
-              return {
-                nodeType: 'hyperlink',
-                data: {
-                  uri: projectTypePermalink
-                },
-                content: [
-                  {
-                    nodeType: 'text',
-                    value: projectTypeTitle,
-                    data: {},
-                    marks: []
-                  }
-                ]
-              }
-            })
-
-            cardText = richText(
-              'paragraph',
-              projectTypes,
-              cardTextParents
-            )
-          }
-
-          itemOutput += image(
-            {
-              image: heroImage
-            },
-            [
-              {
-                type: 'card'
-              }
-            ]
-          )
-
-          itemOutput += (
-            containers.content.start +
-            cardHeading +
-            cardText +
-            containers.content.end
-          )
-
-          itemOutput = (
-            containers.column.start +
-            containers.card.start +
-            itemOutput +
-            containers.card.end +
-            containers.column.end
-          )
+          itemOutput = _renderCard(item, headingLevel)
         }
 
         if (itemOutput) {
@@ -483,7 +518,7 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
         tag: 'Unordered List',
         layout: 'Row',
         gap: '40px',
-        className: 'l-gap-margin-xl-v-s'
+        classes: 'l-gap-margin-xl-v-s'
       })
 
       output = (

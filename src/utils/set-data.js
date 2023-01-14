@@ -53,7 +53,11 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, se
         if (c.nodeType === 'embedded-entry-block') {
           c = c.data.target
         } else {
-          output.html += richText(richTextNode, c.content, parents)
+          output.html += richText({
+            type: richTextNode,
+            content: c.content,
+            parents
+          })
         }
       }
 

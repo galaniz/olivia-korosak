@@ -54,7 +54,7 @@ const image = (args = {}, parents = []) => {
     }
 
     if (card) {
-      imageClasses.push('e-transition')
+      imageClasses.push('e-transition l-object-left-top')
     }
 
     imageOutput = getImage({

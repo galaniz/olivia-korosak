@@ -1,0 +1,33 @@
+/**
+ * Effects: title line
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config" as con;
+
+/* Styles */
+
+.e-title-line {
+  [data-title] {
+    padding-right: var(--m);
+
+    &::after {
+      @extend %u-content-empty;
+      @extend %u-background-color-background-light;
+      @extend %u-display-inline-block;
+      @extend %u-transform-origin-0-0;
+  
+      width: var(--s);
+      height: 0.0625rem;
+      margin-bottom: var(--5xs);
+      margin-left: var(--5xs);
+      transition: transform var(--duration) var(--easing);
+      transform: scaleX(0);
+    }
+  }
+
+  &:hover [data-title]::after {
+    transform: scaleX(1);
+  }
+}

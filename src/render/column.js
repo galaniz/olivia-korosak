@@ -5,9 +5,11 @@
  *  @param {string} tag
  *  @param {string} width
  *  @param {string} widthSmall
+ *  @param {string} widthMedium
  *  @param {string} widthLarge
  *  @param {string} justify
  *  @param {string} align
+ *  @param {string} classes
  * }
  */
 
@@ -17,7 +19,7 @@ const { optionValues } = require('../utils/constants')
 
 /* Function */
 
-const column = (args) => {
+const column = (args = {}) => {
   let {
     tag = 'Div', // optionValues.tag
     width = 'None', // optionValues.width
@@ -25,7 +27,8 @@ const column = (args) => {
     widthMedium = 'None', // optionValues.width
     widthLarge = 'None', // optionValues.width
     justify = 'None', // optionValues.justify
-    align = 'None' // optionValues.align
+    align = 'None', // optionValues.align
+    classes = ''
   } = args
 
   /* Normalize options */
@@ -40,7 +43,7 @@ const column = (args) => {
 
   /* Classes */
 
-  const classes = []
+  classes = [classes]
 
   /* Width */
 

@@ -54,6 +54,7 @@
 @use "@alanizcreative/formation/src/layouts/object";
 @use "@alanizcreative/formation/src/layouts/width";
 @use "layouts/svg";
+@use "layouts/object-position";
 
 /* Borders */
 
@@ -80,4 +81,4 @@
 @use "effects/border";
 @use "effects/underline";
 @use "effects/overlay";
-@use "effects/scale";
+@use "effects/title-line";
