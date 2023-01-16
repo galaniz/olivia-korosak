@@ -176,7 +176,23 @@ const richText = ({
       /* Text */
 
       if (nodeType === 'text' && value) {
-        output += cardLink ? `<a class="l-before" href="${cardLink}" data-inline data-title>${value}</a>` : value
+        let linkText = value
+
+        if (cardLink && value) {
+          const textArray = linkText.split(' ')
+
+          linkText = textArray.map((l, i) => {
+            if (i === textArray.length - 1) {
+              return `<span data-title>${l}</span>`
+            }
+
+            return l
+          }).join(' ')
+
+          linkText = `<span role="text">${linkText}</span>`
+        }
+
+        output += cardLink ? `<a class="l-before" href="${cardLink}" data-inline>${linkText}</a>` : value
       }
 
       /* Link */

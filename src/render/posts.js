@@ -2,7 +2,13 @@
  * Posts output
  *
  * @param {object} args {
- *  @param {string} ?
+ *  @param {string} contentType
+ *  @param {integer} display
+ *  @param {string} headingLevel
+ *  @param {boolean} pagination
+ *  @param {array} filters
+ *  @param {array} include
+ *  @param {string} archiveType
  * }
  */
 
@@ -11,29 +17,47 @@
 const escape = require('validator/lib/escape.js')
 const { getSlug, getPermalink } = require('../utils/functions')
 const { getContentfulData } = require('../utils/contentful')
-const { optionValues } = require('../utils/constants')
+const { optionValues, archiveCounts, termData } = require('../utils/constants')
 const container = require('./container')
 const column = require('./column')
 const card = require('./card')
 const image = require('./image')
+const gradients = require('./gradients')
 const content = require('./content')
 const richText = require('./rich-text')
 const tracks = require('./tracks')
 
 /* Output card */
 
-const _renderCard = (item, headingLevel) => {
+const _renderCard = ({
+  item,
+  headingLevel,
+  contentType,
+  includeProjectTypes = false,
+  isTerm = false
+}) => {
   const {
     title = '',
+    slug = '',
     heroImage = false,
-    type
+    cardFrom,
+    cardTo,
+    projectType
   } = item.fields
 
   /* Store */
 
   let output = ''
-  let types = ''
+  let projectTypes = ''
   let text = ''
+
+  /* Content classes */
+
+  let contentClasses = 'l-flex l-flex-column l-flex-grow-1'
+
+  if (!heroImage) {
+    contentClasses += ' l-isolate l-padding-top-s l-padding-bottom-s l-padding-left-s l-padding-right-s'
+  }
 
   /* Containers */
 
@@ -46,13 +70,13 @@ const _renderCard = (item, headingLevel) => {
       classes: 'l-flex l-flex-column'
     }),
     card: card({
-      gap: '15px'
+      gap: heroImage ? '15px' : 'none'
     }),
     content: content({
       gap: '5px',
       gapLarge: '10px',
       richTextStyles: false,
-      classes: 'l-flex l-flex-column l-flex-grow-1'
+      classes: contentClasses
     })
   }
 
@@ -87,12 +111,12 @@ const _renderCard = (item, headingLevel) => {
     parents
   })
 
-  /* Text from project types */
+  /* Project types text */
 
-  if (type) {
-    types = type.map(t => {
-      const projectTypeTitle = t?.fields?.title || ''
-      const projectTypeSlug = t?.fields?.slug || ''
+  if (includeProjectTypes && projectType) {
+    projectTypes = projectType.map(pt => {
+      const projectTypeTitle = pt?.fields?.title || ''
+      const projectTypeSlug = pt?.fields?.slug || ''
 
       if (!projectTypeSlug) {
         return {
@@ -122,11 +146,11 @@ const _renderCard = (item, headingLevel) => {
       }
     })
 
-    const typesLength = types.length
+    const projectTypesLength = projectTypes.length
 
-    for (let i = 0; i < typesLength; i++) {
-      if (i !== typesLength - 1) {
-        types.splice(i + 1, 0, {
+    for (let i = 0; i < projectTypesLength; i++) {
+      if (i !== projectTypesLength - 1) {
+        projectTypes.splice(i + 1, 0, {
           nodeType: 'text',
           value: ', '
         })
@@ -135,26 +159,42 @@ const _renderCard = (item, headingLevel) => {
 
     text = richText({
       type: 'paragraph',
-      content: types,
+      content: projectTypes,
       parents,
-      classes: 't-xs l-relative l-margin-top-auto'
+      classes: 't-xs t-line-height-130-pc l-relative l-margin-top-auto e-underline-reverse e-underline-thin'
     })
   }
 
-  /* Image */
+  /* Count text */
 
-  output += image(
-    {
-      image: heroImage
-    },
-    [
-      {
-        type: 'card'
-      }
-    ]
-  )
+  if (isTerm) {
+    const count = archiveCounts[slug] || 0
+    const label = count === 1 ? termData[contentType].count.singular : termData[contentType].count.title
 
-  /* Output */
+    text = richText({
+      type: 'paragraph',
+      content: [
+        {
+          nodeType: 'text',
+          value: `${count} ${label}`
+        }
+      ],
+      parents,
+      classes: 't-xs t-number-normal'
+    })
+  }
+
+  /* Gradient */
+
+  if (!heroImage) {
+    output += gradients({
+      from: cardFrom?.value || '#4e515f',
+      to: cardTo?.value || '#534e5f',
+      type: 'card'
+    })
+  }
+
+  /* Content output */
 
   output += (
     containers.content.start +
@@ -162,6 +202,23 @@ const _renderCard = (item, headingLevel) => {
     text +
     containers.content.end
   )
+
+  /* Image */
+
+  if (heroImage) {
+    output += image(
+      {
+        image: heroImage
+      },
+      [
+        {
+          type: 'card'
+        }
+      ]
+    )
+  }
+
+  /* Output */
 
   return (
     containers.column.start +
@@ -176,28 +233,33 @@ const _renderCard = (item, headingLevel) => {
 
 const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => {
   let {
-    type = 'Project', // optionValues.posts.type
+    contentType = 'Project', // optionValues.posts.contentType
     display = 1,
     headingLevel = 'Heading Three', // optionValues.posts.headingLevel
     pagination = false,
     filters = [],
-    include = []
+    include = [],
+    archiveType
   } = args
 
   /* Normalize options */
 
-  type = optionValues.posts.type[type]
+  contentType = optionValues.posts.contentType[contentType]
   headingLevel = optionValues.posts.headingLevel[headingLevel]
 
   /* Type required */
 
-  if (!type) {
+  if (!contentType) {
     return ''
   }
 
+  /* Archive type */
+
+  archiveType = archiveType || contentType
+
   /* Layout */
 
-  const layout = optionValues.posts.layout[type]
+  const layout = optionValues.posts.layout[contentType]
 
   /* Current for pagination */
 
@@ -206,15 +268,15 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
 
   /* Query prep */
 
-  let key = `posts_${pageData.sys.id}_${type}_${display}`
+  let key = `posts_${pageData.sys.id}_${contentType}_${display}`
 
   const queryArgs = {
-    content_type: type,
+    content_type: contentType,
     limit: display,
     include: 10
   }
 
-  if (type === 'project' || type === 'track') {
+  if (contentType === 'project' || contentType === 'track') {
     queryArgs.order = '-fields.date'
   }
 
@@ -276,24 +338,40 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
     if (p?.items) {
       const items = p.items
 
+      /* Include */
+
+      let includeProjects = false
+      let includeGenres = false
+      let includeProjectTypes = false
+
+      if (include.length) {
+        include.forEach(inc => {
+          if (inc === 'projects') {
+            includeProjects = true
+          }
+
+          if (inc === 'genres') {
+            includeGenres = true
+          }
+
+          if (inc === 'project-types') {
+            includeProjectTypes = true
+          }
+        })
+      }
+
+      /* Check if term */
+
+      const isTerm = !!termData?.[contentType] || false
+
       /* Tracks */
 
       if (layout === 'tracks') {
         const tracksArgs = {
           items,
-          contentType: type
-        }
-
-        if (include.length) {
-          include.forEach(inc => {
-            if (inc === 'projects') {
-              tracksArgs.includeProjects = true
-            }
-
-            if (inc === 'genres') {
-              tracksArgs.includeGenres = true
-            }
-          })
+          contentType,
+          includeProjects,
+          includeGenres
         }
 
         output.push(tracks(tracksArgs))
@@ -305,13 +383,21 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
         let itemOutput = ''
 
         if (layout === 'card') {
-          itemOutput = _renderCard(item, headingLevel)
+          itemOutput = _renderCard({
+            item,
+            headingLevel,
+            contentType,
+            includeProjectTypes,
+            isTerm
+          })
         }
 
         if (itemOutput) {
           output.push(itemOutput)
         }
       })
+    } else {
+      // NO CONTENT
     }
 
     /* Pagination data and output */
@@ -323,6 +409,10 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
     let prevPaginationFilters = paginationFilters
     let nextPaginationFilters = paginationFilters
     let currentPaginationFilters = paginationFilters
+
+    if (pagination) {
+      archiveCounts[archiveType] = total
+    }
 
     if (paginationFilters) {
       if (current > 2) {

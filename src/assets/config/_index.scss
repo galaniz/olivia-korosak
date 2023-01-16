@@ -21,7 +21,9 @@ $padding-vertical: (
 /* Horizontal padding */
 
 $padding-horizontal: (
+  "5xs",
   "4xs",
+  "3xs",
   "2xs",
   "s",
   "m",
@@ -116,6 +118,7 @@ $gaps: (
     "2xs": 20px,
     "xs": 25px,
     "s": 30px,
+    "r": 35px,
     "m": 40px,
     "l": 50px,
     "xl": 60px,
@@ -155,8 +158,11 @@ $gaps: (
   ),
 
   $widths: (
+    "4xs",
+    "2xs",
     "xs",
     "s",
+    "r",
     "m",
     "l",
   ),
@@ -166,8 +172,11 @@ $gaps: (
   /* Heights */
 
   $heights: (
+    "4xs",
+    "2xs",
     "xs",
     "s",
+    "r",
     "m",
     "l",
   ),

@@ -43,7 +43,7 @@ const image = (args = {}, parents = []) => {
   let imageData = false
 
   if (image?.fields) {
-    imageData = image.fields.file
+    imageData = image.fields
   }
 
   if (imageData) {
@@ -70,7 +70,7 @@ const image = (args = {}, parents = []) => {
     }
 
     if (card) {
-      classes += ' l-after bg-gradient'
+      classes += ' l-after bg-gradient-0'
     }
 
     imageOutput = `<div class="${classes}">${imageOutput}</div>`
@@ -79,7 +79,7 @@ const image = (args = {}, parents = []) => {
   /* Card wrapper */
 
   if (imageOutput && card) {
-    imageOutput = `<div class="l-relative l-overflow-hidden l-after bg-overlay" data-overlay>${imageOutput}</div>`
+    imageOutput = `<div class="l-relative l-overflow-hidden l-after bg-overlay l-order-first" data-overlay>${imageOutput}</div>`
   }
 
   /* Output */

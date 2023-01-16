@@ -43,7 +43,7 @@ const hero = ({
 
   let imageOutput = ''
 
-  if (image) {
+  if (image?.fields) {
     type = 'media-text'
 
     if (index) {
@@ -57,7 +57,7 @@ const hero = ({
     }
 
     imageOutput = getImage({
-      data: image,
+      data: image?.fields,
       classes: 'l-width-1-1'
     })
   }

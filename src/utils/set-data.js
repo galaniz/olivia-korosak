@@ -19,8 +19,9 @@ const testimonial = require('../render/testimonial')
 const navigations = require('../render/navigations')
 const hero = require('../render/hero')
 const gradients = require('../render/gradients')
+const audio = require('../render/audio')
 const { getSlug, getPermalink } = require('./functions')
-const { contentTypes, slugParents } = require('./constants')
+const { contentTypes, slugParents, archiveCounts, termData } = require('./constants')
 const { writeFile } = require('fs')
 
 /* Navigations params */
@@ -30,9 +31,9 @@ const _nav = {
   items: []
 }
 
-/* Store item data by slug */
+/* Store item data for json */
 
-const dataBySlug = {}
+const storeData = {}
 
 /* Store serverless object */
 
@@ -206,6 +207,54 @@ const _setItem = async (item = {}, contentType = 'page') => {
     metaImage: false
   }, item.fields)
 
+  /* Add posts for terms - project type and genre */
+
+  if (contentType === 'projectType' || contentType === 'genre') {
+    const postsContent = [
+      {
+        sys: {
+          contentType: {
+            sys: {
+              id: 'section'
+            }
+          }
+        },
+        fields: {
+          tag: 'Div',
+          layout: 'Column',
+          maxWidth: '1300px',
+          paddingBottom: '80px',
+          paddingBottomLarge: '120px',
+          content: [
+            {
+              sys: {
+                contentType: {
+                  sys: {
+                    id: 'posts'
+                  }
+                }
+              },
+              fields: {
+                archiveType: fields.slug,
+                contentType: termData[contentType].contentType,
+                display: termData[contentType].display,
+                headingLevel: 'Heading Two',
+                pagination: true,
+                filters: [
+                  `fields.${termData[contentType].field}.sys.id:${item.sys.id}`
+                ],
+                include: termData[contentType].include
+              }
+            }
+          ]
+        }
+      }
+    ]
+
+    item.fields.content = postsContent
+    fields.content = postsContent
+  }
+
   /* Meta */
 
   data.title = fields.title
@@ -247,7 +296,7 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
   /* Add to data by slug store */
 
-  dataBySlug[`/${data.slug}/`] = {
+  storeData[`/${data.slug}/`] = {
     id: item.sys.id,
     contentType
   }
@@ -264,6 +313,10 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
   data.navigations = navs
 
+  /* Audio player */
+
+  data.audio = audio()
+
   /* Content */
 
   data.content = ''
@@ -273,7 +326,7 @@ const _setItem = async (item = {}, contentType = 'page') => {
   data.content += hero({
     title: fields.heroTitle || fields.title,
     text: fields.heroText,
-    image: fields.heroImage ? fields.heroImage.fields.file : false,
+    image: fields.heroImage ? fields.heroImage : false,
     index: fields.slug !== '',
     breadcrumbs: data.navigations.breadcrumbs || false
   })
@@ -402,7 +455,7 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
       }
     })
 
-    dataBySlug.slugParents = slugParents
+    storeData.slugParents = slugParents
   } else {
     if (store?.slugParents) {
       for (const s in store.slugParents) {
@@ -431,7 +484,9 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
   /* Write data by slug to json file */
 
   if (!serverlessData) {
-    writeFile('./src/data/store.json', JSON.stringify(dataBySlug, null, 2), (error) => {
+    storeData.archiveCounts = archiveCounts
+
+    writeFile('./src/data/store.json', JSON.stringify(storeData, null, 2), (error) => {
       if (error) {
         console.log('An error has occurred writing store.json ', error)
         return

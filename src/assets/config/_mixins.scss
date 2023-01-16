@@ -42,11 +42,12 @@
   --t-s: #{func.calc-rem(16px)};
   --t-xs: #{func.calc-rem(16px)};
   --t-2xs: #{func.calc-rem(14px)};
-  --t-3xs: #{func.calc-rem(10px)};
+  --t-3xs: #{func.calc-rem(11px)};
 
-  @include mix.breakpoint-min("l") {
+  @include mix.breakpoint-min("m") {
     --t-m: #{func.calc-rem(20px)};
     --t-s: #{func.calc-rem(18px)};
+    --t-3xs: #{func.calc-rem(14px)};
   }
 
   /* t-quote */

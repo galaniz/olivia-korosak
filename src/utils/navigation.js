@@ -171,6 +171,7 @@ class Navigation {
       const obj = this._itemsById[f]
 
       obj.current = externalLink ? false : obj.link === current
+      obj.descendentCurrent = current.includes(obj.link)
 
       return this._itemsById[f]
     })
@@ -192,7 +193,8 @@ class Navigation {
         link = '',
         external = false,
         children = [],
-        current = false
+        current = false,
+        descendentCurrent = false
       } = item
 
       args.filterBeforeItem(args, item, output)
@@ -202,6 +204,10 @@ class Navigation {
 
       if (current) {
         itemAttrs += ' data-current="true"'
+      }
+
+      if (descendentCurrent) {
+        itemAttrs += ' data-descendent-current="true"'
       }
 
       output.html += `<li data-depth="${depth}"${itemClasses}${itemAttrs}>`
@@ -217,6 +223,10 @@ class Navigation {
 
       if (current) {
         linkAttrs += ' aria-current="page" data-current="true"'
+      }
+
+      if (descendentCurrent) {
+        linkAttrs += ' data-descendent-current="true"'
       }
 
       output.html += `<a href="${link}" data-depth="${depth}"${linkClasses}${linkAttrs}>`

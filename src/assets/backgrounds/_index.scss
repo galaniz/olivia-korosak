@@ -23,10 +23,18 @@
   opacity: 0.3;
 }
 
-.bg-gradient::after {
+.bg-gradient-0::after {
   background: linear-gradient(
     to top,
     var(--foreground-base) 0%,
     #{rgba(func.get-color("foreground-base"), 0)} 100%
+  );
+}
+
+.bg-gradient-135::before {
+  background: linear-gradient(
+    135deg,
+    rgba(var(--from)) 0%,
+    rgba(var(--to)) 100%
   );
 }

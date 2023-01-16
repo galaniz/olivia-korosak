@@ -142,7 +142,7 @@ const optionValues = {
     }
   },
   posts: {
-    type: {
+    contentType: {
       Project: 'project',
       'Project Type': 'projectType',
       Track: 'track',
@@ -173,23 +173,53 @@ const slugParents = {}
 const slugBases = {
   page: {
     slug: '',
-    title: ''
+    title: '',
+    singular: ''
   },
   project: {
     slug: 'projects',
-    title: 'Projects'
+    title: 'Projects',
+    singular: 'Project'
   },
   track: {
     slug: 'tracks',
-    title: 'Tracks'
+    title: 'Tracks',
+    singular: 'Track'
   },
   projectType: {
     slug: 'types',
-    title: 'Types'
+    title: 'Types',
+    singular: 'Type'
   },
   genre: {
     slug: 'genres',
-    title: 'Genres'
+    title: 'Genres',
+    singular: 'Genre'
+  }
+}
+
+/* Terms data */
+
+const termData = {
+  projectType: {
+    field: 'projectType',
+    contentType: 'Project',
+    display: 16,
+    include: [],
+    count: {
+      title: 'Projects',
+      singular: 'Project'
+    }
+  },
+  genre: {
+    field: 'genre',
+    contentType: 'Track',
+    display: 10,
+    include: ['projects'],
+    count: {
+      title: 'Tracks',
+      singular: 'Track'
+    }
   }
 }
 
@@ -201,9 +231,15 @@ const urls = {
   staging: 'https://staging--oliviakorosak.netlify.app/'
 }
 
+/* Store posts archive counts */
+
+const archiveCounts = {}
+
 /* Exports */
 
 module.exports = {
+  archiveCounts,
+  termData,
   contentTypes,
   optionValues,
   slugParents,

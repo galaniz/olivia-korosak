@@ -10,7 +10,7 @@
 
 .e-title-line {
   [data-title] {
-    padding-right: var(--m);
+    white-space: nowrap;
 
     &::after {
       @extend %u-content-empty;

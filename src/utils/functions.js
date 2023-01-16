@@ -125,18 +125,34 @@ const getLink = (internalLink = false, externalLink = '') => {
 /* Get responsive image output */
 
 const getImage = ({
-  data = {},
+  data,
   classes = '',
   attr = '',
   quality = 75,
   width = 'auto',
   height = 'auto'
 }) => {
-  const { url = '', details = {} } = data
+  /* Data required */
 
-  /* Alt text */
+  if (!data) {
+    return ''
+  }
 
-  const alt = ''
+  const { file, description = '' } = data
+
+  /* File required */
+
+  if (!file) {
+    return ''
+  }
+
+  const { url = '', details } = file
+
+  /* Details required */
+
+  if (!details) {
+    return ''
+  }
 
   /* Dimensions */
 
@@ -175,7 +191,7 @@ const getImage = ({
   /* Output */
 
   return `
-    <img${classes ? ` class="${classes}"` : ''} alt="${alt}" src="${src}" srcset="${srcset}" sizes="${sizes}" width="${w}" height="${h}"${attr ? ` ${attr}` : ''}>
+    <img${classes ? ` class="${classes}"` : ''} alt="${description}" src="${src}" srcset="${srcset}" sizes="${sizes}" width="${w}" height="${h}"${attr ? ` ${attr}` : ''}>
   `
 }
 

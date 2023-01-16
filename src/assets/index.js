@@ -11,6 +11,7 @@ import { setElements, usingMouse } from 'Formation/utils'
 import Nav from 'Formation/components/nav'
 import Table from 'Formation/objects/table'
 import Collapsible from 'Formation/objects/collapsible'
+import Audio from 'Formation/components/audio'
 
 /* Variables */
 
@@ -157,6 +158,55 @@ const initialize = () => {
       }
 
       collapsible(args)
+    })
+  }
+
+  /* Audio */
+
+  let audioInstance = false
+
+  const getTrackProps = (track) => {
+    return {
+      item: track,
+      button: track.querySelector('.js-track__play'),
+      state: track.querySelector('.js-track__state'),
+      loader: track.querySelector('.o-loader'),
+      audioUrl: track.getAttribute('data-audio-url'),
+      title: track.getAttribute('data-audio-title'),
+      duration: parseInt(track.getAttribute('data-audio-duration')),
+      type: track.getAttribute('data-audio-type')
+    }
+  }
+
+  if (el.tracks && el.audio) {
+    const tracks = []
+
+    el.tracks.forEach(track => {
+      tracks.push(getTrackProps(track))
+    })
+
+    const prefix = '.c-audio__'
+    const audioItem = el.audio.querySelector('audio')
+
+    audioInstance = new Audio({
+      audio: audioItem,
+      source: audioItem.querySelector('source'),
+      loader: el.audio.querySelector('.o-loader'),
+      error: el.audio.querySelector('.c-audio__error'),
+      playPause: el.audio.querySelector(`${prefix}play-pause`),
+      playPauseText: el.audio.querySelector(`${prefix}state`),
+      prev: el.audio.querySelector(`${prefix}prev`),
+      next: el.audio.querySelector(`${prefix}next`),
+      time: el.audio.querySelector(`${prefix}time`),
+      title: Array.from(el.audio.querySelectorAll(`${prefix}title`)),
+      duration: el.audio.querySelector(`${prefix}duration`),
+      fallback: Array.from(el.audio.querySelectorAll(`${prefix}fallback`)),
+      tracks,
+      progress: {
+        item: el.audio.querySelector('.c-audio-progress'),
+        fill: el.audio.querySelector('.c-audio-progress__fill'),
+        handle: el.audio.querySelector('.c-audio-progress__handle')
+      }
     })
   }
 }

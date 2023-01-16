@@ -57,7 +57,8 @@
 
   &:hover,
   &:active,
-  &[data-current="true"] {
+  &[data-current="true"],
+  &[data-descendent-current="true"] {
     &::after {
       @extend %u-transform-origin-100-pc-100-pc;
 

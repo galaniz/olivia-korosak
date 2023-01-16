@@ -31,11 +31,11 @@ const card = (args = {}) => {
   /* Gap */
 
   if (gap) {
-    classes += ` l-margin-bottom-${gap}-all`
+    classes += ` l-gap-margin-${gap}`
   }
 
   if (gapLarge && gapLarge !== gap) {
-    classes += ` l-margin-bottom-${gapLarge}-all-m`
+    classes += ` l-gap-margin-${gapLarge}-m`
   }
 
   /* Output */

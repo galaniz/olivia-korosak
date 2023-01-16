@@ -48,11 +48,11 @@ module.exports = async (eleventyData) => {
     /* Content data */
 
     const content = {
-      page: [],
       project: [],
       track: [],
       projectType: [],
-      genre: []
+      genre: [],
+      page: []
     }
 
     let entry = false
@@ -62,7 +62,7 @@ module.exports = async (eleventyData) => {
         const item = store[serverlessData.path]
 
         const id = item.id
-        const type = item.contentType
+        const contentType = item.contentType
 
         entry = await getContentfulData(
           `serverless_${id}`,
@@ -73,7 +73,7 @@ module.exports = async (eleventyData) => {
         )
 
         if (entry?.items) {
-          content[type] = entry.items
+          content[contentType] = entry.items
         }
       }
     }

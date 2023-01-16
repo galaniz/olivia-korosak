@@ -1,0 +1,106 @@
+/**
+ * Components: audio
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+@use "@alanizcreative/formation/src/utils/functions" as func;
+
+/* Styles */
+
+.c-audio {
+  transform: translateY(100%);
+
+  [data-audio-open] & {
+    transform: translateY(0);
+    position: sticky;
+  }
+}
+
+.c-audio__container {
+  @include mix.breakpoint-min("m") {
+    max-width: var(--container);
+    padding-right: var(--container-padding);
+    padding-left: var(--container-padding);
+  }
+}
+
+.c-audio__play {
+  svg {
+    @extend %u-display-none;
+  }
+
+  &[data-state="play"] svg:first-of-type {
+    @extend %u-display-block;
+  }
+
+  &[data-state="pause"] svg:last-of-type {
+    @extend %u-display-block;
+  }
+}
+
+.c-audio__show {
+  @include mix.breakpoint-min("m") {
+    display: block;
+  }
+}
+
+.c-audio__text {
+  @include mix.breakpoint-min("m") {
+    max-width: func.calc-rem(300px);
+  }
+}
+
+.c-audio__offset {
+  --offset: #{func.calc-rem(2px)};
+
+  padding-left: var(--offset);
+
+  &[data-offset="l"] {
+    --offset: #{func.calc-rem(7px)};
+  }
+
+  @include mix.breakpoint-min("m") {
+    --offset: 0;
+  }
+}
+
+.c-audio__progress {
+  @include mix.breakpoint-min("m") {
+    width: auto;
+  }
+}
+
+.c-audio__slider {
+  height: func.calc-rem(3px);
+  background: rgba(func.get-color("foreground-base"), 0.2);
+}
+
+.c-audio__fill {
+  @extend %u-transform-origin-0-0;
+  
+  transform: scaleX(0.2);
+  border-top-left-radius: var(--border-radius-s);
+  border-bottom-left-radius: var(--border-radius-s);
+}
+
+.c-audio__scrub {
+  @extend %u-touch-50;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  &::before {
+    width: var(--s);
+    height: var(--s);
+  }
+}
+
+.c-audio__close {
+  @include mix.breakpoint-min("container") {
+    width: var(--r);
+    height: var(--r);
+  }
+}
