@@ -4,11 +4,11 @@
 
 /* Imports */
 
+const { namespace } = require('../utils/variables')
 const { getPermalink } = require('../utils/functions')
 
-/* */
+/* Variables */
 
-const namespace = 'ok'
 const assets = `${getPermalink()}assets/`
 const date = new Date()
 

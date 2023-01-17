@@ -13,7 +13,7 @@
 
 /* Imports */
 
-const { optionValues } = require('../utils/constants')
+const { optionValues } = require('../utils/variables')
 const { getLink } = require('../utils/functions')
 
 /* Function */

@@ -15,7 +15,7 @@
 
 /* Imports */
 
-const { optionValues } = require('../utils/constants')
+const { optionValues } = require('../utils/variables')
 
 /* Function */
 

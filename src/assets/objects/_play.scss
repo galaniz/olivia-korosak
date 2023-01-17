@@ -1,0 +1,23 @@
+/**
+ * Objects: play
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+
+/* Styles */
+
+.o-play {
+  svg {
+    @extend %u-display-none;
+  }
+
+  &[data-state="play"] svg:first-of-type {
+    @extend %u-display-block;
+  }
+
+  &[data-state="pause"] svg:last-of-type {
+    @extend %u-display-block;
+  }
+}

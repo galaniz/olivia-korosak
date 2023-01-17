@@ -13,7 +13,7 @@ const audio = () => {
     <div class="c-audio l-fixed l-bottom-0 l-left-0 l-right-0 t-dark t-foreground-base-60 t-number-normal bg-background-light e-transition">
       <audio preload="auto">
         <source src="" type="">
-        <p class="l-container t-xs e-underline">Your browser does not support HTML5 audio. <a href="" class="c-audio__url" data-inline>Download the track</a>.</p>
+        <p class="l-container t-xs e-underline">Your browser does not support HTML5 audio. <a href="" class="c-audio__fallback" data-inline>Download the track</a>.</p>
       </audio>
       <div class="c-audio__container l-padding-left-5xs l-padding-top-5xs l-padding-bottom-5xs l-padding-right-3xs l-padding-top-3xs-m l-padding-bottom-3xs-m l-margin-auto">
         <div class="l-flex l-align-center l-flex-wrap l-gap-margin-5xs l-gap-margin-s-m">
@@ -24,8 +24,7 @@ const audio = () => {
                   <button type="button" class="c-audio__prev l-width-r l-height-r l-svg b-radius-100-pc" aria-label="Previous track">
                     ${getFile('./src/assets/svg/play-prev.svg')}
                   </button>
-                  <button type="button" class="c-audio__play l-width-l l-height-l l-svg l-relative b-radius-100-pc" data-state="play">
-                    <span class="c-audio__state a11y-visually-hidden">Play</span>
+                  <button type="button" class="c-audio__play o-play l-width-l l-height-l l-svg b-radius-100-pc" aria-label="Play" data-state="play">
                     ${getFile('./src/assets/svg/play.svg')}
                     ${getFile('./src/assets/svg/pause.svg')}
                   </button>
@@ -63,7 +62,7 @@ const audio = () => {
         </div>
       </div>
       <div class="c-audio__error l-container l-none" tabindex="-1">
-        <p class="t-xs e-underline">Sorry, there is a problem with the service. <a href="" class="c-audio__url" data-inline="">Download the track</a>.</p>
+        <p class="t-xs e-underline">Sorry, there is a problem with the service. <a href="" class="c-audio__fallback" data-inline="">Download the track</a>.</p>
       </div>
       <button type="button" class="c-audio__close l-absolute l-right-0 l-top-0 l-width-xs l-height-xs l-flex l-align-center l-justify-center" aria-label="Close audio player">
         <span class="l-width-2xs l-height-2xs l-svg">

@@ -14,6 +14,7 @@
 
 const { randomUUID } = require('crypto')
 const { getSlug, getPermalink, getFile } = require('../utils/functions')
+const { scriptData } = require('../utils/variables')
 
 /*
   Get audio duration as hh:mm:ss
@@ -33,6 +34,7 @@ const _getAudioDuration = (bytes = 0, bitRate = 0) => {
   let minutes = Math.floor(duration % 3600000 / 60000)
   let seconds = Math.floor(duration % 3600000 % 60000 / 1000)
 
+  const durationInSeconds = seconds
   const output = []
 
   if (hours) {
@@ -55,7 +57,10 @@ const _getAudioDuration = (bytes = 0, bitRate = 0) => {
 
   output.push(seconds)
 
-  return output.join(':')
+  return {
+    seconds: durationInSeconds,
+    output: output.join(':')
+  }
 }
 
 /* Comma separated links */
@@ -98,6 +103,10 @@ const tracks = ({
   if (!items.length) {
     return ''
   }
+
+  /* Store script data */
+
+  const tracksData = []
 
   /* Accordion id */
 
@@ -174,6 +183,17 @@ const tracks = ({
       genre = []
     } = item.fields
 
+    /* Audio, title and slug required */
+
+    if (!title || !slug || !audio) {
+      return ''
+    }
+
+    /* Audio info */
+
+    const { file } = audio.fields
+    const { url, details, contentType: fileType } = file
+
     /* Ids */
 
     const id = randomUUID()
@@ -205,10 +225,9 @@ const tracks = ({
       output: `
         <div class="l-flex l-gap-margin-2xs l-gap-margin-s-m l-align-center">
           <div>
-            <button type="button" class="l-width-m l-height-m bg-background-light b-radius-100-pc" aria-label="Play ${title}">
-              <span class="l-flex l-width-m l-height-m l-svg t-foreground-base">
-                ${getFile('./src/assets/svg/play.svg')}
-              </span>
+            <button type="button" class="o-play l-width-m l-height-m l-svg t-foreground-base bg-background-light b-radius-100-pc js-track__button" aria-label="Play ${title}" data-state="play">
+              ${getFile('./src/assets/svg/play.svg')}
+              ${getFile('./src/assets/svg/pause.svg')}
             </button>
           </div>
           <div class="e-underline-reverse">
@@ -266,23 +285,19 @@ const tracks = ({
 
     /* Duration */
 
-    let duration = ''
+    const duration = _getAudioDuration(details.size, 128)
 
-    if (audio) {
-      duration = _getAudioDuration(audio.fields.file.details.size, 128)
+    if (duration) {
+      cells.push({
+        size: 's',
+        headers: 'duration',
+        output: `<p class="t-s t-number-normal t-align-right">${duration.output}</p>`
+      })
 
-      if (duration) {
-        cells.push({
-          size: 's',
-          headers: 'duration',
-          output: `<p class="t-s t-number-normal t-align-right">${duration}</p>`
-        })
-
-        detailsItems.push({
-          title: 'Duration',
-          desc: duration
-        })
-      }
+      detailsItems.push({
+        title: 'Duration',
+        desc: duration.output
+      })
     }
 
     /* Details */
@@ -299,10 +314,23 @@ const tracks = ({
       `
     })
 
+    /* Front end data */
+
+    tracksData.push({
+      id,
+      item: null,
+      button: null,
+      url: `https:${url}`,
+      title,
+      titleUrl: permalink,
+      type: fileType,
+      duration: duration ? duration.seconds : 0
+    })
+
     /* Output */
 
     return `
-      <tr class="l-relative b-top">
+      <tr class="l-relative b-top js-track" id=${id}>
         ${cells.map((c, i) => {
           const lastIndex = i === cells.length - 1
           const secondLastIndex = i === cells.length - 2
@@ -342,6 +370,14 @@ const tracks = ({
       </tr>
     `
   })
+
+  /* Add to script data */
+
+  if (!scriptData?.tracks) {
+    scriptData.tracks = {}
+  }
+
+  scriptData.tracks[randomUUID()] = tracksData
 
   /* Output */
 

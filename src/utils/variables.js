@@ -1,6 +1,10 @@
 /**
- * Constants
+ * Variables
  */
+
+/* Namespace */
+
+const namespace = 'ok'
 
 /* Content type by ids */
 
@@ -235,11 +239,17 @@ const urls = {
 
 const archiveCounts = {}
 
+/* Store script data for front end */
+
+const scriptData = {}
+
 /* Exports */
 
 module.exports = {
+  namespace,
   archiveCounts,
   termData,
+  scriptData,
   contentTypes,
   optionValues,
   slugParents,

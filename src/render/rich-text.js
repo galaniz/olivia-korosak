@@ -8,7 +8,7 @@
 
 /* Imports */
 
-const { optionValues } = require('../utils/constants')
+const { optionValues } = require('../utils/variables')
 const { getLink } = require('../utils/functions')
 
 /* Get inline start and end tags */

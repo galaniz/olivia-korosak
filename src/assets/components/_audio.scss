@@ -27,20 +27,6 @@
   }
 }
 
-.c-audio__play {
-  svg {
-    @extend %u-display-none;
-  }
-
-  &[data-state="play"] svg:first-of-type {
-    @extend %u-display-block;
-  }
-
-  &[data-state="pause"] svg:last-of-type {
-    @extend %u-display-block;
-  }
-}
-
 .c-audio__show {
   @include mix.breakpoint-min("m") {
     display: block;

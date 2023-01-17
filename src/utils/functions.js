@@ -5,7 +5,7 @@
 /* Imports */
 
 const fs = require('fs')
-const { slugParents, slugBases, urls } = require('./constants')
+const { slugParents, slugBases, urls } = require('./variables')
 
 /* Get slug helper */
 

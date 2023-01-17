@@ -28,6 +28,7 @@
 <body class="l-relative l-z-index-1">
   {{ ctfl.gradients | safe }}
   {{ content | safe }}
+  {{ ctfl.script | safe }}
   <script nomodule src="{{ site.scripts.compat }}"></script>
   <script type="module" src="{{ site.scripts.main }}"></script>
 </body>

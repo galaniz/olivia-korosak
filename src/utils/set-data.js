@@ -21,7 +21,7 @@ const hero = require('../render/hero')
 const gradients = require('../render/gradients')
 const audio = require('../render/audio')
 const { getSlug, getPermalink } = require('./functions')
-const { contentTypes, slugParents, archiveCounts, termData } = require('./constants')
+const { contentTypes, slugParents, archiveCounts, termData, namespace, scriptData } = require('./variables')
 const { writeFile } = require('fs')
 
 /* Navigations params */
@@ -408,6 +408,22 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
     data.meta.title = item.fields.metaTitle
   }
+
+  /* Script data */
+
+  if (Object.keys(scriptData).length) {
+    const scriptJSON = JSON.stringify(scriptData, null, null)
+
+    data.script = `
+      <script>
+        var ${namespace} = ${scriptJSON};
+      </script>
+    `
+  }
+
+  /* Clear script data */
+
+  Object.keys(scriptData).forEach(k => delete scriptData[k])
 
   /* Output */
 
