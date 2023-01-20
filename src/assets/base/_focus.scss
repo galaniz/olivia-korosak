@@ -13,5 +13,9 @@
 }
 
 .outline-tight {
+  --outline-offset: -0.2rem;
+}
+
+.outline-inset {
   --outline-offset: -0.5rem;
 }

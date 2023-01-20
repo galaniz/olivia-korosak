@@ -15,6 +15,8 @@ import Audio from 'Formation/components/audio'
 
 /* Variables */
 
+const ns = window.namespace
+const n = window[ns]
 const el = {}
 const meta = [
   {
@@ -72,6 +74,76 @@ const meta = [
     selector: '.o-collapsible',
     all: true,
     array: true
+  },
+  {
+    prop: 'audio',
+    selector: '.c-audio',
+    items: [
+      {
+        prop: 'audioItem',
+        selector: 'audio'
+      },
+      {
+        prop: 'audioSource',
+        selector: 'source'
+      },
+      {
+        prop: 'audioLoader',
+        selector: '.o-loader'
+      },
+      {
+        prop: 'audioError',
+        selector: '.c-audio__error'
+      },
+      {
+        prop: 'audioPlay',
+        selector: '.c-audio__play'
+      },
+      {
+        prop: 'audioPrev',
+        selector: '.c-audio__prev'
+      },
+      {
+        prop: 'audioNext',
+        selector: '.c-audio__next'
+      },
+      {
+        prop: 'audioTime',
+        selector: '.c-audio__time'
+      },
+      {
+        prop: 'audioDuration',
+        selector: '.c-audio__duration'
+      },
+      {
+        prop: 'audioFallbacks',
+        selector: '.c-audio__fallback',
+        all: true,
+        array: true
+      },
+      {
+        prop: 'audioText',
+        selector: '.c-audio__text',
+        all: true,
+        array: true
+      },
+      {
+        prop: 'audioSlider',
+        selector: '.c-audio__slider'
+      },
+      {
+        prop: 'audioBar',
+        selector: '.c-audio__bar'
+      },
+      {
+        prop: 'audioScrub',
+        selector: '.c-audio__scrub'
+      },
+      {
+        prop: 'audioClose',
+        selector: '.c-audio__close'
+      }
+    ]
   }
 ]
 
@@ -159,6 +231,57 @@ const initialize = () => {
 
       collapsible(args)
     })
+  }
+
+  /* Audio player */
+
+  if (n && el.audio) {
+    const audio = (args) => {
+      return new Audio(args)
+    }
+
+    let tracks = n.tracks || false
+
+    if (tracks) {
+      tracks = tracks.filter(track => {
+        const { id } = track
+
+        const item = document.getElementById(id)
+        const button = document.getElementById(`b-${id}`)
+
+        if (!item || !button) {
+          return false
+        }
+
+        track.item = item
+        track.button = button
+
+        return track
+      })
+
+      if (tracks.length) {
+        audio({
+          tracks,
+          audio: el.audioItem,
+          source: el.audioSource,
+          loader: el.audioLoader,
+          error: el.audioError,
+          play: el.audioPlay,
+          prev: el.audioPrev,
+          next: el.audioNext,
+          time: el.audioTime,
+          close: el.audioClose,
+          duration: el.audioDuration,
+          fallbacks: el.audioFallbacks,
+          text: el.audioText,
+          progress: {
+            slider: el.audioSlider,
+            bar: el.audioBar,
+            scrub: el.audioScrub
+          }
+        })
+      }
+    }
   }
 }
 

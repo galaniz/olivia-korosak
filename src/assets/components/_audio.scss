@@ -33,9 +33,13 @@
   }
 }
 
-.c-audio__text {
+.c-audio__info {
   @include mix.breakpoint-min("m") {
-    max-width: func.calc-rem(300px);
+    width: func.calc-rem(200px);
+  }
+
+  @include mix.breakpoint-min("l") {
+    width: func.calc-rem(250px);
   }
 }
 
@@ -60,11 +64,34 @@
 }
 
 .c-audio__slider {
-  height: func.calc-rem(3px);
+  touch-action: none;
+  user-select: none;
+  cursor: pointer;
+
+  &::before {
+    height: var(--m);
+    top: func.calc-rem(-10px);
+    left: func.calc-rem(-5px);
+    right: func.calc-rem(-5px);
+  }
+
+  @include mix.breakpoint-min("m") {
+    &::before {
+      top: func.calc-rem(-20px);
+    }
+  }
+}
+
+.c-audio__length {
   background: rgba(func.get-color("foreground-base"), 0.2);
 }
 
-.c-audio__fill {
+.c-audio__length,
+.c-audio__bar {
+  height: func.calc-rem(3px);
+}
+
+.c-audio__bar {
   @extend %u-transform-origin-0-0;
   
   transform: scaleX(0.2);
@@ -73,14 +100,16 @@
 }
 
 .c-audio__scrub {
-  @extend %u-touch-50;
+  --prop: opacity;
+  --duration: 150ms;
 
-  top: 50%;
-  transform: translateY(-50%);
+  @extend %u-opacity-0;
 
-  &::before {
-    width: var(--s);
-    height: var(--s);
+  top: func.calc-rem(-3.5px);
+  left: func.calc-rem(-5px);
+
+  .c-audio__slider:hover & {
+    @extend %u-opacity-1;
   }
 }
 

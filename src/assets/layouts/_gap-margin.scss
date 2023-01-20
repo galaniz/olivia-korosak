@@ -9,7 +9,7 @@
 
 /* Styles */
 
-[data-root] .l-gap-margin-xl-v-s {
+.l-gap-margin-xl-v-s {
   @include mix.breakpoint-min("s") {
     margin-top: calc(var(--xl) * -1);
 

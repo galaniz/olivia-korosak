@@ -12,54 +12,65 @@
 
 /* Imports */
 
+const ffprobe = require('ffprobe')
+const ffprobeStatic = require('ffprobe-static')
+const util = require('node:util')
 const { randomUUID } = require('crypto')
 const { getSlug, getPermalink, getFile } = require('../utils/functions')
 const { scriptData } = require('../utils/variables')
 
-/*
-  Get audio duration as hh:mm:ss
-  Source: https://www.colincrawley.com/audio-duration-calculator/
-*/
+/* Get time as text */
 
-const _getAudioDuration = (bytes = 0, bitRate = 0) => {
-  if (!bytes || !bitRate) {
-    return ''
-  }
+const _getTime = (seconds = 0, words = false) => {
+  const hours = Math.floor(seconds / 3600)
+  const min = Math.floor((seconds - (hours * 3600)) / 60)
 
-  const ratePerSecond = bitRate * 1000 / 8
-  const ratePerMillisecond = ratePerSecond / 1000
-  const duration = bytes / ratePerMillisecond
+  seconds = seconds - (hours * 3600) - (min * 60)
 
-  const hours = Math.floor(duration / 3600000)
-  let minutes = Math.floor(duration % 3600000 / 60000)
-  let seconds = Math.floor(duration % 3600000 % 60000 / 1000)
+  let t = ''
 
-  const durationInSeconds = seconds
-  const output = []
-
-  if (hours) {
-    output.push(hours)
-  }
-
-  if (minutes) {
-    output.push(minutes)
-
-    if (hours && minutes < 10) {
-      minutes = `0${minutes}`
+  if (!words) {
+    if (hours) {
+      t += (hours < 10 && hours > 0 ? '0' : '') + hours + ':'
     }
+
+    t += (min < 10 && min > 0 ? '0' : '') + min + ':'
+
+    t += (seconds < 10 ? '0' : '') + seconds
   } else {
-    output.push('0')
+    if (hours) {
+      t += hours + (hours > 1 ? ' hours' : ' hour') + (min ? ' ' : '')
+    }
+
+    if (min) {
+      t += min + (min > 1 ? ' minutes' : ' minute') + (seconds ? ' ' : '')
+    }
+
+    if (seconds) {
+      t += seconds + (seconds > 1 ? ' seconds' : ' second')
+    }
   }
 
-  if (seconds < 10) {
-    seconds = `0${seconds}`
-  }
+  return t
+}
 
-  output.push(seconds)
+/* Get audio duration as string */
 
-  return {
-    seconds: durationInSeconds,
-    output: output.join(':')
+const _getAudioDuration = async (url) => {
+  try {
+    const ffprobePromise = util.promisify(ffprobe)
+    const duration = await ffprobePromise(`https:${url}`, { path: ffprobeStatic.path })
+    const seconds = Math.round(duration.streams[0].duration)
+
+    return {
+      seconds,
+      a11yOutput: _getTime(seconds, true),
+      output: _getTime(seconds)
+    }
+  } catch (error) {
+    console.log('Error getting audio duration: ', error)
+
+    return false
   }
 }
 
@@ -93,7 +104,7 @@ const _getCommaLinks = (items = [], contentType = '') => {
 
 /* Function */
 
-const tracks = ({
+const tracks = async ({
   items = [],
   a11yLabel = '',
   contentType = 'track',
@@ -174,7 +185,11 @@ const tracks = ({
 
   /* Body rows from items */
 
-  const rows = items.map((item) => {
+  const rows = []
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]
+
     const {
       title = '',
       slug = '',
@@ -192,7 +207,7 @@ const tracks = ({
     /* Audio info */
 
     const { file } = audio.fields
-    const { url, details, contentType: fileType } = file
+    const { url, contentType: fileType } = file
 
     /* Ids */
 
@@ -210,6 +225,13 @@ const tracks = ({
       })
     )
 
+    /* Text for front end data */
+
+    const text = [{
+      label: title,
+      url: permalink
+    }]
+
     /* Description items for details */
 
     const detailsItems = [{
@@ -223,15 +245,15 @@ const tracks = ({
       size: 'l',
       headers: 'title',
       output: `
-        <div class="l-flex l-gap-margin-2xs l-gap-margin-s-m l-align-center">
+        <div class="l-flex l-gap-margin-2xs l-gap-margin-s-m l-align-center l-relative">
           <div>
-            <button type="button" class="o-play l-width-m l-height-m l-svg t-foreground-base bg-background-light b-radius-100-pc js-track__button" aria-label="Play ${title}" data-state="play">
+            <button type="button" id="b-${id}" class="o-play l-width-m l-height-m l-svg t-foreground-base bg-background-light b-radius-100-pc" aria-label="Play ${title}" data-state="play">
               ${getFile('./src/assets/svg/play.svg')}
               ${getFile('./src/assets/svg/pause.svg')}
             </button>
           </div>
-          <div class="e-underline-reverse">
-            <a href="${permalink}" class="t-m t-weight-medium t-line-height-130-pc t-clamp" data-inline>${title}</a>
+          <div class="t-m t-weight-medium t-clamp e-underline-reverse outline-tight">
+            <a href="${permalink}" class="t-line-height-130-pc" data-inline>${title}</a>
           </div>
         </div>
       `
@@ -285,18 +307,25 @@ const tracks = ({
 
     /* Duration */
 
-    const duration = _getAudioDuration(details.size, 128)
+    const duration = await _getAudioDuration(url)
+
+    console.log('DURATION', title, duration)
 
     if (duration) {
+      const durationOutput = `
+        <span class="a11y-visually-hidden">${duration.a11yOutput}</span>
+        <span aria-hidden="true">${duration.output}</span>
+      `
+
       cells.push({
         size: 's',
         headers: 'duration',
-        output: `<p class="t-s t-number-normal t-align-right">${duration.output}</p>`
+        output: `<p class="t-s t-number-normal t-align-right l-relative">${durationOutput}</p>`
       })
 
       detailsItems.push({
         title: 'Duration',
-        desc: duration.output
+        desc: durationOutput
       })
     }
 
@@ -318,19 +347,18 @@ const tracks = ({
 
     tracksData.push({
       id,
+      text,
       item: null,
       button: null,
       url: `https:${url}`,
-      title,
-      titleUrl: permalink,
       type: fileType,
       duration: duration ? duration.seconds : 0
     })
 
     /* Output */
 
-    return `
-      <tr class="l-relative b-top js-track" id=${id}>
+    rows.push(`
+      <tr class="o-track l-relative b-top" id=${id}>
         ${cells.map((c, i) => {
           const lastIndex = i === cells.length - 1
           const secondLastIndex = i === cells.length - 2
@@ -345,6 +373,12 @@ const tracks = ({
 
           if (!lastIndex && !secondLastIndex) {
             classes += ' l-padding-right-2xs l-padding-right-m-m'
+          }
+
+          if (i === 0) {
+            classes += ' o-track__bg l-before'
+          } else {
+            classes += ' l-relative'
           }
 
           return `
@@ -368,22 +402,22 @@ const tracks = ({
           </div>
         </td>
       </tr>
-    `
-  })
+    `)
+  }
 
   /* Add to script data */
 
   if (!scriptData?.tracks) {
-    scriptData.tracks = {}
+    scriptData.tracks = []
   }
 
-  scriptData.tracks[randomUUID()] = tracksData
+  scriptData.tracks = scriptData.tracks.concat(tracksData)
 
   /* Output */
 
   return `
     <div data-table>
-      <table role="grid" class="o-table b-separator" aria-label="${a11yLabel}" data-collapse="false">
+      <table class="o-table b-separator" aria-label="${a11yLabel}" data-collapse="false">
         <thead>
           <tr>
             ${head.join('')}

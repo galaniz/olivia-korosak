@@ -1,0 +1,43 @@
+/**
+ * Objects: track
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config" as con;
+@use "@alanizcreative/formation/src/utils/functions" as func;
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Styles */
+
+.o-track {
+  &[data-active="true"] {
+    @extend %u-z-index-1;
+
+    .o-track__bg::before {
+      box-shadow: inset 0 0 0 func.calc-rem(1px) var(--background-light-35);
+    }
+  }
+
+  &:hover,
+  &[data-active="true"] {
+    .o-track__bg::before {
+      opacity: 1;
+    }
+  }
+}
+
+.o-track__bg::before {
+  --duration: 250ms;
+
+  transition: opacity var(--duration) var(--easing);
+  background: var(--foreground-light);
+  box-shadow: 0 0 0 func.calc-rem(1px) var(--foreground-light);
+  left: func.calc-rem(-20px);
+  right: func.calc-rem(-20px);
+  opacity: 0;
+
+  @include mix.breakpoint-min("container") {
+    border-radius: var(--border-radius-s);
+  }
+}

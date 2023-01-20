@@ -10,7 +10,7 @@ const { getFile } = require('../utils/functions')
 
 const audio = () => {
   return `
-    <div class="c-audio l-fixed l-bottom-0 l-left-0 l-right-0 t-dark t-foreground-base-60 t-number-normal bg-background-light e-transition">
+    <div class="c-audio l-fixed l-bottom-0 l-left-0 l-right-0 l-z-index-1 t-dark t-foreground-base-60 t-number-normal bg-background-light e-transition">
       <audio preload="auto">
         <source src="" type="">
         <p class="l-container t-xs e-underline">Your browser does not support HTML5 audio. <a href="" class="c-audio__fallback" data-inline>Download the track</a>.</p>
@@ -34,29 +34,26 @@ const audio = () => {
                 </div>
               </div>
               <div>
-                <div class="c-audio__text e-underline-reverse">
-                  <p class="t-xs t-weight-medium t-clamp">
-                    <a href="" class="c-audio__title t-line-height-120-pc" data-inline>The Extra Scandalous Opening</a>
+                <div class="c-audio__info e-underline-reverse">
+                  <p class="t-xs t-weight-medium t-clamp outline-tight">
+                    <a href="" class="c-audio__text t-line-height-120-pc" data-inline></a>
                   </p>
-                  <div class="c-audio__show l-none">
-                    <p class="t-2xs t-clamp e-underline-thin">
-                      <a href="" class="c-audio__project t-current" data-inline>Whose Vagina is it, Really?</a> 
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="l-flex-grow-1 l-width-1-1 l-width-2-5-m">
             <div class="c-audio__offset l-flex l-align-center l-flex-wrap l-gap-margin-5xs l-gap-margin-3xs-m" data-offset="l">
-              <span class="c-audio__time t-3xs t-line-height-120-pc t-foreground-base l-order-first-m">01:10</span>
+              <span class="c-audio__time t-3xs t-line-height-120-pc t-foreground-base l-order-first-m">00:00</span>
               <div class="c-audio__progress l-width-100-pc l-flex-grow-1 l-order-first">
-                <div class="c-audio__slider l-relative b-radius-s" tabindex="0" role="slider" aria-label="Seek slider" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="">
-                  <div class="c-audio__fill l-absolute l-top-0 l-left-0 l-width-100-pc l-height-100-pc bg-foreground-base"></div>
-                  <button class="c-audio__scrub l-absolute l-left-0 bg-foreground-base l-width-4xs l-height-4xs b-radius-100-pc" type="button" aria-label="Move track time position"></button>
+                <div class="c-audio__slider l-relative l-before b-radius-s" tabindex="0" role="slider" aria-label="Seek slider" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="">
+                  <div class="c-audio__length l-relative">
+                    <div class="c-audio__bar l-absolute l-top-0 l-left-0 l-width-100-pc l-height-100-pc bg-foreground-base"></div>
+                    <div class="c-audio__scrub l-absolute l-left-0 bg-foreground-base l-width-4xs l-height-4xs b-radius-100-pc e-transition"></div>
+                  </div>
                 </div>
               </div>
-              <span class="c-audio__duration t-3xs t-line-height-120-pc l-margin-left-auto">04:10</span>
+              <span class="c-audio__duration t-3xs t-line-height-120-pc l-margin-left-auto">00:00</span>
             </div>
           </div>
         </div>
@@ -64,7 +61,7 @@ const audio = () => {
       <div class="c-audio__error l-container l-none" tabindex="-1">
         <p class="t-xs e-underline">Sorry, there is a problem with the service. <a href="" class="c-audio__fallback" data-inline="">Download the track</a>.</p>
       </div>
-      <button type="button" class="c-audio__close l-absolute l-right-0 l-top-0 l-width-xs l-height-xs l-flex l-align-center l-justify-center" aria-label="Close audio player">
+      <button type="button" class="c-audio__close l-absolute l-right-0 l-top-0 l-width-xs l-height-xs l-flex l-align-center l-justify-center outline-snug" aria-label="Close audio player">
         <span class="l-width-2xs l-height-2xs l-svg">
           ${getFile('./src/assets/svg/close.svg')}
         </span>

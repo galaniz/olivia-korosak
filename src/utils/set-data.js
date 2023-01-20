@@ -416,6 +416,7 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
     data.script = `
       <script>
+        var namespace = '${namespace}';
         var ${namespace} = ${scriptJSON};
       </script>
     `

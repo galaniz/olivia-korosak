@@ -374,7 +374,7 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
           includeGenres
         }
 
-        output.push(tracks(tracksArgs))
+        output.push(await tracks(tracksArgs))
       }
 
       /* Cards */
