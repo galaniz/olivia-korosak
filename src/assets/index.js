@@ -116,14 +116,8 @@ const meta = [
         selector: '.c-audio__duration'
       },
       {
-        prop: 'audioFallbacks',
-        selector: '.c-audio__fallback',
-        all: true,
-        array: true
-      },
-      {
-        prop: 'audioText',
-        selector: '.c-audio__text',
+        prop: 'audioUpdate',
+        selector: '.c-audio__update',
         all: true,
         array: true
       },
@@ -259,9 +253,25 @@ const initialize = () => {
         return track
       })
 
+      let update = []
+
+      if (el.audioUpdate.length) {
+        update = el.audioUpdate.map(u => {
+          return {
+            item: u,
+            attr: {
+              textContent: 'title',
+              href: 'url'
+            }
+          }
+        })
+      }
+
       if (tracks.length) {
         audio({
           tracks,
+          update,
+          container: el.audio,
           audio: el.audioItem,
           source: el.audioSource,
           loader: el.audioLoader,
@@ -272,8 +282,6 @@ const initialize = () => {
           time: el.audioTime,
           close: el.audioClose,
           duration: el.audioDuration,
-          fallbacks: el.audioFallbacks,
-          text: el.audioText,
           progress: {
             slider: el.audioSlider,
             bar: el.audioBar,

@@ -5,7 +5,7 @@
 /* Imports */
 
 const { getContentfulData } = require('../utils/contentful')
-const store = require('./store.json')
+const slugsJson = require('./slugs.json')
 const setData = require('../utils/set-data')
 
 /* Get content + navigations */
@@ -58,8 +58,8 @@ module.exports = async (eleventyData) => {
     let entry = false
 
     if (serverlessData) {
-      if (store?.[serverlessData.path]) {
-        const item = store[serverlessData.path]
+      if (slugsJson?.[serverlessData.path]) {
+        const item = slugsJson[serverlessData.path]
 
         const id = item.id
         const contentType = item.contentType

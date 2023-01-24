@@ -1,0 +1,26 @@
+/**
+ * Objects: form
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+@use "@alanizcreative/formation/src/utils/functions" as func;
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Styles */
+
+.o-form {
+  --input-padding: var(--3xs) var(--2xs);
+
+  input[type="search"],
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  select {
+    padding: var(--input-padding);
+    border: var(--border-width) solid var(--border-color);
+  }
+}

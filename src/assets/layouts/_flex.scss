@@ -24,3 +24,9 @@
     order: -9999;
   }
 }
+
+.l-align-end-l {
+  @include mix.breakpoint-min("l") {
+    align-items: flex-end;
+  }
+}

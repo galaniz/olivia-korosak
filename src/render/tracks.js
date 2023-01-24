@@ -12,12 +12,10 @@
 
 /* Imports */
 
-const ffprobe = require('ffprobe')
-const ffprobeStatic = require('ffprobe-static')
-const util = require('node:util')
 const { randomUUID } = require('crypto')
 const { getSlug, getPermalink, getFile } = require('../utils/functions')
 const { scriptData } = require('../utils/variables')
+const durations = require('../data/durations.json')
 
 /* Get time as text */
 
@@ -52,26 +50,6 @@ const _getTime = (seconds = 0, words = false) => {
   }
 
   return t
-}
-
-/* Get audio duration as string */
-
-const _getAudioDuration = async (url) => {
-  try {
-    const ffprobePromise = util.promisify(ffprobe)
-    const duration = await ffprobePromise(`https:${url}`, { path: ffprobeStatic.path })
-    const seconds = Math.round(duration.streams[0].duration)
-
-    return {
-      seconds,
-      a11yOutput: _getTime(seconds, true),
-      output: _getTime(seconds)
-    }
-  } catch (error) {
-    console.log('Error getting audio duration: ', error)
-
-    return false
-  }
 }
 
 /* Comma separated links */
@@ -211,7 +189,7 @@ const tracks = async ({
 
     /* Ids */
 
-    const id = randomUUID()
+    const id = item.sys.id
     const detailsId = `d-${id}`
     const triggerId = `t-${id}`
     const collapsibleId = `c-${id}`
@@ -224,13 +202,6 @@ const tracks = async ({
         slug
       })
     )
-
-    /* Text for front end data */
-
-    const text = [{
-      label: title,
-      url: permalink
-    }]
 
     /* Description items for details */
 
@@ -307,9 +278,13 @@ const tracks = async ({
 
     /* Duration */
 
-    const duration = await _getAudioDuration(url)
+    const seconds = durations[audio.sys.id] || 0
 
-    console.log('DURATION', title, duration)
+    const duration = {
+      seconds,
+      a11yOutput: _getTime(seconds, true),
+      output: _getTime(seconds)
+    }
 
     if (duration) {
       const durationOutput = `
@@ -347,7 +322,7 @@ const tracks = async ({
 
     tracksData.push({
       id,
-      text,
+      title,
       item: null,
       button: null,
       url: `https:${url}`,
@@ -376,7 +351,7 @@ const tracks = async ({
           }
 
           if (i === 0) {
-            classes += ' o-track__bg l-before'
+            classes += ' o-track-bg l-before'
           } else {
             classes += ' l-relative'
           }
@@ -388,9 +363,9 @@ const tracks = async ({
           `
         }).join('')}
       </tr>
-      <tr data-mobile>
-        <td headers="details" class="o-collapsible" id="${detailsId}" data-trigger="${triggerId}" data-accordion="${accordionId}" colspan="2">
-          <div id="${collapsibleId}" class="o-collapsible__main e-transition">
+      <tr class="l-relative" data-mobile>
+        <td headers="details" class="o-collapsible o-track-bg-b l-before" id="${detailsId}" data-trigger="${triggerId}" data-accordion="${accordionId}" colspan="2">
+          <div id="${collapsibleId}" class="o-collapsible__main l-relative l-z-index-1 e-transition outline-tight">
             <dl class="t-s t-number-normal t-background-light-60 t-line-height-130-pc e-underline-reverse l-margin-0-last l-padding-bottom-2xs l-padding-bottom-s-m">
               ${detailsItems.map(d => {
                 return `

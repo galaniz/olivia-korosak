@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-root>
+<html lang="en" id="{{ site.namespace }}" data-root>
 <head>
   <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
   <meta name="theme-color" content="{{ site.theme.base }}">
   <meta name="format-detection" content="telephone=no">
 </head>
-<body class="l-relative l-z-index-1">
+<body class="{{ site.namespace }} l-relative l-z-index-1">
   {{ ctfl.gradients | safe }}
   {{ content | safe }}
   {{ ctfl.script | safe }}

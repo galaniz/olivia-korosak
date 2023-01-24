@@ -14,7 +14,7 @@
   [data-size="l"] {
     @include mix.fluid-size(
       min-width,
-      func.calc-rem(230px) func.calc-rem(300px),
+      func.calc-rem(220px) func.calc-rem(300px),
       "xs" "m"
     );
   }

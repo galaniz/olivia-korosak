@@ -1,7 +1,10 @@
 node_modules/
 site/
 package-lock.json
-src/data/store.json
+src/data/slugs.json
+src/data/slug-parents.json
+src/data/archive-counts.json
+src/data/durations.json
 netlify/functions/serverless/**
 !netlify/functions/serverless/index.js
 .DS_Store

@@ -4,7 +4,10 @@
 
 /* Imports */
 
-const store = require('../data/store.json')
+const ffprobe = require('ffprobe')
+const ffprobeStatic = require('ffprobe-static')
+const util = require('node:util')
+const slugParentsJson = require('../data/slug-parents.json')
 const button = require('../render/button')
 const card = require('../render/card')
 const column = require('../render/column')
@@ -31,13 +34,33 @@ const _nav = {
   items: []
 }
 
-/* Store item data for json */
+/* Store slug data for json */
 
-const storeData = {}
+const slugs = {}
+
+/* Store audio durations for json */
+
+const durations = {}
 
 /* Store serverless object */
 
 let _serverlessData = false
+
+/* Get audio duration in seconds */
+
+const _getAudioDuration = async (url) => {
+  try {
+    const ffprobePromise = util.promisify(ffprobe)
+    const duration = await ffprobePromise(`https:${url}`, { path: ffprobeStatic.path })
+    const seconds = Math.round(duration.streams[0].duration)
+
+    return seconds
+  } catch (error) {
+    console.log('Error getting audio duration: ', error)
+
+    return 0
+  }
+}
 
 /* Recurse and render nested content */
 
@@ -108,7 +131,7 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, se
           renderObj = content(fields, parents)
           break
         case 'form':
-          renderObj = form(fields, parents)
+          renderObj = form(fields, parents, c.sys.id)
           break
         case 'field':
           renderObj.start = field(fields, parents)
@@ -204,7 +227,8 @@ const _setItem = async (item = {}, contentType = 'page') => {
     colorTo: '',
     metaTitle: '',
     metaDescription: '',
-    metaImage: false
+    metaImage: false,
+    audio
   }, item.fields)
 
   /* Add posts for terms - project type and genre */
@@ -255,6 +279,14 @@ const _setItem = async (item = {}, contentType = 'page') => {
     fields.content = postsContent
   }
 
+  /* Get durations for audio */
+
+  if (contentType === 'track' && audio && !_serverlessData) {
+    const duration = await _getAudioDuration(fields.audio.fields.file.url)
+
+    durations[fields.audio.sys.id] = duration
+  }
+
   /* Meta */
 
   data.title = fields.title
@@ -294,9 +326,9 @@ const _setItem = async (item = {}, contentType = 'page') => {
     })
   )
 
-  /* Add to data by slug store */
+  /* Add to data by slugs store */
 
-  storeData[`/${data.slug}/`] = {
+  slugs[`/${data.slug}/`] = {
     id: item.sys.id,
     contentType
   }
@@ -471,12 +503,10 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
         }
       }
     })
-
-    storeData.slugParents = slugParents
   } else {
-    if (store?.slugParents) {
-      for (const s in store.slugParents) {
-        slugParents[s] = store.slugParents[s]
+    if (slugParentsJson) {
+      for (const s in slugParentsJson) {
+        slugParents[s] = slugParentsJson[s]
       }
     }
   }
@@ -498,19 +528,40 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
     }
   }
 
-  /* Write data by slug to json file */
+  /* Write data to json file */
 
   if (!serverlessData) {
-    storeData.archiveCounts = archiveCounts
-
-    writeFile('./src/data/store.json', JSON.stringify(storeData, null, 2), (error) => {
-      if (error) {
-        console.log('An error has occurred writing store.json ', error)
-        return
+    const jsonFiles = [
+      {
+        data: slugs,
+        name: 'slugs.json'
+      },
+      {
+        data: slugParents,
+        name: 'slug-parents.json'
+      },
+      {
+        data: archiveCounts,
+        name: 'archive-counts.json'
+      },
+      {
+        data: durations,
+        name: 'durations.json'
       }
+    ]
 
-      console.log('Store.json written successfully to disk')
-    })
+    for (let i = 0; i < jsonFiles.length; i++) {
+      const jsonFile = jsonFiles[i]
+
+      writeFile(`./src/data/${jsonFile.name}`, JSON.stringify(jsonFile.data, null, 2), (error) => {
+        if (error) {
+          console.log(`An error has occurred writing ${jsonFile.name} `, error)
+          return
+        }
+
+        console.log(`${jsonFile.name} written successfully to disk`)
+      })
+    }
   }
 
   /* Output */

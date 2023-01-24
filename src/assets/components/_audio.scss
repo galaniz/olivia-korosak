@@ -13,7 +13,7 @@
 .c-audio {
   transform: translateY(100%);
 
-  [data-audio-open] & {
+  [data-audio-open="true"] & {
     transform: translateY(0);
     position: sticky;
   }
@@ -101,14 +101,15 @@
 
 .c-audio__scrub {
   --prop: opacity;
-  --duration: 150ms;
+  --duration: 100ms;
 
   @extend %u-opacity-0;
 
   top: func.calc-rem(-3.5px);
   left: func.calc-rem(-5px);
 
-  .c-audio__slider:hover & {
+  .c-audio__slider:hover &,
+  .c-audio__slider[data-dragging="true"] & {
     @extend %u-opacity-1;
   }
 }

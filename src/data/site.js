@@ -46,5 +46,6 @@ module.exports = {
     compat: `${assets}js/${namespace}-compat.js`
   },
   context: process.env.CONTEXT,
-  year: date.getFullYear()
+  year: date.getFullYear(),
+  namespace
 }

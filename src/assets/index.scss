@@ -77,6 +77,8 @@
 @use "objects/table" as t;
 @use "objects/collapsible";
 @use "objects/track";
+@use "objects/loader";
+@use "objects/form";
 
 /* Effects */
 
@@ -85,3 +87,35 @@
 @use "effects/underline";
 @use "effects/overlay";
 @use "effects/title-line";
+@use "effects/background";
+
+/* Remove animations */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reduce-motion-show {
+    display: block;
+  }
+
+  .reduce-motion-hide {
+    display: none;
+  }
+
+  #ok .ok {
+    *,
+    *::before,
+    *::after {
+      --duration: 0.001ms;
+      --easing: linear;
+
+      transition: none;
+      transition-timing-function: linear;
+      transition-duration: 0.001ms;
+      animation-duration: 0.001ms;
+      animation-iteration-count: 1;
+    }
+  }
+}
