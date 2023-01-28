@@ -41,15 +41,14 @@
 
   &:hover::after {
     @extend %u-opacity-1;
-    
-    transform: translate(0, 0)
+
+    transform: translate(0, 0);
   }
 }
 
 .o-button-secondary::after {
   top: 0.4375rem;
   left: 0.4375rem;
-
   border-color: #{rgba(func.get-color("background-light"), 0.5)};
 }
 

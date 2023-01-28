@@ -10,6 +10,27 @@
 
 /* Styles */
 
+.o-track-bg::before,
+.o-track-bg-b::before {
+  @extend %u-opacity-0;
+
+  background: var(--foreground-light);
+  box-shadow: 0 0 0 func.calc-rem(1px) var(--foreground-light);
+  left: func.calc-rem(-26px);
+  right: func.calc-rem(-26px);
+}
+
+.o-track-bg::before {
+  border-radius: var(--border-radius-s);
+}
+
+.o-track-bg-b::before {
+  @extend %u-z-index-1;
+
+  border-bottom-left-radius: var(--border-radius-s);
+  border-bottom-right-radius: var(--border-radius-s);
+}
+
 .o-track {
   &[data-active="true"] {
     @extend %u-z-index-1;
@@ -36,25 +57,4 @@
       top: func.calc-rem(-6px);
     }
   }
-}
-
-.o-track-bg::before,
-.o-track-bg-b::before {
-  @extend %u-opacity-0;
-
-  background: var(--foreground-light);
-  box-shadow: 0 0 0 func.calc-rem(1px) var(--foreground-light);
-  left: func.calc-rem(-26px);
-  right: func.calc-rem(-26px);
-}
-
-.o-track-bg::before {
-  border-radius: var(--border-radius-s);
-}
-
-.o-track-bg-b::before {
-  @extend %u-z-index-1;
-
-  border-bottom-left-radius: var(--border-radius-s);
-  border-bottom-right-radius: var(--border-radius-s);
 }

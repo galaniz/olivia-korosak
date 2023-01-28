@@ -99,21 +99,23 @@
 .o-form__negative {
   --link-color: var(--negative);
 
-  background: linear-gradient(
-    135deg,
-    #{rgba(func.get-color("negative"), 0.1)} 0%,
-    #{rgba(func.get-color("negative"), 0.05)} 100%
-  );
+  background:
+    linear-gradient(
+      135deg,
+      #{rgba(func.get-color("negative"), 0.1)} 0%,
+      #{rgba(func.get-color("negative"), 0.05)} 100%
+    );
 }
 
 .o-form__positive {
   --link-color: var(--positive);
 
-  background: linear-gradient(
-    135deg,
-    #{rgba(func.get-color("positive"), 0.1)} 0%,
-    #{rgba(func.get-color("positive"), 0.05)} 100%
-  );
+  background:
+    linear-gradient(
+      135deg,
+      #{rgba(func.get-color("positive"), 0.1)} 0%,
+      #{rgba(func.get-color("positive"), 0.05)} 100%
+    );
 }
 
 .o-form__negative,

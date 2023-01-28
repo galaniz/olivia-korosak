@@ -93,7 +93,7 @@
 
 .c-audio__bar {
   @extend %u-transform-origin-0-0;
-  
+
   transform: scaleX(0.2);
   border-top-left-radius: var(--border-radius-s);
   border-bottom-left-radius: var(--border-radius-s);
