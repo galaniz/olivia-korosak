@@ -1,5 +1,4 @@
 [functions]
-directory = "netlify/functions"
 external_node_modules = [ "@11ty/eleventy", "@11ty/dependency-tree" ]
 included_files = [
   "./netlify/functions/serverless/**/*",
@@ -7,7 +6,7 @@ included_files = [
 ]
 
 [dev]
-targetPort = 8_080
+targetPort = 8080
 
 [[redirects]]
 from = "/work/tracks/genres/piano/"
