@@ -323,6 +323,7 @@ const tracks = async ({
     tracksData.push({
       id,
       title,
+      permalink,
       item: null,
       button: null,
       url: `https:${url}`,

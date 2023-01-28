@@ -25,7 +25,9 @@ const button = (args = {}) => {
     externalLink = '',
     type = 'Main', // optionValues.button.type
     size = 'Default', // optionValues.button.size
-    justify = 'None' // optionValues.justify
+    justify = 'None', // optionValues.justify
+    paddingTop = 'None', // optionValues.padding
+    paddingBottom = 'None' // optionValues.padding
   } = args
 
   /* Link and title required */
@@ -45,6 +47,8 @@ const button = (args = {}) => {
   type = optionValues.button.type[type]
   size = optionValues.button.size[size]
   justify = optionValues.justify[justify]
+  paddingTop = optionValues.padding[paddingTop]
+  paddingBottom = optionValues.padding[paddingBottom]
 
   /* Classes */
 
@@ -72,8 +76,22 @@ const button = (args = {}) => {
 
   let output = `<a class="${linkClasses}" href="${link}"${linkAttrs}>${title}</a>`
 
-  if (justify) {
-    output = `<div class="l-flex l-justify-${justify}">${output}</div>`
+  if (justify || paddingTop || paddingBottom) {
+    const classes = []
+
+    if (paddingTop) {
+      classes.push(`l-padding-top-${paddingTop}`)
+    }
+
+    if (paddingBottom) {
+      classes.push(`l-padding-top-${paddingBottom}`)
+    }
+
+    if (justify) {
+      classes.push(`l-flex l-justify-${justify}`)
+    }
+
+    output = `<div class="${classes.join(' ')}">${output}</div>`
   }
 
   return output

@@ -64,7 +64,7 @@ const _getAudioDuration = async (url) => {
 
 /* Recurse and render nested content */
 
-const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, serverlessData, navs) => {
+const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, serverlessData, navs, contains = {}) => {
   if (Array.isArray(cc) && cc.length) {
     for (let i = 0; i < cc.length; i++) {
       let c = cc[i]
@@ -140,6 +140,10 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, se
           renderObj.start = image(fields, parents)
           break
         case 'posts': {
+          if (fields?.contentType === 'Track') {
+            contains.audio = true
+          }
+
           renderObj.start = await posts(fields, parents, pageData, serverlessData)
           break
         }
@@ -182,7 +186,8 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, se
           parentsCopy,
           pageData,
           serverlessData,
-          navs
+          navs,
+          contains
         )
       }
 
@@ -345,10 +350,6 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
   data.navigations = navs
 
-  /* Audio player */
-
-  data.audio = audio()
-
   /* Content */
 
   data.content = ''
@@ -366,6 +367,7 @@ const _setItem = async (item = {}, contentType = 'page') => {
   /* Content */
 
   const contentOutput = { html: '' }
+  const contains = {}
 
   let contentData = fields.content
 
@@ -395,11 +397,18 @@ const _setItem = async (item = {}, contentType = 'page') => {
       [],
       item,
       serverlessData,
-      navs
+      navs,
+      contains
     )
   }
 
   data.content += contentOutput.html
+
+  /* Audio player */
+
+  if (contains?.audio) {
+    data.audio = audio()
+  }
 
   /* Archive - end for update from posts */
 

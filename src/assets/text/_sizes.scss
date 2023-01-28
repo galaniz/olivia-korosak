@@ -48,6 +48,7 @@ p,
 .t-xs,
 .t-2xs,
 .t-3xs {
+  @extend %u-font-family-primary;
   @extend %u-font-weight-light;
   @extend %u-letter-spacing-1-pc;
   @extend %u-line-height-160-pc;

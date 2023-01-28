@@ -85,7 +85,11 @@ const hero = ({
       </div>
     `
   } else {
-    output = textOutput
+    output = `
+      <div class="l-width-2-3-m">
+        ${textOutput}
+      </div>
+    `
   }
 
   /* Outer classes */

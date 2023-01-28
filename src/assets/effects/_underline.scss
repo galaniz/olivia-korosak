@@ -4,12 +4,14 @@
 
 /* Styles */
 
+.e-underline-all a,
 .e-underline a[data-inline],
 .e-underline-reverse a[data-inline] {
   transition: box-shadow 300ms var(--easing);
   box-shadow: 0 var(--line-width) 0 0 var(--color);
 }
 
+.e-underline-all a,
 .e-underline a[data-inline] {
   --line-width: var(--underline);
   --color: currentcolor;
@@ -24,6 +26,8 @@
   --line-width: 0.04rem;
 }
 
+.e-underline-all a:hover,
+.e-underline-all a:active,
 .e-underline a[data-inline]:hover,
 .e-underline a[data-inline]:active {
   --color: transparent;

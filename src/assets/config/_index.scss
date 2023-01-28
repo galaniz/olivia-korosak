@@ -79,7 +79,7 @@ $gaps: (
 
   $font-families: (
     "primary": (
-      "Questa Sans"
+      "Questa Sans",
       Helvetica,
       Arial,
       sans-serif,
@@ -167,7 +167,7 @@ $gaps: (
     "l",
   ),
 
-  $width-breakpoints: ("s"),
+  $width-breakpoints: ("s", "m"),
 
   /* Heights */
 
@@ -181,7 +181,7 @@ $gaps: (
     "l",
   ),
 
-  $height-breakpoints: ("s"),
+  $height-breakpoints: ("s", "m"),
 
   /* Gaps */
 
@@ -233,7 +233,7 @@ $gaps: (
   /* Outline */
 
   $outline: (
-    "width": 0.2rem,
+    "width": 0.175rem,
     "color": "var(--background-light)",
     "offset": 0.3rem,
   ),

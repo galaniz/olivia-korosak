@@ -165,6 +165,18 @@ const optionValues = {
       track: 'tracks',
       genre: 'card'
     }
+  },
+  field: {
+    type: {
+      Text: 'text',
+      Email: 'email',
+      Tel: 'tel',
+      Checkbox: 'checkbox',
+      Radio: 'radio',
+      Number: 'number',
+      Textarea: 'textarea',
+      Select: 'select'
+    }
   }
 }
 
