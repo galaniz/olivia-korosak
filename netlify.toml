@@ -1,9 +1,9 @@
 [functions]
 node_bundler = "esbuild"
-external_node_modules = ["@11ty/eleventy", "@11ty/dependency-tree"]
+external_node_modules = [ "@11ty/eleventy", "@11ty/dependency-tree" ]
 directory = "netlify/functions"
 
-[functions.serverless]
+  [functions.serverless]
   included_files = [
   "./netlify/functions/serverless/**/*",
   "./netlify/functions/serverless/.cache/**/*"
