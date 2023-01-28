@@ -32,7 +32,11 @@ module.exports = (eleventyConfig) => {
 
   eleventyConfig.addPlugin(EleventyServerlessBundlerPlugin, {
     name: 'serverless',
-    functionsDir: './netlify/functions/'
+    functionsDir: './netlify/functions/',
+    excludeDependencies: [
+      'ffprobe',
+      'ffprobe-static'
+    ]
   })
 
   /* Minify HTML */
