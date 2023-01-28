@@ -1,16 +1,13 @@
 [functions]
-node_bundler = "esbuild"
-external_node_modules = [ "@11ty/eleventy", "@11ty/dependency-tree" ]
 directory = "netlify/functions"
-
-  [functions.serverless]
-  included_files = [
+external_node_modules = [ "@11ty/eleventy", "@11ty/dependency-tree" ]
+included_files = [
   "./netlify/functions/serverless/**/*",
   "./netlify/functions/serverless/.cache/**/*"
 ]
 
 [dev]
-targetPort = 8080
+targetPort = 8_080
 
 [[redirects]]
 from = "/work/tracks/genres/piano/"
