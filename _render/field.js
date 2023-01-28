@@ -9,7 +9,7 @@
 /* Imports */
 
 const { randomUUID } = require('crypto')
-const { optionValues } = require('../utils/variables')
+const { optionValues } = require('../_utils/variables')
 
 /* Checkbox and radio inputs from options */
 

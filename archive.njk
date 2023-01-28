@@ -9,12 +9,12 @@ permalink:
   serverless: "/{{ ctfl.slug }}/"
 ---
 
-{% include ('./includes/header.njk') %}
+{% include ('./_includes/header.njk') %}
 
-{% include ('./includes/breadcrumbs.njk') %}
+{% include ('./_includes/breadcrumbs.njk') %}
 
 <main id="main">
   {{ ctfl.content | safe }}
 </main>
 
-{% include ('./includes/footer.njk') %}
+{% include ('./_includes/footer.njk') %}

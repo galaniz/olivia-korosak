@@ -13,8 +13,7 @@ const n = 'ok'
 
 /* Folders */
 
-const publicFolder = 'site'
-const sourceFolder = 'src'
+const publicFolder = '_site'
 
 /* Output path */
 
@@ -22,7 +21,7 @@ const outputPath = path.resolve(__dirname, publicFolder, 'assets')
 
 /* Asset paths */
 
-const assetsPath = path.resolve(__dirname, sourceFolder, 'assets')
+const assetsPath = path.resolve(__dirname, '_src')
 const formationPath = '@alanizcreative/formation/src'
 
 /* Resolve to root */
@@ -171,15 +170,15 @@ let entries = []
 entries.push({
   name: n,
   paths: [
-    `./${sourceFolder}/assets/index.scss`,
-    `./${sourceFolder}/assets/index-compat.js`
+    `./_src/index.scss`,
+    `./_src/index-compat.js`
   ]
 })
 
 entries.push({
   name: n,
   paths: [
-    `./${sourceFolder}/assets/index.js`
+    `./_src/index.js`
   ]
 })
 

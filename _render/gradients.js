@@ -9,7 +9,7 @@
 
 /* Imports */
 
-const { getRgba } = require('../utils/functions')
+const { getRgba } = require('../_utils/functions')
 
 /* Function */
 

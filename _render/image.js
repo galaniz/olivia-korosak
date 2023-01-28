@@ -11,8 +11,8 @@
 
 /* Imports */
 
-const { getImage } = require('../utils/functions')
-const { optionValues } = require('../utils/variables')
+const { getImage } = require('../_utils/functions')
+const { optionValues } = require('../_utils/variables')
 
 /* Function */
 
