@@ -1,9 +1,8 @@
 [functions]
-node_bundler = "esbuild"
 directory = "netlify/functions"
 
 [functions.serverless]
-included_files = [
+  included_files = [
   "./netlify/functions/serverless/**/*",
   "./netlify/functions/serverless/.cache/**/*"
 ]
