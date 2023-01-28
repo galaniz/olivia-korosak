@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Static site for Olivia Korosak",
   "main": "index.njk",
+  "engines": {
+    "node": ">=19"
+  },
   "scripts": {
     "start": "NODE_ENV=development npm-run-all -l --parallel start:*",
     "start:webpack": "webpack --watch",
