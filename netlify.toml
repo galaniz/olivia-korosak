@@ -1,3 +1,7 @@
+[functions]
+node_bundler = "esbuild"
+external_node_modules = ["@11ty/eleventy", "@11ty/dependency-tree"]
+
 [[redirects]]
 from = "/work/tracks/genres/piano/"
 to = "/.netlify/functions/serverless"
