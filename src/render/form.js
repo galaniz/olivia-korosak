@@ -96,11 +96,13 @@ const form = (args = {}, parents, id) => {
             </div>
           </div>
         </div>
-        <div class="l-padding-top-4xs" data-type="submit">
-          <button class="o-button b-radius-s e-transition-quad bg-background-light t-foreground-base o-button-large js-submit" type="submit">
-            ${loader()}
-            <span>${submitLabel}</span>
-          </button>
+        <div data-type="submit">
+          <div class="l-padding-top-4xs">
+            <button class="o-button b-radius-s e-transition-quad bg-background-light t-foreground-base o-button-large js-submit" type="submit">
+              ${loader()}
+              <span>${submitLabel}</span>
+            </button>
+          </div>
         </div>
         <div class="o-form-result__positive l-width-100-pc l-none" role="alert" tabindex="-1">
           <div class="o-form__positive l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
