@@ -1,3 +1,6 @@
+[functions]
+node_bundler = "esbuild"
+
 [[redirects]]
 from = "/work/tracks/genres/piano/"
 to = "/.netlify/functions/serverless"
