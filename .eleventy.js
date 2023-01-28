@@ -8,6 +8,23 @@ require('dotenv').config()
 const htmlmin = require("html-minifier")
 const { EleventyServerlessBundlerPlugin } = require('@11ty/eleventy')
 
+/* Check/build json files */
+
+const fs = require('fs')
+
+const paths = [
+  './src/data/slugs.json',
+  './src/data/slug-parents.json',
+  './src/data/durations.json',
+  './src/data/archive-counts.json'
+]
+
+paths.forEach((path) => {
+  if (!fs.existsSync(path)) {
+    fs.writeFileSync(path, JSON.stringify({}))
+  }
+})
+
 /* Config */
 
 module.exports = (eleventyConfig) => {
