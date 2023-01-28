@@ -4,8 +4,6 @@
 
 /* Imports */
 
-require('dotenv').config()
-const htmlmin = require("html-minifier")
 const { EleventyServerlessBundlerPlugin } = require('@11ty/eleventy')
 
 /* Check/build json files */
@@ -33,22 +31,6 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addPlugin(EleventyServerlessBundlerPlugin, {
     name: 'serverless',
     functionsDir: './netlify/functions/'
-  })
-
-  /* Minify HTML */
-
-  eleventyConfig.addTransform('htmlmin', (content, outputPath) => {
-    if (outputPath.endsWith(".html")) {
-      let minified = htmlmin.minify(content, {
-        useShortDoctype: true,
-        removeComments: true,
-        collapseWhitespace: true
-      })
-
-      return minified
-    }
-
-    return content
   })
 
   /* Copy static asset folders */
