@@ -48,6 +48,7 @@ p,
 .t-xs,
 .t-2xs,
 .t-3xs {
+  @extend %u-font-family-primary;
   @extend %u-font-weight-light;
   @extend %u-letter-spacing-1-pc;
   @extend %u-line-height-160-pc;
@@ -98,9 +99,10 @@ h6,
 }
 
 .t-quote {
+  @extend %u-line-height-140-pc;
+
   font-size: var(--t-quote);
   font-style: italic;
-  line-height: 1.4;
 }
 
 p,
@@ -130,11 +132,4 @@ p,
 
 .t-3xs {
   font-size: var(--t-3xs);
-}
-
-.t-inherit {
-  p,
-  li {
-    font-size: inherit;
-  }
 }

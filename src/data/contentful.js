@@ -4,126 +4,164 @@
 
 /* Imports */
 
-const contentful = require('contentful')
-const { setData } = require('../utils/process')
-
-/* Config */
-
-const env = process.env
-const context = env.CONTEXT
-
-const config = {
-  space: env.CTFL_SPACE_ID,
-  accessToken: env.CTFL_CPA_TOKEN,
-  host: 'preview.contentful.com'
-}
-
-if (context === 'production' || context === 'branch-deploy') {
-  config.accessToken = process.env.CTFL_CDA_TOKEN
-  config.host = 'cdn.contentful.com'
-}
-
-const client = contentful.createClient({
-  space: config.space,
-  accessToken: config.accessToken,
-  host: config.host
-})
+const { getContentfulData } = require('../utils/contentful')
+const slugsJson = require('./slugs.json')
+const setData = require('../utils/set-data')
 
 /* Get content + navigations */
 
-module.exports = async () => {
+module.exports = async (eleventyData) => {
+  /* Serverless data */
+
+  const serverlessData = eleventyData?.serverlessData?.query && eleventyData?.serverlessData?.path ? eleventyData.serverlessData : false
+
+  /* Contentful queries */
+
   try {
     /* Navigation data */
 
     let navs = []
     let navItems = []
 
-    const navigations = await client.getEntries({
-      content_type: 'navigation'
-    })
+    const navigations = await getContentfulData(
+      'init_contentful_navigations',
+      {
+        content_type: 'navigation'
+      }
+    )
 
-    if (Object.getOwnPropertyDescriptor(navigations, 'items')) {
+    if (navigations?.items) {
       navs = navigations.items
     }
 
-    const navigationItems = await client.getEntries({
-      content_type: 'navigationItem'
-    })
+    const navigationItems = await getContentfulData(
+      'init_contentful_navigation_items',
+      {
+        content_type: 'navigationItem'
+      }
+    )
 
-    if (Object.getOwnPropertyDescriptor(navigationItems, 'items')) {
+    if (navigationItems?.items) {
       navItems = navigationItems.items
     }
 
     /* Content data */
 
     const content = {
-      page: [],
       project: [],
       track: [],
       projectType: [],
-      genre: []
+      genre: [],
+      page: []
     }
 
-    /* Pages */
+    let entry = false
 
-    const pages = await client.getEntries({
-      content_type: 'page'
-    })
+    if (serverlessData) {
+      if (slugsJson?.[serverlessData.path]) {
+        const item = slugsJson[serverlessData.path]
 
-    if (Object.getOwnPropertyDescriptor(pages, 'items')) {
-      content.page = pages.items
+        const id = item.id
+        const contentType = item.contentType
+
+        entry = await getContentfulData(
+          `serverless_${id}`,
+          {
+            'sys.id': id,
+            include: 10
+          }
+        )
+
+        if (entry?.items) {
+          content[contentType] = entry.items
+        }
+      }
     }
 
-    /* Projects */
+    if (!serverlessData || !entry) {
+      /* Pages */
 
-    const projects = await client.getEntries({
-      content_type: 'project'
-    })
+      const pages = await getContentfulData(
+        'init_contentful_pages',
+        {
+          content_type: 'page',
+          include: 10
+        }
+      )
 
-    if (Object.getOwnPropertyDescriptor(projects, 'items')) {
-      content.project = projects.items
-    }
+      if (pages?.items) {
+        content.page = pages.items
+      }
 
-    /* Tracks */
+      /* Projects */
 
-    const tracks = await client.getEntries({
-      content_type: 'track'
-    })
+      const projects = await getContentfulData(
+        'init_contentful_projects',
+        {
+          content_type: 'project'
+        }
+      )
 
-    if (Object.getOwnPropertyDescriptor(tracks, 'items')) {
-      content.track = tracks.items
-    }
+      if (projects?.items) {
+        content.project = projects.items
+      }
 
-    /* Project types */
+      /* Tracks */
 
-    const projectTypes = await client.getEntries({
-      content_type: 'projectType'
-    })
+      const tracks = await getContentfulData(
+        'init_contentful_tracks',
+        {
+          content_type: 'track'
+        }
+      )
 
-    if (Object.getOwnPropertyDescriptor(projectTypes, 'items')) {
-      content.projectType = projectTypes.items
-    }
+      if (tracks?.items) {
+        content.track = tracks.items
+      }
 
-    /* Genres */
+      /* Project types */
 
-    const genres = await client.getEntries({
-      content_type: 'genre'
-    })
+      const projectTypes = await getContentfulData(
+        'init_contentful_project_types',
+        {
+          content_type: 'projectType'
+        }
+      )
 
-    if (Object.getOwnPropertyDescriptor(genres, 'items')) {
-      content.genre = genres.items
+      if (projectTypes?.items) {
+        content.projectType = projectTypes.items
+      }
+
+      /* Genres */
+
+      const genres = await getContentfulData(
+        'init_contentful_genres',
+        {
+          content_type: 'genre'
+        }
+      )
+
+      if (genres?.items) {
+        content.genre = genres.items
+      }
     }
 
     /* Output */
 
-    return {
-      data: setData({
-        content,
-        navs,
-        navItems
-      })
-    }
+    const data = await setData({
+      content,
+      navs,
+      navItems,
+      serverlessData
+    })
+
+    return data
   } catch (error) {
-    console.log(error.message)
+    console.log('Error getting Contentful and/or setting data: ', error)
+
+    return {
+      index: [],
+      archive: []
+    }
   }
 }

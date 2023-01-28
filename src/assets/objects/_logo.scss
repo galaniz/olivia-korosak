@@ -13,7 +13,7 @@
   @include mix.fluid-size(
     width,
     func.calc-rem(200px) func.calc-rem(250px),
-    "s" "xl"
+    "s" "l"
   );
 
   height: var(--logo-height);
@@ -23,12 +23,11 @@
   @include mix.fluid-size(
     width,
     func.calc-rem(180px) func.calc-rem(200px),
-    "s" "xl"
+    "s" "l"
   );
-
   @include mix.fluid-size(
     height,
     func.calc-rem(18px) func.calc-rem(20px),
-    "s" "xl"
+    "s" "l"
   );
 }

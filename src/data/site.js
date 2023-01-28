@@ -4,19 +4,22 @@
 
 /* Imports */
 
-const { getPermalink } = require('../utils/base')
+const { namespace } = require('../utils/variables')
+const { getPermalink } = require('../utils/functions')
 
-/* */
+/* Variables */
 
-const namespace = 'ok'
-const assetsLink = `${getPermalink()}assets/`
+const assets = `${getPermalink()}assets/`
 const date = new Date()
 
 /* Data */
 
 module.exports = {
   title: 'Olivia Korosak',
-  metaDescription: 'Lorem ipsum sed dolorem quisque',
+  meta: {
+    description: 'Lorem ipsum sed dolorem quisque',
+    image: ''
+  },
   theme: {
     foreground: {
       base: '#17181d',
@@ -33,13 +36,16 @@ module.exports = {
     base: '#17181d',
     tint: '#45464a'
   },
-  baseLink: `${getPermalink()}`,
-  assetsLink,
-  styles: `${assetsLink}css/${namespace}.css`,
+  links: {
+    base: `${getPermalink()}`,
+    assets
+  },
+  styles: `${assets}css/${namespace}.css`,
   scripts: {
-    main: `${assetsLink}js/${namespace}.js`,
-    compat: `${assetsLink}js/${namespace}-compat.js`
+    main: `${assets}js/${namespace}.js`,
+    compat: `${assets}js/${namespace}-compat.js`
   },
   context: process.env.CONTEXT,
-  year: date.getFullYear()
+  year: date.getFullYear(),
+  namespace
 }

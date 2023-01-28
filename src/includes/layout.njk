@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="{{ site.namespace }}" data-root>
 <head>
   <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>{{ ctfl.title }} | {{ site.title }}</title>
+	<title>{{ ctfl.meta.title }} | {{ site.title }}</title>
   {% if site.context !== 'production' %}
     <meta name="robots" content="noindex, nofollow">
   {% endif %}
-  <meta name="description" content="{{ ctfl.metaDescription if ctfl.metaDescription else site.metaDescription }}">
-  <link rel="canonical" href="{{ ctfl.permalink }}">
+  <meta name="description" content="{{ ctfl.meta.description if ctfl.meta.description else site.meta.description }}">
+  <link rel="canonical" href="{{ ctfl.canonical }}">
+  {% if ctfl.prev %}
+    <link rel="prev" href="{{ ctfl.prev }}">
+  {% endif %}
+  {% if ctfl.next %}
+    <link rel="next" href="{{ ctfl.next }}">
+  {% endif %}
   <link rel="stylesheet" href="{{ site.styles }}" media="all">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.assetsLink }}favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ site.assetsLink }}favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ site.assetsLink }}favicon/favicon-16x16.png">
-  <link rel="manifest" href="{{ site.assetsLink }}favicon/site.webmanifest">
-  <link rel="mask-icon" href="{{ site.assetsLink }}favicon/safari-pinned-tab.svg" color="{{ site.theme.tint }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.links.assets }}favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ site.links.assets }}favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ site.links.assets }}favicon/favicon-16x16.png">
+  <link rel="manifest" href="{{ site.links.assets }}favicon/site.webmanifest">
+  <link rel="mask-icon" href="{{ site.links.assets }}favicon/safari-pinned-tab.svg" color="{{ site.theme.tint }}">
   <meta name="msapplication-TileColor" content="{{ site.theme.tint }}">
   <meta name="theme-color" content="{{ site.theme.base }}">
   <meta name="format-detection" content="telephone=no">
 </head>
-<body>
+<body class="{{ site.namespace }} l-relative l-z-index-1">
+  {{ ctfl.gradients | safe }}
   {{ content | safe }}
+  {{ ctfl.script | safe }}
   <script nomodule src="{{ site.scripts.compat }}"></script>
   <script type="module" src="{{ site.scripts.main }}"></script>
 </body>

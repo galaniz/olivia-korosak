@@ -4,10 +4,10 @@
 
 <footer>
   <hr>
-  <div class="l-container l-padding-top-2xl l-padding-bottom-xl l-padding-bottom-2xl-l">
+  <div class="l-container l-padding-top-2xl l-padding-bottom-xl l-padding-bottom-2xl-m">
     <div class="l-flex l-flex-column l-align-center l-justify-center l-gap-margin-m">
       <div>
-        <a class="o-logo-s l-block l-svg" href="{{ site.baseLink }}">
+        <a class="o-logo-s l-block l-svg" href="{{ site.links.base }}">
           <span class="a11y-visually-hidden">{{ site.title }} home</span>
           {% include "../assets/svg/logo.svg" %}
         </a>
@@ -34,3 +34,5 @@
     </div>
   </div>
 </footer>
+
+{{ ctfl.audio | safe }}

@@ -7,7 +7,6 @@
 @use "sass:map";
 @use "@alanizcreative/formation/src/config" as con;
 @use "@alanizcreative/formation/src/utils/functions" as func;
-@use "@alanizcreative/formation/src/utils/mixins" as mix;
 @use "@alanizcreative/formation/src/components/nav";
 @use "@alanizcreative/formation/src/components/nav/overflow";
 @use "@alanizcreative/formation/src/components/nav/icon";
@@ -58,7 +57,8 @@
 
   &:hover,
   &:active,
-  &[data-current="true"] {
+  &[data-current="true"],
+  &[data-descendent-current="true"] {
     &::after {
       @extend %u-transform-origin-100-pc-100-pc;
 

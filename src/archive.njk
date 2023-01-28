@@ -1,0 +1,20 @@
+---
+layout: layout.njk
+pagination:
+  data: contentful.archive
+  size: 1
+  alias: ctfl
+permalink:
+  build: "/{{ ctfl.slug }}/"
+  serverless: "/{{ ctfl.slug }}/"
+---
+
+{% include ('./includes/header.njk') %}
+
+{% include ('./includes/breadcrumbs.njk') %}
+
+<main id="main">
+  {{ ctfl.content | safe }}
+</main>
+
+{% include ('./includes/footer.njk') %}

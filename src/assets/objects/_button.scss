@@ -1,0 +1,58 @@
+/**
+ * Objects: button
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+@use "@alanizcreative/formation/src/utils/functions" as func;
+
+/* Styles */
+
+.o-button {
+  --padding: var(--4xs) var(--3xs);
+  --size: var(--h6);
+
+  @extend %u-font-family-primary;
+  @extend %u-font-weight-medium;
+  @extend %u-line-height-130-pc;
+  @extend %u-display-inline-flex;
+  @extend %u-justify-content-center;
+  @extend %u-position-relative;
+
+  padding: var(--padding);
+  font-size: var(--size);
+
+  &::after {
+    @extend %u-content-empty;
+    @extend %u-position-absolute;
+    @extend %u-width-100-pc;
+    @extend %u-height-100-pc;
+    @extend %u-opacity-0;
+
+    top: 0.375rem;
+    left: 0.375rem;
+    border-right: 0.0625rem solid var(--background-light);
+    border-bottom: 0.0625rem solid var(--background-light);
+    border-bottom-right-radius: 0.5625rem;
+    transform: translate(-0.125rem, -0.125rem);
+    transition: opacity var(--duration) var(--easing), transform var(--duration) var(--easing);
+  }
+
+  &:hover::after {
+    @extend %u-opacity-1;
+
+    transform: translate(0, 0);
+  }
+}
+
+.o-button-secondary::after {
+  top: 0.4375rem;
+  left: 0.4375rem;
+  border-color: #{rgba(func.get-color("background-light"), 0.5)};
+}
+
+.o-button-large {
+  --padding: var(--3xs) var(--2xs);
+  --size: var(--h5);
+}

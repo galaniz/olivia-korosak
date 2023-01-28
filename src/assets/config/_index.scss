@@ -21,12 +21,33 @@ $padding-vertical: (
 /* Horizontal padding */
 
 $padding-horizontal: (
+  "5xs",
+  "4xs",
+  "3xs",
+  "2xs",
   "s",
+  "m",
+);
+
+/* Gaps */
+
+$gaps: (
+  "5xs",
+  "4xs",
+  "3xs",
+  "2xs",
+  "s",
+  "m",
+  "l",
+  "xl",
+  "2xl",
 );
 
 /* Config variables */
 
 @use "@alanizcreative/formation/src/config" with (
+
+  /* Colors */
 
   $colors: (
     "foreground": (
@@ -54,9 +75,11 @@ $padding-horizontal: (
     "background-light",
   ),
 
+  /* Fonts */
+
   $font-families: (
     "primary": (
-      "Questa Sans"
+      "Questa Sans",
       Helvetica,
       Arial,
       sans-serif,
@@ -76,14 +99,17 @@ $padding-horizontal: (
     "bold": 700,
   ),
 
+  /* Breakpoints */
+
   $breakpoints: (
     "0": 0px,
-    "xs": 400px,
+    "xs": 300px,
     "s": 600px,
     "m": 900px,
-    "l": 1000px,
-    "xl": 1200px,
+    "l": 1200px,
   ),
+
+  /* Spacing */
 
   $spacing: (
     "5xs": 5px,
@@ -92,6 +118,7 @@ $padding-horizontal: (
     "2xs": 20px,
     "xs": 25px,
     "s": 30px,
+    "r": 35px,
     "m": 40px,
     "l": 50px,
     "xl": 60px,
@@ -100,43 +127,81 @@ $padding-horizontal: (
     "4xl": 120px,
   ),
 
+  /* Padding */
+
   $padding-top: $padding-vertical,
   $padding-bottom: $padding-vertical,
-  $padding-vertical-breakpoints: ("l"),
+  $padding-vertical-breakpoints: ("m"),
 
   $padding-left: $padding-horizontal,
   $padding-right: $padding-horizontal,
 
-  $widths: (
-    "m",
-    "l",
+  /* Margin */
+
+  $margin-bottom: $gaps,
+  $margin-bottom-all: $gaps,
+  $margin-vertical-breakpoints: ("m"),
+
+  /* Aspect ratios */
+
+  $aspect-ratio-padding: (
+    "56": 56.25%,
+    "80": 80%,
   ),
 
-  $heights: (
-    "m",
-    "l",
-  ),
+  /* Widths */
 
-  $gaps: (
-    "5xs",
-    "4xs",
-    "3xs",
-    "2xs",
+  $width-percentage-breakpoints: (
     "s",
     "m",
     "l",
-    "xl",
-    "2xl",
   ),
 
-  $gap-breakpoints: ("m", "l"),
+  $widths: (
+    "4xs",
+    "2xs",
+    "xs",
+    "s",
+    "r",
+    "m",
+    "l",
+  ),
+
+  $width-breakpoints: ("s", "m"),
+
+  /* Heights */
+
+  $heights: (
+    "4xs",
+    "2xs",
+    "xs",
+    "s",
+    "r",
+    "m",
+    "l",
+  ),
+
+  $height-breakpoints: ("s", "m"),
+
+  /* Gaps */
+
+  $gaps: $gaps,
+  $gap-breakpoints: ("s", "m", "l"),
+
+  /* Containers */
 
   $container-padding: 20px,
   $containers: (
     "default": 1340px,
-    "medium": 1080px,
-    "small": 690px,
+    "m": 1080px,
+    "s": 690px,
   ),
+
+  /* Flex */
+
+  $flex-row-breakpoints: ("l"),
+
+  /* Nav icon */
 
   $nav: (
     "icon": (
@@ -146,11 +211,14 @@ $padding-horizontal: (
     )
   ),
 
+  /* Borders */
+
   $borders: (
     "sides": ("all", "top"),
     "colors": (
       "default": "var(--background-light-35)",
       "separator": "var(--background-light-20)",
+      "current": "currentcolor"
     ),
     "widths": (
       "default": 0.0625rem,
@@ -162,23 +230,44 @@ $padding-horizontal: (
     "m": 12px,
   ),
 
+  /* Outline */
+
   $outline: (
-    "width": 0.2rem,
+    "width": 0.175rem,
     "color": "var(--background-light)",
     "offset": 0.3rem,
   ),
 
-  $placeholders: (
-    (
-      "name": "line-height-130-pc",
-      "prop": (
-        line-height: 1.3
-      ),
+  /* Transitions */
+
+  $transitions: (
+    "default": (
+      "duration": 400ms,
     ),
+    "quad": (
+      "easing": "cubic-bezier(0.45, 0, 0.55, 1)",
+    ),
+  ),
+
+  /* Placeholders */
+
+  $placeholders: (
     (
       "name": "line-height-160-pc",
       "prop": (
         line-height: 1.6
+      ),
+    ),
+    (
+      "name": "line-height-140-pc",
+      "prop": (
+        line-height: 1.4
+      ),
+    ),
+    (
+      "name": "line-height-130-pc",
+      "prop": (
+        line-height: 1.3
       ),
     ),
     (

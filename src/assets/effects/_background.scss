@@ -1,0 +1,15 @@
+/**
+ * Effects: background
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/utils/functions" as func;
+
+/* Styles */
+
+.e-bg-foreground-base-12 {
+  &:hover {
+    background: #{rgba(func.get-color("foreground-base"), 0.125)};
+  }
+}

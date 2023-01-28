@@ -1,5 +1,5 @@
 /**
- * Base navigation output
+ * Navigation output
  *
  * @param {object} args {
  *  @param {array} navs
@@ -9,7 +9,7 @@
 
 /* Imports */
 
-const { getSlug, getPermalink } = require('./base')
+const { getSlug, getPermalink, getLink } = require('./functions')
 
 /* Class */
 
@@ -101,26 +101,21 @@ class Navigation {
 
     const {
       title = '',
-      internalLink = '',
+      internalLink = false,
       externalLink = '',
       children = false
     } = fields
 
     let id = ''
-    let link = ''
     let external = false
+
+    const link = getLink(internalLink, externalLink)
 
     if (externalLink) {
       id = externalLink
-      link = externalLink
       external = true
     } else {
       id = internalLink.sys.id
-
-      const contentType = internalLink.sys.contentType.sys.id
-      const internalFields = Object.assign({ slug: '' }, internalLink.fields)
-
-      link = getPermalink(getSlug(contentType, internalFields.slug))
     }
 
     const props = {
@@ -176,6 +171,7 @@ class Navigation {
       const obj = this._itemsById[f]
 
       obj.current = externalLink ? false : obj.link === current
+      obj.descendentCurrent = current.includes(obj.link)
 
       return this._itemsById[f]
     })
@@ -197,7 +193,8 @@ class Navigation {
         link = '',
         external = false,
         children = [],
-        current = false
+        current = false,
+        descendentCurrent = false
       } = item
 
       args.filterBeforeItem(args, item, output)
@@ -207,6 +204,10 @@ class Navigation {
 
       if (current) {
         itemAttrs += ' data-current="true"'
+      }
+
+      if (descendentCurrent) {
+        itemAttrs += ' data-descendent-current="true"'
       }
 
       output.html += `<li data-depth="${depth}"${itemClasses}${itemAttrs}>`
@@ -222,6 +223,10 @@ class Navigation {
 
       if (current) {
         linkAttrs += ' aria-current="page" data-current="true"'
+      }
+
+      if (descendentCurrent) {
+        linkAttrs += ' data-descendent-current="true"'
       }
 
       output.html += `<a href="${link}" data-depth="${depth}"${linkClasses}${linkAttrs}>`
@@ -255,7 +260,7 @@ class Navigation {
   /* Return navigation html output */
 
   getOutput (location = '', current = '', args = {}) {
-    if (!Object.getOwnPropertyDescriptor(this._navsByLocation, location)) {
+    if (!this._navsByLocation?.[location]) {
       return ''
     }
 
@@ -284,6 +289,81 @@ class Navigation {
     this._recurseOutput(normalizedItems, output, -1, args)
 
     return output.html
+  }
+
+  /* Return breadcrumbs html output */
+
+  getBreadcrumbs (items = [], current = '', args = {}) {
+    /* Items required */
+
+    if (!items.length) {
+      return ''
+    }
+
+    /* Args defaults */
+
+    args = Object.assign({
+      listClass: '',
+      listAttr: '',
+      itemClass: '',
+      itemAttr: '',
+      linkClass: '',
+      linkAttr: '',
+      currentClass: '',
+      a11yClass: 'a11y-visually-hidden',
+      filterBeforeLink: () => {},
+      filterAfterLink: () => {}
+    }, args)
+
+    /* List attributes */
+
+    const listClasses = args.listClass ? ` class="${args.listClass}"` : ''
+    const listAttrs = args.listAttr ? ` ${args.listAttr}` : ''
+
+    /* Loop through items */
+
+    const itemClasses = args.itemClass ? ` class="${args.itemClass}"` : ''
+    const itemAttrs = args.itemAttr ? ` ${args.itemAttr}` : ''
+    const lastItemIndex = items.length - 1
+
+    items = items.map((item, index) => {
+      const output = { html: '' }
+      const isLastLevel = lastItemIndex === index
+
+      /* Item */
+
+      output.html += `<li${itemClasses}${itemAttrs} data-last-level="${isLastLevel.toString()}">`
+
+      /* Link */
+
+      args.filterBeforeLink(output, isLastLevel)
+
+      const linkClasses = args.linkClass ? ` class="${args.linkClass}"` : ''
+      const linkAttrs = args.linkAttr ? ` ${args.linkAttr}` : ''
+
+      output.html += `<a${linkClasses} href="${getPermalink(getSlug({ slug: item.slug }))}"${linkAttrs}>${item.title}</a>`
+
+      args.filterAfterLink(output, isLastLevel)
+
+      /* Close item */
+
+      output.html += '</li>'
+
+      return output.html
+    })
+
+    /* Output */
+
+    const currentClasses = args.currentClass ? ` class="${args.currentClass}"` : ''
+
+    return `
+      <ol${listClasses}${listAttrs}>
+        ${items.join('')}
+        <li${itemClasses}${itemAttrs} data-current="true">
+          <span${currentClasses}>${current}<span class="${args.a11yClass}"> (current page)</span></span>
+        </li>
+      </ol>
+    `
   }
 } // End Navigation
 

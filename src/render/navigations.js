@@ -1,52 +1,50 @@
 /**
- * Base process data for output
+ * Navigations output
+ *
+ * @param {object} args {
+ *  @param {array} navs
+ *  @param {array} items
+ *  @param {string} current
+ *  @param {array} parents - For breadcrumbs
+ *  @param {string} title - For breadcrumbs
+ * }
  */
 
 /* Imports */
 
-const Navigation = require('./navigation')
+const Navigation = require('../utils/navigation')
+const { getFile } = require('../utils/functions')
 
-const {
-  getSlug,
-  getPermalink,
-  getFile
-} = require('./base')
+/* Function */
 
-const { slugParents } = require('./constants')
+const navigations = ({
+  navs = [],
+  items = [],
+  current = '',
+  parents = [],
+  title = ''
+}) => {
+  /* Navs and items required */
 
-/* Nav instance */
+  if (!navs.length && !items.length) {
+    return {
+      main: '',
+      breadcrumbs: '',
+      footer: '',
+      social: {
+        left: '',
+        center: ''
+      }
+    }
+  }
 
-let nav
+  /* Navigation instance */
 
-/* Set content item fields */
+  const nav = new Navigation({ navs, items })
 
-const setItem = (item = {}, contentType = 'page') => {
-  /* Set defaults */
+  /* Output */
 
-  const itemFields = Object.assign({
-    title: '',
-    slug: '',
-    parent: false,
-    heroTitle: '',
-    heroImage: false,
-    heroText: '',
-    content: [],
-    colorFrom: '',
-    colorTo: '',
-    metaDescription: '',
-    metaImage: false
-  }, item.fields)
-
-  /* Permalink */
-
-  itemFields.slug = getSlug(contentType, itemFields.slug)
-  itemFields.permalink = getPermalink(itemFields.slug)
-
-  /* Navigations */
-
-  const current = itemFields.permalink
-
-  itemFields.navigations = {
+  return {
     main: nav.getOutput(
       'main',
       current,
@@ -58,13 +56,30 @@ const setItem = (item = {}, contentType = 'page') => {
         linkClass: 'c-nav__link t-m t-line-height-130-pc l-inline-flex l-relative l-after l-padding-top-5xs l-padding-bottom-5xs'
       }
     ),
+    breadcrumbs: nav.getBreadcrumbs(
+      parents,
+      title,
+      {
+        listClass: 'c-breadcrumbs l-flex t-list-style-none e-underline-reverse',
+        listAttr: 'role="list"',
+        itemClass: 'l-flex',
+        linkClass: 't-xs t-line-height-130-pc l-inline-flex',
+        linkAttr: 'data-inline',
+        currentClass: 't-xs t-line-height-130-pc t-weight-medium t-background-light t-clamp',
+        a11yClass: 'a11y-visually-hidden',
+        filterAfterLink: (output) => {
+          output.html += '<span class="t-xs t-line-height-130-pc l-inline-flex l-padding-right-4xs l-padding-left-4xs" aria-hidden="true">&sol;</span>'
+        }
+      }
+    ),
     footer: nav.getOutput(
       'footer',
       current,
       {
         listClass: 'l-flex l-flex-wrap l-justify-center l-gap-margin-2xs l-gap-margin-s-l t-list-style-none e-underline-reverse',
         listAttr: 'role="list"',
-        linkClass: 't'
+        linkClass: 't l-inline-flex',
+        linkAttr: 'data-inline'
       }
     ),
     social: {
@@ -122,54 +137,8 @@ const setItem = (item = {}, contentType = 'page') => {
       )
     }
   }
-
-  /* Output */
-
-  return itemFields
-}
-
-/* Set content and navigation output */
-
-const setData = ({ content = {}, navs = [], navItems = [] }) => {
-  /* Store navigations and items */
-
-  nav = new Navigation({
-    navs,
-    items: navItems
-  })
-
-  /* Store content data */
-
-  const data = []
-
-  /* Loop through pages first to set parent slugs */
-
-  content.page.forEach(item => {
-    const {
-      slug = '',
-      parent = false
-    } = item.fields
-
-    if (parent) {
-      slugParents[slug] = parent.fields.slug
-    }
-  })
-
-  /* Loop through all content types */
-
-  for (const contentType in content) {
-    content[contentType].forEach(item => {
-      data.push(setItem(item, contentType))
-    })
-  }
-
-  /* Output */
-
-  return data
 }
 
 /* Exports */
 
-module.exports = {
-  setData
-}
+module.exports = navigations

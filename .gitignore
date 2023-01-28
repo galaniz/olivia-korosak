@@ -1,5 +1,13 @@
 node_modules/
 site/
-assets/public/
 package-lock.json
+src/data/slugs.json
+src/data/slug-parents.json
+src/data/archive-counts.json
+src/data/durations.json
+netlify/functions/serverless/**
+!netlify/functions/serverless/index.js
 .DS_Store
+.cache
+# Local Netlify folder
+.netlify
