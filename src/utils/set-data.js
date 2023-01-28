@@ -4,9 +4,6 @@
 
 /* Imports */
 
-const ffprobe = require('ffprobe')
-const ffprobeStatic = require('ffprobe-static')
-const util = require('node:util')
 const slugParentsJson = require('../data/slug-parents.json')
 const button = require('../render/button')
 const card = require('../render/card')
@@ -50,6 +47,10 @@ let _serverlessData = false
 
 const _getAudioDuration = async (url) => {
   try {
+    const ffprobe = require('ffprobe')
+    const ffprobeStatic = require('ffprobe-static')
+    const util = require('node:util')
+
     const ffprobePromise = util.promisify(ffprobe)
     const duration = await ffprobePromise(`https:${url}`, { path: ffprobeStatic.path })
     const seconds = Math.round(duration.streams[0].duration)
