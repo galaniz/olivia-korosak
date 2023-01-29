@@ -1,10 +1,9 @@
-[functions]
-node_bundler = "esbuild"
-external_node_modules = ["@11ty/eleventy", "@11ty/dependency-tree"]
-included_files = [
-  "./netlify/functions/serverless/**/*",
-  "./netlify/functions/serverless/.cache/**/*"
-]
+[[redirects]]
+from = "/{{ ctfl.slug }}/"
+to = "/.netlify/functions/serverless"
+status = 200
+force = true
+_generated_by_eleventy_serverless = "serverless"
 
 [[redirects]]
 from = "/work/tracks/genres/piano/"

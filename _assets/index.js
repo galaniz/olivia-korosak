@@ -4,15 +4,15 @@
 
 /* Imports */
 
-import { setElements, usingMouse } from 'Formation/utils'
+import { setElements, usingMouse } from '@alanizcreative/formation/src/utils'
 
 /* Classes */
 
-import Nav from 'Formation/components/nav'
-import Table from 'Formation/objects/table'
-import Collapsible from 'Formation/objects/collapsible'
-import SendForm from 'Formation/objects/form/send'
-import Audio from 'Formation/components/audio'
+import Nav from '@alanizcreative/formation/src/components/nav'
+import Table from '@alanizcreative/formation/src/objects/table'
+import Collapsible from '@alanizcreative/formation/src/objects/collapsible'
+import SendForm from '@alanizcreative/formation/src/objects/form/send'
+import Audio from '@alanizcreative/formation/src/components/audio'
 
 /* Variables */
 
