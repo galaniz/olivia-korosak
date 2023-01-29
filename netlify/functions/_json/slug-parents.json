@@ -1,0 +1,18 @@
+{
+  "types": {
+    "slug": "projects",
+    "title": "Projects"
+  },
+  "genres": {
+    "slug": "tracks",
+    "title": "Tracks"
+  },
+  "tracks": {
+    "slug": "work",
+    "title": "Work"
+  },
+  "projects": {
+    "slug": "work",
+    "title": "Work"
+  }
+}
