@@ -19,6 +19,8 @@ export const handler = async (event) => {
       }
     })
 
+    console.log('OUTPUT', output)
+
     body = output?.archive?.[0]?.content ? output.archive[0].content : ''
 
     return {
