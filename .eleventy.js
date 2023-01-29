@@ -5,14 +5,13 @@
 /* Imports */
 
 require('dotenv').config()
-// const htmlmin = require('html-minifier')
+const htmlmin = require('html-minifier')
 const fs = require('fs')
 const esbuild = require('esbuild')
 const postcss = require('postcss')
 const autoprefixer = require('autoprefixer')
 const postcssPresetEnv = require('postcss-preset-env')
 const { sassPlugin } = require('esbuild-sass-plugin')
-const { EleventyServerlessBundlerPlugin } = require('@11ty/eleventy')
 
 /* Config */
 
@@ -75,7 +74,7 @@ module.exports = (eleventyConfig) => {
 
   /* Minify HTML */
 
-  /*eleventyConfig.addTransform('htmlmin', (content, outputPath) => {
+  eleventyConfig.addTransform('htmlmin', (content, outputPath) => {
     if (outputPath.endsWith('.html')) {
       let minified = htmlmin.minify(content, {
         useShortDoctype: true,
@@ -87,7 +86,7 @@ module.exports = (eleventyConfig) => {
     }
 
     return content
-  })*/
+  })
 
   /* Copy static asset folders */
 
@@ -105,12 +104,5 @@ module.exports = (eleventyConfig) => {
 
   eleventyConfig.addPassthroughCopy({
     '_assets/favicon': 'assets/favicon'
-  })
-
-  /* Serverless */
-
-  eleventyConfig.addPlugin(EleventyServerlessBundlerPlugin, {
-    name: 'serverless',
-    functionsDir: './netlify/functions/'
   })
 }
