@@ -101,9 +101,10 @@ const getPermalink = (slug = '', trailingSlash = true) => {
 /* Get file as string */
 
 const getFile = (path = '') => {
-  const fileContent = fs.readFileSync(path, { encoding: 'utf8' })
+  return ''
+  /*const fileContent = fs.readFileSync(path, { encoding: 'utf8' })
 
-  return fileContent
+  return fileContent*/
 }
 
 /* Get link from external and internal options */

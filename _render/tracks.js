@@ -219,8 +219,8 @@ const tracks = async ({
         <div class="l-flex l-gap-margin-2xs l-gap-margin-s-m l-align-center l-relative">
           <div>
             <button type="button" id="b-${id}" class="o-play l-width-m l-height-m l-svg t-foreground-base bg-background-light b-radius-100-pc" aria-label="Play ${title}" data-state="play">
-              ${getFile('../_assets/svg/play.svg')}
-              ${getFile('../_assets/svg/pause.svg')}
+              ${getFile('./_assets/svg/play.svg')}
+              ${getFile('./_assets/svg/pause.svg')}
             </button>
           </div>
           <div class="t-m t-weight-medium t-clamp e-underline-reverse outline-tight">
@@ -312,7 +312,7 @@ const tracks = async ({
       output: `
         <button class="l-width-s l-height-s l-flex l-align-center l-justify-center l-margin-left-auto" type="button" aria-label="Toggle ${title} details" id="${triggerId}" aria-controls="${detailsId}" aria-expanded="false">
           <span class="l-flex l-width-xs l-height-xs l-svg t-background-light o-collapsible-icon e-transition">
-            ${getFile('../_assets/svg/arrow-down.svg')}
+            ${getFile('./_assets/svg/arrow-down.svg')}
           </span>
         </button>
       `

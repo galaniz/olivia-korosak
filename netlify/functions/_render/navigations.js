@@ -101,7 +101,7 @@ const navigations = ({
 
             const icon = `
               <div class="l-flex l-width-2xs l-height-2xs l-svg">
-                ${getFile(`./_assets/svg/${t}.svg`)}
+                ${getFile(`../_assets/svg/${t}.svg`)}
               </div>
             `
 
@@ -127,7 +127,7 @@ const navigations = ({
 
             const icon = `
               <div class="l-flex l-width-2xs l-height-2xs l-svg">
-                ${getFile(`./_assets/svg/${t}.svg`)}
+                ${getFile(`../_assets/svg/${t}.svg`)}
               </div>
             `
 
