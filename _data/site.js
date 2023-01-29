@@ -4,8 +4,8 @@
 
 /* Imports */
 
-const { namespace } = require('../utils/variables')
-const { getPermalink } = require('../utils/functions')
+const { namespace } = require('../_utils/variables')
+const { getPermalink } = require('../_utils/functions')
 
 /* Variables */
 

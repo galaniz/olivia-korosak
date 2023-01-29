@@ -4,22 +4,22 @@
 
 /* Imports */
 
-const slugParentsJson = require('../data/slug-parents.json')
-const button = require('../render/button')
-const card = require('../render/card')
-const column = require('../render/column')
-const container = require('../render/container')
-const content = require('../render/content')
-const richText = require('../render/rich-text')
-const field = require('../render/field')
-const form = require('../render/form')
-const image = require('../render/image')
-const posts = require('../render/posts')
-const testimonial = require('../render/testimonial')
-const navigations = require('../render/navigations')
-const hero = require('../render/hero')
-const gradients = require('../render/gradients')
-const audio = require('../render/audio')
+const slugParentsJson = require('../_data/slug-parents.json')
+const button = require('../_render/button')
+const card = require('../_render/card')
+const column = require('../_render/column')
+const container = require('../_render/container')
+const content = require('../_render/content')
+const richText = require('../_render/rich-text')
+const field = require('../_render/field')
+const form = require('../_render/form')
+const image = require('../_render/image')
+const posts = require('../_render/posts')
+const testimonial = require('../_render/testimonial')
+const navigations = require('../_render/navigations')
+const hero = require('../_render/hero')
+const gradients = require('../_render/gradients')
+const audio = require('../_render/audio')
 const { getSlug, getPermalink } = require('./functions')
 const { contentTypes, slugParents, archiveCounts, termData, namespace, scriptData } = require('./variables')
 const { writeFile } = require('fs')
@@ -563,7 +563,7 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
     for (let i = 0; i < jsonFiles.length; i++) {
       const jsonFile = jsonFiles[i]
 
-      writeFile(`./src/data/${jsonFile.name}`, JSON.stringify(jsonFile.data, null, 2), (error) => {
+      writeFile(`./_data/${jsonFile.name}`, JSON.stringify(jsonFile.data, null, 2), (error) => {
         if (error) {
           console.log(`An error has occurred writing ${jsonFile.name} `, error)
           return

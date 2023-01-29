@@ -12,7 +12,7 @@
 
 /* Imports */
 
-const { getImage } = require('../utils/functions')
+const { getImage } = require('../_utils/functions')
 
 /* Function */
 

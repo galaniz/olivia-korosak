@@ -15,9 +15,9 @@
 /* Imports */
 
 const escape = require('validator/lib/escape.js')
-const { getSlug, getPermalink } = require('../utils/functions')
-const { getContentfulData } = require('../utils/contentful')
-const { optionValues, archiveCounts, termData } = require('../utils/variables')
+const { getSlug, getPermalink } = require('../_utils/functions')
+const { getContentfulData } = require('../_utils/contentful')
+const { optionValues, archiveCounts, termData } = require('../_utils/variables')
 const container = require('./container')
 const column = require('./column')
 const card = require('./card')

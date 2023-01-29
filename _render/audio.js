@@ -4,7 +4,7 @@
 
 /* Imports */
 
-const { getFile } = require('../utils/functions')
+const { getFile } = require('../_utils/functions')
 
 /* Function */
 
@@ -24,14 +24,14 @@ const audio = () => {
               <div>
                 <div class="c-audio__offset l-flex l-align-center">
                   <button type="button" class="c-audio__prev l-width-r l-height-r l-svg b-radius-100-pc e-bg-foreground-base-12" aria-label="Previous track">
-                    ${getFile('./src/assets/svg/play-prev.svg')}
+                    ${getFile('./assets/svg/play-prev.svg')}
                   </button>
                   <button type="button" class="c-audio__play o-play l-width-l l-height-l l-svg b-radius-100-pc e-bg-foreground-base-12" aria-label="Play" data-state="play">
-                    ${getFile('./src/assets/svg/play.svg')}
-                    ${getFile('./src/assets/svg/pause.svg')}
+                    ${getFile('./assets/svg/play.svg')}
+                    ${getFile('./assets/svg/pause.svg')}
                   </button>
                   <button type="button" class="c-audio__next l-width-r l-height-r l-svg b-radius-100-pc e-bg-foreground-base-12" aria-label="Next track">
-                    ${getFile('./src/assets/svg/play-next.svg')}
+                    ${getFile('./assets/svg/play-next.svg')}
                   </button>
                 </div>
               </div>
@@ -69,7 +69,7 @@ const audio = () => {
       </div>
       <button type="button" class="c-audio__close l-absolute l-right-0 l-top-0 l-z-index-1 l-width-xs l-height-xs l-flex l-align-center l-justify-center outline-snug" aria-label="Close audio player">
         <span class="l-width-2xs l-height-2xs l-svg">
-          ${getFile('./src/assets/svg/close.svg')}
+          ${getFile('./assets/svg/close.svg')}
         </span>
       </button>
     </div>

@@ -10,7 +10,7 @@
 
 /* Imports */
 
-const { getFile } = require('../utils/functions')
+const { getFile } = require('../_utils/functions')
 
 /* Function */
 
@@ -30,7 +30,7 @@ const testimonial = ({
   return `
     <figure class="l-flex l-flex-column l-height-100-pc">
       <div class="l-flex l-width-l l-height-m l-svg t-background-light-20">
-        ${getFile('./src/assets/svg/quote.svg')}
+        ${getFile('./assets/svg/quote.svg')}
       </div>
       <blockquote class="l-padding-top-2xs l-padding-bottom-3xs">
         <p class="t-quote t-background-light">${quote}</p>

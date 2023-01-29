@@ -7,7 +7,7 @@ require("./eleventy-bundler-modules.js");
 async function handler(event) {
   let elev = new EleventyServerless("serverless", {
     path: new URL(event.rawUrl).pathname,
-    query: event.queryStringParameters,
+    query: event.multiValueQueryStringParameters || event.queryStringParameters,
     functionsDir: "./netlify/functions/",
     config: function(config) {
       config.addGlobalData(
@@ -17,7 +17,7 @@ async function handler(event) {
           path: event.path
         }
       );
-    }
+    },
   });
 
   try {

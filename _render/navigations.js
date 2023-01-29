@@ -12,8 +12,8 @@
 
 /* Imports */
 
-const Navigation = require('../utils/navigation')
-const { getFile } = require('../utils/functions')
+const Navigation = require('../_utils/navigation')
+const { getFile } = require('../_utils/functions')
 
 /* Function */
 
@@ -101,7 +101,7 @@ const navigations = ({
 
             const icon = `
               <div class="l-flex l-width-2xs l-height-2xs l-svg">
-                ${getFile(`./src/assets/svg/${t}.svg`)}
+                ${getFile(`./assets/svg/${t}.svg`)}
               </div>
             `
 
@@ -127,7 +127,7 @@ const navigations = ({
 
             const icon = `
               <div class="l-flex l-width-2xs l-height-2xs l-svg">
-                ${getFile(`./src/assets/svg/${t}.svg`)}
+                ${getFile(`./assets/svg/${t}.svg`)}
               </div>
             `
 
