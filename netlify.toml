@@ -1,3 +1,10 @@
+[functions]
+node_bundler = "esbuild"
+included_files = [
+  "./netlify/functions/serverless/**/*",
+  "./netlify/functions/serverless/.cache/**/*"
+]
+
 [[redirects]]
 from = "/work/tracks/genres/piano/"
 to = "/.netlify/functions/serverless"
