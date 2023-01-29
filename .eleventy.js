@@ -8,26 +8,26 @@ require('dotenv').config()
 const htmlmin = require('html-minifier')
 const { EleventyServerlessBundlerPlugin } = require('@11ty/eleventy')
 
-/* Check/build json files */
-
-const fs = require('fs')
-
-const paths = [
-  './_json/slugs.json',
-  './_json/slug-parents.json',
-  './_json/durations.json',
-  './_json/archive-counts.json'
-]
-
-paths.forEach((path) => {
-  if (!fs.existsSync(path)) {
-    fs.writeFileSync(path, JSON.stringify({}))
-  }
-})
-
 /* Config */
 
 module.exports = (eleventyConfig) => {
+  /* Check/build json files */
+
+  const fs = require('fs')
+
+  const paths = [
+    './_json/slugs.json',
+    './_json/slug-parents.json',
+    './_json/durations.json',
+    './_json/archive-counts.json'
+  ]
+
+  paths.forEach((path) => {
+    if (!fs.existsSync(path)) {
+      fs.writeFileSync(path, JSON.stringify({}))
+    }
+  })
+
   /* Serverless */
 
   eleventyConfig.addPlugin(EleventyServerlessBundlerPlugin, {
@@ -61,4 +61,15 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addPassthroughCopy('assets/svg')
   eleventyConfig.addPassthroughCopy('assets/img')
   eleventyConfig.addPassthroughCopy('assets/favicon')
+
+  /* Directories */
+
+  return {
+    dir: {
+      input: ".",
+      includes: "_includes",
+      data: "_data",
+      output: "_site"
+    }
+  };
 }
