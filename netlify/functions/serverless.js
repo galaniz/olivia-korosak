@@ -4,7 +4,7 @@
 
 /* Imports */
 
-const contentful = require('../../_data/contentful')
+const contentful = require('./_data/contentful')
 
 /* */
 

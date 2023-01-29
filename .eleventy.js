@@ -7,6 +7,7 @@
 require('dotenv').config()
 const htmlmin = require('html-minifier')
 const fs = require('fs')
+const fse = require('fs-extra')
 const esbuild = require('esbuild')
 const postcss = require('postcss')
 const autoprefixer = require('autoprefixer')
@@ -30,6 +31,18 @@ module.exports = (eleventyConfig) => {
       fs.writeFileSync(path, JSON.stringify({}))
     }
   })
+
+  /* */
+
+  try {
+    fse.copy('./_assets/svg', './netlify/functions/_assets/svg')
+    fse.copy('./_data', './netlify/functions/_data')
+    fse.copy('./_json', './netlify/functions/_json')
+    fse.copy('./_render', './netlify/functions/_render')
+    fse.copy('./_utils', './netlify/functions/_utils')
+  } catch (error) {
+    console.error(error)
+  }
 
   /* Process scss and js files */
 
