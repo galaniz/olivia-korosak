@@ -17,7 +17,7 @@ async function handler(event) {
           path: event.path
         }
       );
-    }
+    },
   });
 
   try {
