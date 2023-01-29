@@ -5,7 +5,7 @@
 /* Imports */
 
 const { getContentfulData } = require('../_utils/contentful')
-const slugsJson = require('./slugs.json')
+const slugsJson = require('../_json/slugs.json')
 const setData = require('../_utils/set-data')
 
 /* Get content + navigations */
