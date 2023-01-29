@@ -11,7 +11,6 @@ const esbuild = require('esbuild')
 const postcss = require('postcss')
 const autoprefixer = require('autoprefixer')
 const postcssPresetEnv = require('postcss-preset-env')
-const { namespace } = require('./_utils/variables')
 const { sassPlugin } = require('esbuild-sass-plugin')
 const { EleventyServerlessBundlerPlugin } = require('@11ty/eleventy')
 
@@ -37,6 +36,7 @@ module.exports = (eleventyConfig) => {
 
   eleventyConfig.on('afterBuild', () => {
     const entryPoints = {}
+    const namespace = 'ok'
 
     entryPoints[`js/${namespace}`] = '_assets/index.js'
     entryPoints[`css/${namespace}`] = '_assets/index.scss'
@@ -51,7 +51,20 @@ module.exports = (eleventyConfig) => {
       external: ['*.woff', '*.woff2'],
       plugins: [sassPlugin({
         async transform(source) {
-          const {css} = await postcss([autoprefixer, postcssPresetEnv({stage: 4})]).process(source)
+          const {css} = await postcss(
+            [
+              autoprefixer,
+              postcssPresetEnv({
+                stage: 4
+              })
+            ]
+          ).process(
+            source,
+            {
+              from: `css/${namespace}.css`
+            }
+          )
+  
           return css
         }
       })]
@@ -59,17 +72,6 @@ module.exports = (eleventyConfig) => {
   })
 
   eleventyConfig.addWatchTarget('./_assets/')
-
-  /* Serverless */
-
-  eleventyConfig.addPlugin(EleventyServerlessBundlerPlugin, {
-    name: 'serverless',
-    functionsDir: './netlify/functions/',
-    excludeDependencies: [
-      'ffprobe',
-      'ffprobe-static'
-    ]
-  })
 
   /* Minify HTML */
 
@@ -103,5 +105,12 @@ module.exports = (eleventyConfig) => {
 
   eleventyConfig.addPassthroughCopy({
     '_assets/favicon': 'assets/favicon'
+  })
+
+  /* Serverless */
+
+  eleventyConfig.addPlugin(EleventyServerlessBundlerPlugin, {
+    name: 'serverless',
+    functionsDir: './netlify/functions/'
   })
 }

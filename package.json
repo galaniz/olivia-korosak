@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@11ty/eleventy": "^2.0.0-canary.33",
+    "@11ty/eleventy": "^1.0.2",
     "@11ty/eleventy-fetch": "^3.0.0",
     "@alanizcreative/formation": "^4.0.17",
     "@netlify/functions": "^1.4.0",
