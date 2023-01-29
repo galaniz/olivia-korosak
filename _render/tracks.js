@@ -15,7 +15,7 @@
 const { randomUUID } = require('crypto')
 const { getSlug, getPermalink, getFile } = require('../_utils/functions')
 const { scriptData } = require('../_utils/variables')
-const durations = require('../_data/durations.json')
+const durations = require('../_json/durations.json')
 
 /* Get time as text */
 

@@ -13,10 +13,10 @@ const { EleventyServerlessBundlerPlugin } = require('@11ty/eleventy')
 const fs = require('fs')
 
 const paths = [
-  './_data/slugs.json',
-  './_data/slug-parents.json',
-  './_data/durations.json',
-  './_data/archive-counts.json'
+  './_json/slugs.json',
+  './_json/slug-parents.json',
+  './_json/durations.json',
+  './_json/archive-counts.json'
 ]
 
 paths.forEach((path) => {

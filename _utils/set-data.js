@@ -4,7 +4,7 @@
 
 /* Imports */
 
-const slugParentsJson = require('../_data/slug-parents.json')
+const slugParentsJson = require('../_json/slug-parents.json')
 const button = require('../_render/button')
 const card = require('../_render/card')
 const column = require('../_render/column')
@@ -563,7 +563,7 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
     for (let i = 0; i < jsonFiles.length; i++) {
       const jsonFile = jsonFiles[i]
 
-      writeFile(`./_data/${jsonFile.name}`, JSON.stringify(jsonFile.data, null, 2), (error) => {
+      writeFile(`./_json/${jsonFile.name}`, JSON.stringify(jsonFile.data, null, 2), (error) => {
         if (error) {
           console.log(`An error has occurred writing ${jsonFile.name} `, error)
           return
