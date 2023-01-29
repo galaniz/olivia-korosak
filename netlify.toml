@@ -1,62 +1,11 @@
-[[redirects]]
-from = "/work/tracks/genres/piano/"
-to = "/.netlify/functions/serverless"
-status = 200
-force = true
-_generated_by_eleventy_serverless = "serverless"
+[functions]
+node_bundler = "esbuild"
 
-[[redirects]]
-from = "/work/tracks/genres/organ/"
-to = "/.netlify/functions/serverless"
-status = 200
-force = true
-_generated_by_eleventy_serverless = "serverless"
-
-[[redirects]]
-from = "/work/tracks/genres/orchestra/"
-to = "/.netlify/functions/serverless"
-status = 200
-force = true
-_generated_by_eleventy_serverless = "serverless"
-
-[[redirects]]
-from = "/work/tracks/genres/choral/"
-to = "/.netlify/functions/serverless"
-status = 200
-force = true
-_generated_by_eleventy_serverless = "serverless"
-
-[[redirects]]
-from = "/work/tracks/genres/chamber-music/"
-to = "/.netlify/functions/serverless"
-status = 200
-force = true
-_generated_by_eleventy_serverless = "serverless"
+[dev]
+targetPort = 8080
 
 [[redirects]]
 from = "/work/tracks/"
 to = "/.netlify/functions/serverless"
 status = 200
 force = true
-_generated_by_eleventy_serverless = "serverless"
-
-[[redirects]]
-from = "/work/projects/types/score/"
-to = "/.netlify/functions/serverless"
-status = 200
-force = true
-_generated_by_eleventy_serverless = "serverless"
-
-[[redirects]]
-from = "/work/projects/types/credit/"
-to = "/.netlify/functions/serverless"
-status = 200
-force = true
-_generated_by_eleventy_serverless = "serverless"
-
-[[redirects]]
-from = "/work/projects/types/composition/"
-to = "/.netlify/functions/serverless"
-status = 200
-force = true
-_generated_by_eleventy_serverless = "serverless"

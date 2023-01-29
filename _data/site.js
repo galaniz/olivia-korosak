@@ -41,10 +41,7 @@ module.exports = {
     assets
   },
   styles: `${assets}css/${namespace}.css`,
-  scripts: {
-    main: `${assets}js/${namespace}.js`,
-    compat: `${assets}js/${namespace}-compat.js`
-  },
+  script: `${assets}js/${namespace}.js`,
   context: process.env.CONTEXT,
   year: date.getFullYear(),
   namespace
