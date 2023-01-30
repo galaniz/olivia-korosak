@@ -12,7 +12,11 @@ const { slugParents, slugBases, urls, envData } = require('./variables')
 const getContext = () => {
   let context = process.env.CONTEXT
 
-  if (envData.host) {
+  const host = envData.host
+
+  console.log('HOST', host)
+
+  if (host) {
     context = 'dev'
 
     if (host.startsWith('staging')) {
