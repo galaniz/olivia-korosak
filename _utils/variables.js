@@ -150,7 +150,8 @@ const optionValues = {
       Project: 'project',
       'Project Type': 'projectType',
       Track: 'track',
-      Genre: 'genre'
+      Genre: 'genre',
+      None: ''
     },
     headingLevel: {
       'Heading Two': 'heading-2',
@@ -195,22 +196,26 @@ const slugBases = {
   project: {
     slug: 'projects',
     title: 'Projects',
-    singular: 'Project'
+    singular: 'Project',
+    archiveId: ''
   },
   track: {
     slug: 'tracks',
     title: 'Tracks',
-    singular: 'Track'
+    singular: 'Track',
+    archiveId: ''
   },
   projectType: {
     slug: 'types',
     title: 'Types',
-    singular: 'Type'
+    singular: 'Type',
+    archiveId: ''
   },
   genre: {
     slug: 'genres',
     title: 'Genres',
-    singular: 'Genre'
+    singular: 'Genre',
+    archiveId: ''
   }
 }
 
@@ -247,6 +252,10 @@ const urls = {
   staging: 'https://staging--oliviakorosak.netlify.app/'
 }
 
+/* Store page archive ids by content type */
+
+const archiveIds = {}
+
 /* Store posts archive counts */
 
 const archiveCounts = {}
@@ -259,6 +268,7 @@ const scriptData = {}
 
 module.exports = {
   namespace,
+  archiveIds,
   archiveCounts,
   termData,
   scriptData,

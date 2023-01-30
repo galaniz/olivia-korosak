@@ -9,23 +9,22 @@ const { slugParents, slugBases, urls } = require('./variables')
 
 /* Get slug helper */
 
-const _getParentSlug = (slug = '', p = []) => {
-  if (slugParents?.[slug]) {
-    const parent = slugParents[slug].slug
+const _getParentSlug = (id = '', p = []) => {
+  if (slugParents?.[id]) {
+    p.unshift(slugParents[id])
 
-    p.unshift(slugParents[slug])
-
-    _getParentSlug(parent, p)
+    _getParentSlug(slugParents[id].id, p)
   }
 }
 
 /* Return slug with base from slug base and parents */
 
 const getSlug = ({
-  contentType = 'page',
+  id = '',
   slug = '',
-  returnParents = false,
-  page = 0
+  page = 0,
+  contentType = 'page',
+  returnParents = false
 }) => {
   /* Index */
 
@@ -35,14 +34,14 @@ const getSlug = ({
 
   /* Slug base */
 
-  const slugBase = slugBases[contentType].slug
+  const slugBase = slugBases[contentType]
 
   /* Parents */
 
   let p = []
   let pp = []
 
-  _getParentSlug(contentType === 'page' ? slug : slugBase, p)
+  _getParentSlug(contentType === 'page' ? id : slugBase.archiveId, p)
 
   if (p.length) {
     pp = p
@@ -56,13 +55,13 @@ const getSlug = ({
 
   /* Slug */
 
-  const s = `${p}${slugBase}${slugBase ? '/' : ''}${slug}${page ? `/?page=${page}` : ''}`
+  const s = `${p}${slugBase.slug}${slugBase.slug ? '/' : ''}${slug}${page ? `/?page=${page}` : ''}`
 
   /* Parents and slug return */
 
   if (returnParents) {
-    if (slugBase) {
-      pp.push(slugBases[contentType])
+    if (contentType !== 'page' && slugBase) {
+      pp.push(slugBase)
     }
 
     return {
@@ -98,15 +97,6 @@ const getPermalink = (slug = '', trailingSlash = true) => {
   return `${url}${slug}${slug && trailingSlash ? '/' : ''}`
 }
 
-/* Get file as string */
-
-const getFile = (path = '') => {
-  return ''
-  /*const fileContent = fs.readFileSync(path, { encoding: 'utf8' })
-
-  return fileContent*/
-}
-
 /* Get link from external and internal options */
 
 const getLink = (internalLink = false, externalLink = '') => {
@@ -118,6 +108,7 @@ const getLink = (internalLink = false, externalLink = '') => {
 
     return getPermalink(getSlug({
       contentType,
+      id: internalLink.sys.id,
       slug: internalFields.slug
     }))
   }
@@ -328,7 +319,6 @@ const getRgba = (hex = '', alpha = 1) => {
 module.exports = {
   getSlug,
   getPermalink,
-  getFile,
   getLink,
   getImage,
   getRgba

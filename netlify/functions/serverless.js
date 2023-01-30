@@ -6,22 +6,20 @@
 
 const contentful = require('../../_data/contentful')
 
-/* */
+/* Function */
 
 export const handler = async (event) => {
   const { path, queryStringParameters } = event
 
   try {
-    const output = await contentful({
+    const data = await contentful({
       serverlessData: {
         query: queryStringParameters,
         path: path
       }
     })
 
-    console.log('OUTPUT', output)
-
-    body = output?.archive?.[0]?.content ? output.archive[0].content : ''
+    body = data?.output ? data.output : ''
 
     return {
       statusCode: 200,

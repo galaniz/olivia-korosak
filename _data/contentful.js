@@ -155,13 +155,17 @@ module.exports = async (eleventyData) => {
       serverlessData
     })
 
+    if (serverlessData) {
+      return data[0]
+    }
+
     return data
   } catch (error) {
     console.log('Error getting Contentful and/or setting data: ', error)
 
-    return {
-      index: [],
-      archive: []
-    }
+    return [{
+      slug: '',
+      output: ''
+    }]
   }
 }
