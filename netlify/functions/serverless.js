@@ -5,15 +5,16 @@
 /* Imports */
 
 const contentful = require('../../_data/contentful')
+const { envData } = require('../../_utils/variables')
 
 /* Function */
 
-export const handler = async (event, context) => {
+export const handler = async (event) => {
   const { path, queryStringParameters } = event
 
-  console.log('SERVERLESS_CONTEXT', event)
-
   try {
+    envData.host = event.headers.host
+
     const data = await contentful({
       serverlessData: {
         query: queryStringParameters,

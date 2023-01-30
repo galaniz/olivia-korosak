@@ -42,7 +42,6 @@ const site = {
   },
   styles: `${assets}css/${namespace}.css`,
   script: `${assets}js/${namespace}.js`,
-  context: process.env.CONTEXT,
   year: date.getFullYear(),
   namespace
 }

@@ -5,7 +5,27 @@
 /* Imports */
 
 const fs = require('fs')
-const { slugParents, slugBases, urls } = require('./variables')
+const { slugParents, slugBases, urls, envData } = require('./variables')
+
+/* Get site context */
+
+const getContext = () => {
+  let context = process.env.CONTEXT
+
+  if (envData.host) {
+    context = 'dev'
+
+    if (host.startsWith('staging')) {
+      context = 'branch-deploy'
+    }
+
+    if (host.startsWith('oliviakorosak')) {
+      context = 'production'
+    }
+  }
+
+  return context
+}
 
 /* Get slug helper */
 
@@ -78,9 +98,9 @@ const getSlug = ({
 /* Return absolute url */
 
 const getPermalink = (slug = '', trailingSlash = true) => {
-  const context = process.env.CONTEXT
-
   let url = '/'
+
+  const context = getContext()
 
   if (context === 'production') {
     url = urls.production
@@ -313,6 +333,7 @@ const getRgba = (hex = '', alpha = 1) => {
 /* Exports */
 
 module.exports = {
+  getContext,
   getSlug,
   getPermalink,
   getLink,

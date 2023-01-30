@@ -12,6 +12,7 @@
 
 /* Imports */
 
+const { getContext } = require('../_utils/functions')
 const site = require('../_utils/site')
 
 /* Function */
@@ -51,7 +52,7 @@ const layout = ({
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>${title}</title>
-        ${site.context !== 'production' ? `<meta name="robots" content="noindex, nofollow">` : ''}
+        ${getContext() !== 'production' ? `<meta name="robots" content="noindex, nofollow">` : ''}
         <meta name="description" content="${description}">
         ${canonical}
         ${prev}
