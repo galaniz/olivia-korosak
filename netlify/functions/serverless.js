@@ -4,8 +4,8 @@
 
 /* Imports */
 
+require('dotenv').config()
 const contentful = require('../../_data/contentful')
-const { envData } = require('../../_utils/variables')
 
 /* Function */
 
@@ -13,8 +13,6 @@ export const handler = async (event) => {
   const { path, queryStringParameters } = event
 
   try {
-    envData.host = event.headers.host
-
     const data = await contentful({
       serverlessData: {
         query: queryStringParameters,

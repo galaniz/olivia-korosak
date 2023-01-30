@@ -1,5 +1,6 @@
 node_modules/
 package-lock.json
+.env
 _site/
 _json/slugs.json
 _json/slug-parents.json
