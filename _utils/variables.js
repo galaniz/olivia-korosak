@@ -247,7 +247,6 @@ const termData = {
 /* Urls for permalink generation */
 
 const urls = {
-  local: 'http://localhost:8080/',
   production: 'https://oliviakorosak.netlify.app/',
   staging: 'https://staging--oliviakorosak.netlify.app/'
 }

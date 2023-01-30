@@ -521,10 +521,6 @@ const setData = async ({
 `[functions]
 node_bundler = "esbuild"
 external_node_modules = ["@11ty/eleventy-fetch"]
-
-[dev]
-targetPort = 8080
-functionsPort = 8080
 `
 
   /* Loop through pages first to set parent slugs */

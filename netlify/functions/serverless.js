@@ -8,8 +8,10 @@ const contentful = require('../../_data/contentful')
 
 /* Function */
 
-export const handler = async (event) => {
+export const handler = async (event, context) => {
   const { path, queryStringParameters } = event
+
+  console.log('SERVERLESS_CONTEXT', context)
 
   try {
     const data = await contentful({

@@ -80,7 +80,7 @@ const getSlug = ({
 const getPermalink = (slug = '', trailingSlash = true) => {
   const context = process.env.CONTEXT
 
-  let url = urls.local
+  let url = '/'
 
   if (context === 'production') {
     url = urls.production
@@ -88,10 +88,6 @@ const getPermalink = (slug = '', trailingSlash = true) => {
 
   if (context === 'branch-deploy') {
     url = urls.staging
-  }
-
-  if (context === 'deploy-preview') {
-    url = '/'
   }
 
   return `${url}${slug}${slug && trailingSlash ? '/' : ''}`

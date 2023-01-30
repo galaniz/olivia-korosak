@@ -4,7 +4,6 @@ external_node_modules = ["@11ty/eleventy-fetch"]
 
 [dev]
 targetPort = 8080
-functionsPort = 8080
 
 [[redirects]]
 from = "/work/tracks/"
