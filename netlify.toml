@@ -1,8 +1,6 @@
 [functions]
 node_bundler = "esbuild"
-
-[dev]
-targetPort = 8080
+external_node_modules = ["@11ty/eleventy-fetch"]
 
 [[redirects]]
 from = "/work/tracks/"

@@ -10,7 +10,8 @@
 
 const { randomUUID } = require('crypto')
 const { namespace, scriptData } = require('../_utils/variables')
-const { getFile } = require('../_utils/functions')
+const infoSvg = require('./svg/info')
+const checkSvg = require('./svg/check')
 const loader = require('./loader')
 
 /* Function */
@@ -68,7 +69,7 @@ const form = (args = {}, parents, id) => {
             <div class="l-flex l-gap-margin-3xs">
               <div>
                 <div class="l-width-s l-height-m l-width-m-m l-svg">
-                  ${getFile('./_assets/svg/info.svg')}
+                  ${infoSvg()}
                 </div>
               </div>
               <div>
@@ -86,7 +87,7 @@ const form = (args = {}, parents, id) => {
             <div class="l-flex l-gap-margin-3xs">
               <div>
                 <div class="l-width-s l-height-m l-width-m-m l-svg">
-                  ${getFile('./_assets/svg/info.svg')}
+                  ${infoSvg()}
                 </div>
               </div>
               <div>
@@ -109,7 +110,7 @@ const form = (args = {}, parents, id) => {
             <div class="l-flex l-gap-margin-3xs">
               <div>
                 <div class="l-width-s l-height-m l-width-m-m l-svg">
-                  ${getFile('./_assets/svg/check.svg')}
+                  ${checkSvg()}
                 </div>
               </div>
               <div>

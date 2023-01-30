@@ -4,7 +4,10 @@
 
 /* Imports */
 
-const slugParentsJson = require('../_json/slug-parents.json')
+const layout = require('../_render/layout')
+const header = require('../_render/header')
+const breadcrumbs = require('../_render/breadcrumbs')
+const footer = require('../_render/footer')
 const button = require('../_render/button')
 const card = require('../_render/card')
 const column = require('../_render/column')
@@ -20,9 +23,21 @@ const navigations = require('../_render/navigations')
 const hero = require('../_render/hero')
 const gradients = require('../_render/gradients')
 const audio = require('../_render/audio')
-const { getSlug, getPermalink } = require('./functions')
-const { contentTypes, slugParents, archiveCounts, termData, namespace, scriptData } = require('./variables')
+const slugParentsJson = require('../_json/slug-parents.json')
+const archiveIdsJson = require('../_json/archive-ids.json')
 const { writeFile } = require('fs')
+const { getSlug, getPermalink } = require('./functions')
+const {
+  contentTypes,
+  slugParents,
+  slugBases,
+  optionValues,
+  archiveIds,
+  archiveCounts,
+  termData,
+  namespace,
+  scriptData
+} = require('./variables')
 
 /* Navigations params */
 
@@ -65,10 +80,18 @@ const _getAudioDuration = async (url) => {
 
 /* Recurse and render nested content */
 
-const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, serverlessData, navs, contains = {}) => {
-  if (Array.isArray(cc) && cc.length) {
-    for (let i = 0; i < cc.length; i++) {
-      let c = cc[i]
+const _getContent = async ({
+  contentData = [],
+  output = {},
+  parents = [],
+  pageData = {},
+  contains = {},
+  serverlessData,
+  navs
+}) => {
+  if (Array.isArray(contentData) && contentData.length) {
+    for (let i = 0; i < contentData.length; i++) {
+      let c = contentData[i]
 
       /* Check for embedded entries and rich text */
 
@@ -181,15 +204,15 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, se
           fields
         })
 
-        await _getContent(
-          children,
+        await _getContent({
+          contentData: children,
           output,
-          parentsCopy,
+          parents: parentsCopy,
           pageData,
+          contains,
           serverlessData,
-          navs,
-          contains
-        )
+          navs
+        })
       }
 
       output.html += end
@@ -205,18 +228,14 @@ const _getContent = async (cc = [], output = {}, parents = [], pageData = {}, se
 
 /* Set content item fields */
 
-const _setItem = async (item = {}, contentType = 'page') => {
-  /* Template */
+const _setItem = async ({ item = {}, contentType = 'page' }) => {
+  /* Serverless render check */
 
-  let template = 'index'
+  let serverlessRender = false
 
-  if (contentType === 'projectType' || contentType === 'genre') {
-    template = 'archive'
-  }
+  /* Item id */
 
-  /* Item data */
-
-  const data = {}
+  const id = item.sys.id
 
   /* Item fields */
 
@@ -224,7 +243,6 @@ const _setItem = async (item = {}, contentType = 'page') => {
     title: '',
     slug: '',
     pagination: false,
-    parent: false,
     heroTitle: '',
     heroImage: false,
     heroText: '',
@@ -234,7 +252,7 @@ const _setItem = async (item = {}, contentType = 'page') => {
     metaTitle: '',
     metaDescription: '',
     metaImage: false,
-    audio
+    audio: false
   }, item.fields)
 
   /* Add posts for terms - project type and genre */
@@ -295,25 +313,18 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
   /* Meta */
 
-  data.title = fields.title
-  data.parent = fields.parent
+  const title = fields.title
 
-  data.meta = {
-    title: fields.metaTitle || data.title,
+  const meta = {
+    title: fields.metaTitle || title,
     description: fields.metaDescription,
     image: fields.metaImage
   }
 
-  /* Gradient colors */
-
-  data.gradients = gradients({
-    from: fields.colorFrom ? fields.colorFrom.value : '',
-    to: fields.colorTo ? fields.colorTo.value : ''
-  })
-
   /* Permalink */
 
   const slugArgs = {
+    id,
     contentType,
     slug: fields.slug,
     returnParents: true
@@ -321,12 +332,14 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
   const s = getSlug(slugArgs)
 
-  data.slug = s.slug
-  data.permalink = getPermalink(s.slug)
-  data.canonical = data.permalink
+  const slug = s.slug
+  const permalink = getPermalink(s.slug)
+
+  meta.canonical = permalink
 
   item.fields.basePermalink = getPermalink(
     getSlug({
+      id,
       contentType,
       slug: fields.slug
     })
@@ -334,9 +347,9 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
   /* Add to data by slugs store */
 
-  slugs[`/${data.slug}/`] = {
-    id: item.sys.id,
-    contentType
+  slugs[slug ? `/${slug}/` : '/'] = {
+    contentType,
+    id
   }
 
   /* Navigations */
@@ -344,25 +357,23 @@ const _setItem = async (item = {}, contentType = 'page') => {
   const navs = navigations({
     navs: _nav.navs,
     items: _nav.items,
-    current: data.permalink,
-    title: data.title,
+    current: permalink,
+    title: title,
     parents: s.parents
   })
 
-  data.navigations = navs
-
   /* Content */
 
-  data.content = ''
+  let content = ''
 
   /* Hero */
 
-  data.content += hero({
+  content += hero({
     title: fields.heroTitle || fields.title,
     text: fields.heroText,
     image: fields.heroImage ? fields.heroImage : false,
     index: fields.slug !== '',
-    breadcrumbs: data.navigations.breadcrumbs || false
+    breadcrumbs: navs.breadcrumbs || false
   })
 
   /* Content */
@@ -380,11 +391,11 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
   if (_serverlessData) {
     if (_serverlessData?.path && _serverlessData?.query) {
-      if (_serverlessData.path === `/${data.slug}/`) {
+      if (_serverlessData.path === (slug ? `/${slug}/` : '/')) {
         serverlessData = _serverlessData
       } else { // Avoid re-rendering non dynamic pages
         return {
-          template,
+          serverlessRender: false,
           data: false
         }
       }
@@ -392,50 +403,38 @@ const _setItem = async (item = {}, contentType = 'page') => {
   }
 
   if (Array.isArray(contentData) && contentData.length) {
-    await _getContent(
+    await _getContent({
       contentData,
-      contentOutput,
-      [],
-      item,
+      output: contentOutput,
+      parents: [],
+      pageData: item,
+      contains,
       serverlessData,
-      navs,
-      contains
-    )
+      navs
+    })
   }
 
-  data.content += contentOutput.html
-
-  /* Audio player */
-
-  if (contains?.audio) {
-    data.audio = audio()
-  }
-
-  /* Archive - end for update from posts */
-
-  const isArchive = item?.fields?.archive ? item.fields.archive : false
-
-  if (contentType === 'page' && isArchive) {
-    template = 'archive'
-  }
+  content += contentOutput.html
 
   /* Prev next pagination - end for pagination update from posts */
 
   if (item?.fields?.pagination) {
+    serverlessRender = true
+
     const pagination = item.fields.pagination
 
     slugArgs.page = pagination.current > 1 ? pagination.current : 0
 
     const c = getSlug(slugArgs)
 
-    data.canonical = getPermalink(c.slug, pagination.current === 1) + pagination.currentFilters
+    meta.canonical = getPermalink(c.slug, pagination.current === 1) + pagination.currentFilters
 
     if (pagination?.prev) {
       slugArgs.page = pagination.prev > 1 ? pagination.prev : 0
 
       const p = getSlug(slugArgs)
 
-      data.prev = getPermalink(p.slug, pagination.prev === 1) + pagination.prevFilters
+      meta.prev = getPermalink(p.slug, pagination.prev === 1) + pagination.prevFilters
     }
 
     if (pagination?.next) {
@@ -444,19 +443,21 @@ const _setItem = async (item = {}, contentType = 'page') => {
 
         const n = getSlug(slugArgs)
 
-        data.next = getPermalink(n.slug, false) + pagination.nextFilters
+        meta.next = getPermalink(n.slug, false) + pagination.nextFilters
       }
     }
 
-    data.meta.title = item.fields.metaTitle
+    meta.title = item.fields.metaTitle
   }
 
   /* Script data */
 
+  let script = ''
+
   if (Object.keys(scriptData).length) {
     const scriptJSON = JSON.stringify(scriptData, null, null)
 
-    data.script = `
+    script = `
       <script>
         var namespace = '${namespace}';
         var ${namespace} = ${scriptJSON};
@@ -471,14 +472,36 @@ const _setItem = async (item = {}, contentType = 'page') => {
   /* Output */
 
   return {
-    template,
-    data
+    serverlessRender,
+    data: {
+      slug: slug ? `/${slug}/` : '/',
+      output: layout({
+        meta,
+        gradients: gradients({
+          from: fields.colorFrom ? fields.colorFrom.value : '',
+          to: fields.colorTo ? fields.colorTo.value : ''
+        }),
+        content: `
+          ${header(navs)}
+          ${breadcrumbs(navs)}
+          <main id="main">${content}</main>
+          ${footer(navs)}
+          ${contains?.audio ? audio() : ''}
+        `,
+        script
+      })
+    }
   }
 }
 
 /* Set content and navigation output */
 
-const setData = async ({ content = {}, navs = [], navItems = [], serverlessData }) => {
+const setData = async ({
+  content = {},
+  navs = [],
+  navItems = [],
+  serverlessData
+}) => {
   /* Store serverless data */
 
   _serverlessData = serverlessData
@@ -490,23 +513,39 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
 
   /* Store content data */
 
-  const data = {
-    index: [],
-    archive: []
-  }
+  const data = []
+
+  /* Store toml file contents */
+
+  let toml = 
+`[functions]
+node_bundler = "esbuild"
+external_node_modules = ["@11ty/eleventy-fetch"]
+`
 
   /* Loop through pages first to set parent slugs */
 
   if (!serverlessData) {
     content.page.forEach(item => {
-      const {
-        slug = '',
-        parent = false
+      let {
+        parent = false,
+        archive = 'None'
       } = item.fields
+
+      archive = optionValues.posts.contentType[archive]
+
+      if (archive) {
+        archiveIds[archive] = item.sys.id
+
+        if (slugBases?.[archive]) {
+          slugBases[archive].archiveId = item.sys.id
+        }
+      }
 
       if (parent) {
         if (parent.fields?.slug && parent.fields?.title) {
-          slugParents[slug] = {
+          slugParents[item.sys.id] = {
+            id: parent.sys.id,
             slug: parent.fields.slug,
             title: parent.fields.title
           }
@@ -515,30 +554,55 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
     })
   } else {
     if (slugParentsJson) {
-      for (const s in slugParentsJson) {
+      Object.keys(slugParentsJson).forEach((s) => {
         slugParents[s] = slugParentsJson[s]
-      }
+      })
+    }
+
+    if (archiveIdsJson) {
+      Object.keys(archiveIdsJson).forEach((a) => {
+        if (slugBases?.[a]) {
+          slugBases[a].archiveId = archiveIdsJson[a]
+        }
+      })
     }
   }
 
   /* Loop through all content types */
 
-  for (const contentType in content) {
+  const contentTypes = Object.keys(content);
+
+  for (let c = 0; c < contentTypes.length; c++) {
+    const contentType = contentTypes[c]
+
     for (let i = 0; i < content[contentType].length; i++) {
-      const item = await _setItem(content[contentType][i], contentType)
+      const item = await _setItem({
+        item: content[contentType][i],
+        contentType
+      })
 
       const {
-        template = 'index',
+        serverlessRender = false,
         data: itemData
       } = item
 
       if (itemData) {
-        data[template].push(itemData)
+        data.push(itemData)
+
+        if (serverlessRender && !serverlessData) {
+          toml += `
+[[redirects]]
+from = "${itemData.slug}"
+to = "/.netlify/functions/serverless"
+status = 200
+force = true
+`
+        }
       }
     }
   }
 
-  /* Write data to json file */
+  /* Write data to json file and toml */
 
   if (!serverlessData) {
     const jsonFiles = [
@@ -549,6 +613,10 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
       {
         data: slugParents,
         name: 'slug-parents.json'
+      },
+      {
+        data: archiveIds,
+        name: 'archive-ids.json'
       },
       {
         data: archiveCounts,
@@ -572,6 +640,15 @@ const setData = async ({ content = {}, navs = [], navItems = [], serverlessData 
         console.log(`${jsonFile.name} written successfully to disk`)
       })
     }
+
+    writeFile(`./netlify.toml`, toml, (error) => {
+      if (error) {
+        console.log('An error has occurred writing netlify.toml ', error)
+        return
+      }
+
+      console.log('netlify.toml written successfully to disk')
+    })
   }
 
   /* Output */

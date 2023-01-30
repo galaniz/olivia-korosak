@@ -127,6 +127,7 @@ const _renderCard = ({
 
       const projectTypePermalink = getPermalink(
         getSlug({
+          id: pt.sys.id,
           contentType: 'projectType',
           slug: projectTypeSlug
         })
@@ -432,8 +433,6 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
 
     if (pagination && totalPages > 1) {
       /* Pagination data for head */
-
-      pageData.fields.archive = true
 
       if (current === 1) {
         pageData.fields.pagination = {

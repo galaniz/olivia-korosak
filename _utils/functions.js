@@ -5,27 +5,50 @@
 /* Imports */
 
 const fs = require('fs')
-const { slugParents, slugBases, urls } = require('./variables')
+const { slugParents, slugBases, urls, envData } = require('./variables')
+
+/* Get site context */
+
+const getContext = () => {
+  let context = process.env.CONTEXT
+
+  const host = envData.host
+
+  console.log('HOST', host)
+
+  if (host) {
+    context = 'dev'
+
+    if (host.startsWith('staging')) {
+      context = 'branch-deploy'
+    }
+
+    if (host.startsWith('oliviakorosak')) {
+      context = 'production'
+    }
+  }
+
+  return context
+}
 
 /* Get slug helper */
 
-const _getParentSlug = (slug = '', p = []) => {
-  if (slugParents?.[slug]) {
-    const parent = slugParents[slug].slug
+const _getParentSlug = (id = '', p = []) => {
+  if (slugParents?.[id]) {
+    p.unshift(slugParents[id])
 
-    p.unshift(slugParents[slug])
-
-    _getParentSlug(parent, p)
+    _getParentSlug(slugParents[id].id, p)
   }
 }
 
 /* Return slug with base from slug base and parents */
 
 const getSlug = ({
-  contentType = 'page',
+  id = '',
   slug = '',
-  returnParents = false,
-  page = 0
+  page = 0,
+  contentType = 'page',
+  returnParents = false
 }) => {
   /* Index */
 
@@ -35,14 +58,14 @@ const getSlug = ({
 
   /* Slug base */
 
-  const slugBase = slugBases[contentType].slug
+  const slugBase = slugBases[contentType]
 
   /* Parents */
 
   let p = []
   let pp = []
 
-  _getParentSlug(contentType === 'page' ? slug : slugBase, p)
+  _getParentSlug(contentType === 'page' ? id : slugBase.archiveId, p)
 
   if (p.length) {
     pp = p
@@ -56,13 +79,13 @@ const getSlug = ({
 
   /* Slug */
 
-  const s = `${p}${slugBase}${slugBase ? '/' : ''}${slug}${page ? `/?page=${page}` : ''}`
+  const s = `${p}${slugBase.slug}${slugBase.slug ? '/' : ''}${slug}${page ? `/?page=${page}` : ''}`
 
   /* Parents and slug return */
 
   if (returnParents) {
-    if (slugBase) {
-      pp.push(slugBases[contentType])
+    if (contentType !== 'page' && slugBase) {
+      pp.push(slugBase)
     }
 
     return {
@@ -79,9 +102,9 @@ const getSlug = ({
 /* Return absolute url */
 
 const getPermalink = (slug = '', trailingSlash = true) => {
-  const context = process.env.CONTEXT
+  let url = '/'
 
-  let url = urls.local
+  const context = getContext()
 
   if (context === 'production') {
     url = urls.production
@@ -91,19 +114,7 @@ const getPermalink = (slug = '', trailingSlash = true) => {
     url = urls.staging
   }
 
-  if (context === 'deploy-preview') {
-    url = '/'
-  }
-
   return `${url}${slug}${slug && trailingSlash ? '/' : ''}`
-}
-
-/* Get file as string */
-
-const getFile = (path = '') => {
-  const fileContent = fs.readFileSync(path, { encoding: 'utf8' })
-
-  return fileContent
 }
 
 /* Get link from external and internal options */
@@ -117,6 +128,7 @@ const getLink = (internalLink = false, externalLink = '') => {
 
     return getPermalink(getSlug({
       contentType,
+      id: internalLink.sys.id,
       slug: internalFields.slug
     }))
   }
@@ -325,9 +337,9 @@ const getRgba = (hex = '', alpha = 1) => {
 /* Exports */
 
 module.exports = {
+  getContext,
   getSlug,
   getPermalink,
-  getFile,
   getLink,
   getImage,
   getRgba

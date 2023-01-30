@@ -1,18 +1,9 @@
 ---
-layout: layout.njk
 pagination:
-  data: contentful.index
+  data: contentful
   size: 1
   alias: ctfl
-permalink: "/{{ ctfl.slug }}/"
+permalink: "{{ ctfl.slug }}"
 ---
 
-{% include ('./_includes/header.njk') %}
-
-{% include ('./_includes/breadcrumbs.njk') %}
-
-<main id="main">
-  {{ ctfl.content | safe }}
-</main>
-
-{% include ('./_includes/footer.njk') %}
+{{ ctfl.output | safe }}

@@ -4,8 +4,8 @@
 
 /* Imports */
 
-const { namespace } = require('../_utils/variables')
-const { getPermalink } = require('../_utils/functions')
+const { namespace } = require('./variables')
+const { getPermalink } = require('./functions')
 
 /* Variables */
 
@@ -14,7 +14,7 @@ const date = new Date()
 
 /* Data */
 
-module.exports = {
+const site = {
   title: 'Olivia Korosak',
   meta: {
     description: 'Lorem ipsum sed dolorem quisque',
@@ -42,7 +42,10 @@ module.exports = {
   },
   styles: `${assets}css/${namespace}.css`,
   script: `${assets}js/${namespace}.js`,
-  context: process.env.CONTEXT,
   year: date.getFullYear(),
   namespace
 }
+
+/* Export */
+
+module.exports = site

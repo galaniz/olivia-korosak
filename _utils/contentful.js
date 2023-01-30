@@ -7,15 +7,18 @@
 const { AssetCache } = require('@11ty/eleventy-fetch')
 const safeJsonStringify = require('safe-json-stringify')
 const contentful = require('contentful')
+const { getContext } = require('./functions')
 
 /* Client */
 
 const env = process.env
-const context = env.CONTEXT
 const space = env.CTFL_SPACE_ID
+const context = getContext()
 
 let accessToken = env.CTFL_CPA_TOKEN
 let host = 'preview.contentful.com'
+
+console.log('CONTEXT', context)
 
 if (context === 'production' || context === 'branch-deploy') {
   accessToken = env.CTFL_CDA_TOKEN
@@ -35,7 +38,7 @@ const getContentfulData = async (key, params = {}) => {
     throw new Error('No key specified to get Contentful data')
   }
 
-  const cache = new AssetCache(key)
+  const cache = new AssetCache(key, '/tmp/.cache/')
 
   /* Check if the cache is fresh within the last day */
 

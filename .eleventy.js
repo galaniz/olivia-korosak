@@ -22,6 +22,7 @@ module.exports = (eleventyConfig) => {
     './_json/slugs.json',
     './_json/slug-parents.json',
     './_json/durations.json',
+    './_json/archive-ids.json',
     './_json/archive-counts.json'
   ]
 
@@ -92,10 +93,6 @@ module.exports = (eleventyConfig) => {
 
   eleventyConfig.addPassthroughCopy({
     '_assets/fonts': 'assets/fonts'
-  })
-
-  eleventyConfig.addPassthroughCopy({
-    '_assets/svg': 'assets/svg'
   })
 
   eleventyConfig.addPassthroughCopy({

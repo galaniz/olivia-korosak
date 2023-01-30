@@ -4,9 +4,10 @@ _site/
 _json/slugs.json
 _json/slug-parents.json
 _json/archive-counts.json
+_json/archive-ids.json
 _json/durations.json
-netlify/functions/serverless/**
-!netlify/functions/serverless/index.js
+netlify/functions/**
+!netlify/functions/serverless.js
 .DS_Store
 .cache
 # Local Netlify folder
