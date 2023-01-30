@@ -1,0 +1,33 @@
+/**
+ * Objects: logo
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/utils/functions" as func;
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Styles */
+
+.o-logo {
+  @include mix.fluid-size(
+    width,
+    func.calc-rem(200px) func.calc-rem(250px),
+    "s" "l"
+  );
+
+  height: var(--logo-height);
+}
+
+.o-logo-s {
+  @include mix.fluid-size(
+    width,
+    func.calc-rem(180px) func.calc-rem(200px),
+    "s" "l"
+  );
+  @include mix.fluid-size(
+    height,
+    func.calc-rem(18px) func.calc-rem(20px),
+    "s" "l"
+  );
+}

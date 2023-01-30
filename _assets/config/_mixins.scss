@@ -1,0 +1,68 @@
+/**
+ * Config: mixins
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/utils/functions" as func;
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Styles */
+
+@mixin set-text() {
+  /* h1 */
+
+  @include mix.fluid-size(
+    --h1,
+    func.calc-rem(40px) func.calc-rem(64px),
+    "s" "l"
+  );
+
+  /* h2 */
+
+  @include mix.fluid-size(
+    --h2,
+    func.calc-rem(32px) func.calc-rem(40px),
+    "s" "l"
+  );
+
+  /* h3 */
+
+  @include mix.fluid-size(
+    --h3,
+    func.calc-rem(26px) func.calc-rem(30px),
+    "s" "l"
+  );
+
+  --h4: #{func.calc-rem(24px)};
+  --h5: #{func.calc-rem(20px)};
+  --h6: #{func.calc-rem(18px)};
+  --t: #{func.calc-rem(18px)};
+  --t-m: #{func.calc-rem(18px)};
+  --t-s: #{func.calc-rem(16px)};
+  --t-xs: #{func.calc-rem(16px)};
+  --t-2xs: #{func.calc-rem(14px)};
+  --t-3xs: #{func.calc-rem(11px)};
+
+  @include mix.breakpoint-min("m") {
+    --t-m: #{func.calc-rem(20px)};
+    --t-s: #{func.calc-rem(18px)};
+    --t-3xs: #{func.calc-rem(14px)};
+  }
+
+  /* t-quote */
+
+  @include mix.fluid-size(
+    --t-quote,
+    func.calc-rem(24px) func.calc-rem(28px),
+    "s" "l"
+  );
+
+  /* t-l */
+
+  @include mix.fluid-size(
+    --t-l,
+    func.calc-rem(19px) func.calc-rem(22px),
+    "s" "l"
+  );
+}

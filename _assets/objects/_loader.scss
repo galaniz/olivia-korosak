@@ -1,0 +1,52 @@
+/**
+ * Objects: loader
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+@use "@alanizcreative/formation/src/objects/load/loader";
+
+/* Styles */
+
+.o-loader {
+  > span:first-child span {
+    @extend %u-height-100-pc;
+
+    background: currentcolor;
+    width: 0.125rem;
+    margin: 0.1875rem;
+
+    &:first-child {
+      animation: a-line-scale 1.2s infinite ease-in-out;
+    }
+
+    &:nth-child(2) {
+      animation: a-line-scale 1.2s -1.1s infinite ease-in-out;
+    }
+
+    &:nth-child(3) {
+      animation: a-line-scale 1.2s -1s infinite ease-in-out;
+    }
+
+    &:nth-child(4) {
+      animation: a-line-scale 1.2s -0.9s infinite ease-in-out;
+    }
+
+    &:last-child {
+      animation: a-line-scale 1.2s -0.8s infinite ease-in-out;
+    }
+  }
+}
+
+@keyframes a-line-scale {
+  0%,
+  40%,
+  100% {
+    transform: scaleY(0.4);
+  }
+
+  20% {
+    transform: scaleY(1);
+  }
+}

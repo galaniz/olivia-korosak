@@ -1,0 +1,121 @@
+/**
+ * Site styles
+ */
+
+/* Normalize */
+
+@use "normalize.css/normalize.css";
+
+/* Config */
+
+@forward "config";
+
+/* Base */
+
+@use "base/fonts";
+@use "@alanizcreative/formation/src/base";
+@use "@alanizcreative/formation/src/base/inputs-reset";
+@use "@alanizcreative/formation/src/base/table";
+@use "base" as b;
+@use "base/focus";
+
+/* A11y */
+
+@use "@alanizcreative/formation/src/a11y";
+
+/* Backgrounds */
+
+@use "backgrounds";
+
+/* Text */
+
+@use "text/color" as c;
+@use "text/list";
+@use "text/sizes";
+@use "text/line-height";
+@use "text/rich-text";
+@use "text/number";
+@use "text/clamp";
+@use "@alanizcreative/formation/src/text/weight";
+@use "@alanizcreative/formation/src/text/align";
+
+/* Layouts */
+
+@use "@alanizcreative/formation/src/layouts/position";
+@use "@alanizcreative/formation/src/layouts/aspect-ratio";
+@use "@alanizcreative/formation/src/layouts/overflow";
+@use "@alanizcreative/formation/src/layouts/container";
+@use "@alanizcreative/formation/src/layouts/display";
+@use "layouts/flex";
+@use "layouts/gap-margin";
+@use "@alanizcreative/formation/src/layouts/padding";
+@use "@alanizcreative/formation/src/layouts/margin";
+@use "@alanizcreative/formation/src/layouts/height";
+@use "@alanizcreative/formation/src/layouts/object";
+@use "@alanizcreative/formation/src/layouts/width";
+@use "layouts/svg";
+@use "layouts/object-position";
+
+/* Borders */
+
+@use "@alanizcreative/formation/src/borders";
+@use "@alanizcreative/formation/src/borders/radius";
+
+/* Components */
+
+@use "@alanizcreative/formation/src/components/skip-link";
+@use "components/nav";
+@use "components/breadcrumbs";
+@use "components/gradients";
+@use "components/audio";
+
+/* Objects */
+
+@use "objects/logo";
+@use "objects/button";
+@use "objects/play";
+@use "objects/table" as t;
+@use "objects/collapsible";
+@use "objects/track";
+@use "objects/loader";
+@use "objects/form";
+
+/* Effects */
+
+@use "@alanizcreative/formation/src/effects/transition";
+@use "effects/border";
+@use "effects/underline";
+@use "effects/overlay";
+@use "effects/title-line";
+@use "effects/background";
+
+/* Remove animations */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reduce-motion-show {
+    display: block;
+  }
+
+  .reduce-motion-hide {
+    display: none;
+  }
+
+  #ok .ok {
+    *,
+    *::before,
+    *::after {
+      --duration: 0.001ms;
+      --easing: linear;
+
+      transition: none;
+      transition-timing-function: linear;
+      transition-duration: 0.001ms;
+      animation-duration: 0.001ms;
+      animation-iteration-count: 1;
+    }
+  }
+}

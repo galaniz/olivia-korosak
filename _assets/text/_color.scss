@@ -1,0 +1,40 @@
+/**
+ * Text: color
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/text/color";
+@use "@alanizcreative/formation/src/utils/functions" as func;
+
+/* Styles */
+
+.t-dark {
+  --outline-color: var(--foreground-base);
+  --heading-color: var(--foreground-base);
+  --text-color: var(--foreground-base);
+  --link-color: var(--foreground-base);
+  --border-color: #{rgba(func.get-color("foreground-base"), 0.5)};
+
+  color: var(--text-color);
+}
+
+.t-foreground-base-60 {
+  --text-color: #{rgba(func.get-color("foreground-base"), 0.6)};
+}
+
+.t-link-current {
+  --link-color: currentcolor;
+}
+
+.t-current {
+  color: currentcolor;
+}
+
+.t-background-light-20 {
+  color: var(--background-light-20);
+}
+
+.t-background-light-60 {
+  color: var(--background-light-60);
+}

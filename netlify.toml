@@ -1,0 +1,9 @@
+[functions]
+node_bundler = "esbuild"
+external_node_modules = ["@11ty/eleventy-fetch"]
+
+[[redirects]]
+from = "/work/tracks/"
+to = "/.netlify/functions/serverless"
+status = 200
+force = true

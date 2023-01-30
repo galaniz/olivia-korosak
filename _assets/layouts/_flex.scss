@@ -1,0 +1,32 @@
+/**
+ * Layouts: flex
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/layouts/flex";
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Styles */
+
+.l-order-first {
+  order: -9999;
+}
+
+.l-order-first-s {
+  @include mix.breakpoint-min("s") {
+    order: -9999;
+  }
+}
+
+.l-order-first-m {
+  @include mix.breakpoint-min("m") {
+    order: -9999;
+  }
+}
+
+.l-align-end-l {
+  @include mix.breakpoint-min("l") {
+    align-items: flex-end;
+  }
+}

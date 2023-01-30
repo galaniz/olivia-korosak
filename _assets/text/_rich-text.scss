@@ -1,0 +1,75 @@
+/**
+ * Text: rich text
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Styles */
+
+.t-rich-text {
+  h2 {
+    margin: var(--m) 0 var(--4xs);
+  }
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: var(--s) 0 var(--4xs);
+  }
+
+  p {
+    margin-bottom: var(--2xs);
+  }
+
+  ul[data-inline],
+  ol[data-inline] {
+    margin: var(--3xs) 0 var(--2xs);
+  }
+
+  a[data-button] {
+    margin-top: var(--4xs);
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ul[data-inline],
+  ol[data-inline],
+  a[data-button] {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  @include mix.breakpoint-min("l") {
+    h2 {
+      margin: var(--xl) 0 var(--2xs);
+    }
+
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: var(--m) 0 var(--2xs);
+    }
+
+    p {
+      margin-bottom: var(--s);
+    }
+
+    ul[data-inline],
+    ol[data-inline] {
+      margin: var(--s) 0;
+    }
+  }
+}

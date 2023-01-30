@@ -1,0 +1,9 @@
+---
+pagination:
+  data: contentful
+  size: 1
+  alias: ctfl
+permalink: "{{ ctfl.slug }}"
+---
+
+{{ ctfl.output | safe }}

@@ -1,0 +1,22 @@
+/**
+ * Components: breadcrumbs
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Container */
+
+.c-breadcrumbs {
+  [data-last-level="false"] {
+    @extend %u-display-none;
+  }
+
+  @include mix.breakpoint-min("m") {
+    [data-last-level="false"] {
+      display: block;
+    }
+  }
+}
