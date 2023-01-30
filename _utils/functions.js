@@ -14,10 +14,12 @@ const getContext = () => {
 
   const host = envData.host
 
-  console.log('HOST', host)
-
   if (host) {
     context = 'dev'
+
+    if (host.startsWith('deploy-preview')) {
+      context = 'deploy-preview'
+    }
 
     if (host.startsWith('staging')) {
       context = 'branch-deploy'

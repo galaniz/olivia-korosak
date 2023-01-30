@@ -18,12 +18,12 @@ const context = getContext()
 let accessToken = env.CTFL_CPA_TOKEN
 let host = 'preview.contentful.com'
 
-console.log('CONTEXT', context)
-
-if (context === 'production' || context === 'branch-deploy') {
+if (context === 'production') {
   accessToken = env.CTFL_CDA_TOKEN
   host = 'cdn.contentful.com'
 }
+
+console.log('CONTEXT', context, host)
 
 const contentfulClient = contentful.createClient({
   space,
@@ -38,7 +38,7 @@ const getContentfulData = async (key, params = {}) => {
     throw new Error('No key specified to get Contentful data')
   }
 
-  const cache = new AssetCache(key, '/tmp/.cache/')
+  const cache = new AssetCache(key, getContext() === 'dev' ? '.cache' : '/tmp/.cache/')
 
   /* Check if the cache is fresh within the last day */
 
