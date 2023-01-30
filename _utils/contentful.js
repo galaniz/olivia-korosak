@@ -35,7 +35,7 @@ const getContentfulData = async (key, params = {}) => {
     throw new Error('No key specified to get Contentful data')
   }
 
-  const cache = new AssetCache(key, context ? '/tmp/.cache/' : '.cache')
+  const cache = new AssetCache(key, '/tmp/.cache/')
 
   /* Check if the cache is fresh within the last day */
 
