@@ -233,10 +233,6 @@ const _setItem = async ({ item = {}, contentType = 'page' }) => {
 
   let serverlessRender = false
 
-  if (contentType === 'projectType' || contentType === 'genre') {
-    serverlessRender = true
-  }
-
   /* Item id */
 
   const id = item.sys.id
@@ -420,15 +416,11 @@ const _setItem = async ({ item = {}, contentType = 'page' }) => {
 
   content += contentOutput.html
 
-  /* Page archive serverless render - end for update from posts */
-
-  if (contentType === 'page' && item?.fields?.pagination) {
-    serverlessRender = true
-  }
-
   /* Prev next pagination - end for pagination update from posts */
 
   if (item?.fields?.pagination) {
+    serverlessRender = true
+
     const pagination = item.fields.pagination
 
     slugArgs.page = pagination.current > 1 ? pagination.current : 0
@@ -523,6 +515,18 @@ const setData = async ({
 
   const data = []
 
+  /* Store toml file contents */
+
+  let toml = 
+`[functions]
+node_bundler = "esbuild"
+external_node_modules = ["@11ty/eleventy-fetch"]
+
+[dev]
+targetPort = 8080
+functionsPort = 8080
+`
+
   /* Loop through pages first to set parent slugs */
 
   if (!serverlessData) {
@@ -589,14 +593,20 @@ const setData = async ({
       if (itemData) {
         data.push(itemData)
 
-        if (serverlessRender) {
-          console.log('SERVERLESS_RENDER', itemData.slug)
+        if (serverlessRender && !serverlessData) {
+          toml += `
+[[redirects]]
+from = "${itemData.slug}"
+to = "/.netlify/functions/serverless"
+status = 200
+force = true
+`
         }
       }
     }
   }
 
-  /* Write data to json file */
+  /* Write data to json file and toml */
 
   if (!serverlessData) {
     const jsonFiles = [
@@ -634,6 +644,15 @@ const setData = async ({
         console.log(`${jsonFile.name} written successfully to disk`)
       })
     }
+
+    writeFile(`./netlify.toml`, toml, (error) => {
+      if (error) {
+        console.log('An error has occurred writing netlify.toml ', error)
+        return
+      }
+
+      console.log('netlify.toml written successfully to disk')
+    })
   }
 
   /* Output */

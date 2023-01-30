@@ -69,7 +69,7 @@ const form = (args = {}, parents, id) => {
             <div class="l-flex l-gap-margin-3xs">
               <div>
                 <div class="l-width-s l-height-m l-width-m-m l-svg">
-                  ${infoSvg}
+                  ${infoSvg()}
                 </div>
               </div>
               <div>
@@ -87,7 +87,7 @@ const form = (args = {}, parents, id) => {
             <div class="l-flex l-gap-margin-3xs">
               <div>
                 <div class="l-width-s l-height-m l-width-m-m l-svg">
-                  ${infoSvg}
+                  ${infoSvg()}
                 </div>
               </div>
               <div>
@@ -110,7 +110,7 @@ const form = (args = {}, parents, id) => {
             <div class="l-flex l-gap-margin-3xs">
               <div>
                 <div class="l-width-s l-height-m l-width-m-m l-svg">
-                  ${checkSvg}
+                  ${checkSvg()}
                 </div>
               </div>
               <div>

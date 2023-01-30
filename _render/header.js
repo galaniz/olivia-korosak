@@ -26,7 +26,7 @@ const header = (navigations = {}) => {
         <div class="l-flex l-justify-between l-align-center">
           <a class="c-nav__logo o-logo l-block l-svg" href="${site.links.base}">
             <span class="a11y-visually-hidden">${site.title} home</span>
-            ${logoSvg}
+            ${logoSvg()}
           </a>
           ${navigations.main}
           <div class="c-nav__hide l-height-l l-width-m">

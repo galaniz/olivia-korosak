@@ -41,7 +41,7 @@ const footer = (navigations = {}) => {
           <div>
             <a class="o-logo-s l-block l-svg" href="${site.links.base}">
               <span class="a11y-visually-hidden">${site.title} home</span>
-              ${logoSvg}
+              ${logoSvg()}
             </a>
           </div>
           ${navs}
