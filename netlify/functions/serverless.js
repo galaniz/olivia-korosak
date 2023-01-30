@@ -11,7 +11,7 @@ const contentful = require('../../_data/contentful')
 export const handler = async (event, context) => {
   const { path, queryStringParameters } = event
 
-  console.log('SERVERLESS_CONTEXT', context)
+  console.log('SERVERLESS_CONTEXT', event)
 
   try {
     const data = await contentful({
