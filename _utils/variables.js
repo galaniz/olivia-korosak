@@ -263,16 +263,9 @@ const archiveCounts = {}
 
 const scriptData = {}
 
-/* Store environment data */
-
-const envData = {
-  host: ''
-}
-
 /* Exports */
 
 module.exports = {
-  envData,
   namespace,
   archiveIds,
   archiveCounts,

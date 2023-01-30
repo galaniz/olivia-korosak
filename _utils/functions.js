@@ -5,32 +5,12 @@
 /* Imports */
 
 const fs = require('fs')
-const { slugParents, slugBases, urls, envData } = require('./variables')
+const { slugParents, slugBases, urls } = require('./variables')
 
 /* Get site context */
 
 const getContext = () => {
-  let context = process.env.CONTEXT
-
-  const host = envData.host
-
-  if (host) {
-    context = 'dev'
-
-    if (host.startsWith('deploy-preview')) {
-      context = 'deploy-preview'
-    }
-
-    if (host.startsWith('staging')) {
-      context = 'branch-deploy'
-    }
-
-    if (host.startsWith('oliviakorosak')) {
-      context = 'production'
-    }
-  }
-
-  return context
+  return process.env.CONTEXT
 }
 
 /* Get slug helper */
