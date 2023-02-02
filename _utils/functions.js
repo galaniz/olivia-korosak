@@ -66,8 +66,12 @@ const getSlug = ({
   /* Parents and slug return */
 
   if (returnParents) {
-    if (contentType !== 'page' && slugBase) {
-      pp.push(slugBase)
+    if (slugBase?.slug) {
+      pp.push({
+        ...slugBase,
+        contentType: 'page',
+        id: slugBase.archiveId
+      })
     }
 
     return {

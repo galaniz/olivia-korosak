@@ -5,8 +5,10 @@
 /* Imports */
 
 const { getContentfulData } = require('../_utils/contentful')
+const { getContext } = require('../_utils/functions')
 const slugsJson = require('../_json/slugs.json')
 const setData = require('../_utils/set-data')
+const comingSoon = require('../_render/coming-soon')
 
 /* Get content + navigations */
 
@@ -18,6 +20,15 @@ module.exports = async (eleventyData) => {
   /* Contentful queries */
 
   try {
+    /* Coming soon page */
+
+    if (getContext() === 'production') {
+      return [{
+        slug: '/',
+        output: comingSoon()
+      }]
+    }
+
     /* Navigation data */
 
     let navs = []
