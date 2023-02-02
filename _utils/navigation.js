@@ -344,7 +344,8 @@ class Navigation {
       const permalink = getPermalink(
         getSlug({
           id: item.id,
-          slug: item.slug 
+          slug: item.slug,
+          contentType: item.contentType
         })
       )
 

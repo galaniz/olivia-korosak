@@ -70,7 +70,7 @@ const audio = () => {
       </div>
       <button type="button" class="c-audio__close l-absolute l-right-0 l-top-0 l-z-index-1 l-width-xs l-height-xs l-flex l-align-center l-justify-center outline-snug" aria-label="Close audio player">
         <span class="l-width-2xs l-height-2xs l-svg">
-          ${closeSvg}
+          ${closeSvg()}
         </span>
       </button>
     </div>
