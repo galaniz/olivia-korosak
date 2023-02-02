@@ -362,13 +362,13 @@ const _setItem = async ({ item = {}, contentType = 'page' }) => {
     parents: s.parents
   })
 
-  /* Content */
+  /* Output */
 
-  let content = ''
+  let output = ''
 
   /* Hero */
 
-  content += hero({
+  output += hero({
     title: fields.heroTitle || fields.title,
     text: fields.heroText,
     image: fields.heroImage ? fields.heroImage : false,
@@ -376,7 +376,7 @@ const _setItem = async ({ item = {}, contentType = 'page' }) => {
     breadcrumbs: navs.breadcrumbs || false
   })
 
-  /* Content */
+  /* Content loop */
 
   const contentOutput = { html: '' }
   const contains = {}
@@ -414,7 +414,28 @@ const _setItem = async ({ item = {}, contentType = 'page' }) => {
     })
   }
 
-  content += contentOutput.html
+  let contentBefore = ''
+  let contentAfter = ''
+
+  if (contentType === 'project') {
+    const projectContain = {
+      container: container({
+        tag: 'Div',
+        Column: 'Block',
+        maxWidth: '650px',
+        paddingBottom: '80px',
+        paddingBottomLarge: '120px'
+      }),
+      content: content({
+        richTextStyles: true
+      })
+    }
+
+    contentBefore = projectContain.container.start + projectContain.content.start
+    contentAfter = projectContain.container.end + projectContain.content.end
+  }
+
+  output += contentBefore + contentOutput.html + contentAfter
 
   /* Prev next pagination - end for pagination update from posts */
 
@@ -484,7 +505,7 @@ const _setItem = async ({ item = {}, contentType = 'page' }) => {
         content: `
           ${header(navs)}
           ${breadcrumbs(navs)}
-          <main id="main">${content}</main>
+          <main id="main">${output}</main>
           ${footer(navs)}
           ${contains?.audio ? audio() : ''}
         `,
@@ -547,7 +568,8 @@ external_node_modules = ["@11ty/eleventy-fetch"]
           slugParents[item.sys.id] = {
             id: parent.sys.id,
             slug: parent.fields.slug,
-            title: parent.fields.title
+            title: parent.fields.title,
+            contentType: 'page'
           }
         }
       }
