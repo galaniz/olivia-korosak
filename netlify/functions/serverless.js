@@ -5,7 +5,9 @@
 /* Imports */
 
 require('dotenv').config()
+const htmlmin = require('html-minifier')
 const contentful = require('../../_data/contentful')
+const httpError = require('../../_data/contentful')
 
 /* Function */
 
@@ -20,7 +22,13 @@ export const handler = async (event) => {
       }
     })
 
-    body = data?.output ? data.output : ''
+    const minArgs = {
+      useShortDoctype: true,
+      removeComments: true,
+      collapseWhitespace: true
+    }
+
+    body = data?.output ? htmlmin.minify(data.output, minArgs) : ''
 
     return {
       statusCode: 200,
@@ -28,17 +36,13 @@ export const handler = async (event) => {
         "Content-Type": "text/html; charset=UTF-8",
       },
       body,
-    };
+    }
   } catch (error) {
+    console.error('Error with serverless function: ', error)
+
     return {
       statusCode: error.httpStatusCode || 500,
-      body: JSON.stringify(
-        {
-          error: error.message,
-        },
-        null,
-        2
-      ),
-    };
+      body: httpError('500')
+    }
   }
 }

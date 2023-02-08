@@ -7,6 +7,7 @@ _json/slug-parents.json
 _json/archive-counts.json
 _json/archive-ids.json
 _json/durations.json
+_json/nav-data.json
 netlify/functions/**
 !netlify/functions/serverless.js
 .DS_Store

@@ -66,7 +66,7 @@ const hero = ({
 
   const textOutput = `
     <h1 class="l-margin-0">${title}</h1>
-    ${text ? `<p class="l-margin-0 l-padding-top-4xs l-padding-top-3xs-m">${text}</p>` : ''}
+    ${text ? `<p class="t-m l-margin-0 l-padding-top-4xs l-padding-top-3xs-m">${text}</p>` : ''}
   `
 
   /* Main output */

@@ -23,8 +23,10 @@ const navigations = require('../_render/navigations')
 const hero = require('../_render/hero')
 const gradients = require('../_render/gradients')
 const audio = require('../_render/audio')
+const httpError = require('../_render/http-error')
 const slugParentsJson = require('../_json/slug-parents.json')
 const archiveIdsJson = require('../_json/archive-ids.json')
+const navDataJson = require('../_json/nav-data.json')
 const { writeFile } = require('fs')
 const { getSlug, getPermalink } = require('./functions')
 const {
@@ -36,15 +38,9 @@ const {
   archiveCounts,
   termData,
   namespace,
-  scriptData
+  scriptData,
+  navData
 } = require('./variables')
-
-/* Navigations params */
-
-const _nav = {
-  navs: [],
-  items: []
-}
 
 /* Store slug data for json */
 
@@ -72,7 +68,7 @@ const _getAudioDuration = async (url) => {
 
     return seconds
   } catch (error) {
-    console.log('Error getting audio duration: ', error)
+    console.error('Error getting audio duration: ', error)
 
     return 0
   }
@@ -355,8 +351,8 @@ const _setItem = async ({ item = {}, contentType = 'page' }) => {
   /* Navigations */
 
   const navs = navigations({
-    navs: _nav.navs,
-    items: _nav.items,
+    navs: navData.navs,
+    items: navData.items,
     current: permalink,
     title: title,
     parents: s.parents
@@ -529,8 +525,8 @@ const setData = async ({
 
   /* Store navigations and items */
 
-  _nav.navs = navs
-  _nav.items = navItems
+  navData.navs = navs
+  navData.items = navItems
 
   /* Store content data */
 
@@ -541,7 +537,7 @@ const setData = async ({
   let toml = 
 `[functions]
 node_bundler = "esbuild"
-external_node_modules = ["@11ty/eleventy-fetch"]
+external_node_modules = ["@11ty/eleventy-fetch", "dotenv", "html-minifier"]
 `
 
   /* Loop through pages first to set parent slugs */
@@ -588,6 +584,20 @@ external_node_modules = ["@11ty/eleventy-fetch"]
         }
       })
     }
+
+    if (navDataJson) {
+      navData.navs = navDataJson.navs
+      navData.items = navDataJson.items
+    }
+  }
+
+  /* 404 page */
+
+  if (!serverlessData) {
+    data.push({
+      slug: '404.html',
+      output: httpError('404')
+    })
   }
 
   /* Loop through all content types */
@@ -614,8 +624,8 @@ external_node_modules = ["@11ty/eleventy-fetch"]
         if (serverlessRender && !serverlessData) {
           toml += `
 [[redirects]]
-from = "${itemData.slug}"
-to = "/.netlify/functions/serverless"
+from = "${itemData.slug}/*"
+to = "/.netlify/functions/serverless/:splat"
 status = 200
 force = true
 `
@@ -647,6 +657,10 @@ force = true
       {
         data: durations,
         name: 'durations.json'
+      },
+      {
+        data: navData,
+        name: 'nav-data.json'
       }
     ]
 
@@ -655,21 +669,21 @@ force = true
 
       writeFile(`./_json/${jsonFile.name}`, JSON.stringify(jsonFile.data, null, 2), (error) => {
         if (error) {
-          console.log(`An error has occurred writing ${jsonFile.name} `, error)
+          console.error(`Error writing ${jsonFile.name} `, error)
           return
         }
 
-        console.log(`${jsonFile.name} written successfully to disk`)
+        console.log(`Successfully wrote ${jsonFile.name}`)
       })
     }
 
     writeFile(`./netlify.toml`, toml, (error) => {
       if (error) {
-        console.log('An error has occurred writing netlify.toml ', error)
+        console.error('Error writing netlify.toml ', error)
         return
       }
 
-      console.log('netlify.toml written successfully to disk')
+      console.log('Successfully wrote netlify.toml')
     })
   }
 

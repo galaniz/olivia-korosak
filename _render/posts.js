@@ -26,6 +26,7 @@ const gradients = require('./gradients')
 const content = require('./content')
 const richText = require('./rich-text')
 const tracks = require('./tracks')
+const caretSvg = require('./svg/caret')
 
 /* Output card */
 
@@ -320,8 +321,8 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
             }
           })
         }
-      } catch (e) {
-        console.error(e)
+      } catch (error) {
+        console.error('Error setting serverless filters: ', error)
       }
     }
   }
@@ -504,14 +505,18 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
 
       /* Prev */
 
-      const prevIcon = ''
+      const prevIcon = `
+        <span class="l-flex l-width-2xs l-height-2xs l-width-xs-m l-height-xs-m l-svg">
+          ${caretSvg('left')}
+        </span>
+      `
 
-      let prevLink = `<span class="${classes} b-all"${maxWidth}>${prevIcon}</span>`
+      let prevLink = `<span class="${classes} b-all e-opacity-30"${maxWidth}>${prevIcon}</span>`
 
       if (current > 1) {
         prevLink = `
           <a
-            class="${classes} b-all e-transition e-b-solid"
+            class="${classes} b-all e-transition e-border-solid"
             href="${pageData.fields.basePermalink}${current > 2 ? `?page=${current - 1}` : ''}${prevPaginationFilters}"
             aria-label="Previous page"
             ${maxWidth}
@@ -555,7 +560,7 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
           }
 
           content = `
-            <a class="${classes} b-all e-transition e-b-solid" href="${link}${currPaginationFilters}"${maxWidth}>
+            <a class="${classes} b-all e-transition e-border-solid" href="${link}${currPaginationFilters}"${maxWidth}>
               <span class="a11y-visually-hidden">Page </span>
               ${i}
             </a>
@@ -573,14 +578,18 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
 
       /* Next */
 
-      const nextIcon = ''
+      const nextIcon = `
+        <span class="l-flex l-width-2xs l-height-2xs l-width-xs-m l-height-xs-m l-svg">
+          ${caretSvg('right')}
+        </span>
+      `
 
-      let nextLink = `<span class="${classes} b-all"${maxWidth}>${nextIcon}</span>`
+      let nextLink = `<span class="${classes} b-all e-opacity-30"${maxWidth}>${nextIcon}</span>`
 
       if (current < totalPages) {
         nextLink = `
           <a
-            class="${classes} b-all e-transition e-b-solid"
+            class="${classes} b-all e-transition e-border-solid"
             href="${pageData.fields.basePermalink}?page=${current + 1}${nextPaginationFilters}"
             aria-label="Next page"
             ${maxWidth}
@@ -623,8 +632,8 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
     }
 
     return output
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error('Error querying and/or outputting posts: ', error)
 
     return ''
   }

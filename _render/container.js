@@ -36,7 +36,7 @@ const container = (args = {}) => {
     gapLarge = 'None', // optionValues.gap
     justify = 'None', // optionValues.justify
     align = 'None', // optionValues.align
-    classes = '' //
+    classes = '' // Static
   } = args
 
   /* Normalize options */

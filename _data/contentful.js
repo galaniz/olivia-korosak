@@ -172,7 +172,7 @@ module.exports = async (eleventyData) => {
 
     return data
   } catch (error) {
-    console.log('Error getting Contentful and/or setting data: ', error)
+    console.error('Error getting Contentful and/or setting data: ', error)
 
     return [{
       slug: '',

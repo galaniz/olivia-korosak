@@ -43,6 +43,10 @@ const layout = ({
 
   const next = meta?.next ? `<link rel="next" href="${meta.next}">` : ''
 
+  /* Robots */
+
+  const robots = meta?.robots ? meta?.robots : true
+
   /* Output */
 
   return `
@@ -52,7 +56,7 @@ const layout = ({
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>${title}</title>
-        ${getContext() !== 'production' ? `<meta name="robots" content="noindex, nofollow">` : ''}
+        ${robots && getContext() !== 'production' ? `<meta name="robots" content="noindex, nofollow">` : ''}
         <meta name="description" content="${description}">
         ${canonical}
         ${prev}
@@ -67,7 +71,7 @@ const layout = ({
         <meta name="theme-color" content="${site.theme.base}">
         <meta name="format-detection" content="telephone=no">
       </head>
-      <body class="${site.namespace} l-relative l-z-index-1">
+      <body class="${site.namespace} l-relative l-z-index-1 l-flex l-flex-column">
         ${gradients}
         ${content}
         ${script}

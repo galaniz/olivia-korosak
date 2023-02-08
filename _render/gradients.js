@@ -13,7 +13,7 @@ const { getRgba } = require('../_utils/functions')
 
 /* Function */
 
-const gradients = ({ from = '', to = '', type = 'page' }) => {
+const gradients = ({ from = '', to = '', type = 'page', bottom = true }) => {
   if (!from && !to) {
     return ''
   }
@@ -30,8 +30,14 @@ const gradients = ({ from = '', to = '', type = 'page' }) => {
     `
   }
 
+  let classes = 'l-width-100-pc l-height-100-pc l-absolute l-top-0 l-left-0 l-overflow-hidden l-z-index--1 l-before c-gradients'
+
+  if (bottom) {
+    classes += ' l-after'
+  }
+
   return `
-    <div class="l-width-100-pc l-height-100-pc l-absolute l-top-0 l-left-0 l-overflow-hidden l-z-index--1 l-before l-after c-gradients" ${style}></div>
+    <div class="${classes}" ${style}></div>
   `
 }
 

@@ -34,7 +34,7 @@ const footer = (navigations = {}) => {
   /* Output */
 
   return `
-    <footer>
+    <footer class="l-margin-top-auto">
       <hr>
       <div class="l-container l-padding-top-2xl l-padding-bottom-xl l-padding-bottom-2xl-m">
         <div class="l-flex l-flex-column l-align-center l-justify-center l-gap-margin-m">

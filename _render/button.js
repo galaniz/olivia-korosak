@@ -21,6 +21,7 @@ const { getLink } = require('../_utils/functions')
 const button = (args = {}) => {
   let {
     title = '',
+    link = '', // Static
     internalLink = false,
     externalLink = '',
     type = 'Main', // optionValues.button.type
@@ -32,7 +33,7 @@ const button = (args = {}) => {
 
   /* Link and title required */
 
-  const link = getLink(internalLink, externalLink)
+  link = link ? link : getLink(internalLink, externalLink)
 
   if (!link || !title) {
     return ''

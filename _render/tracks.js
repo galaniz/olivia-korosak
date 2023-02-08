@@ -221,13 +221,13 @@ const tracks = async ({
       headers: 'title',
       output: `
         <div class="l-flex l-gap-margin-2xs l-gap-margin-s-m l-align-center l-relative">
-          <div>
+          <div class="t-line-height-0">
             <button type="button" id="b-${id}" class="o-play l-width-m l-height-m l-svg t-foreground-base bg-background-light b-radius-100-pc" aria-label="Play ${title}" data-state="play">
               ${controlSvg('play')}
               ${controlSvg('pause')}
             </button>
           </div>
-          <div class="t-m t-weight-medium t-clamp e-underline-reverse outline-tight">
+          <div class="t-m t-weight-medium t-clamp-1 e-underline-reverse outline-tight">
             <a href="${permalink}" class="t-line-height-130-pc" data-inline>${title}</a>
           </div>
         </div>
@@ -243,7 +243,7 @@ const tracks = async ({
         size: 'm',
         headers: 'projects',
         output: `
-          <span class="t-s t-background-light-60 e-underline-reverse e-underline-thin t-line-height-140-pc">
+          <span class="t-s t-background-light-60 t-line-height-130-pc t-clamp-2 l-relative e-underline-reverse e-underline-thin">
             ${projects}
           </span>
         `
@@ -266,7 +266,7 @@ const tracks = async ({
         size: 'm',
         headers: 'genres',
         output: `
-          <span class="t-s t-background-light-60 e-underline-reverse e-underline-thin t-line-height-140-pc">
+          <span class="t-s t-background-light-60 t-line-height-130-pc t-clamp-2 l-relative e-underline-reverse e-underline-thin">
             ${genres}
           </span>
         `
@@ -314,7 +314,7 @@ const tracks = async ({
       size: 'xs',
       headers: 'details',
       output: `
-        <button class="l-width-s l-height-s l-flex l-align-center l-justify-center l-margin-left-auto" type="button" aria-label="Toggle ${title} details" id="${triggerId}" aria-controls="${detailsId}" aria-expanded="false">
+        <button class="l-width-s l-height-s l-flex l-align-center l-justify-center l-margin-left-auto l-relative" type="button" aria-label="Toggle ${title} details" id="${triggerId}" aria-controls="${detailsId}" aria-expanded="false">
           <span class="l-flex l-width-xs l-height-xs l-svg t-background-light o-collapsible-icon e-transition">
             ${caretSvg('down')}
           </span>
@@ -338,7 +338,7 @@ const tracks = async ({
     /* Output */
 
     rows.push(`
-      <tr class="o-track l-relative b-top" id=${id}>
+      <tr class="o-track b-top" id=${id}>
         ${cells.map((c, i) => {
           const lastIndex = i === cells.length - 1
           const secondLastIndex = i === cells.length - 2
@@ -349,36 +349,42 @@ const tracks = async ({
             attr = ' data-mobile'
           }
 
-          let classes = 'l-padding-top-2xs l-padding-bottom-2xs l-padding-top-s-m l-padding-bottom-s-m'
+          let classes = []
 
           if (!lastIndex && !secondLastIndex) {
-            classes += ' l-padding-right-2xs l-padding-right-m-m'
+            classes.push('l-padding-right-2xs l-padding-right-m-m')
           }
 
-          if (i === 0) {
-            classes += ' o-track-bg l-before'
-          } else {
-            classes += ' l-relative'
+          if (!lastIndex) {
+            classes.push('o-track__cell')
           }
+
+          classes = classes.join(' ')
 
           return `
-            <td headers="${c.headers}" class="${classes}" data-size="${c.size}"${attr}>
-              ${c.output}
+            <td headers="${c.headers}"${classes ? ` class="${classes}"` : ''} data-size="${c.size}"${attr}>
+              ${i === 0 ? `<div class="o-track-bg l-relative l-before l-padding-right-2xs l-padding-right-m-m">` : ''}
+                ${c.output}
+              ${i === 0 ? '</div>' : ''}
             </td>
           `
         }).join('')}
       </tr>
-      <tr class="l-relative" data-mobile>
-        <td headers="details" class="o-collapsible o-track-bg-b l-before" id="${detailsId}" data-trigger="${triggerId}" data-accordion="${accordionId}" colspan="2">
-          <div id="${collapsibleId}" class="o-collapsible__main l-relative l-z-index-1 e-transition outline-tight">
-            <dl class="t-s t-number-normal t-background-light-60 t-line-height-130-pc e-underline-reverse l-margin-0-last l-padding-bottom-2xs l-padding-bottom-s-m">
-              ${detailsItems.map(d => {
-                return `
-                  <dt class="t-background-light l-margin-bottom-5xs">${d.title}</dt>
-                  <dd class="l-margin-bottom-2xs">${d.desc}</dd>
-                `
-              }).join('')}
-            </dl>
+      <tr data-mobile>
+        <td headers="details" colspan="2">
+          <div class="o-track-bg-b l-relative l-before">
+            <div class="o-collapsible l-relative" id="${detailsId}" data-trigger="${triggerId}" data-accordion="${accordionId}">
+              <div id="${collapsibleId}" class="o-collapsible__main e-transition outline-tight">
+                <dl class="t-s t-number-normal t-background-light-60 t-line-height-130-pc e-underline-reverse l-margin-0-last l-padding-bottom-2xs l-padding-bottom-s-m">
+                  ${detailsItems.map(d => {
+                    return `
+                      <dt class="t-background-light l-margin-bottom-5xs">${d.title}</dt>
+                      <dd class="l-margin-bottom-2xs">${d.desc}</dd>
+                    `
+                  }).join('')}
+                </dl>
+              </div>
+            </div>
           </div>
         </td>
       </tr>

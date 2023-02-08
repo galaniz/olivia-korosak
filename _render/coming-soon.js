@@ -15,6 +15,8 @@ const site = require('../_utils/site')
 /* Function */
 
 const comingSoon = () => {
+  /* Container and content */
+
   const output = {
     container: container({
       tag: 'Div',
@@ -31,6 +33,8 @@ const comingSoon = () => {
     })
   }
 
+  /* Output */
+
   return layout({
     content: `
       ${output.container.start}
@@ -42,7 +46,7 @@ const comingSoon = () => {
           <h1 class="l-padding-top-xl l-padding-bottom-s">New site coming soon!</h1>
           <p>
             In the meantime you can reach me at 
-            <a href="mailto:hello@oliviakorosak.com" data-inline>hello@oliviakorosak.com</a>
+            <a href="mailto:${site.email}" data-inline>${site.email}</a>
           </p>
         ${output.content.end}
       ${output.container.end}

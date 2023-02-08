@@ -38,7 +38,7 @@ const audio = () => {
               </div>
               <div>
                 <div class="c-audio__info e-underline-reverse">
-                  <p class="t-xs t-weight-medium t-clamp outline-tight">
+                  <p class="t-xs t-weight-medium t-clamp-1 outline-tight">
                     <a href="" class="c-audio__update t-line-height-120-pc" data-update="textContent:title,href:permalink" data-inline></a>
                   </p>
                 </div>

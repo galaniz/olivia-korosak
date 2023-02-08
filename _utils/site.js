@@ -20,6 +20,7 @@ const site = {
     description: 'Lorem ipsum sed dolorem quisque',
     image: ''
   },
+  email: 'hello@oliviakorosak.com',
   theme: {
     foreground: {
       base: '#17181d',

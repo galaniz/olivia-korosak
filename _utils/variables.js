@@ -105,6 +105,7 @@ const optionValues = {
     '40px': 'm',
     '60px': 'xl',
     '80px': '2xl',
+    '100px': '3xl', // Static
     '120px': '4xl'
   },
   gap: {
@@ -251,6 +252,10 @@ const urls = {
   staging: 'https://staging--oliviakorosak.netlify.app/'
 }
 
+/* Store navigations data */
+
+const navData = {}
+
 /* Store page archive ids by content type */
 
 const archiveIds = {}
@@ -275,5 +280,6 @@ module.exports = {
   optionValues,
   slugParents,
   slugBases,
+  navData,
   urls
 }

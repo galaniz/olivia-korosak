@@ -9,11 +9,19 @@
 
 /* Styles */
 
-.t-clamp {
+.t-clamp-1,
+.t-clamp-2 {
   @extend %u-overflow-hidden;
 
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
   text-overflow: ellipsis;
+}
+
+.t-clamp-1 {
+  -webkit-line-clamp: 1;
+}
+
+.t-clamp-2 {
+  -webkit-line-clamp: 2;
 }

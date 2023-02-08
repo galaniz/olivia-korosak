@@ -27,6 +27,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 
   @include mixi.fluid-size(
     --logo-height,
@@ -42,6 +43,7 @@ body {
 
   color: var(--text-color);
   background: var(--foreground-base);
+  min-height: 100vh;
 }
 
 a {
@@ -65,10 +67,6 @@ blockquote {
   &:last-child {
     margin-bottom: 0;
   }
-}
-
-main {
-  min-height: calc(100vh - var(--logo-height) - var(--m));
 }
 
 hr {

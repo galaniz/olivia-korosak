@@ -65,7 +65,7 @@ const navigations = ({
         itemClass: 'l-flex',
         linkClass: 't-xs t-line-height-130-pc l-inline-flex',
         linkAttr: 'data-inline',
-        currentClass: 't-xs t-line-height-130-pc t-weight-medium t-background-light t-clamp',
+        currentClass: 't-xs t-line-height-130-pc t-weight-medium t-background-light t-clamp-1',
         a11yClass: 'a11y-visually-hidden',
         filterAfterLink: (output) => {
           output.html += '<span class="t-xs t-line-height-130-pc l-inline-flex l-padding-right-4xs l-padding-left-4xs" aria-hidden="true">&sol;</span>'
@@ -89,7 +89,7 @@ const navigations = ({
         {
           listClass: 'l-flex l-flex-wrap l-gap-margin-2xs t-list-style-none',
           listAttr: 'role="list"',
-          linkClass: 'l-flex l-align-center l-justify-center l-width-l l-height-l b-radius-100-pc b-all e-transition e-b-solid',
+          linkClass: 'l-flex l-align-center l-justify-center l-width-l l-height-l b-radius-100-pc b-all e-transition e-border-solid',
           filterBeforeLinkText: (args, item, output) => {
             output.html += '<span class="a11y-visually-hidden">'
           },
@@ -115,7 +115,7 @@ const navigations = ({
         {
           listClass: 'l-flex l-flex-wrap l-justify-center l-gap-margin-2xs t-list-style-none',
           listAttr: 'role="list"',
-          linkClass: 'l-flex l-align-center l-justify-center l-width-l l-height-l b-radius-100-pc b-all e-transition e-b-solid',
+          linkClass: 'l-flex l-align-center l-justify-center l-width-l l-height-l b-radius-100-pc b-all e-transition e-border-solid',
           filterBeforeLinkText: (args, item, output) => {
             output.html += '<span class="a11y-visually-hidden">'
           },
