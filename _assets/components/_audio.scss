@@ -120,3 +120,12 @@
     height: var(--r);
   }
 }
+
+.c-audio__error {
+  padding: var(--3xs);
+  max-width: var(--container);
+
+  @include mix.breakpoint-min("m") {
+    padding: 0 var(--2xs) var(--2xs) var(--2xs);
+  }
+}

@@ -36,6 +36,9 @@
   --track-height: var(--2xl);
 
   &[data-active="true"] {
+    @extend %u-position-relative;
+    @extend %u-z-index-1;
+
     .o-track-bg::before {
       border: func.calc-rem(1px) solid var(--background-light-35);
     }

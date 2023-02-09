@@ -25,7 +25,7 @@ const gradients = ({ from = '', to = '', type = 'page', bottom = true }) => {
   if (type === 'card') {
     return `
       <div class="l-aspect-ratio-56">
-        <div class="l-before l-after bg-gradient-0 bg-gradient-135" data-overlay ${style}></div>
+        <div class="l-before l-after bg-gradient-0 bg-gradient-135-before" data-overlay ${style}></div>
       </div>
     `
   }

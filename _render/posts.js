@@ -17,7 +17,7 @@
 const escape = require('validator/lib/escape.js')
 const { getSlug, getPermalink } = require('../_utils/functions')
 const { getContentfulData } = require('../_utils/contentful')
-const { optionValues, archiveCounts, termData } = require('../_utils/variables')
+const { optionValues, archiveCounts, termData, slugBases } = require('../_utils/variables')
 const container = require('./container')
 const column = require('./column')
 const card = require('./card')
@@ -26,6 +26,7 @@ const gradients = require('./gradients')
 const content = require('./content')
 const richText = require('./rich-text')
 const tracks = require('./tracks')
+const info = require('./info')
 const caretSvg = require('./svg/caret')
 
 /* Output card */
@@ -398,8 +399,6 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
           output.push(itemOutput)
         }
       })
-    } else {
-      // NO CONTENT
     }
 
     /* Pagination data and output */
@@ -611,7 +610,7 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
 
     output = output.length ? output.join('') : ''
 
-    if (layout === 'card') {
+    if (output && layout === 'card') {
       const insertContainer = container({
         tag: 'Unordered List',
         layout: 'Row',
@@ -627,8 +626,12 @@ const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => 
       )
     }
 
-    if (layout === 'tracks') {
+    if (output && layout === 'tracks') {
       output = output + paginationOutput
+    }
+
+    if (!output) {
+      return info(`Looks like no ${slugBases[contentType].title.toLowerCase()} were found.`)
     }
 
     return output

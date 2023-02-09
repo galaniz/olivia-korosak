@@ -34,7 +34,7 @@ const _getTime = (seconds = 0, words = false) => {
       t += (hours < 10 && hours > 0 ? '0' : '') + hours + ':'
     }
 
-    t += (min < 10 && min > 0 ? '0' : '') + min + ':'
+    t += (hours && min < 10 ? '0' : '') + min + ':'
 
     t += (seconds < 10 ? '0' : '') + seconds
   } else {

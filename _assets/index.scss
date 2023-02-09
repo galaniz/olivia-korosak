@@ -36,6 +36,7 @@
 @use "text/rich-text";
 @use "text/number";
 @use "text/clamp";
+@use "text/vertical-align";
 @use "@alanizcreative/formation/src/text/weight";
 @use "@alanizcreative/formation/src/text/align";
 
@@ -79,6 +80,7 @@
 @use "objects/track";
 @use "objects/loader";
 @use "objects/form";
+@use "objects/info";
 
 /* Effects */
 

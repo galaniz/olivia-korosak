@@ -60,15 +60,15 @@ const navigations = ({
       parents,
       title,
       {
-        listClass: 'c-breadcrumbs l-flex t-list-style-none e-underline-reverse',
+        listClass: 'c-breadcrumbs l-flex t-list-style-none e-underline-reverse e-underline-thin',
         listAttr: 'role="list"',
         itemClass: 'l-flex',
-        linkClass: 't-xs t-line-height-130-pc l-inline-flex',
+        linkClass: 't-xs t-line-height-130-pc',
         linkAttr: 'data-inline',
         currentClass: 't-xs t-line-height-130-pc t-weight-medium t-background-light t-clamp-1',
         a11yClass: 'a11y-visually-hidden',
         filterAfterLink: (output) => {
-          output.html += '<span class="t-xs t-line-height-130-pc l-inline-flex l-padding-right-4xs l-padding-left-4xs" aria-hidden="true">&sol;</span>'
+          output.html += '<span class="t-xs t-line-height-130-pc l-padding-right-4xs l-padding-left-4xs" aria-hidden="true">&sol;</span>'
         }
       }
     ),
@@ -78,7 +78,7 @@ const navigations = ({
       {
         listClass: 'l-flex l-flex-wrap l-justify-center l-gap-margin-2xs l-gap-margin-s-l t-list-style-none e-underline-reverse',
         listAttr: 'role="list"',
-        linkClass: 't l-inline-flex',
+        linkClass: 't',
         linkAttr: 'data-inline'
       }
     ),

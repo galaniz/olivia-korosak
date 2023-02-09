@@ -6,6 +6,7 @@
 
 const controlSvg = require('./svg/control')
 const closeSvg = require('./svg/close')
+const errorSvg = require('./svg/error')
 
 /* Function */
 
@@ -65,8 +66,19 @@ const audio = () => {
           </div>
         </div>
       </div>
-      <div class="c-audio__error l-container l-none" tabindex="-1">
-        <p class="t-xs e-underline">Sorry, there is a problem with the service. Download track <a href="" class="c-audio__update" data-update="textContent:title,href:url" data-inline></a>.</p>
+      <div class="c-audio__error l-margin-auto l-none" tabindex="-1">
+        <div class="o-info-negative bg-gradient-135 l-padding-left-4xs l-padding-right-4xs l-padding-top-4xs l-padding-bottom-4xs b-radius-s">
+          <div class="l-flex l-gap-margin-4xs">
+            <div>
+              <div class="l-width-xs l-height-s l-svg">
+                ${errorSvg()}
+              </div>
+            </div>
+            <div>
+              <p class="t-xs t-weight-medium t-line-height-130-pc t-valign-middle l-margin-0 l-padding-top-5xs l-padding-bottom-5xs e-underline">Sorry, there is a problem with the service. Download track <a href="" class="c-audio__update" data-update="textContent:title,href:url" data-inline></a>.</p>
+            </div>
+          </div>
+        </div>
       </div>
       <button type="button" class="c-audio__close l-absolute l-right-0 l-top-0 l-z-index-1 l-width-xs l-height-xs l-flex l-align-center l-justify-center outline-snug" aria-label="Close audio player">
         <span class="l-width-2xs l-height-2xs l-svg">

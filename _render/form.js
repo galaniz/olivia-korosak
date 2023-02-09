@@ -10,7 +10,7 @@
 
 const { randomUUID } = require('crypto')
 const { namespace, scriptData } = require('../_utils/variables')
-const infoSvg = require('./svg/info')
+const errorSvg = require('./svg/error')
 const checkSvg = require('./svg/check')
 const loader = require('./loader')
 
@@ -65,11 +65,11 @@ const form = (args = {}, parents, id) => {
       ${subjectInput}
       <div class="l-flex l-flex-column l-flex-row-l l-flex-wrap l-align-end-l l-gap-margin-s l-gap-margin-m-m">
         <div class="o-form-error__summary l-width-100-pc l-none" tabindex="-1">
-          <div class="o-form__negative l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
+          <div class="o-info-negative bg-gradient-135 l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
             <div class="l-flex l-gap-margin-3xs">
               <div>
                 <div class="l-width-s l-height-m l-width-m-m l-svg">
-                  ${infoSvg()}
+                  ${errorSvg()}
                 </div>
               </div>
               <div>
@@ -83,11 +83,11 @@ const form = (args = {}, parents, id) => {
 
   const end = `
         <div class="o-form-result__negative l-width-100-pc l-none" role="alert" tabindex="-1">
-          <div class="o-form__negative l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
+          <div class="o-info-negative bg-gradient-135 l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
             <div class="l-flex l-gap-margin-3xs">
               <div>
                 <div class="l-width-s l-height-m l-width-m-m l-svg">
-                  ${infoSvg()}
+                  ${errorSvg()}
                 </div>
               </div>
               <div>
@@ -106,7 +106,7 @@ const form = (args = {}, parents, id) => {
           </div>
         </div>
         <div class="o-form-result__positive l-width-100-pc l-none" role="alert" tabindex="-1">
-          <div class="o-form__positive l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
+          <div class="o-info-positive bg-gradient-135 l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
             <div class="l-flex l-gap-margin-3xs">
               <div>
                 <div class="l-width-s l-height-m l-width-m-m l-svg">

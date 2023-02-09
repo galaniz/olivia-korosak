@@ -59,8 +59,14 @@ $gaps: (
     "background": (
       "light": #ffffff,
     ),
-    "negative": #cf6f74,
-    "positive": #509976,
+    "negative": (
+      "light": #cf6f74,
+      "dark": #b23b41,
+    ),
+    "positive": (
+      "light": #509976,
+      "dark": #3c7258,
+    ),
   ),
 
   $text-colors: (

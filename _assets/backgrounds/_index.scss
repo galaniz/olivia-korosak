@@ -32,7 +32,8 @@
     );
 }
 
-.bg-gradient-135::before {
+.bg-gradient-135,
+.bg-gradient-135-before::before {
   background:
     linear-gradient(
       135deg,

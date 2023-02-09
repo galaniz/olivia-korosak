@@ -4,26 +4,28 @@
 
 /* Styles */
 
+.e-underline-thin {
+  --underline: 0.04rem;
+  --underline-offset: 0.25rem;
+}
+
 .e-underline-all a,
 .e-underline a[data-inline],
 .e-underline-reverse a[data-inline] {
-  transition: box-shadow 300ms var(--easing);
-  box-shadow: 0 var(--line-width) 0 0 var(--color);
+  text-decoration: underline;
+  text-decoration-thickness: var(--underline);
+  text-underline-offset: var(--underline-offset);
+  text-decoration-color: var(--color);
+  transition: text-decoration-color 300ms var(--easing);
 }
 
 .e-underline-all a,
 .e-underline a[data-inline] {
-  --line-width: var(--underline);
   --color: currentcolor;
 }
 
 .e-underline-reverse a[data-inline] {
-  --line-width: var(--underline);
   --color: transparent;
-}
-
-.e-underline-thin a[data-inline] {
-  --line-width: 0.04rem;
 }
 
 .e-underline-all a:hover,

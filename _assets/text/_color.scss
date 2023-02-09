@@ -7,6 +7,12 @@
 @use "@alanizcreative/formation/src/text/color";
 @use "@alanizcreative/formation/src/utils/functions" as func;
 
+/* Variables */
+
+$negative: func.get-color("negative-dark");
+$positive: func.get-color("positive-dark");
+$neutral: func.get-color("foreground-tint");
+
 /* Styles */
 
 .t-dark {
@@ -15,6 +21,11 @@
   --text-color: var(--foreground-base);
   --link-color: var(--foreground-base);
   --border-color: #{rgba(func.get-color("foreground-base"), 0.5)};
+  --negative: var(--negative-dark);
+  --positive: var(--positive-dark);
+  --negative-rgb: #{red($negative), green($negative), blue($negative)};
+  --positive-rgb: #{red($positive), green($positive), blue($positive)};
+  --neutral-rgb: #{red($neutral), green($neutral), blue($neutral)};
 
   color: var(--text-color);
 }
