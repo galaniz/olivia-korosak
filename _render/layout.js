@@ -12,7 +12,7 @@
 
 /* Imports */
 
-const { getContext } = require('../_utils/functions')
+const { envData } = require('../_utils/variables')
 const site = require('../_utils/site')
 
 /* Function */
@@ -56,7 +56,7 @@ const layout = ({
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>${title}</title>
-        ${robots && getContext() !== 'production' ? `<meta name="robots" content="noindex, nofollow">` : ''}
+        ${!robots && !envData.prod ? `<meta name="robots" content="noindex, nofollow">` : ''}
         <meta name="description" content="${description}">
         ${canonical}
         ${prev}

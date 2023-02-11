@@ -1,9 +1,0 @@
-[functions]
-node_bundler = "esbuild"
-external_node_modules = ["@11ty/eleventy-fetch", "dotenv", "html-minifier"]
-
-[[redirects]]
-from = "/work/tracks//*"
-to = "/.netlify/functions/serverless/:splat"
-status = 200
-force = true

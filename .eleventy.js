@@ -15,7 +15,7 @@ const { sassPlugin } = require('esbuild-sass-plugin')
 
 /* Config */
 
-module.exports = (eleventyConfig) => {
+module.exports = (config) => {
   /* Check/build json files */
 
   const paths = [
@@ -34,7 +34,7 @@ module.exports = (eleventyConfig) => {
 
   /* Process scss and js files */
 
-  eleventyConfig.on('afterBuild', () => {
+  config.on('afterBuild', () => {
     const entryPoints = {}
     const namespace = 'ok'
 
@@ -71,11 +71,11 @@ module.exports = (eleventyConfig) => {
     })
   })
 
-  eleventyConfig.addWatchTarget('./_assets/')
+  config.addWatchTarget('./_assets/')
 
   /* Minify HTML */
 
-  eleventyConfig.addTransform('htmlmin', (content, outputPath) => {
+  config.addTransform('htmlmin', (content, outputPath) => {
     if (outputPath.endsWith('.html')) {
       let minified = htmlmin.minify(content, {
         useShortDoctype: true,
@@ -91,15 +91,15 @@ module.exports = (eleventyConfig) => {
 
   /* Copy static asset folders */
 
-  eleventyConfig.addPassthroughCopy({
+  config.addPassthroughCopy({
     '_assets/fonts': 'assets/fonts'
   })
 
-  eleventyConfig.addPassthroughCopy({
+  config.addPassthroughCopy({
     '_assets/img': 'assets/img'
   })
 
-  eleventyConfig.addPassthroughCopy({
+  config.addPassthroughCopy({
     '_assets/favicon': 'assets/favicon'
   })
 }

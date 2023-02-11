@@ -5,24 +5,30 @@
 /* Imports */
 
 const { getContentfulData } = require('../_utils/contentful')
-const { getContext } = require('../_utils/functions')
+const { envData } = require('../_utils/variables')
 const slugsJson = require('../_json/slugs.json')
 const setData = require('../_utils/set-data')
 const comingSoon = require('../_render/coming-soon')
 
 /* Get content + navigations */
 
-module.exports = async (eleventyData) => {
+module.exports = async (args) => {
   /* Serverless data */
 
-  const serverlessData = eleventyData?.serverlessData?.query && eleventyData?.serverlessData?.path ? eleventyData.serverlessData : false
+  const serverlessData = args?.serverlessData?.query && args?.serverlessData?.path ? args.serverlessData : false
+
+  if (args?.env) {
+    envData.dev = args.env.dev
+    envData.prod = args.env.prod
+    envData.ctfl = args.env.ctfl
+  }
 
   /* Contentful queries */
 
   try {
     /* Coming soon page */
 
-    if (getContext() === 'production') {
+    if (envData.prod) {
       return [{
         slug: '/',
         output: comingSoon()

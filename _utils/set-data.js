@@ -27,7 +27,6 @@ const httpError = require('../_render/http-error')
 const slugParentsJson = require('../_json/slug-parents.json')
 const archiveIdsJson = require('../_json/archive-ids.json')
 const navDataJson = require('../_json/nav-data.json')
-const { writeFile } = require('fs')
 const { getSlug, getPermalink } = require('./functions')
 const {
   contentTypes,
@@ -532,14 +531,6 @@ const setData = async ({
 
   const data = []
 
-  /* Store toml file contents */
-
-  let toml = 
-`[functions]
-node_bundler = "esbuild"
-external_node_modules = ["@11ty/eleventy-fetch", "dotenv", "html-minifier"]
-`
-
   /* Loop through pages first to set parent slugs */
 
   if (!serverlessData) {
@@ -622,13 +613,7 @@ external_node_modules = ["@11ty/eleventy-fetch", "dotenv", "html-minifier"]
         data.push(itemData)
 
         if (serverlessRender && !serverlessData) {
-          toml += `
-[[redirects]]
-from = "${itemData.slug}/*"
-to = "/.netlify/functions/serverless/:splat"
-status = 200
-force = true
-`
+          /* FILLLLLLLLLLLLLLL */
         }
       }
     }
@@ -664,6 +649,8 @@ force = true
       }
     ]
 
+    const { writeFile } = require('fs')
+
     for (let i = 0; i < jsonFiles.length; i++) {
       const jsonFile = jsonFiles[i]
 
@@ -677,14 +664,14 @@ force = true
       })
     }
 
-    writeFile(`./netlify.toml`, toml, (error) => {
+    /*writeFile(`./netlify.toml`, toml, (error) => {
       if (error) {
         console.error('Error writing netlify.toml ', error)
         return
       }
 
       console.log('Successfully wrote netlify.toml')
-    })
+    })*/
   }
 
   /* Output */

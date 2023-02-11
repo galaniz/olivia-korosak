@@ -1,0 +1,12 @@
+name = "olivia-korosak-dev"
+compatibility_date = "2023-02-10"
+node_compat = true
+main = "serverless/index.js"
+vars = { ENVIRONMENT = "dev" }
+routes = [
+  { pattern = "/work/tracks/*", zone_id = "alanizcreative.workers.dev" }
+]
+
+[env.production]
+name = "olivia-korosak"
+vars = { ENVIRONMENT = "production" }

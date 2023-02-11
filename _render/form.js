@@ -61,7 +61,7 @@ const form = (args = {}, parents, id) => {
   /* Output */
 
   const start = `
-    <form name="${name}" id="${id}" class="o-form js-send-form" method="post" data-netlify="true" novalidate>
+    <form name="${name}" id="${id}" class="o-form js-send-form" method="post" novalidate>
       ${subjectInput}
       <div class="l-flex l-flex-column l-flex-row-l l-flex-wrap l-align-end-l l-gap-margin-s l-gap-margin-m-m">
         <div class="o-form-error__summary l-width-100-pc l-none" tabindex="-1">

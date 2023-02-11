@@ -1,5 +1,6 @@
 node_modules/
 package-lock.json
+.dev.vars
 .env
 _site/
 _json/slugs.json
@@ -8,9 +9,5 @@ _json/archive-counts.json
 _json/archive-ids.json
 _json/durations.json
 _json/nav-data.json
-netlify/functions/**
-!netlify/functions/serverless.js
 .DS_Store
 .cache
-# Local Netlify folder
-.netlify

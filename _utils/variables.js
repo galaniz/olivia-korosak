@@ -248,8 +248,7 @@ const termData = {
 /* Urls for permalink generation */
 
 const urls = {
-  production: 'https://oliviakorosak.netlify.app/',
-  staging: 'https://staging--oliviakorosak.netlify.app/'
+  production: 'https://oliviakorosak.com/'
 }
 
 /* Store navigations data */
@@ -268,6 +267,18 @@ const archiveCounts = {}
 
 const scriptData = {}
 
+/* Store env/context data */
+
+const envData = {
+  dev: true,
+  prod: false,
+  ctfl: {
+    spaceId: process.env.CTFL_SPACE_ID,
+    cpaToken: process.env.CTFL_CPA_TOKEN,
+    cdaToken: process.env.CTFL_CDA_TOKEN
+  }
+}
+
 /* Exports */
 
 module.exports = {
@@ -276,6 +287,7 @@ module.exports = {
   archiveCounts,
   termData,
   scriptData,
+  envData,
   contentTypes,
   optionValues,
   slugParents,

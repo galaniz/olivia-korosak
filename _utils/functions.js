@@ -4,14 +4,7 @@
 
 /* Imports */
 
-const fs = require('fs')
-const { slugParents, slugBases, urls } = require('./variables')
-
-/* Get site context */
-
-const getContext = () => {
-  return process.env.CONTEXT
-}
+const { envData, slugParents, slugBases, urls } = require('./variables')
 
 /* Get slug helper */
 
@@ -90,14 +83,8 @@ const getSlug = ({
 const getPermalink = (slug = '', trailingSlash = true) => {
   let url = '/'
 
-  const context = getContext()
-
-  if (context === 'production') {
+  if (envData.prod) {
     url = urls.production
-  }
-
-  if (context === 'branch-deploy') {
-    url = urls.staging
   }
 
   return `${url}${slug}${slug && trailingSlash ? '/' : ''}`
@@ -323,7 +310,6 @@ const getRgba = (hex = '', alpha = 1) => {
 /* Exports */
 
 module.exports = {
-  getContext,
   getSlug,
   getPermalink,
   getLink,
