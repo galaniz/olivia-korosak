@@ -1,6 +1,6 @@
 /**
  * Utils: get responsive image output
- * 
+ *
  * @param {object} args {
  *  @param {object} data
  *  @param {string} classes

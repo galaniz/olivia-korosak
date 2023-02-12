@@ -34,7 +34,7 @@ const button = (args = {}) => {
 
   /* Link and title required */
 
-  link = link ? link : getLink(internalLink, externalLink)
+  link = link || getLink(internalLink, externalLink)
 
   if (!link || !title) {
     return ''

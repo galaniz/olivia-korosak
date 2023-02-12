@@ -336,7 +336,7 @@ const _renderItem = async ({
     navs: navData.navs,
     items: navData.items,
     current: permalink,
-    title: title,
+    title,
     parents: s.parents
   })
 
@@ -614,7 +614,7 @@ const render = async ({
 
   /* Loop through all content types */
 
-  const contentTypes = Object.keys(content);
+  const contentTypes = Object.keys(content)
 
   for (let c = 0; c < contentTypes.length; c++) {
     const contentType = contentTypes[c]
@@ -655,10 +655,10 @@ const render = async ({
       jsonFileData.archiveCounts.data = archiveData.counts
       jsonFileData.durations.data = _durations
       jsonFileData.navData.data = navData
-  
+
       jsonData = jsonFileData
     }
-  
+
     onRenderEnd({
       jsonData,
       serverlessRoutes

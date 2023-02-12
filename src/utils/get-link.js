@@ -1,6 +1,6 @@
 /**
  * Utils: get link from external and internal options
- * 
+ *
  * @param {object} internalLink
  * @param {string} externalLink
  * @return {string/object}

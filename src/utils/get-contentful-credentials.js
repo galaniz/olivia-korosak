@@ -1,6 +1,6 @@
 /**
  * Utils: get contentful credentials
- * 
+ *
  * @return {object}
  */
 

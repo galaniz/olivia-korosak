@@ -1,6 +1,6 @@
 /**
  * Caret svg output
- * 
+ *
  * @param {string} direction
  * @return {string} HTML - svg
  */

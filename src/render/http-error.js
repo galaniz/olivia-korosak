@@ -1,6 +1,6 @@
 /**
  * HTTP error output (404, 500...)
- * 
+ *
  * @param {string} type - 404 or 500
  * @return {string} HTML - html
  */

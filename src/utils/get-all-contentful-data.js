@@ -1,6 +1,6 @@
 /**
  * Utils: get all contentful data
- * 
+ *
  * @param {object} serverlessData
  * @param {function} getContentfulData
  * @return {object/boolean}

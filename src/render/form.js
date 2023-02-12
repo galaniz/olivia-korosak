@@ -22,11 +22,11 @@ const loader = require('./loader')
 /* Function */
 
 const form = (args = {}, parents, id) => {
-  let {
+  const {
     subject = '',
     submitLabel = 'Send',
     successTitle = '',
-    successText = '',
+    successText = ''
   } = args
 
   /* Id */

@@ -1,6 +1,6 @@
 /**
  * Utils: get contentful data - 11ty
- * 
+ *
  * @param {string} key
  * @param {object} params
  * @return {object}
@@ -24,29 +24,29 @@ const getContentfulDataEleventy = async (key, params = {}) => {
 
     /* Import fetch module */
 
-    const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
-  
+    const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
+
     /* Cache is only local */
-  
+
     let cache
-  
+
     if (envData.eleventyCache) {
       cache = new AssetCache(key)
-  
+
       /* Check if the cache is fresh within the last day */
-    
+
       if (cache.isCacheValid('1d')) {
         return cache.getCachedValue()
       }
     }
 
     /* Credentials */
-  
+
     const credentials = getContentfulCredentials()
     const { space, accessToken, host } = credentials
-  
+
     /* Fetch new data */
-  
+
     let url = `https://${host}/spaces/${space}/environments/master/entries?access_token=${accessToken}`
 
     Object.keys(params).forEach(p => {
@@ -54,8 +54,8 @@ const getContentfulDataEleventy = async (key, params = {}) => {
     })
 
     const resp = await fetch(url)
-  
-    let data = await resp.json()
+
+    const data = await resp.json()
 
     if (data?.items) {
       data.items = resolveResponse(data)

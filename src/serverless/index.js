@@ -51,8 +51,8 @@ const serverless = async ({ request, env }) => {
     return new Response(html, {
       status: 200,
       headers: {
-        'content-type': 'text/html;charset=UTF-8',
-      },
+        'content-type': 'text/html;charset=UTF-8'
+      }
     })
   } catch (error) {
     console.error('Error with serverless function: ', error)

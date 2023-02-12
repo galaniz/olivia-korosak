@@ -1,6 +1,6 @@
 /**
  * Utils: get contentful data - serverless
- * 
+ *
  * @param {string} key
  * @param {object} params
  * @return {object}
@@ -18,14 +18,14 @@ const getContentfulDataServerless = async (key, params = {}) => {
     if (!key) {
       throw new Error('No key specified')
     }
-  
+
     /* Credentials */
-  
+
     const credentials = getContentfulCredentials()
     const { space, accessToken, host } = credentials
-  
+
     /* Fetch new data */
-  
+
     let url = `https://${host}/spaces/${space}/environments/master/entries?access_token=${accessToken}`
 
     Object.keys(params).forEach(p => {
@@ -33,8 +33,8 @@ const getContentfulDataServerless = async (key, params = {}) => {
     })
 
     const resp = await fetch(url)
-  
-    let data = await resp.json()
+
+    const data = await resp.json()
 
     if (data?.items) {
       data.items = resolveResponse(data)

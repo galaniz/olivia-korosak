@@ -1,6 +1,6 @@
 /**
  * Audio player output
- * 
+ *
  * @return {string} HTML - div
  */
 

@@ -1,6 +1,6 @@
 /**
  * Utils: slug with base from slug base and parents
- * 
+ *
  * @param {object} args {
  *  @param {string} id
  *  @param {string} slug
