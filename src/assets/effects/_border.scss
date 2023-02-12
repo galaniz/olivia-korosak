@@ -1,0 +1,20 @@
+/**
+ * Effects: border
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config" as con;
+
+/* Styles */
+
+.e-border-solid {
+  --prop: border-color;
+  --duration: #{con.$default-duration};
+  --delay: 0ms;
+
+  &:hover,
+  &:active {
+    --border-color: var(--outline-color);
+  }
+}

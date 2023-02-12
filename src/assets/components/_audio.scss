@@ -1,0 +1,131 @@
+/**
+ * Components: audio
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+@use "@alanizcreative/formation/src/utils/functions" as func;
+
+/* Styles */
+
+.c-audio {
+  transform: translateY(100%);
+
+  [data-audio-open="true"] & {
+    transform: translateY(0);
+    position: sticky;
+  }
+}
+
+.c-audio__container {
+  @include mix.breakpoint-min("m") {
+    max-width: var(--container);
+    padding-right: var(--container-padding);
+    padding-left: var(--container-padding);
+  }
+}
+
+.c-audio__show {
+  @include mix.breakpoint-min("m") {
+    display: block;
+  }
+}
+
+.c-audio__info {
+  @include mix.breakpoint-min("m") {
+    width: func.calc-rem(200px);
+  }
+
+  @include mix.breakpoint-min("l") {
+    width: func.calc-rem(250px);
+  }
+}
+
+.c-audio__offset {
+  --offset: #{func.calc-rem(2px)};
+
+  padding-left: var(--offset);
+
+  &[data-offset="l"] {
+    --offset: #{func.calc-rem(7px)};
+  }
+
+  @include mix.breakpoint-min("m") {
+    --offset: 0;
+  }
+}
+
+.c-audio__progress {
+  @include mix.breakpoint-min("m") {
+    width: auto;
+  }
+}
+
+.c-audio__slider {
+  touch-action: none;
+  user-select: none;
+  cursor: pointer;
+
+  &::before {
+    height: var(--m);
+    top: func.calc-rem(-10px);
+    left: func.calc-rem(-5px);
+    right: func.calc-rem(-5px);
+  }
+
+  @include mix.breakpoint-min("m") {
+    &::before {
+      top: func.calc-rem(-20px);
+    }
+  }
+}
+
+.c-audio__length {
+  background: rgba(func.get-color("foreground-base"), 0.2);
+}
+
+.c-audio__length,
+.c-audio__bar {
+  height: func.calc-rem(3px);
+}
+
+.c-audio__bar {
+  @extend %u-transform-origin-0-0;
+
+  transform: scaleX(0.2);
+  border-top-left-radius: var(--border-radius-s);
+  border-bottom-left-radius: var(--border-radius-s);
+}
+
+.c-audio__scrub {
+  --prop: opacity;
+  --duration: 100ms;
+
+  @extend %u-opacity-0;
+
+  top: func.calc-rem(-3.5px);
+  left: func.calc-rem(-5px);
+
+  .c-audio__slider:hover &,
+  .c-audio__slider[data-dragging="true"] & {
+    @extend %u-opacity-1;
+  }
+}
+
+.c-audio__close {
+  @include mix.breakpoint-min("container") {
+    width: var(--r);
+    height: var(--r);
+  }
+}
+
+.c-audio__error {
+  padding: var(--3xs);
+  max-width: var(--container);
+
+  @include mix.breakpoint-min("m") {
+    padding: 0 var(--2xs) var(--2xs) var(--2xs);
+  }
+}

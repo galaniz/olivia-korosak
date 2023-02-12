@@ -1,0 +1,41 @@
+/**
+ * Effects: underline
+ */
+
+/* Styles */
+
+.e-underline-thin {
+  --underline: 0.04rem;
+  --underline-offset: 0.25rem;
+}
+
+.e-underline-all a,
+.e-underline a[data-inline],
+.e-underline-reverse a[data-inline] {
+  text-decoration: underline;
+  text-decoration-thickness: var(--underline);
+  text-underline-offset: var(--underline-offset);
+  text-decoration-color: var(--color);
+  transition: text-decoration-color 300ms var(--easing);
+}
+
+.e-underline-all a,
+.e-underline a[data-inline] {
+  --color: currentcolor;
+}
+
+.e-underline-reverse a[data-inline] {
+  --color: transparent;
+}
+
+.e-underline-all a:hover,
+.e-underline-all a:active,
+.e-underline a[data-inline]:hover,
+.e-underline a[data-inline]:active {
+  --color: transparent;
+}
+
+.e-underline-reverse a[data-inline]:hover,
+.e-underline-reverse a[data-inline]:active {
+  --color: currentcolor;
+}
