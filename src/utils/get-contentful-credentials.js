@@ -20,8 +20,6 @@ const getContentfulCredentials = () => {
     host = 'cdn.contentful.com'
   }
 
-  console.log('HOST', host)
-
   return {
     space,
     accessToken,

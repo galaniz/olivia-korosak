@@ -19,16 +19,20 @@ const { envData, jsonFileData } = require('./src/vars/data')
 module.exports = (config) => {
   /* Add env ctfl variables */
 
-  console.log('PROCESS', process)
-
   if (process) {
-    envData.eleventyCache = true
+    const env = process.env
+
+    envData.eleventyCache = env?.USE_11TY_CACHE ? true : false
+    envData.dev = env.ENVIRONMENT === 'dev'
+    envData.prod = env.ENVIRONMENT === 'production'
     envData.ctfl = {
-      spaceId: process.env.CTFL_SPACE_ID,
-      cpaToken: process.env.CTFL_CPA_TOKEN,
-      cdaToken: process.env.CTFL_CDA_TOKEN
+      spaceId: env.CTFL_SPACE_ID,
+      cpaToken: env.CTFL_CPA_TOKEN,
+      cdaToken: env.CTFL_CDA_TOKEN
     }
   }
+
+  console.log('ENV_DATA', envData)
 
   /* Check/build json files */
 
