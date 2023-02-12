@@ -19,6 +19,8 @@ const { envData, jsonFileData } = require('./src/vars/data')
 module.exports = (config) => {
   /* Add env ctfl variables */
 
+  console.log('PROCESS', process)
+
   if (process) {
     envData.eleventyCache = true
     envData.ctfl = {
