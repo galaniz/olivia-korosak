@@ -68,7 +68,7 @@ const httpError = (type = '404') => {
   return layout({
     meta: {
       title: text[type].metaTitle,
-      robots: false
+      noIndex: true
     },
     gradients: gradients({
       from: '#4d2d2d',
