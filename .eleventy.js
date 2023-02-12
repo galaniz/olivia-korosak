@@ -6,29 +6,34 @@
 
 require('dotenv').config()
 const htmlmin = require('html-minifier')
-const fs = require('fs')
 const esbuild = require('esbuild')
 const postcss = require('postcss')
 const autoprefixer = require('autoprefixer')
 const postcssPresetEnv = require('postcss-preset-env')
 const { sassPlugin } = require('esbuild-sass-plugin')
+const { writeFileSync, existsSync } = require('fs')
+const { envData, jsonFileData } = require('./src/vars/data')
 
 /* Config */
 
 module.exports = (config) => {
+  /* Add env ctfl variables */
+
+  if (process) {
+    envData.ctfl = {
+      spaceId: process.env.CTFL_SPACE_ID,
+      cpaToken: process.env.CTFL_CPA_TOKEN,
+      cdaToken: process.env.CTFL_CDA_TOKEN
+    }
+  }
+
   /* Check/build json files */
 
-  const paths = [
-    './_json/slugs.json',
-    './_json/slug-parents.json',
-    './_json/durations.json',
-    './_json/archive-ids.json',
-    './_json/archive-counts.json'
-  ]
-
-  paths.forEach((path) => {
-    if (!fs.existsSync(path)) {
-      fs.writeFileSync(path, JSON.stringify({}))
+  Object.keys(jsonFileData).forEach((k) => {
+    const path = `./src/json/${jsonFileData[k].name}`
+    
+    if (!existsSync(path)) {
+      writeFileSync(path, JSON.stringify({}))
     }
   })
 
@@ -38,12 +43,12 @@ module.exports = (config) => {
     const entryPoints = {}
     const namespace = 'ok'
 
-    entryPoints[`js/${namespace}`] = '_assets/index.js'
-    entryPoints[`css/${namespace}`] = '_assets/index.scss'
+    entryPoints[`js/${namespace}`] = 'src/assets/index.js'
+    entryPoints[`css/${namespace}`] = 'src/assets/index.scss'
 
     return esbuild.build({
       entryPoints,
-      outdir: '_site/assets',
+      outdir: 'site/assets',
       minify: true,
       bundle: true,
       sourcemap: false,
@@ -71,7 +76,7 @@ module.exports = (config) => {
     })
   })
 
-  config.addWatchTarget('./_assets/')
+  config.addWatchTarget('./src/assets/')
 
   /* Minify HTML */
 
@@ -92,14 +97,23 @@ module.exports = (config) => {
   /* Copy static asset folders */
 
   config.addPassthroughCopy({
-    '_assets/fonts': 'assets/fonts'
+    'src/assets/fonts': 'assets/fonts'
   })
 
   config.addPassthroughCopy({
-    '_assets/img': 'assets/img'
+    'src/assets/img': 'assets/img'
   })
 
   config.addPassthroughCopy({
-    '_assets/favicon': 'assets/favicon'
+    'src/assets/favicon': 'assets/favicon'
   })
+
+  /* Folder structure */
+
+  return {
+    dir: {
+      data: 'data',
+      output: 'site'
+    }
+  }
 }
