@@ -16,7 +16,7 @@
 /* Imports */
 
 const escape = require('validator/lib/escape.js')
-const { contentfulData, getSlug, getPermalink } = require('../utils')
+const { getSlug, getPermalink } = require('../utils')
 const { enumOptions } = require('../vars/enums')
 const { archiveData, termData, slugData } = require('../vars/data')
 const container = require('./container')
