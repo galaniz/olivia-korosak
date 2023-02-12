@@ -2,18 +2,24 @@
  * Utils: get all contentful data
  * 
  * @param {object} serverlessData
+ * @param {function} getContentfulData
  * @return {object/boolean}
  */
 
 /* Imports */
 
-const getContentfulData = require('./get-contentful-data')
 const slugsJson = require('../json/slugs.json')
 
 /* Function */
 
-const getAllContentfulData = async (serverlessData = {}) => {
+const getAllContentfulData = async (serverlessData = {}, getContentfulData) => {
   try {
+    /* Get contentful data function required */
+
+    if (!getContentfulData) {
+      return false
+    }
+
     /* Navigation data */
 
     let navs = []

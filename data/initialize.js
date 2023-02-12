@@ -6,6 +6,7 @@
 
 const { writeFile, mkdir } = require('fs')
 const render = require('../src/render')
+const getContentfulDataEleventy = require('../src/utils/get-contentful-data-eleventy')
 
 /* Get and render contentful data */
 
@@ -15,6 +16,7 @@ module.exports = async (args = {}) => {
 
     return render({
       ...args,
+      getContentfulData: getContentfulDataEleventy,
       getAudioDuration: async (url = '') => {
         try {
           const ffprobe = require('ffprobe')

@@ -57,6 +57,7 @@ const _renderContent = async ({
   pageData = {},
   contains = {},
   serverlessData,
+  getContentfulData,
   navs
 }) => {
   if (Array.isArray(contentData) && contentData.length) {
@@ -138,7 +139,7 @@ const _renderContent = async ({
             contains.audio = true
           }
 
-          renderObj.start = await posts(fields, parents, pageData, serverlessData)
+          renderObj.start = await posts(fields, parents, pageData, serverlessData, getContentfulData)
           break
         }
         case 'testimonial':
@@ -181,6 +182,7 @@ const _renderContent = async ({
           pageData,
           contains,
           serverlessData,
+          getContentfulData,
           navs
         })
       }
@@ -202,7 +204,8 @@ const _renderItem = async ({
   item = {},
   contentType = 'page',
   serverlessData,
-  getAudioDuration
+  getAudioDuration,
+  getContentfulData
 }) => {
   /* Serverless render check */
 
@@ -381,6 +384,7 @@ const _renderItem = async ({
     await _renderContent({
       contentData,
       serverlessData: itemServerlessData,
+      getContentfulData,
       output: contentOutput,
       parents: [],
       pageData: item,
@@ -496,7 +500,8 @@ const render = async ({
   serverlessData,
   env,
   onRenderEnd,
-  getAudioDuration
+  getAudioDuration,
+  getContentfulData
 }) => {
   /* Serverless data */
 
@@ -519,7 +524,7 @@ const render = async ({
 
   /* Contentful data */
 
-  const contentfulData = await getAllContentfulData(serverlessData)
+  const contentfulData = await getAllContentfulData(serverlessData, getContentfulData)
 
   if (!contentfulData) {
     return [{
@@ -619,7 +624,8 @@ const render = async ({
         item: content[contentType][i],
         contentType,
         serverlessData,
-        getAudioDuration
+        getAudioDuration,
+        getContentfulData
       })
 
       const {

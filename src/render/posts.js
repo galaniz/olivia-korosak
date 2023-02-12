@@ -16,7 +16,7 @@
 /* Imports */
 
 const escape = require('validator/lib/escape.js')
-const { getContentfulData, getSlug, getPermalink } = require('../utils')
+const { contentfulData, getSlug, getPermalink } = require('../utils')
 const { enumOptions } = require('../vars/enums')
 const { archiveData, termData, slugData } = require('../vars/data')
 const container = require('./container')
@@ -235,7 +235,7 @@ const _renderCard = ({
 
 /* Function */
 
-const posts = async (args = {}, parents = [], pageData = {}, serverlessData) => {
+const posts = async (args = {}, parents = [], pageData = {}, serverlessData, getContentfulData) => {
   let {
     contentType = 'Project', // enumOptions.posts.contentType
     display = 1,

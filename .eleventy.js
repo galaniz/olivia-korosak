@@ -20,6 +20,7 @@ module.exports = (config) => {
   /* Add env ctfl variables */
 
   if (process) {
+    envData.eleventyCache = true
     envData.ctfl = {
       spaceId: process.env.CTFL_SPACE_ID,
       cpaToken: process.env.CTFL_CPA_TOKEN,

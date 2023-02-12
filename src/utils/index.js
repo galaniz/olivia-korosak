@@ -5,7 +5,6 @@
 /* Imports */
 
 const getAllContentfulData = require('./get-all-contentful-data')
-const getContentfulData = require('./get-contentful-data')
 const getDuration = require('./get-duration')
 const getImage = require('./get-image')
 const getLink = require('./get-link')
@@ -18,7 +17,6 @@ const getYear = require('./get-year')
 
 module.exports = {
   getAllContentfulData,
-  getContentfulData,
   getDuration,
   getImage,
   getLink,

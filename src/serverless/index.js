@@ -6,6 +6,7 @@
 
 import render from '../render'
 import httpError from '../render/http-error'
+import getContentfulDataServerless from '../utils/get-contentful-data-serverless'
 
 /* Function */
 
@@ -13,6 +14,8 @@ const serverless = async ({ request, env }) => {
   console.log('SERVERLESS', request, env)
 
   try {
+    /* Query */
+
     const { searchParams, pathname } = new URL(request.url)
     const page = searchParams.get('page')
     const filters = searchParams.get('filters')
@@ -29,6 +32,7 @@ const serverless = async ({ request, env }) => {
 
     const data = await render({
       serverlessData: { query, path },
+      getContentfulData: getContentfulDataServerless,
       env: {
         dev: env.ENVIRONMENT === 'dev',
         prod: env.ENVIRONMENT === 'production',
@@ -39,6 +43,8 @@ const serverless = async ({ request, env }) => {
         }
       }
     })
+
+    /* Output */
 
     const html = data?.output ? data.output : ''
 
