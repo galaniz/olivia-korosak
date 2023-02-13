@@ -4,6 +4,7 @@
 
 /* Imports */
 
+import mailChannelsPlugin from '@cloudflare/pages-plugin-mailchannels'
 import sendForm from '../../src/serverless/send-form'
 
 /* Normalize body data */
@@ -68,29 +69,28 @@ const ajax = async ({ request, env }) => {
 
     console.log('DATA', data)
 
-    const req = new Request('https://api.mailchannels.net/tx/v1/send', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        personalizations: [
-          {
-            to: [{ email: 'galanizdesign@gmail.com', name: 'Galaniz' }],
-          },
-        ],
-        from: {
-          email: 'graciela@alanizcreative.com',
-          name: 'Alaniz Creative',
+    const req = mailChannelsPlugin({
+      personalizations: [
+        {
+          to: [{ email: 'galanizdesign@gmail.com', name: 'Galaniz' }],
         },
-        subject: 'Look! No servers',
-        content: [
-          {
-            type: 'text/plain',
-            value: 'And no email service accounts and all for free too!',
-          },
-        ],
-      }),
+      ],
+      from: {
+        email: 'graciela@alanizcreative.com',
+        name: 'Alaniz Creative',
+      },
+      subject: 'Look! No servers',
+      content: [
+        {
+          type: 'text/plain',
+          value: 'And no email service accounts and all for free too!',
+        },
+      ],
+      respondWith: () => {
+        return new Response(
+          `Thank you for submitting your enquiry. A member of the team will be in touch shortly.`
+        );
+      },
     })
 
     console.log('REQ', req)
