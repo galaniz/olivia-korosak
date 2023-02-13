@@ -1,5 +1,5 @@
 /**
- * Serverless function
+ * Serverless: reload
  */
 
 /* Imports */
@@ -10,7 +10,7 @@ import getContentfulDataServerless from '../utils/get-contentful-data-serverless
 
 /* Function */
 
-const serverless = async ({ request, env }) => {
+const reload = async ({ request, env }) => {
   console.log('SERVERLESS', request, env)
 
   try {
@@ -65,7 +65,7 @@ const serverless = async ({ request, env }) => {
       }
     })
   } catch (error) {
-    console.error('Error with serverless function: ', error)
+    console.error('Error with reload function: ', error)
 
     return new Response(httpError('500'), {
       status: error.httpStatusCode || 500
@@ -73,4 +73,4 @@ const serverless = async ({ request, env }) => {
   }
 }
 
-export default serverless
+export default reload

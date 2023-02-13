@@ -1,5 +1,5 @@
 /**
- * Rich text output
+ * Render: rich text
  *
  * @param {string} type
  * @param {array} content

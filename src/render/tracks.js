@@ -1,5 +1,5 @@
 /**
- * Tracks output
+ * Render: tracks
  *
  * @param {object} args {
  *  @param {array} items

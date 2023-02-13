@@ -1,5 +1,5 @@
 /**
- * Arrow svg output
+ * Render: arrow svg
  *
  * @return {string} HTML - svg
  */

@@ -1,5 +1,5 @@
 /**
- * Info output
+ * Render: info
  *
  * @param {string} text
  * @return {string} HTML - div

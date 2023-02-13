@@ -1,5 +1,5 @@
 /**
- * Quote svg output
+ * Render: quote svg
  *
  * @return {string} HTML - svg
  */

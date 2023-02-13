@@ -1,5 +1,5 @@
 /**
- * Hero output
+ * Render: hero
  *
  * @param {object} args {
  *  @param {string} title

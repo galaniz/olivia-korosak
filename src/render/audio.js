@@ -1,5 +1,5 @@
 /**
- * Audio player output
+ * Render: audio player
  *
  * @return {string} HTML - div
  */

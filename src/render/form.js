@@ -1,5 +1,5 @@
 /**
- * Form output
+ * Render: form
  *
  * @param {object} args {
  *  @param {string} subject
@@ -54,7 +54,7 @@ const form = (args = {}, parents, id) => {
     }
   }
 
-  scriptData.sendUrl = '/'
+  scriptData.sendUrl = '/ajax/'
 
   /* Output */
 

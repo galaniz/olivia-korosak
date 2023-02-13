@@ -1,5 +1,5 @@
 /**
- * Button output
+ * Render: button
  *
  * @param {object} args {
  *  @param {string} title

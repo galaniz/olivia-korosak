@@ -1,5 +1,5 @@
 /**
- * Field output
+ * Render: field
  *
  * @param {object} args {
  *  @param {string} type

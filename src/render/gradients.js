@@ -1,5 +1,5 @@
 /**
- * Gradients output
+ * Render: gradients
  *
  * @param {object} args {
  *  @param {string} from

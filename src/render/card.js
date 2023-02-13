@@ -1,5 +1,5 @@
 /**
- * Card output
+ * Render: card
  *
  * @param {object} args {
  *  @param {string} gap

@@ -1,5 +1,5 @@
 /**
- * Close svg output
+ * Render: close svg
  *
  * @return {string} HTML - svg
  */

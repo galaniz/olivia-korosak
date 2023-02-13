@@ -1,5 +1,5 @@
 /**
- * Column output
+ * Render: column
  *
  * @param {object} args {
  *  @param {string} tag

@@ -1,5 +1,5 @@
 /**
- * Render output
+ * Render
  *
  * @param {object} args {
  *  @param {object} serverlessData

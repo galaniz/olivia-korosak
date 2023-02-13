@@ -1,5 +1,5 @@
 /**
- * Layout output
+ * Render: layout
  *
  * @param {object} args {
  *  @param {object} meta

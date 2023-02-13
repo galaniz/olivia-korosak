@@ -1,5 +1,5 @@
 /**
- * Container output
+ * Render: container
  *
  * @param {object} args {
  *  @param {string} tag

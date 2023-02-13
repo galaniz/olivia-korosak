@@ -1,5 +1,5 @@
 /**
- * Caret svg output
+ * Render: caret svg
  *
  * @param {string} direction
  * @return {string} HTML - svg

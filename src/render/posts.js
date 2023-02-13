@@ -1,5 +1,5 @@
 /**
- * Posts output
+ * Render: posts
  *
  * @param {object} args {
  *  @param {string} contentType

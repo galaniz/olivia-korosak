@@ -1,5 +1,5 @@
 /**
- * Content output
+ * Render: content
  *
  * @param {object} args {
  *  @param {string} align

@@ -1,5 +1,5 @@
 /**
- * Image output
+ * Render: image
  *
  * @param {object} args {
  *  @param {object} image

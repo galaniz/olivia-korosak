@@ -1,5 +1,5 @@
 /**
- * Loader output
+ * Render: loader
  *
  * @param {object} args {
  *  @param {boolean} hide
