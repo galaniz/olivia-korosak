@@ -1,5 +1,5 @@
 /**
- * Breadcrumbs output
+ * Render: breadcrumbs
  *
  * @param {object} navigations
  * @return {string} HTML - nav

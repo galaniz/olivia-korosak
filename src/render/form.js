@@ -1,5 +1,5 @@
 /**
- * Form output
+ * Render: form
  *
  * @param {object} args {
  *  @param {string} subject
@@ -13,7 +13,6 @@
 
 /* Imports */
 
-const { v4: uuidv4 } = require('uuid')
 const { scriptData } = require('../vars/data')
 const errorSvg = require('./svg/error')
 const checkSvg = require('./svg/check')
@@ -21,26 +20,20 @@ const loader = require('./loader')
 
 /* Function */
 
-const form = (args = {}, parents, id) => {
-  let {
-    subject = '',
+const form = ({ args = {}, id }) => {
+  const {
     submitLabel = 'Send',
     successTitle = '',
-    successText = '',
+    successText = ''
   } = args
 
-  /* Id */
+  /* Id required */
 
   if (!id) {
-    id = uuidv4()
-  }
-
-  /* Subject */
-
-  let subjectInput = ''
-
-  if (subject) {
-    subjectInput = `<input type="hidden" name="subject" value="${subject}">`
+    return {
+      start: '',
+      end: ''
+    }
   }
 
   /* Add to script data */
@@ -54,13 +47,12 @@ const form = (args = {}, parents, id) => {
     }
   }
 
-  scriptData.sendUrl = '/'
+  scriptData.sendUrl = '/ajax/'
 
   /* Output */
 
   const start = `
     <form id="${id}" class="o-form js-send-form" method="post" novalidate>
-      ${subjectInput}
       <div class="l-flex l-flex-column l-flex-row-l l-flex-wrap l-align-end-l l-gap-margin-s l-gap-margin-m-m">
         <div class="o-form-error__summary l-width-100-pc l-none" tabindex="-1">
           <div class="o-info-negative bg-gradient-135 l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">

@@ -1,5 +1,5 @@
 /**
- * Navigations output
+ * Render: navigations
  *
  * @param {object} args {
  *  @param {array} navs

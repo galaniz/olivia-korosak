@@ -1,5 +1,5 @@
 /**
- * Control svg output
+ * Render: control svg
  *
  * @param {string} type
  * @return {string} HTML - svg

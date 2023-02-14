@@ -1,5 +1,5 @@
 /**
- * Render output
+ * Render
  *
  * @param {object} args {
  *  @param {object} serverlessData
@@ -57,6 +57,7 @@ const _renderContent = async ({
   pageData = {},
   contains = {},
   serverlessData,
+  getContentfulData,
   navs
 }) => {
   if (Array.isArray(contentData) && contentData.length) {
@@ -113,39 +114,46 @@ const _renderContent = async ({
 
       switch (renderType) {
         case 'card':
-          renderObj = card(fields, parents)
+          renderObj = card({ args: fields, parents })
           break
         case 'column':
-          renderObj = column(fields, parents)
+          renderObj = column({ args: fields, parents })
           break
         case 'container':
-          renderObj = container(fields, parents)
+          renderObj = container({ args: fields, parents })
           break
         case 'content':
-          renderObj = content(fields, parents)
+          renderObj = content({ args: fields, parents })
           break
         case 'form':
-          renderObj = form(fields, parents, c.sys.id)
+          renderObj = form({ args: fields, parents, id: c.sys.id })
           break
         case 'field':
-          renderObj.start = field(fields, parents)
+          renderObj.start = field({ args: fields, parents })
           break
         case 'image':
-          renderObj.start = image(fields, parents)
+          renderObj.start = image({ args: fields, parents })
           break
         case 'posts': {
           if (fields?.contentType === 'Track') {
             contains.audio = true
           }
 
-          renderObj.start = await posts(fields, parents, pageData, serverlessData)
+          renderObj.start = await posts({
+            args: fields,
+            parents,
+            pageData,
+            serverlessData,
+            getContentfulData
+          })
+
           break
         }
         case 'testimonial':
-          renderObj.start = testimonial(fields, parents)
+          renderObj.start = testimonial({ args: fields, parents })
           break
         case 'button':
-          renderObj.start = button(fields, parents)
+          renderObj.start = button({ args: fields, parents })
           break
         case 'navigation': {
           const loc = fields.location.toLowerCase().replace(/ /g, '')
@@ -181,6 +189,7 @@ const _renderContent = async ({
           pageData,
           contains,
           serverlessData,
+          getContentfulData,
           navs
         })
       }
@@ -202,7 +211,8 @@ const _renderItem = async ({
   item = {},
   contentType = 'page',
   serverlessData,
-  getAudioDuration
+  getAudioDuration,
+  getContentfulData
 }) => {
   /* Serverless render check */
 
@@ -333,7 +343,7 @@ const _renderItem = async ({
     navs: navData.navs,
     items: navData.items,
     current: permalink,
-    title: title,
+    title,
     parents: s.parents
   })
 
@@ -381,6 +391,7 @@ const _renderItem = async ({
     await _renderContent({
       contentData,
       serverlessData: itemServerlessData,
+      getContentfulData,
       output: contentOutput,
       parents: [],
       pageData: item,
@@ -496,7 +507,8 @@ const render = async ({
   serverlessData,
   env,
   onRenderEnd,
-  getAudioDuration
+  getAudioDuration,
+  getContentfulData
 }) => {
   /* Serverless data */
 
@@ -519,7 +531,7 @@ const render = async ({
 
   /* Contentful data */
 
-  const contentfulData = await getAllContentfulData(serverlessData)
+  const contentfulData = await getAllContentfulData(serverlessData, getContentfulData)
 
   if (!contentfulData) {
     return [{
@@ -609,7 +621,7 @@ const render = async ({
 
   /* Loop through all content types */
 
-  const contentTypes = Object.keys(content);
+  const contentTypes = Object.keys(content)
 
   for (let c = 0; c < contentTypes.length; c++) {
     const contentType = contentTypes[c]
@@ -619,7 +631,8 @@ const render = async ({
         item: content[contentType][i],
         contentType,
         serverlessData,
-        getAudioDuration
+        getAudioDuration,
+        getContentfulData
       })
 
       const {
@@ -649,10 +662,10 @@ const render = async ({
       jsonFileData.archiveCounts.data = archiveData.counts
       jsonFileData.durations.data = _durations
       jsonFileData.navData.data = navData
-  
+
       jsonData = jsonFileData
     }
-  
+
     onRenderEnd({
       jsonData,
       serverlessRoutes

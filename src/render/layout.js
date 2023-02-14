@@ -1,5 +1,5 @@
 /**
- * Layout output
+ * Render: layout
  *
  * @param {object} args {
  *  @param {object} meta
@@ -44,9 +44,13 @@ const layout = ({
 
   const next = meta?.next ? `<link rel="next" href="${meta.next}">` : ''
 
-  /* Robots */
+  /* No index */
 
-  const robots = meta?.robots ? meta?.robots : true
+  let noIndex = meta?.noIndex ? meta.noIndex : false
+
+  if (envData.dev) {
+    noIndex = true
+  }
 
   /* Assets link */
 
@@ -61,7 +65,7 @@ const layout = ({
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>${title}</title>
-        ${!robots && !envData.prod ? `<meta name="robots" content="noindex, nofollow">` : ''}
+        ${noIndex ? '<meta name="robots" content="noindex, nofollow">' : ''}
         <meta name="description" content="${description}">
         ${canonical}
         ${prev}

@@ -6,6 +6,7 @@
 
 const { writeFile, mkdir } = require('fs')
 const render = require('../src/render')
+const getContentfulDataEleventy = require('../src/utils/get-contentful-data-eleventy')
 
 /* Get and render contentful data */
 
@@ -15,6 +16,7 @@ module.exports = async (args = {}) => {
 
     return render({
       ...args,
+      getContentfulData: getContentfulDataEleventy,
       getAudioDuration: async (url = '') => {
         try {
           const ffprobe = require('ffprobe')
@@ -61,7 +63,7 @@ module.exports = async (args = {}) => {
               serverlessPath += '../'
             }
 
-            const content = `import serverless from '${serverlessPath}src/serverless'; const render = async ({ request, env }) => { return await serverless({ request, env }) }; export const onRequest = [render];`
+            const content = `import reload from '${serverlessPath}src/serverless/reload'; const render = async ({ request, env }) => { return await reload({ request, env }) }; export const onRequestGet = [render];`
 
             mkdir(`./functions${path}`, { recursive: true }, (error) => {
               if (error) {

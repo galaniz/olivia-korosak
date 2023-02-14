@@ -1,5 +1,5 @@
 /**
- * Header output
+ * Render: header
  *
  * @param {object} navigations
  * @return {string} HTML - header

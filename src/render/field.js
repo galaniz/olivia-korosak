@@ -1,5 +1,5 @@
 /**
- * Field output
+ * Render: field
  *
  * @param {object} args {
  *  @param {string} type
@@ -59,7 +59,7 @@ const _getCheckboxRadioOpts = (args = {}) => {
 
 /* Function */
 
-const field = (args = {}) => {
+const field = ({ args = {} }) => {
   let {
     type = 'Text',
     name = '',

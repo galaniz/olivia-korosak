@@ -1,6 +1,6 @@
 /**
  * Utils: get absolute url
- * 
+ *
  * @param {string} slug
  * @param {boolean} trailingSlash
  * @return {string}

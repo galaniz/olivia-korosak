@@ -1,5 +1,5 @@
 /**
- * Tracks output
+ * Render: tracks
  *
  * @param {object} args {
  *  @param {array} items
@@ -329,7 +329,7 @@ const tracks = async ({
 
           return `
             <td headers="${c.headers}"${classes ? ` class="${classes}"` : ''} data-size="${c.size}"${attr}>
-              ${i === 0 ? `<div class="o-track-bg l-relative l-before l-padding-right-2xs l-padding-right-m-m">` : ''}
+              ${i === 0 ? '<div class="o-track-bg l-relative l-before l-padding-right-2xs l-padding-right-m-m">' : ''}
                 ${c.output}
               ${i === 0 ? '</div>' : ''}
             </td>

@@ -1,5 +1,5 @@
 /**
- * Footer output
+ * Render: footer
  *
  * @param {object} navigations
  * @return {string} HTML - footer

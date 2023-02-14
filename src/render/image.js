@@ -1,5 +1,5 @@
 /**
- * Image output
+ * Render: image
  *
  * @param {object} args {
  *  @param {object} image
@@ -17,7 +17,7 @@ const { enumOptions } = require('../vars/enums')
 
 /* Function */
 
-const image = (args = {}, parents = []) => {
+const image = ({ args = {}, parents = [] }) => {
   let {
     image = {},
     aspectRatio = '1:1', // enumOptions.aspectRatio

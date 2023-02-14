@@ -1,5 +1,5 @@
 /**
- * Logo svg output
+ * Render: logo svg
  *
  * @return {string} HTML - svg
  */

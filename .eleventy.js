@@ -20,12 +20,19 @@ module.exports = (config) => {
   /* Add env ctfl variables */
 
   if (process) {
+    const env = process.env
+
+    envData.eleventy.cache = env?.USE_11TY_CACHE ? true : false
+    envData.dev = env.ENVIRONMENT === 'dev'
+    envData.prod = env.ENVIRONMENT === 'production'
     envData.ctfl = {
-      spaceId: process.env.CTFL_SPACE_ID,
-      cpaToken: process.env.CTFL_CPA_TOKEN,
-      cdaToken: process.env.CTFL_CDA_TOKEN
+      spaceId: env.CTFL_SPACE_ID,
+      cpaToken: env.CTFL_CPA_TOKEN,
+      cdaToken: env.CTFL_CDA_TOKEN
     }
   }
+
+  console.log('ENV_DATA', envData)
 
   /* Check/build json files */
 

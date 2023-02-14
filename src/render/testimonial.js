@@ -1,5 +1,5 @@
 /**
- * Testimonial output
+ * Render: testimonial
  *
  * @param {object} args {
  *  @param {string} quote

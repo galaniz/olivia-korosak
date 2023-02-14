@@ -1,6 +1,6 @@
 /**
  * Utils: get current year as YYYY
- * 
+ *
  * @return {integer}
  */
 

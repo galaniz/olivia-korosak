@@ -1,5 +1,5 @@
 /**
- * Social svg output
+ * Render: social svg
  *
  * @param {string} type
  * @return {string} HTML - svg

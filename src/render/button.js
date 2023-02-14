@@ -1,5 +1,5 @@
 /**
- * Button output
+ * Render: button
  *
  * @param {object} args {
  *  @param {string} title
@@ -19,7 +19,7 @@ const { getLink } = require('../utils')
 
 /* Function */
 
-const button = (args = {}) => {
+const button = ({ args = {} }) => {
   let {
     title = '',
     link = '', // Static
@@ -34,7 +34,7 @@ const button = (args = {}) => {
 
   /* Link and title required */
 
-  link = link ? link : getLink(internalLink, externalLink)
+  link = link || getLink(internalLink, externalLink)
 
   if (!link || !title) {
     return ''

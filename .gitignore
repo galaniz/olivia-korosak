@@ -10,5 +10,6 @@ src/json/archive-ids.json
 src/json/durations.json
 src/json/nav-data.json
 functions/*
+!functions/ajax/
 .DS_Store
 .cache

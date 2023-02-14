@@ -1,5 +1,5 @@
 /**
- * Card output
+ * Render: card
  *
  * @param {object} args {
  *  @param {string} gap
@@ -14,7 +14,7 @@ const { enumOptions } = require('../vars/enums')
 
 /* Function */
 
-const card = (args = {}) => {
+const card = ({ args = {} }) => {
   let {
     gap = 'None', // enumOptions.gap
     gapLarge = 'None' // enumOptions.gap

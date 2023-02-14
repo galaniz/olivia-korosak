@@ -1,6 +1,6 @@
 /**
  * Utils: get duration as text
- * 
+ *
  * @param {integer} seconds
  * @param {boolean} words
  * @return {string}

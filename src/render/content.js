@@ -1,5 +1,5 @@
 /**
- * Content output
+ * Render: content
  *
  * @param {object} args {
  *  @param {string} align
@@ -17,7 +17,7 @@ const { enumOptions } = require('../vars/enums')
 
 /* Function */
 
-const content = (args = {}) => {
+const content = ({ args = {} }) => {
   let {
     align = 'Left', // enumOptions.content.heading
     gap = 'Default', // enumOptions.gap

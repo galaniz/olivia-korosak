@@ -1,5 +1,5 @@
 /**
- * Check svg output
+ * Render: check svg
  *
  * @return {string} HTML - svg
  */

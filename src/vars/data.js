@@ -117,6 +117,12 @@ const envData = {
     dev: '/',
     prod: 'https://oliviakorosak.com/'
   },
+  eleventy: {
+    cache: false
+  },
+  smtp2go: {
+    apiKey: ''
+  },
   ctfl: {
     spaceId: '',
     cpaToken: '',

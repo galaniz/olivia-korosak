@@ -1,5 +1,5 @@
 /**
- * Error svg output
+ * Render: error svg
  *
  * @return {string} HTML - svg
  */

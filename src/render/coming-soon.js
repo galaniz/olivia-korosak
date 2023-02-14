@@ -1,6 +1,6 @@
 /**
- * Coming soon output
- * 
+ * Render: coming soon
+ *
  * @return {string} HTML - html
  */
 

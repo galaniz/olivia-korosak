@@ -1,5 +1,5 @@
 /**
- * Info svg output
+ * Render: info svg
  *
  * @return {string} HTML - svg
  */
