@@ -114,39 +114,46 @@ const _renderContent = async ({
 
       switch (renderType) {
         case 'card':
-          renderObj = card(fields, parents)
+          renderObj = card({ args: fields, parents })
           break
         case 'column':
-          renderObj = column(fields, parents)
+          renderObj = column({ args: fields, parents })
           break
         case 'container':
-          renderObj = container(fields, parents)
+          renderObj = container({ args: fields, parents })
           break
         case 'content':
-          renderObj = content(fields, parents)
+          renderObj = content({ args: fields, parents })
           break
         case 'form':
-          renderObj = form(fields, parents, c.sys.id)
+          renderObj = form({ args: fields, parents, id: c.sys.id })
           break
         case 'field':
-          renderObj.start = field(fields, parents)
+          renderObj.start = field({ args: fields, parents })
           break
         case 'image':
-          renderObj.start = image(fields, parents)
+          renderObj.start = image({ args: fields, parents })
           break
         case 'posts': {
           if (fields?.contentType === 'Track') {
             contains.audio = true
           }
 
-          renderObj.start = await posts(fields, parents, pageData, serverlessData, getContentfulData)
+          renderObj.start = await posts({
+            args: fields,
+            parents,
+            pageData,
+            serverlessData,
+            getContentfulData
+          })
+
           break
         }
         case 'testimonial':
-          renderObj.start = testimonial(fields, parents)
+          renderObj.start = testimonial({ args: fields, parents })
           break
         case 'button':
-          renderObj.start = button(fields, parents)
+          renderObj.start = button({ args: fields, parents })
           break
         case 'navigation': {
           const loc = fields.location.toLowerCase().replace(/ /g, '')

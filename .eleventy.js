@@ -22,7 +22,7 @@ module.exports = (config) => {
   if (process) {
     const env = process.env
 
-    envData.eleventyCache = env?.USE_11TY_CACHE ? true : false
+    envData.eleventy.cache = env?.USE_11TY_CACHE ? true : false
     envData.dev = env.ENVIRONMENT === 'dev'
     envData.prod = env.ENVIRONMENT === 'production'
     envData.ctfl = {

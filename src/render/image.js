@@ -17,7 +17,7 @@ const { enumOptions } = require('../vars/enums')
 
 /* Function */
 
-const image = (args = {}, parents = []) => {
+const image = ({ args = {}, parents = [] }) => {
   let {
     image = {},
     aspectRatio = '1:1', // enumOptions.aspectRatio

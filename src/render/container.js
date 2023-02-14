@@ -24,7 +24,7 @@ const { enumOptions } = require('../vars/enums')
 
 /* Function */
 
-const container = (args = {}) => {
+const container = ({ args = {} }) => {
   let {
     tag = 'Div', // enumOptions.tag
     layout = 'Column', // enumOptions.layout

@@ -4,10 +4,15 @@
 
 /* Imports */
 
-import mailChannelsPlugin from '@cloudflare/pages-plugin-mailchannels'
 import sendForm from '../../src/serverless/send-form'
+import { envData } from '../../src/vars/data'
 
-/* Normalize body data */
+/**
+ * Normalize body data
+ *
+ * @param {object} data
+ * @return {object}
+ */
 
 const _normalizeBody = (data = {}) => {
   const normalData = {
@@ -52,10 +57,29 @@ const _normalizeBody = (data = {}) => {
   return normalData
 }
 
-/* Function */
+/**
+ * Ajax function
+ *
+ * @param {object} context {
+ *  @param {object} request
+ *  @param {object} env
+ * }
+ * @return {object}
+ */
 
 const ajax = async ({ request, env }) => {
   try {
+    /* Set env data */
+
+    envData.dev = env.ENVIRONMENT === 'dev'
+    envData.prod = env.ENVIRONMENT === 'production'
+    envData.smtp2go.apiKey = env.SMPT2GO_API_KEY
+    envData.ctfl = {
+      spaceId: env.CTFL_SPACE_ID,
+      cpaToken: env.CTFL_CPA_TOKEN,
+      cdaToken: env.CTFL_CDA_TOKEN
+    }
+
     /* Get form data */
 
     const formData = await request.formData()
@@ -67,38 +91,46 @@ const ajax = async ({ request, env }) => {
 
     const data = _normalizeBody(body)
 
-    console.log('DATA', data)
+    /* Inputs required */
 
-    const req = mailChannelsPlugin({
-      personalizations: [
-        {
-          to: [{ email: 'galanizdesign@gmail.com', name: 'Galaniz' }],
-        },
-      ],
-      from: {
-        email: 'graciela@alanizcreative.com',
-        name: 'Alaniz Creative',
-      },
-      subject: 'Look! No servers',
-      content: [
-        {
-          type: 'text/plain',
-          value: 'And no email service accounts and all for free too!',
-        },
-      ],
-      respondWith: () => {
-        return new Response(
-          `Thank you for submitting your enquiry. A member of the team will be in touch shortly.`
-        );
-      },
-    })
+    if (!data?.inputs) {
+      throw new Error('No inputs')
+    }
 
-    console.log('REQ', req)
+    /* Id required */
 
-    /* Output */
+    if (!data?.id) {
+      throw new Error('No id')
+    }
 
-    return new Response('YOOOOO', {
-      status: 200,
+    /* Action required */
+
+    const action = data?.action ? data.action : ''
+
+    if (!action) {
+      throw new Error('No action')
+    }
+
+    /* Call functions by action */
+
+    let res
+
+    if (action === 'sendForm') {
+      res = await sendForm(data)
+    }
+
+    /* Result */
+
+    if (!res) {
+      throw new Error('No result')
+    }
+
+    if (res?.error) {
+      throw new Error(res.error)
+    }
+
+    return new Response(JSON.stringify(res), {
+      status: 200
     })
   } catch (error) {
     console.error('Error with ajax function: ', error)

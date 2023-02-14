@@ -16,7 +16,7 @@ const getContentfulCredentials = require('./get-contentful-credentials')
 const getContentfulDataServerless = async (key, params = {}) => {
   try {
     if (!key) {
-      throw new Error('No key specified')
+      throw new Error('No key')
     }
 
     /* Credentials */

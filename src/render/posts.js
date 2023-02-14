@@ -235,7 +235,12 @@ const _renderCard = ({
 
 /* Function */
 
-const posts = async (args = {}, parents = [], pageData = {}, serverlessData, getContentfulData) => {
+const posts = async ({
+  args = {},
+  pageData = {},
+  serverlessData,
+  getContentfulData
+}) => {
   let {
     contentType = 'Project', // enumOptions.posts.contentType
     display = 1,

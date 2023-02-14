@@ -19,7 +19,7 @@ const { envData } = require('../vars/data')
 const getContentfulDataEleventy = async (key, params = {}) => {
   try {
     if (!key) {
-      throw new Error('No key specified')
+      throw new Error('No key')
     }
 
     /* Import fetch module */
@@ -30,7 +30,7 @@ const getContentfulDataEleventy = async (key, params = {}) => {
 
     let cache
 
-    if (envData.eleventyCache) {
+    if (envData.eleventy.cache) {
       cache = new AssetCache(key)
 
       /* Check if the cache is fresh within the last day */
@@ -61,7 +61,7 @@ const getContentfulDataEleventy = async (key, params = {}) => {
       data.items = resolveResponse(data)
     }
 
-    if (envData.eleventyCache && cache) {
+    if (envData.eleventy.cache && cache) {
       await cache.save(JSON.parse(safeJsonStringify(data, null, 2)), 'json')
     }
 

@@ -14,7 +14,7 @@ const { enumOptions } = require('../vars/enums')
 
 /* Function */
 
-const card = (args = {}) => {
+const card = ({ args = {} }) => {
   let {
     gap = 'None', // enumOptions.gap
     gapLarge = 'None' // enumOptions.gap

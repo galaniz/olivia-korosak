@@ -113,10 +113,15 @@ const jsonFileData = {
 const envData = {
   dev: true,
   prod: false,
-  eleventyCache: false,
   urls: {
     dev: '/',
     prod: 'https://oliviakorosak.com/'
+  },
+  eleventy: {
+    cache: false
+  },
+  smtp2go: {
+    apiKey: ''
   },
   ctfl: {
     spaceId: '',

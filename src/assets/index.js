@@ -363,10 +363,12 @@ const initialize = () => {
         inputs: f.inputs,
         submit: f.submit,
         loaders: f.loaders,
-        JSONresponse: false,
         groupClass: 'o-form__group',
         fieldClass: 'o-form__field',
         labelClass: 'o-form__label',
+        data: {
+          action: 'sendForm'
+        },
         errorTemplate: `
           <span class='o-form__error l-flex l-gap-margin-5xs l-padding-top-5xs l-padding-top-4xs-m' id='%id'>
             <span class='t-line-height-0'>

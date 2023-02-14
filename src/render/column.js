@@ -20,7 +20,7 @@ const { enumOptions } = require('../vars/enums')
 
 /* Function */
 
-const column = (args = {}) => {
+const column = ({ args = {} }) => {
   let {
     tag = 'Div', // enumOptions.tag
     width = 'None', // enumOptions.width

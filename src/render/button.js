@@ -19,7 +19,7 @@ const { getLink } = require('../utils')
 
 /* Function */
 
-const button = (args = {}) => {
+const button = ({ args = {} }) => {
   let {
     title = '',
     link = '', // Static
