@@ -1,0 +1,27 @@
+/**
+ * Text: line clamp
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+@use "@alanizcreative/formation/src/utils/functions" as func;
+
+/* Styles */
+
+.t-clamp-1,
+.t-clamp-2 {
+  @extend %u-overflow-hidden;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+.t-clamp-1 {
+  -webkit-line-clamp: 1;
+}
+
+.t-clamp-2 {
+  -webkit-line-clamp: 2;
+}

@@ -1,0 +1,89 @@
+/**
+ * Base
+ */
+
+/* Imports */
+
+@use "../config/mixins" as m;
+@use "@alanizcreative/formation/src/base/mixins" as mix;
+@use "@alanizcreative/formation/src/utils/functions" as func;
+@use "@alanizcreative/formation/src/utils/mixins" as mixi;
+
+/* Variables */
+
+$negative: func.get-color("negative-light");
+$positive: func.get-color("positive-light");
+$neutral: func.get-color("background-light");
+
+/* Root */
+
+:root {
+  @include mix.set-root;
+  @include m.set-text;
+
+  --foreground-base-80: #{rgba(func.get-color("foreground-base"), 0.8)};
+  --background-light-60: #{rgba(func.get-color("background-light"), 0.6)};
+  --background-light-35: #{rgba(func.get-color("background-light"), 0.35)};
+  --background-light-20: #{rgba(func.get-color("background-light"), 0.2)};
+  --text-color: #{rgba(func.get-color("background-light"), 0.8)};
+  --heading-color: var(--background-light);
+  --link-color: var(--background-light);
+  --underline: #{func.calc-rem(1px)};
+  --underline-offset: 0.3125rem;
+  --negative: var(--negative-light);
+  --positive: var(--positive-light);
+  --negative-rgb: #{red($negative), green($negative), blue($negative)};
+  --positive-rgb: #{red($positive), green($positive), blue($positive)};
+  --neutral-rgb: #{red($neutral), green($neutral), blue($neutral)};
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+
+  @include mixi.fluid-size(
+    --logo-height,
+    func.calc-rem(20px) func.calc-rem(25px),
+    "s" "l"
+  );
+}
+
+html,
+body {
+  @extend %u-font-weight-normal;
+  @extend %u-font-family-primary;
+
+  color: var(--text-color);
+  background: var(--foreground-base);
+  min-height: 100vh;
+}
+
+a {
+  color: var(--link-color);
+}
+
+p {
+  color: var(--text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+blockquote {
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+hr {
+  height: var(--border-width);
+  background: var(--background-light-20);
+  margin: 0;
+  border: 0;
+}

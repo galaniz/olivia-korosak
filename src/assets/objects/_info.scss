@@ -1,0 +1,35 @@
+/**
+ * Objects: info
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/utils/functions" as func;
+
+/* Styles */
+
+.o-info-negative,
+.o-info-positive,
+.o-info-neutral {
+  svg {
+    color: var(--link-color);
+  }
+}
+
+.o-info-negative {
+  --link-color: var(--negative);
+  --from: var(--negative-rgb), 0.1;
+  --to: var(--negative-rgb), 0.05;
+}
+
+.o-info-positive {
+  --link-color: var(--positive);
+  --from: var(--positive-rgb), 0.1;
+  --to: var(--positive-rgb), 0.05;
+}
+
+.o-info-neutral {
+  --link-color: var(--heading-color);
+  --from: var(--neutral-rgb), 0.1;
+  --to: var(--neutral-rgb), 0.05;
+}
