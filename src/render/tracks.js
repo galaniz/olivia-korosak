@@ -339,7 +339,7 @@ const tracks = async ({
       <tr data-mobile>
         <td headers="details" colspan="2">
           <div class="o-track-bg-b l-relative l-before">
-            <div class="o-collapsible l-relative" id="${detailsId}" data-trigger="${triggerId}" data-accordion="${accordionId}">
+            <div class="o-collapsible l-relative l-z-index-1" id="${detailsId}" data-trigger="${triggerId}" data-accordion="${accordionId}">
               <div id="${collapsibleId}" class="o-collapsible__main e-transition outline-tight">
                 <dl class="t-s t-number-normal t-background-light-60 t-line-height-130-pc e-underline-reverse l-margin-0-last l-padding-bottom-2xs l-padding-bottom-s-m">
                   ${detailsItems.map(d => {

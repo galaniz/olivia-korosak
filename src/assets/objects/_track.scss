@@ -58,6 +58,8 @@
     }
 
     + tr .o-track-bg-b::before {
+      @extend %u-z-index-1;
+
       top: func.calc-rem(-6px);
     }
   }
