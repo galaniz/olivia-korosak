@@ -66,20 +66,26 @@ const _renderCard = ({
 
   const containers = {
     column: column({
-      tag: 'List Item',
-      widthSmall: '1/2',
-      widthMedium: '1/3',
-      widthLarge: '1/4',
-      classes: 'l-flex l-flex-column'
+      args: {
+        tag: 'List Item',
+        widthSmall: '1/2',
+        widthMedium: '1/3',
+        widthLarge: '1/4',
+        classes: 'l-flex l-flex-column'
+      }
     }),
     card: card({
-      gap: heroImage ? '15px' : 'none'
+      args: {
+        gap: heroImage ? '15px' : 'none'
+      }
     }),
     content: content({
-      gap: '5px',
-      gapLarge: '10px',
-      richTextStyles: false,
-      classes: contentClasses
+      args: {
+        gap: '5px',
+        gapLarge: '10px',
+        richTextStyles: false,
+        classes: contentClasses
+      }
     })
   }
 
@@ -210,16 +216,16 @@ const _renderCard = ({
   /* Image */
 
   if (heroImage) {
-    output += image(
-      {
+    output += image({
+      args: {
         image: heroImage
       },
-      [
+      parents: [
         {
           type: 'card'
         }
       ]
-    )
+    })
   }
 
   /* Output */
@@ -618,10 +624,12 @@ const posts = async ({
 
     if (output && layout === 'card') {
       const insertContainer = container({
-        tag: 'Unordered List',
-        layout: 'Row',
-        gap: '40px',
-        classes: 'l-gap-margin-xl-v-s'
+        args: {
+          tag: 'Unordered List',
+          layout: 'Row',
+          gap: '40px',
+          classes: 'l-gap-margin-xl-v-s'
+        }
       })
 
       output = (

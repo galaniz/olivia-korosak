@@ -406,14 +406,18 @@ const _renderItem = async ({
   if (contentType === 'project') {
     const projectContain = {
       container: container({
-        tag: 'Div',
-        Column: 'Block',
-        maxWidth: '650px',
-        paddingBottom: '80px',
-        paddingBottomLarge: '120px'
+        args: {
+          tag: 'Div',
+          Column: 'Block',
+          maxWidth: '650px',
+          paddingBottom: '80px',
+          paddingBottomLarge: '120px'
+        }
       }),
       content: content({
-        richTextStyles: true
+        args: {
+          richTextStyles: true
+        }
       })
     }
 

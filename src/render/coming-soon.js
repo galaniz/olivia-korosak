@@ -19,17 +19,21 @@ const comingSoon = () => {
 
   const output = {
     container: container({
-      tag: 'Div',
-      Column: 'Block',
-      maxWidth: '650px',
-      paddingTop: '80px',
-      paddingTopLarge: '120px',
-      paddingBottom: '80px',
-      paddingBottomLarge: '120px',
-      classes: 'l-min-height-100-vh l-flex l-align-center'
+      args: {
+        tag: 'Div',
+        Column: 'Block',
+        maxWidth: '650px',
+        paddingTop: '80px',
+        paddingTopLarge: '120px',
+        paddingBottom: '80px',
+        paddingBottomLarge: '120px',
+        classes: 'l-min-height-100-vh l-flex l-align-center'
+      }
     }),
     content: content({
-      richTextStyles: true
+      args: {
+        richTextStyles: true
+      }
     })
   }
 
