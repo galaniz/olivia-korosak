@@ -1,13 +1,5 @@
 /**
  * Render
- *
- * @param {object} args {
- *  @param {object} serverlessData
- *  @param {object} env
- *  @param {function} onRenderEnd
- *  @param {function} getAudioDuration
- * }
- * @return {array}
  */
 
 /* Imports */
@@ -19,12 +11,12 @@ const slugParentsJson = require('../json/slug-parents.json')
 const archiveIdsJson = require('../json/archive-ids.json')
 const navDataJson = require('../json/nav-data.json')
 const comingSoon = require('./coming-soon')
+const singleContent = require('./single-content')
 const layout = require('./layout')
 const header = require('./header')
 const breadcrumbs = require('./breadcrumbs')
 const footer = require('./footer')
 const button = require('./button')
-const card = require('./card')
 const column = require('./column')
 const container = require('./container')
 const content = require('./content')
@@ -39,6 +31,7 @@ const hero = require('./hero')
 const gradients = require('./gradients')
 const audio = require('./audio')
 const httpError = require('./http-error')
+const { card } = require('./cards')
 
 /* Store slug data for json */
 
@@ -48,7 +41,22 @@ const _slugs = {}
 
 const _durations = {}
 
-/* Recurse and render nested content */
+/**
+ * Function - recurse and output nested content
+ * 
+ * @private
+ * @param {object} args {
+ *  @prop {array} contentData
+ *  @prop {object} output
+ *  @prop {array} parents
+ *  @prop {object} pageData
+ *  @prop {object} contains
+ *  @prop {object} serverlessData
+ *  @prop {function} getContentfulData
+ *  @prop {object} navs
+ * }
+ * @return {void}
+ */
 
 const _renderContent = async ({
   contentData = [],
@@ -205,7 +213,19 @@ const _renderContent = async ({
   }
 }
 
-/* Render page */
+/**
+ * Function - output single post or page
+ * 
+ * @private
+ * @param {object} args {
+ *  @prop {object} item
+ *  @prop {string} contentType
+ *  @prop {object} serverlessData
+ *  @prop {function} getAudioDuration
+ *  @prop {function} getContentfulData
+ * }
+ * @return {object}
+ */
 
 const _renderItem = async ({
   item = {},
@@ -400,32 +420,15 @@ const _renderItem = async ({
     })
   }
 
-  let contentBefore = ''
-  let contentAfter = ''
+  await singleContent({
+    item,
+    contentType,
+    getContentfulData,
+    output: contentOutput,
+    contains
+  })
 
-  if (contentType === 'project') {
-    const projectContain = {
-      container: container({
-        args: {
-          tag: 'Div',
-          Column: 'Block',
-          maxWidth: '650px',
-          paddingBottom: '80px',
-          paddingBottomLarge: '120px'
-        }
-      }),
-      content: content({
-        args: {
-          richTextStyles: true
-        }
-      })
-    }
-
-    contentBefore = projectContain.container.start + projectContain.content.start
-    contentAfter = projectContain.container.end + projectContain.content.end
-  }
-
-  output += contentBefore + contentOutput.html + contentAfter
+  output += contentOutput.html
 
   /* Prev next pagination - end for pagination update from posts */
 
@@ -505,7 +508,18 @@ const _renderItem = async ({
   }
 }
 
-/* Function */
+/**
+ * Function - loop through all content types to output pages and posts
+ *
+ * @param {object} args {
+ *  @prop {object} serverlessData
+ *  @prop {object} env
+ *  @prop {function} onRenderEnd
+ *  @prop {function} getAudioDuration
+ *  @prop {function} getContentfulData
+ * }
+ * @return {array|object}
+ */
 
 const render = async ({
   serverlessData,

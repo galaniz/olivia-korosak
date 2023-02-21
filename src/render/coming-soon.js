@@ -21,7 +21,6 @@ const comingSoon = () => {
     container: container({
       args: {
         tag: 'Div',
-        Column: 'Block',
         maxWidth: '650px',
         paddingTop: '80px',
         paddingTopLarge: '120px',
