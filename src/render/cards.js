@@ -260,7 +260,7 @@ const card = ({ args = {} }) => {
 
   /* Classes */
 
-  let classes = 'l-relative l-flex l-flex-column l-flex-grow-1 e-overlay e-title-line'
+  let classes = 'l-relative l-z-index-1 l-flex l-flex-column l-flex-grow-1 e-overlay e-title-line'
 
   /* Gap */
 

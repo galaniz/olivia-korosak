@@ -20,7 +20,6 @@ const comingSoon = () => {
   const output = {
     container: container({
       args: {
-        tag: 'Div',
         maxWidth: '650px',
         paddingTop: '80px',
         paddingTopLarge: '120px',

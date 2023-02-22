@@ -308,13 +308,9 @@ const _renderItem = async ({
     fields.content = postsContent
   }
 
-  /* Get durations for audio */
+  /* Store if contains components like audio  */
 
-  if (contentType === 'track' && audio && !serverlessData) {
-    const duration = await getAudioDuration(fields.audio.fields.file.url)
-
-    _durations[fields.audio.sys.id] = duration
-  }
+  const contains = {}
 
   /* Meta */
 
@@ -357,6 +353,49 @@ const _renderItem = async ({
     id
   }
 
+  /* Gradient from and to */
+
+  let gradientFrom = fields.colorFrom ? fields.colorFrom.value : ''
+  let gradientTo = fields.colorTo ? fields.colorTo.value : ''
+
+  /* Get durations for audio and set track data for front end */
+
+  if (contentType === 'track' && audio && !serverlessData) {
+    const audioUrl = fields.audio.fields.file.url
+    const duration = await getAudioDuration(audioUrl)
+
+    _durations[fields.audio.sys.id] = duration
+
+    contains.audio = true
+
+    if (fields?.project) {
+      const trackProject = fields.project[0]
+
+      if (trackProject?.fields?.colorFrom?.value) {
+        gradientFrom = trackProject.fields.colorFrom.value
+      }
+
+      if (trackProject?.fields?.colorTo?.value) {
+        gradientTo = trackProject.fields.colorTo.value
+      }
+    }
+
+    if (!scriptData?.tracks) {
+      scriptData.tracks = []
+    }
+
+    scriptData.tracks.push({
+      id,
+      title,
+      permalink,
+      item: null,
+      button: null,
+      url: `https:${audioUrl}`,
+      type: fields.audio.fields.file.contentType,
+      duration
+    })
+  }
+
   /* Navigations */
 
   const navs = navigations({
@@ -374,17 +413,18 @@ const _renderItem = async ({
   /* Hero */
 
   output += hero({
+    id,
+    contentType,
     title: fields.heroTitle || fields.title,
     text: fields.heroText,
     image: fields.heroImage ? fields.heroImage : false,
     index: fields.slug !== '',
-    breadcrumbs: navs.breadcrumbs || false
+    breadcrumbs: navs.breadcrumbs || false,
   })
 
   /* Content loop */
 
   const contentOutput = { html: '' }
-  const contains = {}
 
   let contentData = fields.content
 
@@ -492,8 +532,8 @@ const _renderItem = async ({
       output: layout({
         meta,
         gradients: gradients({
-          from: fields.colorFrom ? fields.colorFrom.value : '',
-          to: fields.colorTo ? fields.colorTo.value : ''
+          from: gradientFrom,
+          to: gradientTo
         }),
         content: `
           ${header(navs)}

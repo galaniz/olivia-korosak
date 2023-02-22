@@ -46,7 +46,6 @@ const httpError = (type = '404') => {
   const output = {
     container: container({
       args: {
-        tag: 'Div',
         maxWidth: '1300px',
         paddingTop: '80px',
         paddingTopLarge: '100px',

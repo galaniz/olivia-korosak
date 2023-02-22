@@ -4,14 +4,27 @@
 
 /* Imports */
 
-const { getSimilarIds } = require('../utils')
 const { enumOptions } = require('../vars/enums')
+const { slugData } = require('../vars/data')
+const { getSimilarIds, getSlug, getPermalink } = require('../utils')
 const container = require('./container')
 const content = require('./content')
 const richText = require('./rich-text')
 const posts = require('./posts')
+const caretSvg = require('./svg/caret')
 
-/* Function */
+/**
+ * Function - output additional content for single posts
+ *
+ * @param {object} args {
+ *  @prop {object} item
+ *  @prop {string} contentType
+ *  @prop {function} getContentfulData
+ *  @prop {object} contains
+ *  @prop {object} output
+ * }
+ * @return {void|boolean}
+ */
 
 const singleContent = async ({
   item,
@@ -34,7 +47,36 @@ const singleContent = async ({
 
   const display = contentType === 'track' ? 10 : 3
 
-  /* Similar projects */
+  /* Plural title */
+
+  const plural = slugData.bases[contentType].title
+
+  /* Archive link */
+
+  const allPermalink = getPermalink(
+    getSlug({
+      id: slugData.bases[contentType].archiveId,
+      slug: slugData.bases[contentType].slug,
+      contentType
+    })
+  )
+
+  const allLink = `
+    <div class="l-inline-flex l-align-center">
+      <span class="l-flex l-width-2xs l-height-2xs l-svg">
+        ${caretSvg('left')}
+      </span>
+      <span>
+        <a href="${allPermalink}" class="t t-weight-medium t-line-height-130-pc" data-inline>
+          All ${plural}
+        </a>
+      </span>
+    </div>
+  `
+
+  /* Similar content */
+
+  const similarTitle = `Similar ${plural}`
 
   let similar = ''
 
@@ -61,15 +103,50 @@ const singleContent = async ({
     })
   }
 
-  /* Project */
+  /* Track */
 
-  if (contentType === 'project') {
-    /* Containers */
-
+  if (contentType === 'track') {
     const contain = {
       container: container({
         args: {
-          tag: 'Div',
+          maxWidth: '1300px',
+          paddingBottom: '80px',
+          paddingBottomLarge: '120px',
+          gap: '60px',
+          gapLarge: '80px'
+        }
+      })
+    }
+
+    /* Similar tracks */
+
+    if (similar) {
+      similar = `
+        <div class="l-padding-left-4xl-l l-margin-bottom-2xs-all l-margin-bottom-s-all-m">
+          <h2 class="t-h4">${similarTitle}</h2>
+          ${similar}
+          <div class="e-underline l-padding-top-4xs">
+            ${allLink}
+          </div>
+        </div>
+      `
+    }
+
+    /* Output */
+
+    output.html = (
+      contain.container.start +
+      similar +
+      contain.container.end
+    )
+  }
+
+  /* Project */
+
+  if (contentType === 'project') {
+    const contain = {
+      container: container({
+        args: {
           maxWidth: '650px',
           paddingBottom: '80px',
           paddingBottomLarge: '120px'
@@ -127,7 +204,7 @@ const singleContent = async ({
 
       similar = (
         similarContain.container.start +
-        '<h2>Similar Projects</h2>' +
+        `<h2>${similarTitle}</h2>` +
         similar +
         similarContain.container.end
       )

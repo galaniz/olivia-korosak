@@ -80,7 +80,7 @@ const image = ({ args = {}, parents = [] }) => {
   /* Card wrapper */
 
   if (imageOutput && card) {
-    imageOutput = `<div class="l-relative l-overflow-hidden l-after bg-overlay l-order-first" data-overlay>${imageOutput}</div>`
+    imageOutput = `<div class="l-relative l-z-index--1 l-overflow-hidden l-after bg-overlay l-order-first" data-overlay>${imageOutput}</div>`
   }
 
   /* Output */
