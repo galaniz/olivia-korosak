@@ -68,6 +68,10 @@ const termData = {
 
 const navData = {}
 
+/* Duration data for json storage */
+
+const durationsData = {}
+
 /* Script data for front end */
 
 const scriptData = {}
@@ -136,6 +140,7 @@ module.exports = {
   slugData,
   termData,
   navData,
+  durationsData,
   scriptData,
   archiveData,
   jsonFileData,

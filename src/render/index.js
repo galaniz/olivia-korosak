@@ -6,9 +6,10 @@
 
 const { enumNamespace, enumOptions, enumContentTypes } = require('../vars/enums')
 const { getAllContentfulData, getSlug, getPermalink } = require('../utils')
-const { slugData, envData, navData, archiveData, termData, scriptData, jsonFileData } = require('../vars/data')
+const { slugData, envData, navData, durationsData, archiveData, termData, scriptData, jsonFileData } = require('../vars/data')
 const slugParentsJson = require('../json/slug-parents.json')
 const archiveIdsJson = require('../json/archive-ids.json')
+const durationsJson = require('../json/durations.json')
 const navDataJson = require('../json/nav-data.json')
 const comingSoon = require('./coming-soon')
 const singleContent = require('./single-content')
@@ -36,10 +37,6 @@ const { card } = require('./cards')
 /* Store slug data for json */
 
 const _slugs = {}
-
-/* Store audio durations for json */
-
-const _durations = {}
 
 /**
  * Function - recurse and output nested content
@@ -364,7 +361,7 @@ const _renderItem = async ({
     const audioUrl = fields.audio.fields.file.url
     const duration = await getAudioDuration(audioUrl)
 
-    _durations[fields.audio.sys.id] = duration
+    durationsData[fields.audio.sys.id] = duration
 
     contains.audio = true
 
@@ -666,6 +663,10 @@ const render = async ({
       navData.navs = navDataJson.navs
       navData.items = navDataJson.items
     }
+
+    if (durationsJson) {
+      durationsData = {...durationsJson}
+    }
   }
 
   /* 404 page */
@@ -718,7 +719,7 @@ const render = async ({
       jsonFileData.slugParents.data = slugData.parents
       jsonFileData.archiveIds.data = archiveData.ids
       jsonFileData.archiveCounts.data = archiveData.counts
-      jsonFileData.durations.data = _durations
+      jsonFileData.durations.data = durationsData
       jsonFileData.navData.data = navData
 
       jsonData = jsonFileData

@@ -15,10 +15,9 @@
 
 const { v4: uuidv4 } = require('uuid')
 const { getSlug, getPermalink, getDuration } = require('../utils')
-const { scriptData } = require('../vars/data')
+const { durationsData, scriptData } = require('../vars/data')
 const controlSvg = require('./svg/control')
 const caretSvg = require('./svg/caret')
-const durations = require('../json/durations.json')
 
 /* Comma separated links */
 
@@ -248,7 +247,7 @@ const tracks = async ({
 
     /* Duration */
 
-    const seconds = durations[audio.sys.id] || 0
+    const seconds = durationsData[audio.sys.id] || 0
 
     const duration = {
       seconds,
