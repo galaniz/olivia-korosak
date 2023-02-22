@@ -665,7 +665,9 @@ const render = async ({
     }
 
     if (durationsJson) {
-      durationsData = {...durationsJson}
+      Object.keys(durationsJson).forEach((d) => {
+        durationsData[d] = durationsJson[d]
+      })
     }
   }
 
