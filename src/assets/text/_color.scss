@@ -4,7 +4,8 @@
 
 /* Imports */
 
-@use "@alanizcreative/formation/src/text/color";
+@use "sass:color";
+@use "@alanizcreative/formation/src/text/color" as c;
 @use "@alanizcreative/formation/src/utils/functions" as func;
 
 /* Variables */
