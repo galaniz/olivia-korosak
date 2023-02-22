@@ -47,6 +47,18 @@ const singleContent = async ({
 
   const display = contentType === 'track' ? 10 : 3
 
+  /* Include in posts */
+
+  let include = []
+
+  if (contentType === 'track') {
+    include = ['projects', 'genres']
+  }
+
+  if (contentType === 'project') {
+    include = ['project-types']
+  }
+
   /* Plural title */
 
   const plural = slugData.bases[contentType].title
@@ -56,8 +68,7 @@ const singleContent = async ({
   const allPermalink = getPermalink(
     getSlug({
       id: slugData.bases[contentType].archiveId,
-      slug: slugData.bases[contentType].slug,
-      contentType
+      slug: slugData.bases[contentType].slug
     })
   )
 
@@ -76,7 +87,7 @@ const singleContent = async ({
 
   /* Similar content */
 
-  const similarTitle = `Similar ${plural}`
+  const similarTitle = `More ${plural}`
 
   let similar = ''
 
@@ -96,7 +107,8 @@ const singleContent = async ({
         ],
         order: 'rand',
         nothingFoundText: false,
-        columns: 3
+        columns: 3,
+        include
       },
       pageData: item,
       getContentfulData
