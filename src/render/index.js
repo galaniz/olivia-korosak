@@ -40,7 +40,7 @@ const _slugs = {}
 
 /**
  * Function - recurse and output nested content
- * 
+ *
  * @private
  * @param {object} args {
  *  @prop {array} contentData
@@ -212,7 +212,7 @@ const _renderContent = async ({
 
 /**
  * Function - output single post or page
- * 
+ *
  * @private
  * @param {object} args {
  *  @prop {object} item
@@ -416,7 +416,7 @@ const _renderItem = async ({
     text: fields.heroText,
     image: fields.heroImage ? fields.heroImage : false,
     index: fields.slug !== '',
-    breadcrumbs: navs.breadcrumbs || false,
+    breadcrumbs: navs.breadcrumbs || false
   })
 
   /* Content loop */

@@ -3,7 +3,7 @@
  */
 
 /**
- * Function - 
+ * Function -
  *
  * @param {object} navigations
  * @return {string} HTML - nav

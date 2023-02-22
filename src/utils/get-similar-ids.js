@@ -3,7 +3,7 @@
  */
 
 /**
- * Function - 
+ * Function -
  *
  * @param {object} args {
  *  @prop {string} contentType
@@ -56,7 +56,7 @@ const getSimilarIds = async ({
     'sys.id[ne]': id
   }
 
-  let queryArgs = {...queryArgsBase}
+  const queryArgs = { ...queryArgsBase }
 
   /* Store ids */
 
@@ -97,7 +97,7 @@ const getSimilarIds = async ({
   /* Track project fallback */
 
   if (contentType === 'track' && item.fields?.project && ids.length < display) {
-    let queryArgs = {...queryArgsBase}
+    const queryArgs = { ...queryArgsBase }
 
     const projects = item.fields.project.map((item) => {
       return item.sys.id
@@ -120,7 +120,7 @@ const getSimilarIds = async ({
   /* Output */
 
   if (ids.length > display) {
-    ids = [...ids].sort(() => 0.5 - Math.random()).slice(0, display);
+    ids = [...ids].sort(() => 0.5 - Math.random()).slice(0, display)
   }
 
   return ids

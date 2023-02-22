@@ -67,7 +67,7 @@ const _recurseEmailHtml = (data = {}, output = {}, depth = 1) => {
 
 /**
  * Send form function
- * 
+ *
  * @param {object} data {
  *  @param {string} id
  *  @param {array} inputs
@@ -114,7 +114,7 @@ const sendForm = async ({ id, inputs }) => {
 
   /* Sender email */
 
-  let senderEmail = meta?.fields?.senderEmail
+  const senderEmail = meta?.fields?.senderEmail
 
   if (!senderEmail) {
     return {
@@ -165,7 +165,7 @@ const sendForm = async ({ id, inputs }) => {
 
     /* Reply to email */
 
-    if ('email' === inputType && inputValue) {
+    if (inputType === 'email' && inputValue) {
       replyToEmail = inputValue
       inputValue = `<a href='mailto:${inputValue}'>${inputValue}</a>`
     }

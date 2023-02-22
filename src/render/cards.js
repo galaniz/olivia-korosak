@@ -281,11 +281,11 @@ const card = ({ args = {} }) => {
 }
 
 /**
- * 
+ *
  */
 
 const cards = {
-  render(content) {
+  render (content) {
     const cardsContainer = container({
       args: {
         tag: 'Unordered List',
@@ -301,7 +301,7 @@ const cards = {
       cardsContainer.end
     )
   },
-  renderCard(args) {
+  renderCard (args) {
     return _card(args)
   }
 }
