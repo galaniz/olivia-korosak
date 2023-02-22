@@ -183,6 +183,12 @@ const enumOptions = {
       Genre: 'genre',
       None: ''
     },
+    contentTypeReverse: {
+      project: 'Project',
+      projectType: 'Project Type',
+      track: 'Track',
+      genre: 'Genre'
+    },
     headingLevel: {
       'Heading Two': 'heading-2',
       'Heading Three': 'heading-3',

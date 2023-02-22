@@ -1,14 +1,16 @@
 /**
- * Render: breadcrumbs
+ * Render - breadcrumbs
+ */
+
+/**
+ * Function -
  *
  * @param {object} navigations
  * @return {string} HTML - nav
  */
 
-/* Function */
-
 const breadcrumbs = (navigations = {}) => {
-  /* Breadcrumsb output required */
+  /* Breadcrumbs output required */
 
   if (!navigations?.breadcrumbs) {
     return ''

@@ -62,8 +62,8 @@ module.exports = (config) => {
       target: 'es6',
       external: ['*.woff', '*.woff2'],
       plugins: [sassPlugin({
-        async transform(source) {
-          const {css} = await postcss(
+        async transform (source) {
+          const { css } = await postcss(
             [
               autoprefixer,
               postcssPresetEnv({

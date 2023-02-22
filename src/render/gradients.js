@@ -21,9 +21,10 @@ const gradients = ({ from = '', to = '', type = 'page', bottom = true }) => {
     return ''
   }
 
-  const colorFrom = getRgba(from)
+  const colorFrom = getRgba(from, 1)
+  const colorBetween = getRgba(to, 0.25)
   const colorTo = getRgba(to, 0)
-  const style = `style="--from:${colorFrom};--to:${colorTo}"`
+  const style = `style="--from:${colorFrom};--to:${colorTo}${type === 'page' ? `;--between:${colorBetween}` : ''}"`
 
   if (type === 'card') {
     return `

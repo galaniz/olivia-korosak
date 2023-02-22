@@ -45,21 +45,23 @@ const httpError = (type = '404') => {
 
   const output = {
     container: container({
-      tag: 'Div',
-      Column: 'Block',
-      maxWidth: '1300px',
-      paddingTop: '80px',
-      paddingTopLarge: '100px',
-      paddingBottom: '100px',
-      paddingBottomLarge: '120px',
-      gap: '10px',
-      gapLarge: '15px'
+      args: {
+        maxWidth: '1300px',
+        paddingTop: '80px',
+        paddingTopLarge: '100px',
+        paddingBottom: '100px',
+        paddingBottomLarge: '120px',
+        gap: '10px',
+        gapLarge: '15px'
+      }
     }),
     button: button({
-      title: 'Back to Homepage',
-      type: 'Secondary',
-      paddingTop: '20px',
-      link: getPermalink()
+      args: {
+        title: 'Back to Homepage',
+        type: 'Secondary',
+        paddingTop: '20px',
+        link: getPermalink()
+      }
     })
   }
 

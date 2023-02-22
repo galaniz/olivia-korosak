@@ -1,30 +1,23 @@
 /**
  * Render
- *
- * @param {object} args {
- *  @param {object} serverlessData
- *  @param {object} env
- *  @param {function} onRenderEnd
- *  @param {function} getAudioDuration
- * }
- * @return {array}
  */
 
 /* Imports */
 
 const { enumNamespace, enumOptions, enumContentTypes } = require('../vars/enums')
 const { getAllContentfulData, getSlug, getPermalink } = require('../utils')
-const { slugData, envData, navData, archiveData, termData, scriptData, jsonFileData } = require('../vars/data')
+const { slugData, envData, navData, durationsData, archiveData, termData, scriptData, jsonFileData } = require('../vars/data')
 const slugParentsJson = require('../json/slug-parents.json')
 const archiveIdsJson = require('../json/archive-ids.json')
+const durationsJson = require('../json/durations.json')
 const navDataJson = require('../json/nav-data.json')
 const comingSoon = require('./coming-soon')
+const singleContent = require('./single-content')
 const layout = require('./layout')
 const header = require('./header')
 const breadcrumbs = require('./breadcrumbs')
 const footer = require('./footer')
 const button = require('./button')
-const card = require('./card')
 const column = require('./column')
 const container = require('./container')
 const content = require('./content')
@@ -39,16 +32,28 @@ const hero = require('./hero')
 const gradients = require('./gradients')
 const audio = require('./audio')
 const httpError = require('./http-error')
+const { card } = require('./cards')
 
 /* Store slug data for json */
 
 const _slugs = {}
 
-/* Store audio durations for json */
-
-const _durations = {}
-
-/* Recurse and render nested content */
+/**
+ * Function - recurse and output nested content
+ *
+ * @private
+ * @param {object} args {
+ *  @prop {array} contentData
+ *  @prop {object} output
+ *  @prop {array} parents
+ *  @prop {object} pageData
+ *  @prop {object} contains
+ *  @prop {object} serverlessData
+ *  @prop {function} getContentfulData
+ *  @prop {object} navs
+ * }
+ * @return {void}
+ */
 
 const _renderContent = async ({
   contentData = [],
@@ -205,7 +210,19 @@ const _renderContent = async ({
   }
 }
 
-/* Render page */
+/**
+ * Function - output single post or page
+ *
+ * @private
+ * @param {object} args {
+ *  @prop {object} item
+ *  @prop {string} contentType
+ *  @prop {object} serverlessData
+ *  @prop {function} getAudioDuration
+ *  @prop {function} getContentfulData
+ * }
+ * @return {object}
+ */
 
 const _renderItem = async ({
   item = {},
@@ -288,13 +305,9 @@ const _renderItem = async ({
     fields.content = postsContent
   }
 
-  /* Get durations for audio */
+  /* Store if contains components like audio  */
 
-  if (contentType === 'track' && audio && !serverlessData) {
-    const duration = await getAudioDuration(fields.audio.fields.file.url)
-
-    _durations[fields.audio.sys.id] = duration
-  }
+  const contains = {}
 
   /* Meta */
 
@@ -337,6 +350,49 @@ const _renderItem = async ({
     id
   }
 
+  /* Gradient from and to */
+
+  let gradientFrom = fields.colorFrom ? fields.colorFrom.value : ''
+  let gradientTo = fields.colorTo ? fields.colorTo.value : ''
+
+  /* Get durations for audio and set track data for front end */
+
+  if (contentType === 'track' && audio && !serverlessData) {
+    const audioUrl = fields.audio.fields.file.url
+    const duration = await getAudioDuration(audioUrl)
+
+    durationsData[fields.audio.sys.id] = duration
+
+    contains.audio = true
+
+    if (fields?.project) {
+      const trackProject = fields.project[0]
+
+      if (trackProject?.fields?.colorFrom?.value) {
+        gradientFrom = trackProject.fields.colorFrom.value
+      }
+
+      if (trackProject?.fields?.colorTo?.value) {
+        gradientTo = trackProject.fields.colorTo.value
+      }
+    }
+
+    if (!scriptData?.tracks) {
+      scriptData.tracks = []
+    }
+
+    scriptData.tracks.push({
+      id,
+      title,
+      permalink,
+      item: null,
+      button: null,
+      url: `https:${audioUrl}`,
+      type: fields.audio.fields.file.contentType,
+      duration
+    })
+  }
+
   /* Navigations */
 
   const navs = navigations({
@@ -354,6 +410,8 @@ const _renderItem = async ({
   /* Hero */
 
   output += hero({
+    id,
+    contentType,
     title: fields.heroTitle || fields.title,
     text: fields.heroText,
     image: fields.heroImage ? fields.heroImage : false,
@@ -364,7 +422,6 @@ const _renderItem = async ({
   /* Content loop */
 
   const contentOutput = { html: '' }
-  const contains = {}
 
   let contentData = fields.content
 
@@ -400,28 +457,15 @@ const _renderItem = async ({
     })
   }
 
-  let contentBefore = ''
-  let contentAfter = ''
+  await singleContent({
+    item,
+    contentType,
+    getContentfulData,
+    output: contentOutput,
+    contains
+  })
 
-  if (contentType === 'project') {
-    const projectContain = {
-      container: container({
-        tag: 'Div',
-        Column: 'Block',
-        maxWidth: '650px',
-        paddingBottom: '80px',
-        paddingBottomLarge: '120px'
-      }),
-      content: content({
-        richTextStyles: true
-      })
-    }
-
-    contentBefore = projectContain.container.start + projectContain.content.start
-    contentAfter = projectContain.container.end + projectContain.content.end
-  }
-
-  output += contentBefore + contentOutput.html + contentAfter
+  output += contentOutput.html
 
   /* Prev next pagination - end for pagination update from posts */
 
@@ -485,8 +529,8 @@ const _renderItem = async ({
       output: layout({
         meta,
         gradients: gradients({
-          from: fields.colorFrom ? fields.colorFrom.value : '',
-          to: fields.colorTo ? fields.colorTo.value : ''
+          from: gradientFrom,
+          to: gradientTo
         }),
         content: `
           ${header(navs)}
@@ -501,7 +545,18 @@ const _renderItem = async ({
   }
 }
 
-/* Function */
+/**
+ * Function - loop through all content types to output pages and posts
+ *
+ * @param {object} args {
+ *  @prop {object} serverlessData
+ *  @prop {object} env
+ *  @prop {function} onRenderEnd
+ *  @prop {function} getAudioDuration
+ *  @prop {function} getContentfulData
+ * }
+ * @return {array|object}
+ */
 
 const render = async ({
   serverlessData,
@@ -608,6 +663,12 @@ const render = async ({
       navData.navs = navDataJson.navs
       navData.items = navDataJson.items
     }
+
+    if (durationsJson) {
+      Object.keys(durationsJson).forEach((d) => {
+        durationsData[d] = durationsJson[d]
+      })
+    }
   }
 
   /* 404 page */
@@ -660,7 +721,7 @@ const render = async ({
       jsonFileData.slugParents.data = slugData.parents
       jsonFileData.archiveIds.data = archiveData.ids
       jsonFileData.archiveCounts.data = archiveData.counts
-      jsonFileData.durations.data = _durations
+      jsonFileData.durations.data = durationsData
       jsonFileData.navData.data = navData
 
       jsonData = jsonFileData

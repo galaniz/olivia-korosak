@@ -1,23 +1,30 @@
 /**
- * Render: hero
- *
- * @param {object} args {
- *  @param {string} title
- *  @param {string} text
- *  @param {object} image
- *  @param {boolean} index
- *  @param {boolean} breadcrumbs
- * }
- * @return {string} HTML - section
+ * Render - hero
  */
 
 /* Imports */
 
 const { getImage } = require('../utils')
+const controlSvg = require('./svg/control')
 
-/* Function */
+/**
+ * Function -
+ *
+ * @param {object} args {
+ *  @prop {string} id
+ *  @prop {string} contentType
+ *  @prop {string} title
+ *  @prop {string} text
+ *  @prop {object} image
+ *  @prop {boolean} index
+ *  @prop {boolean} breadcrumbs
+ * }
+ * @return {string} HTML - section
+ */
 
 const hero = ({
+  id = '',
+  contentType = 'page',
   title = '',
   text = '',
   image = {},
@@ -65,10 +72,28 @@ const hero = ({
 
   /* Text */
 
-  const textOutput = `
+  let textOutput = `
     <h1 class="l-margin-0">${title}</h1>
     ${text ? `<p class="t-m l-margin-0 l-padding-top-4xs l-padding-top-3xs-m">${text}</p>` : ''}
   `
+
+  /* Track */
+
+  if (contentType === 'track') {
+    textOutput = `
+      <div class="l-flex l-flex-column l-flex-row-l l-gap-margin-s l-gap-margin-m-l" id=${id}>
+        <div>
+          <button type="button" id="b-${id}" class="o-play l-width-xl l-height-xl l-width-2xl-m l-height-2xl-m l-svg t-foreground-base bg-background-light b-radius-100-pc" aria-label="Play ${title}" data-state="play">
+            ${controlSvg('play')}
+            ${controlSvg('pause')}
+          </button>
+        </div>
+        <div>
+          ${textOutput}
+        </div>
+      </div>
+    `
+  }
 
   /* Main output */
 

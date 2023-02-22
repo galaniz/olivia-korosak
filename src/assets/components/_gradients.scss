@@ -13,8 +13,13 @@
   &::after {
     @extend %u-border-radius-100-pc;
 
-    background: radial-gradient(50% 50% at 50% 50%, rgba(var(--from)), rgba(var(--to)));
     height: 100vw;
+    background: radial-gradient(
+      50% 50% at 50% 50%,
+      rgba(var(--from)) 0%,
+      rgba(var(--between)) 75%, /* Hack to blend into a different color */
+      rgba(var(--to)) 100%
+    );
   }
 
   &::before {
@@ -30,5 +35,6 @@
     top: auto;
     max-height: 23.5rem;
     transform: scale(2) translate(50%, 50%);
+    opacity: 0.5;
   }
 }

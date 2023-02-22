@@ -1,239 +1,36 @@
 /**
- * Render: posts
- *
- * @param {object} args {
- *  @param {string} contentType
- *  @param {integer} display
- *  @param {string} headingLevel
- *  @param {boolean} pagination
- *  @param {array} filters
- *  @param {array} include
- *  @param {string} archiveType
- * }
- * @return {string}
+ * Render - posts
  */
 
 /* Imports */
 
 const escape = require('validator/lib/escape.js')
-const { getSlug, getPermalink } = require('../utils')
 const { enumOptions } = require('../vars/enums')
 const { archiveData, termData, slugData } = require('../vars/data')
-const container = require('./container')
-const column = require('./column')
-const card = require('./card')
-const image = require('./image')
-const gradients = require('./gradients')
-const content = require('./content')
-const richText = require('./rich-text')
+const { cards } = require('./cards')
 const tracks = require('./tracks')
 const info = require('./info')
 const caretSvg = require('./svg/caret')
 
-/* Output card */
-
-const _renderCard = ({
-  item,
-  headingLevel,
-  contentType,
-  includeProjectTypes = false,
-  isTerm = false
-}) => {
-  const {
-    title = '',
-    slug = '',
-    heroImage = false,
-    cardFrom,
-    cardTo,
-    projectType
-  } = item.fields
-
-  /* Store */
-
-  let output = ''
-  let projectTypes = ''
-  let text = ''
-
-  /* Content classes */
-
-  let contentClasses = 'l-flex l-flex-column l-flex-grow-1'
-
-  if (!heroImage) {
-    contentClasses += ' l-isolate l-padding-top-s l-padding-bottom-s l-padding-left-s l-padding-right-s'
-  }
-
-  /* Containers */
-
-  const containers = {
-    column: column({
-      tag: 'List Item',
-      widthSmall: '1/2',
-      widthMedium: '1/3',
-      widthLarge: '1/4',
-      classes: 'l-flex l-flex-column'
-    }),
-    card: card({
-      gap: heroImage ? '15px' : 'none'
-    }),
-    content: content({
-      gap: '5px',
-      gapLarge: '10px',
-      richTextStyles: false,
-      classes: contentClasses
-    })
-  }
-
-  /* Parents */
-
-  const parents = [
-    {
-      type: 'content',
-      fields: {
-        textStyle: 'Extra Small',
-        headingStyle: 'Heading Four'
-      }
-    },
-    {
-      type: 'card',
-      fields: {
-        internalLink: item
-      }
-    }
-  ]
-
-  /* Heading */
-
-  const heading = richText({
-    type: headingLevel,
-    content: [
-      {
-        nodeType: 'text',
-        value: title
-      }
-    ],
-    parents
-  })
-
-  /* Project types text */
-
-  if (includeProjectTypes && projectType) {
-    projectTypes = projectType.map(pt => {
-      const projectTypeTitle = pt?.fields?.title || ''
-      const projectTypeSlug = pt?.fields?.slug || ''
-
-      if (!projectTypeSlug) {
-        return {
-          nodeType: 'text',
-          value: ''
-        }
-      }
-
-      const projectTypePermalink = getPermalink(
-        getSlug({
-          id: pt.sys.id,
-          contentType: 'projectType',
-          slug: projectTypeSlug
-        })
-      )
-
-      return {
-        nodeType: 'hyperlink',
-        data: {
-          uri: projectTypePermalink
-        },
-        content: [
-          {
-            nodeType: 'text',
-            value: projectTypeTitle
-          }
-        ]
-      }
-    })
-
-    const projectTypesLength = projectTypes.length
-
-    for (let i = 0; i < projectTypesLength; i++) {
-      if (i !== projectTypesLength - 1) {
-        projectTypes.splice(i + 1, 0, {
-          nodeType: 'text',
-          value: ', '
-        })
-      }
-    }
-
-    text = richText({
-      type: 'paragraph',
-      content: projectTypes,
-      parents,
-      classes: 't-xs t-line-height-130-pc l-relative l-margin-top-auto e-underline-reverse e-underline-thin'
-    })
-  }
-
-  /* Count text */
-
-  if (isTerm) {
-    const count = archiveData.counts[slug] || 0
-    const label = count === 1 ? termData[contentType].count.singular : termData[contentType].count.title
-
-    text = richText({
-      type: 'paragraph',
-      content: [
-        {
-          nodeType: 'text',
-          value: `${count} ${label}`
-        }
-      ],
-      parents,
-      classes: 't-xs t-number-normal'
-    })
-  }
-
-  /* Gradient */
-
-  if (!heroImage) {
-    output += gradients({
-      from: cardFrom?.value || '#4e515f',
-      to: cardTo?.value || '#534e5f',
-      type: 'card'
-    })
-  }
-
-  /* Content output */
-
-  output += (
-    containers.content.start +
-    heading +
-    text +
-    containers.content.end
-  )
-
-  /* Image */
-
-  if (heroImage) {
-    output += image(
-      {
-        image: heroImage
-      },
-      [
-        {
-          type: 'card'
-        }
-      ]
-    )
-  }
-
-  /* Output */
-
-  return (
-    containers.column.start +
-    containers.card.start +
-    output +
-    containers.card.end +
-    containers.column.end
-  )
-}
-
-/* Function */
+/**
+ * Function - output posts
+ *
+ * @param {object} args {
+ *  @prop {string} contentType
+ *  @prop {integer} display
+ *  @prop {string} headingLevel
+ *  @prop {boolean} pagination
+ *  @prop {array} filters
+ *  @prop {array} include
+ *  @prop {string} archiveType
+ *  @prop {boolean} nothingFoundText
+ *  @prop {number} columns
+ *  @prop {string} order
+ * }
+ * @param {object} pageData
+ * @param {function} getContentfulData
+ * @return {string} - HTML
+ */
 
 const posts = async ({
   args = {},
@@ -243,12 +40,15 @@ const posts = async ({
 }) => {
   let {
     contentType = 'Project', // enumOptions.posts.contentType
-    display = 1,
+    display,
     headingLevel = 'Heading Three', // enumOptions.posts.headingLevel
     pagination = false,
     filters = [],
     include = [],
-    archiveType
+    archiveType,
+    nothingFoundText = true, // Display nothing found message
+    columns = 4, // Card layout
+    order = 'date'
   } = args
 
   /* Normalize options */
@@ -281,11 +81,14 @@ const posts = async ({
 
   const queryArgs = {
     content_type: contentType,
-    limit: display,
     include: 10
   }
 
-  if (contentType === 'project' || contentType === 'track') {
+  if (display) {
+    queryArgs.limit = display
+  }
+
+  if ((contentType === 'project' || contentType === 'track') && order === 'date') {
     queryArgs.order = '-fields.date'
   }
 
@@ -392,12 +195,13 @@ const posts = async ({
         let itemOutput = ''
 
         if (layout === 'card') {
-          itemOutput = _renderCard({
+          itemOutput = cards.renderCard({
             item,
             headingLevel,
             contentType,
             includeProjectTypes,
-            isTerm
+            isTerm,
+            columns
           })
         }
 
@@ -617,26 +421,14 @@ const posts = async ({
     output = output.length ? output.join('') : ''
 
     if (output && layout === 'card') {
-      const insertContainer = container({
-        tag: 'Unordered List',
-        layout: 'Row',
-        gap: '40px',
-        classes: 'l-gap-margin-xl-v-s'
-      })
-
-      output = (
-        insertContainer.start +
-        output +
-        insertContainer.end +
-        paginationOutput
-      )
+      output = cards.render(output) + paginationOutput
     }
 
     if (output && layout === 'tracks') {
       output = output + paginationOutput
     }
 
-    if (!output) {
+    if (!output && nothingFoundText) {
       return info(`Looks like no ${slugData.bases[contentType].title.toLowerCase()} were found.`)
     }
 

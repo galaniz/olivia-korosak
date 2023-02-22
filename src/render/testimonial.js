@@ -15,11 +15,13 @@ const quoteSvg = require('./svg/quote')
 
 /* Function */
 
-const testimonial = ({
-  quote = '',
-  title = '',
-  info = ''
-}) => {
+const testimonial = ({ args = {} }) => {
+  const {
+    quote = '',
+    title = '',
+    info = ''
+  } = args
+
   /* Quote and title required */
 
   if (!quote || !title) {
