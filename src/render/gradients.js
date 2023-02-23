@@ -8,7 +8,7 @@ const { getRgba } = require('../utils')
 
 /**
  * Function - output gradients for page or card
- * 
+ *
  * @param {object} args {
  *  @prop {string} from
  *  @prop {string} to

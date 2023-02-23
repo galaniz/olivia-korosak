@@ -10,7 +10,7 @@ const logoSvg = require('./svg/logo')
 
 /**
  * Function - output header
- * 
+ *
  * @param {object} navigations
  * @return {string} HTML - header
  */

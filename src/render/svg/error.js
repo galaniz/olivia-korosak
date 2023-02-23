@@ -4,7 +4,7 @@
 
 /**
  * Function - output svg for error icon
- * 
+ *
  * @return {string} HTML - svg
  */
 

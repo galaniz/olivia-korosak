@@ -9,7 +9,7 @@ const { enumOptions } = require('../vars/enums')
 
 /**
  * Function - output checkbox and radio inputs from options
- * 
+ *
  * @private
  * @param {object} args {
  *  @prop {array<object>} opts
@@ -52,7 +52,7 @@ const _getCheckboxRadioOpts = (args = {}) => {
 
 /**
  * Function - output form field
- * 
+ *
  * @param {object} args {
  *  @prop {string} type
  *  @prop {string} name

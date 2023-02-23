@@ -8,7 +8,7 @@ const { slugData } = require('../vars/data')
 
 /**
  * Function - recurse to get ascendents
- * 
+ *
  * @private
  * @param {string} id
  * @param {array} p
@@ -25,7 +25,7 @@ const _getParentSlug = (id = '', p = []) => {
 
 /**
  * Function - get slug with base from slug base and parents
- * 
+ *
  * @param {object} args {
  *  @prop {string} id
  *  @prop {string} slug

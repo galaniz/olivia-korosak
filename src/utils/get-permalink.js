@@ -8,7 +8,7 @@ const { envData } = require('../vars/data')
 
 /**
  * Function - get absolute or relative url
- * 
+ *
  * @param {string} slug
  * @param {boolean} trailingSlash
  * @return {string}

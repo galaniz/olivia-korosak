@@ -4,7 +4,7 @@
 
 /**
  * Function - output svg for logo
- * 
+ *
  * @return {string} HTML - svg
  */
 

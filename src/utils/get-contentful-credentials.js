@@ -8,7 +8,7 @@ const { envData } = require('../vars/data')
 
 /**
  * Function - get space, access token and host information
- * 
+ *
  * @return {object}
  */
 

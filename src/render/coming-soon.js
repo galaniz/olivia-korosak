@@ -12,7 +12,7 @@ const logoSvg = require('./svg/logo')
 
 /**
  * Function - output coming soon page
- * 
+ *
  * @return {string} HTML - html
  */
 

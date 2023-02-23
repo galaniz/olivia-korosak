@@ -4,7 +4,7 @@
 
 /**
  * Function - output svg for quotemark
- * 
+ *
  * @return {string} HTML - svg
  */
 

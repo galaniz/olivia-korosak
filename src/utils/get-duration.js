@@ -4,7 +4,7 @@
 
 /**
  * Function - get seconds as text
- * 
+ *
  * @param {number} seconds
  * @param {boolean} words
  * @return {string}

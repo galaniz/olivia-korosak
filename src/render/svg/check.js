@@ -4,7 +4,7 @@
 
 /**
  * Function - output svg for checkmark
- * 
+ *
  * @return {string} HTML - svg
  */
 

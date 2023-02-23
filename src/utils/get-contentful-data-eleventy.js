@@ -12,7 +12,7 @@ const { envData } = require('../vars/data')
 
 /**
  * Function - fetch data from cache if available
- * 
+ *
  * @param {string} key
  * @param {object} params
  * @return {object}

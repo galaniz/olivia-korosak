@@ -4,7 +4,7 @@
 
 /**
  * Function - output svg for down, left and right caret
- * 
+ *
  * @param {string} direction
  * @return {string} HTML - svg
  */

@@ -8,7 +8,7 @@ const { enumOptions } = require('../vars/enums')
 
 /**
  * Function - output container wrapper
- * 
+ *
  * @param {object} args {
  *  @prop {string} tag
  *  @prop {string} layout

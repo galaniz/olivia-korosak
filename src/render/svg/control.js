@@ -4,7 +4,7 @@
 
 /**
  * Function - output svg for play, pause, play next and play previous icons
- * 
+ *
  * @param {string} type
  * @return {string} HTML - svg
  */

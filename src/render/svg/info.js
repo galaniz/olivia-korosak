@@ -4,7 +4,7 @@
 
 /**
  * Function - output svg for info icon
- * 
+ *
  * @return {string} HTML - svg
  */
 

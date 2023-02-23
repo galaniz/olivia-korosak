@@ -11,7 +11,7 @@ const loader = require('./loader')
 
 /**
  * Function - output form wrapper
- * 
+ *
  * @param {object} args {
  *  @prop {string} subject
  *  @prop {string} submitLabel

@@ -4,7 +4,7 @@
 
 /**
  * Function - output svg for x icon
- * 
+ *
  * @return {string} HTML - svg
  */
 

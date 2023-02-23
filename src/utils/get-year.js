@@ -4,7 +4,7 @@
 
 /**
  * Function - get current year as YYYY
- * 
+ *
  * @return {number}
  */
 

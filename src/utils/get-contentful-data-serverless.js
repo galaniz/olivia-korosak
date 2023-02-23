@@ -9,7 +9,7 @@ const getContentfulCredentials = require('./get-contentful-credentials')
 
 /**
  * Function - fetch data serverside
- * 
+ *
  * @param {string} key
  * @param {object} params
  * @return {object}

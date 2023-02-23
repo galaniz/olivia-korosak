@@ -115,7 +115,7 @@ const _alphaCodes = {
 
 /**
  * Function - get rgba from hex color string
- * 
+ *
  * @param {string} hex
  * @param {float} alpha
  * @return {string}

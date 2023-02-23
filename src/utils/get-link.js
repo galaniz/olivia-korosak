@@ -9,7 +9,7 @@ const getSlug = require('./get-slug')
 
 /**
  * Function - get permalink from external or internal source
- * 
+ *
  * @param {object} internalLink
  * @param {string} externalLink
  * @return {string|object}

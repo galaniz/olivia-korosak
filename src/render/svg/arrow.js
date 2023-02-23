@@ -4,7 +4,7 @@
 
 /**
  * Function - output svg for down arrow
- * 
+ *
  * @return {string} HTML - svg
  */
 

@@ -4,7 +4,7 @@
 
 /**
  * Function - output svg for social icons
- * 
+ *
  * @param {string} type
  * @return {string} HTML - svg
  */

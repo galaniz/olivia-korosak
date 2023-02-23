@@ -4,7 +4,7 @@
 
 /**
  * Function - get responsive image output
- * 
+ *
  * @param {object} args {
  *  @prop {object} data
  *  @prop {string} classes
