@@ -13,6 +13,7 @@ const durationsJson = require('../json/durations.json')
 const navDataJson = require('../json/nav-data.json')
 const comingSoon = require('./coming-soon')
 const singleContent = require('./single-content')
+const termContent = require('./term-content')
 const layout = require('./layout')
 const header = require('./header')
 const breadcrumbs = require('./breadcrumbs')
@@ -34,7 +35,11 @@ const audio = require('./audio')
 const httpError = require('./http-error')
 const { card } = require('./cards')
 
-/* Store slug data for json */
+/**
+ * Store slug data for json
+ *
+ * @type {object}
+ */
 
 const _slugs = {}
 
@@ -218,7 +223,6 @@ const _renderContent = async ({
  *  @prop {object} item
  *  @prop {string} contentType
  *  @prop {object} serverlessData
- *  @prop {function} getAudioDuration
  *  @prop {function} getContentfulData
  * }
  * @return {object}
@@ -228,7 +232,6 @@ const _renderItem = async ({
   item = {},
   contentType = 'page',
   serverlessData,
-  getAudioDuration,
   getContentfulData
 }) => {
   /* Serverless render check */
@@ -238,6 +241,10 @@ const _renderItem = async ({
   /* Item id */
 
   const id = item.sys.id
+
+  /* Add posts for terms - project type and genre */
+
+  termContent({ item, contentType })
 
   /* Item fields */
 
@@ -256,54 +263,6 @@ const _renderItem = async ({
     metaImage: false,
     audio: false
   }, item.fields)
-
-  /* Add posts for terms - project type and genre */
-
-  if (contentType === 'projectType' || contentType === 'genre') {
-    const postsContent = [
-      {
-        sys: {
-          contentType: {
-            sys: {
-              id: 'section'
-            }
-          }
-        },
-        fields: {
-          tag: 'Div',
-          layout: 'Column',
-          maxWidth: '1300px',
-          paddingBottom: '80px',
-          paddingBottomLarge: '120px',
-          content: [
-            {
-              sys: {
-                contentType: {
-                  sys: {
-                    id: 'posts'
-                  }
-                }
-              },
-              fields: {
-                archiveType: fields.slug,
-                contentType: termData[contentType].contentType,
-                display: termData[contentType].display,
-                headingLevel: 'Heading Two',
-                pagination: true,
-                filters: [
-                  `fields.${termData[contentType].field}.sys.id:${item.sys.id}`
-                ],
-                include: termData[contentType].include
-              }
-            }
-          ]
-        }
-      }
-    ]
-
-    item.fields.content = postsContent
-    fields.content = postsContent
-  }
 
   /* Store if contains components like audio  */
 
@@ -355,14 +314,9 @@ const _renderItem = async ({
   let gradientFrom = fields.colorFrom ? fields.colorFrom.value : ''
   let gradientTo = fields.colorTo ? fields.colorTo.value : ''
 
-  /* Get durations for audio and set track data for front end */
+  /* Set single track data for front end */
 
-  if (contentType === 'track' && audio && !serverlessData) {
-    const audioUrl = fields.audio.fields.file.url
-    const duration = await getAudioDuration(audioUrl)
-
-    durationsData[fields.audio.sys.id] = duration
-
+  if (contentType === 'track' && fields.audio && !serverlessData) {
     contains.audio = true
 
     if (fields?.project) {
@@ -387,9 +341,9 @@ const _renderItem = async ({
       permalink,
       item: null,
       button: null,
-      url: `https:${audioUrl}`,
+      url: `https:${fields.audio.fields.file.url}`,
       type: fields.audio.fields.file.contentType,
-      duration
+      duration: durationsData[fields.audio.sys.id]
     })
   }
 
@@ -614,7 +568,7 @@ const render = async ({
 
   const serverlessRoutes = []
 
-  /* Loop through pages first to set parent slugs */
+  /* Loop through pages first to set parent slugs and tracks for durations */
 
   if (!serverlessData) {
     content.page.forEach(item => {
@@ -644,6 +598,18 @@ const render = async ({
         }
       }
     })
+
+    for (let i = 0; i < content.track.length; i++) {
+      const item = content.track[i]
+
+      if (item?.fields?.audio) {
+        const audio = item.fields.audio;
+        const audioUrl = audio.fields.file.url
+        const duration = await getAudioDuration(audioUrl)
+
+        durationsData[audio.sys.id] = duration
+      }
+    }
   } else {
     if (slugParentsJson) {
       Object.keys(slugParentsJson).forEach((s) => {
@@ -692,7 +658,6 @@ const render = async ({
         item: content[contentType][i],
         contentType,
         serverlessData,
-        getAudioDuration,
         getContentfulData
       })
 

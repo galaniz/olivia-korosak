@@ -39,6 +39,10 @@ const hero = ({
 
   let container = 'default'
 
+  /* Full width container */
+
+  let fullWidth = false
+
   /* Padding */
 
   let padding = 'l-padding-top-xl l-padding-bottom-2xl l-padding-top-2xl-m l-padding-bottom-3xl-m'
@@ -80,6 +84,8 @@ const hero = ({
   /* Track */
 
   if (contentType === 'track') {
+    fullWidth = true
+
     textOutput = `
       <div class="l-flex l-flex-column l-flex-row-l l-gap-margin-s l-gap-margin-m-l" id=${id}>
         <div>
@@ -112,9 +118,9 @@ const hero = ({
     `
   } else {
     output = `
-      <div class="l-width-2-3-m">
+      ${fullWidth ? '' : '<div class="l-width-2-3-m">'}
         ${textOutput}
-      </div>
+      ${fullWidth ? '' : '</div>'}
     `
   }
 
