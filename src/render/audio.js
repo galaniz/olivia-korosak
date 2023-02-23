@@ -1,7 +1,5 @@
 /**
- * Render: audio player
- *
- * @return {string} HTML - div
+ * Render - audio
  */
 
 /* Imports */
@@ -10,7 +8,11 @@ const controlSvg = require('./svg/control')
 const closeSvg = require('./svg/close')
 const errorSvg = require('./svg/error')
 
-/* Function */
+/**
+ * Function - output audio player
+ *
+ * @return {string} HTML - div
+ */
 
 const audio = () => {
   return `
@@ -27,14 +29,14 @@ const audio = () => {
             <div class="l-flex l-align-center l-gap-margin-3xs l-gap-margin-s-m outline-snug">
               <div>
                 <div class="c-audio__offset l-flex l-align-center">
-                  <button type="button" class="c-audio__prev l-width-r l-height-r l-svg b-radius-100-pc e-bg-foreground-base-12" aria-label="Previous track">
+                  <button type="button" class="c-audio__prev l-width-r l-height-r l-svg b-radius-100-pc t-foreground-base e-bg-foreground-base-12" aria-label="Previous track">
                     ${controlSvg('playPrev')}
                   </button>
-                  <button type="button" class="c-audio__play o-play l-width-l l-height-l l-svg b-radius-100-pc e-bg-foreground-base-12" aria-label="Play" data-state="play">
+                  <button type="button" class="c-audio__play o-play l-width-l l-height-l l-svg b-radius-100-pc t-foreground-base e-bg-foreground-base-12" aria-label="Play" data-state="play">
                     ${controlSvg('play')}
                     ${controlSvg('pause')}
                   </button>
-                  <button type="button" class="c-audio__next l-width-r l-height-r l-svg b-radius-100-pc e-bg-foreground-base-12" aria-label="Next track">
+                  <button type="button" class="c-audio__next l-width-r l-height-r l-svg b-radius-100-pc t-foreground-base e-bg-foreground-base-12" aria-label="Next track">
                     ${controlSvg('playNext')}
                   </button>
                 </div>
@@ -82,7 +84,7 @@ const audio = () => {
           </div>
         </div>
       </div>
-      <button type="button" class="c-audio__close l-absolute l-right-0 l-top-0 l-z-index-1 l-width-xs l-height-xs l-flex l-align-center l-justify-center outline-snug" aria-label="Close audio player">
+      <button type="button" class="c-audio__close l-absolute l-right-0 l-top-0 l-z-index-1 l-width-xs l-height-xs l-flex l-align-center l-justify-center t-foreground-base outline-snug" aria-label="Close audio player">
         <span class="l-width-2xs l-height-2xs l-svg">
           ${closeSvg()}
         </span>

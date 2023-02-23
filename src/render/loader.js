@@ -1,15 +1,17 @@
 /**
- * Render: loader
+ * Render - loader
+ */
+
+/**
+ * Function - output loader
  *
  * @param {object} args {
- *  @param {boolean} hide
- *  @param {boolean} ariaHidden
- *  @param {string} a11yHideText
+ *  @prop {boolean} hide
+ *  @prop {boolean} ariaHidden
+ *  @prop {string} a11yHideText
  * }
  * @return {string} HTML - span
  */
-
-/* Function */
 
 const loader = (args = {}) => {
   let {

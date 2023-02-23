@@ -1,16 +1,18 @@
 /**
- * Utils: get all contentful data
- *
- * @param {object} serverlessData
- * @param {function} getContentfulData
- * @return {object/boolean}
+ * Utils - get all contentful data
  */
 
 /* Imports */
 
 const slugsJson = require('../json/slugs.json')
 
-/* Function */
+/**
+ * Function - fetch data from all content types or single entry if serverless
+ *
+ * @param {object} serverlessData
+ * @param {function} getContentfulData
+ * @return {object|boolean}
+ */
 
 const getAllContentfulData = async (serverlessData = {}, getContentfulData) => {
   try {

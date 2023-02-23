@@ -1,7 +1,5 @@
 /**
- * Render: coming soon
- *
- * @return {string} HTML - html
+ * Render - coming soon
  */
 
 /* Imports */
@@ -12,7 +10,11 @@ const container = require('./container')
 const content = require('./content')
 const logoSvg = require('./svg/logo')
 
-/* Function */
+/**
+ * Function - output coming soon page
+ *
+ * @return {string} HTML - html
+ */
 
 const comingSoon = () => {
   /* Container and content */

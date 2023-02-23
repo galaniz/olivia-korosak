@@ -1,14 +1,5 @@
 /**
- * Render: form
- *
- * @param {object} args {
- *  @param {string} subject
- *  @param {string} submitLabel
- *  @param {string} successTitle
- *  @param {string} successText
- * }
- * @param {string} id
- * @return {object}
+ * Render - form
  */
 
 /* Imports */
@@ -18,7 +9,18 @@ const errorSvg = require('./svg/error')
 const checkSvg = require('./svg/check')
 const loader = require('./loader')
 
-/* Function */
+/**
+ * Function - output form wrapper
+ *
+ * @param {object} args {
+ *  @prop {string} subject
+ *  @prop {string} submitLabel
+ *  @prop {string} successTitle
+ *  @prop {string} successText
+ * }
+ * @param {string} id
+ * @return {object}
+ */
 
 const form = ({ args = {}, id }) => {
   const {

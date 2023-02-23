@@ -8,7 +8,7 @@ const { getImage } = require('../utils')
 const controlSvg = require('./svg/control')
 
 /**
- * Function -
+ * Function - output hero
  *
  * @param {object} args {
  *  @prop {string} id
@@ -38,6 +38,10 @@ const hero = ({
   /* Container */
 
   let container = 'default'
+
+  /* Full width container */
+
+  let fullWidth = false
 
   /* Padding */
 
@@ -80,6 +84,8 @@ const hero = ({
   /* Track */
 
   if (contentType === 'track') {
+    fullWidth = true
+
     textOutput = `
       <div class="l-flex l-flex-column l-flex-row-l l-gap-margin-s l-gap-margin-m-l" id=${id}>
         <div>
@@ -112,9 +118,9 @@ const hero = ({
     `
   } else {
     output = `
-      <div class="l-width-2-3-m">
+      ${fullWidth ? '' : '<div class="l-width-2-3-m">'}
         ${textOutput}
-      </div>
+      ${fullWidth ? '' : '</div>'}
     `
   }
 

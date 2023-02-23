@@ -1,15 +1,5 @@
 /**
- * Render: button
- *
- * @param {object} args {
- *  @param {string} title
- *  @param {object/boolean} internalLink
- *  @param {string} externalLink
- *  @param {string} type
- *  @param {string} size
- *  @param {string} justify
- * }
- * @return {string} HTML - a || div
+ * Render - button
  */
 
 /* Imports */
@@ -17,12 +7,27 @@
 const { enumOptions } = require('../vars/enums')
 const { getLink } = require('../utils')
 
-/* Function */
+/**
+ * Function - output link button
+ *
+ * @param {object} args {
+ *  @prop {string} title
+ *  @prop {string} link
+ *  @prop {object|boolean} internalLink
+ *  @prop {string} externalLink
+ *  @prop {string} type
+ *  @prop {string} size
+ *  @prop {string} justify
+ *  @prop {string} paddingTop
+ *  @prop {string} paddingBottom
+ * }
+ * @return {string} HTML - a || div
+ */
 
 const button = ({ args = {} }) => {
   let {
     title = '',
-    link = '', // Static
+    link = '', // Back end option
     internalLink = false,
     externalLink = '',
     type = 'Main', // enumOptions.button.type

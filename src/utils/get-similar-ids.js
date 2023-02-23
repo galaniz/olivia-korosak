@@ -3,23 +3,15 @@
  */
 
 /**
- * Function -
+ * Function - fetch contentful ids based on item meta data
  *
  * @param {object} args {
+ *  @prop {object} item
  *  @prop {string} contentType
- *  @prop {integer} display
- *  @prop {string} headingLevel
- *  @prop {boolean} pagination
- *  @prop {array} filters
- *  @prop {array} include
- *  @prop {string} archiveType
- *  @prop {boolean} nothingFoundText
- *  @prop {number} columns
- *  @prop {string} order
+ *  @prop {number} display
+ *  @prop {function} getContentfulData
  * }
- * @param {object} pageData
- * @param {function} getContentfulData
- * @return {array}
+ * @return {array<string>}
  */
 
 const getSimilarIds = async ({

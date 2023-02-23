@@ -40,7 +40,6 @@ $neutral: func.get-color("background-light");
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
 
   @include mixi.fluid-size(
     --logo-height,
@@ -57,6 +56,10 @@ body {
   color: var(--text-color);
   background: var(--foreground-base);
   min-height: 100vh;
+}
+
+main {
+  @extend %u-overflow-x-hidden;
 }
 
 a {

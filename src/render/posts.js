@@ -17,7 +17,7 @@ const caretSvg = require('./svg/caret')
  *
  * @param {object} args {
  *  @prop {string} contentType
- *  @prop {integer} display
+ *  @prop {number} display
  *  @prop {string} headingLevel
  *  @prop {boolean} pagination
  *  @prop {array} filters

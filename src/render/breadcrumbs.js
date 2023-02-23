@@ -3,7 +3,7 @@
  */
 
 /**
- * Function -
+ * Function - output breadcrumbs nav
  *
  * @param {object} navigations
  * @return {string} HTML - nav

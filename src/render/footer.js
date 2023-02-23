@@ -1,8 +1,5 @@
 /**
- * Render: footer
- *
- * @param {object} navigations
- * @return {string} HTML - footer
+ * Render - footer
  */
 
 /* Imports */
@@ -11,10 +8,15 @@ const { enumSite } = require('../vars/enums')
 const { getPermalink, getYear } = require('../utils')
 const logoSvg = require('./svg/logo')
 
-/* Function */
+/**
+ * Function - output footer
+ *
+ * @param {object} navigations
+ * @return {string} HTML - footer
+ */
 
 const footer = (navigations = {}) => {
-  /* Navs */
+  /* Footer and/or social navs */
 
   let navs = ''
 

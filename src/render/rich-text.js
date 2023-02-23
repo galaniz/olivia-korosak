@@ -1,10 +1,5 @@
 /**
- * Render: rich text
- *
- * @param {string} type
- * @param {array} content
- * @param {array} parents
- * @return {string}
+ * Render - rich text
  */
 
 /* Imports */
@@ -12,7 +7,13 @@
 const { enumOptions } = require('../vars/enums')
 const { getLink } = require('../utils')
 
-/* Get inline start and end tags */
+/**
+ * Function - get inline start and end tags
+ *
+ * @private
+ * @param {array<object>} marks
+ * @return {object}
+ */
 
 const _getInlineTag = (marks) => {
   if (!marks.length) {
@@ -43,7 +44,16 @@ const _getInlineTag = (marks) => {
   }
 }
 
-/* Link markup */
+/**
+ * Function - output link
+ *
+ * @private
+ * @param {object} obj {
+ *  @prop {object} data
+ *  @prop {array} content
+ * }
+ * @return {string} HTML - a
+ */
 
 const _getLink = (obj) => {
   const {
@@ -71,7 +81,14 @@ const _getLink = (obj) => {
   return `<a href="${link}" data-inline>${text.join('')}</a>`
 }
 
-/* Function */
+/**
+ * Function - output rich text
+ *
+ * @param {string} type
+ * @param {array} content
+ * @param {array} parents
+ * @return {string}
+ */
 
 const richText = ({
   type = 'paragraph',

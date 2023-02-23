@@ -1,18 +1,20 @@
 /**
- * Utils: get responsive image output
+ * Utils - get image
+ */
+
+/**
+ * Function - get responsive image output
  *
  * @param {object} args {
- *  @param {object} data
- *  @param {string} classes
- *  @param {string} attr
- *  @param {integer} quality
- *  @param {string/integer} width
- *  @param {string/integer} height
+ *  @prop {object} data
+ *  @prop {string} classes
+ *  @prop {string} attr
+ *  @prop {number} quality
+ *  @prop {string|integer} width
+ *  @prop {string|integer} height
  * }
  * @return {string} HTML - img
  */
-
-/* Function */
 
 const getImage = ({
   data,

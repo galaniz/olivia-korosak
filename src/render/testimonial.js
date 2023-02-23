@@ -1,19 +1,21 @@
 /**
- * Render: testimonial
- *
- * @param {object} args {
- *  @param {string} quote
- *  @param {string} title
- *  @param {string} info
- * }
- * @return {string} HTML - figure
+ * Render - testimonial
  */
 
 /* Imports */
 
 const quoteSvg = require('./svg/quote')
 
-/* Function */
+/**
+ * Function - output testimonial
+ *
+ * @param {object} args {
+ *  @prop {string} quote
+ *  @prop {string} title
+ *  @prop {string} info
+ * }
+ * @return {string} HTML - figure
+ */
 
 const testimonial = ({ args = {} }) => {
   const {
