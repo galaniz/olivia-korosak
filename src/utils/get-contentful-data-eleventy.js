@@ -1,9 +1,5 @@
 /**
- * Utils: get contentful data - 11ty
- *
- * @param {string} key
- * @param {object} params
- * @return {object}
+ * Utils - get contentful data eleventy
  */
 
 /* Imports */
@@ -14,7 +10,13 @@ const getContentfulCredentials = require('./get-contentful-credentials')
 const { AssetCache } = require('@11ty/eleventy-fetch')
 const { envData } = require('../vars/data')
 
-/* Function */
+/**
+ * Function - fetch data from cache if available
+ * 
+ * @param {string} key
+ * @param {object} params
+ * @return {object}
+ */
 
 const getContentfulDataEleventy = async (key, params = {}) => {
   try {

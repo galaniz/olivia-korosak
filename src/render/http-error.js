@@ -1,8 +1,5 @@
 /**
- * Render: http error (404, 500...)
- *
- * @param {string} type - 404 or 500
- * @return {string} HTML - html
+ * Render - http error
  */
 
 /* Imports */
@@ -17,7 +14,12 @@ const navigations = require('./navigations')
 const { getPermalink } = require('../utils')
 const { navData } = require('../vars/data')
 
-/* Function */
+/**
+ * Function - output http error page (404 or 500)
+ *
+ * @param {string} type - 404 or 500
+ * @return {string} HTML - html
+ */
 
 const httpError = (type = '404') => {
   /* Text by type */

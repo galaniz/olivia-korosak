@@ -1,24 +1,5 @@
 /**
- * Render: field
- *
- * @param {object} args {
- *  @param {string} type
- *  @param {string} name
- *  @param {string} label
- *  @param {string} value
- *  @param {boolean} required
- *  @param {string} width
- *  @param {string} autoCompleteToken
- *  @param {string} placeholder
- *  @param {array} options
- *  @param {integer} rows
- *  @param {string} emptyErrorMessage
- *  @param {string} invalidErrorMessage
- *  @param {string} fieldClasses
- *  @param {string} classes
- *  @param {boolean} fieldset
- * }
- * @return {string} HTML - div
+ * Render - field
  */
 
 /* Imports */
@@ -26,21 +7,33 @@
 const { v4: uuidv4 } = require('uuid')
 const { enumOptions } = require('../vars/enums')
 
-/* Checkbox and radio inputs from options */
+/**
+ * Function - output checkbox and radio inputs from options
+ * 
+ * @private
+ * @param {object} args {
+ *  @prop {array<object>} opts
+ *  @prop {string} name
+ *  @prop {string} classes
+ *  @prop {string} attr
+ *  @prop {string} type
+ * }
+ * @return {array<string>}
+ */
 
 const _getCheckboxRadioOpts = (args = {}) => {
   const {
-    opts,
-    name,
-    classes,
-    attr,
-    type
+    opts = [],
+    name = '',
+    classes = '',
+    attr = '',
+    type = ''
   } = args
 
   return opts.map((opt) => {
     const {
-      text,
-      value,
+      text = '',
+      value = '',
       selected
     } = opt
 
@@ -57,7 +50,28 @@ const _getCheckboxRadioOpts = (args = {}) => {
   })
 }
 
-/* Function */
+/**
+ * Function - output form field
+ * 
+ * @param {object} args {
+ *  @prop {string} type
+ *  @prop {string} name
+ *  @prop {string} label
+ *  @prop {string} value
+ *  @prop {boolean} required
+ *  @prop {string} width
+ *  @prop {string} autoCompleteToken
+ *  @prop {string} placeholder
+ *  @prop {array} options
+ *  @prop {number} rows
+ *  @prop {string} emptyErrorMessage
+ *  @prop {string} invalidErrorMessage
+ *  @prop {string} fieldClasses
+ *  @prop {string} classes
+ *  @prop {boolean} fieldset
+ * }
+ * @return {string} HTML - div
+ */
 
 const field = ({ args = {} }) => {
   let {

@@ -1,9 +1,5 @@
 /**
- * Utils: get contentful data - serverless
- *
- * @param {string} key
- * @param {object} params
- * @return {object}
+ * Utils - get contentful data serverless
  */
 
 /* Imports */
@@ -11,7 +7,13 @@
 const resolveResponse = require('contentful-resolve-response')
 const getContentfulCredentials = require('./get-contentful-credentials')
 
-/* Function */
+/**
+ * Function - fetch data serverside
+ * 
+ * @param {string} key
+ * @param {object} params
+ * @return {object}
+ */
 
 const getContentfulDataServerless = async (key, params = {}) => {
   try {

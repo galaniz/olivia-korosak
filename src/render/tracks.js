@@ -1,14 +1,5 @@
 /**
- * Render: tracks
- *
- * @param {object} args {
- *  @param {array} items
- *  @param {string} a11yLabel
- *  @param {string} contentType
- *  @param {bool} includeProjects
- *  @param {bool} includeGenres
- * }
- * @return {string} HTML - div
+ * Render - tracks
  */
 
 /* Imports */
@@ -19,7 +10,14 @@ const { durationsData, scriptData } = require('../vars/data')
 const controlSvg = require('./svg/control')
 const caretSvg = require('./svg/caret')
 
-/* Comma separated links */
+/**
+ * Function - output comma separated links
+ *
+ * @private
+ * @param {array} items
+ * @param {string} contentType
+ * @return {string} HTML
+ */
 
 const _getCommaLinks = (items = [], contentType = '') => {
   const links = []
@@ -48,7 +46,18 @@ const _getCommaLinks = (items = [], contentType = '') => {
   return links.join(', ')
 }
 
-/* Function */
+/**
+ * Function - output testimonial
+ *
+ * @param {object} args {
+ *  @prop {array} items
+ *  @prop {string} a11yLabel
+ *  @prop {string} contentType
+ *  @prop {boolean} includeProjects
+ *  @prop {boolean} includeGenres
+ * }
+ * @return {string} HTML - div
+ */
 
 const tracks = async ({
   items = [],

@@ -1,12 +1,13 @@
 /**
- * Utils: get rgba from hex color string
- *
- * @param {string} hex
- * @param {float} alpha
- * @return {string}
+ * Utils - get rgba
  */
 
-/* Variables */
+/**
+ * Alpha value from hex code partial
+ *
+ * @private
+ * @type {object}
+ */
 
 const _alphaCodes = {
   FF: 1,
@@ -112,7 +113,13 @@ const _alphaCodes = {
   '00': 0
 }
 
-/* Function */
+/**
+ * Function - get rgba from hex color string
+ * 
+ * @param {string} hex
+ * @param {float} alpha
+ * @return {string}
+ */
 
 const getRgba = (hex = '', alpha = 1) => {
   let r = 0

@@ -1,13 +1,5 @@
 /**
- * Render: layout
- *
- * @param {object} args {
- *  @param {object} meta
- *  @param {string} gradients
- *  @param {string} content
- *  @param {string} script
- * }
- * @return {string} HTML - html
+ * Render - layout
  */
 
 /* Imports */
@@ -16,7 +8,17 @@ const { envData } = require('../vars/data')
 const { enumNamespace, enumSite, enumColors } = require('../vars/enums')
 const { getPermalink } = require('../utils')
 
-/* Function */
+/**
+ * Function - output html
+ *
+ * @param {object} args {
+ *  @prop {object} meta
+ *  @prop {string} gradients
+ *  @prop {string} content
+ *  @prop {string} script
+ * }
+ * @return {string} HTML - html
+ */
 
 const layout = ({
   meta = {},

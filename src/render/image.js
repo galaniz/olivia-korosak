@@ -1,13 +1,5 @@
 /**
- * Render: image
- *
- * @param {object} args {
- *  @param {object} image
- *  @param {string} aspectRatio
- *  @param {object} caption
- * }
- * @param {array} parents
- * @return {string} HTML - div
+ * Render - image
  */
 
 /* Imports */
@@ -15,7 +7,17 @@
 const { getImage } = require('../utils')
 const { enumOptions } = require('../vars/enums')
 
-/* Function */
+/**
+ * Function - output image
+ *
+ * @param {object} args {
+ *  @prop {object} image
+ *  @prop {string} aspectRatio
+ *  @prop {object} caption
+ * }
+ * @param {array} parents
+ * @return {string} HTML - div
+ */
 
 const image = ({ args = {}, parents = [] }) => {
   let {

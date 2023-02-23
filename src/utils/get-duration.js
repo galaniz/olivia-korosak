@@ -1,12 +1,14 @@
 /**
- * Utils: get duration as text
- *
- * @param {integer} seconds
+ * Utils - get duration
+ */
+
+/**
+ * Function - get seconds as text
+ * 
+ * @param {number} seconds
  * @param {boolean} words
  * @return {string}
  */
-
-/* Function */
 
 const getDuration = (seconds = 0, words = false) => {
   const hours = Math.floor(seconds / 3600)

@@ -1,7 +1,5 @@
 /**
- * Render: audio player
- *
- * @return {string} HTML - div
+ * Render - audio
  */
 
 /* Imports */
@@ -10,7 +8,11 @@ const controlSvg = require('./svg/control')
 const closeSvg = require('./svg/close')
 const errorSvg = require('./svg/error')
 
-/* Function */
+/**
+ * Function - output audio player
+ *
+ * @return {string} HTML - div
+ */
 
 const audio = () => {
   return `

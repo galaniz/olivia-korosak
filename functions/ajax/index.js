@@ -61,8 +61,8 @@ const _normalizeBody = (data = {}) => {
  * Ajax function
  *
  * @param {object} context {
- *  @param {object} request
- *  @param {object} env
+ *  @prop {object} request
+ *  @prop {object} env
  * }
  * @return {object}
  */

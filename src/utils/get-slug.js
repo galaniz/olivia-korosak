@@ -1,21 +1,19 @@
 /**
- * Utils: slug with base from slug base and parents
- *
- * @param {object} args {
- *  @param {string} id
- *  @param {string} slug
- *  @param {integer} page
- *  @param {string} contentType
- *  @param {boolean} returnParents
- * }
- * @return {string/object}
+ * Utils - get slug
  */
 
 /* Imports */
 
 const { slugData } = require('../vars/data')
 
-/* Recurse to get ascendents */
+/**
+ * Function - recurse to get ascendents
+ * 
+ * @private
+ * @param {string} id
+ * @param {array} p
+ * @return {number}
+ */
 
 const _getParentSlug = (id = '', p = []) => {
   if (slugData.parents?.[id]) {
@@ -25,7 +23,18 @@ const _getParentSlug = (id = '', p = []) => {
   }
 }
 
-/* Function */
+/**
+ * Function - get slug with base from slug base and parents
+ * 
+ * @param {object} args {
+ *  @prop {string} id
+ *  @prop {string} slug
+ *  @prop {number} page
+ *  @prop {string} contentType
+ *  @prop {boolean} returnParents
+ * }
+ * @return {string|object}
+ */
 
 const getSlug = ({
   id = '',

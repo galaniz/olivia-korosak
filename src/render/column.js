@@ -1,24 +1,26 @@
 /**
- * Render: column
- *
- * @param {object} args {
- *  @param {string} tag
- *  @param {string} width
- *  @param {string} widthSmall
- *  @param {string} widthMedium
- *  @param {string} widthLarge
- *  @param {string} justify
- *  @param {string} align
- *  @param {string} classes
- * }
- * @return {object}
+ * Render - column
  */
 
 /* Imports */
 
 const { enumOptions } = require('../vars/enums')
 
-/* Function */
+/**
+ * Function - output column wrapper
+ *
+ * @param {object} args {
+ *  @prop {string} tag
+ *  @prop {string} width
+ *  @prop {string} widthSmall
+ *  @prop {string} widthMedium
+ *  @prop {string} widthLarge
+ *  @prop {string} justify
+ *  @prop {string} align
+ *  @prop {string} classes
+ * }
+ * @return {object}
+ */
 
 const column = ({ args = {} }) => {
   let {
@@ -29,7 +31,7 @@ const column = ({ args = {} }) => {
     widthLarge = 'None', // enumOptions.width
     justify = 'None', // enumOptions.justify
     align = 'None', // enumOptions.align
-    classes = ''
+    classes = '' // Back end option
   } = args
 
   /* Normalize options */

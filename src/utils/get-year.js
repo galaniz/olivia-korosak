@@ -1,10 +1,12 @@
 /**
- * Utils: get current year as YYYY
- *
- * @return {integer}
+ * Utils - get year
  */
 
-/* Function */
+/**
+ * Function - get current year as YYYY
+ * 
+ * @return {number}
+ */
 
 const getYear = () => {
   const date = new Date()

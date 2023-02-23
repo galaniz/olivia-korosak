@@ -1,10 +1,12 @@
 /**
- * Render: close svg
- *
- * @return {string} HTML - svg
+ * Render - svg close
  */
 
-/* Function */
+/**
+ * Function - output svg for x icon
+ * 
+ * @return {string} HTML - svg
+ */
 
 const closeSvg = () => {
   return `

@@ -8,7 +8,7 @@ const { getImage } = require('../utils')
 const controlSvg = require('./svg/control')
 
 /**
- * Function -
+ * Function - output hero
  *
  * @param {object} args {
  *  @prop {string} id

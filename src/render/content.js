@@ -1,21 +1,23 @@
 /**
- * Render: content
- *
- * @param {object} args {
- *  @param {string} align
- *  @param {string} gap
- *  @param {string} gapLarge
- *  @param {boolean} richTextStyles
- *  @param {string} classes
- * }
- * @return {object}
+ * Render - content
  */
 
 /* Imports */
 
 const { enumOptions } = require('../vars/enums')
 
-/* Function */
+/**
+ * Function - output content wrapper
+ * 
+ * @param {object} args {
+ *  @prop {string} align
+ *  @prop {string} gap
+ *  @prop {string} gapLarge
+ *  @prop {boolean} richTextStyles
+ *  @prop {string} classes
+ * }
+ * @return {object}
+ */
 
 const content = ({ args = {} }) => {
   let {
@@ -23,7 +25,7 @@ const content = ({ args = {} }) => {
     gap = 'Default', // enumOptions.gap
     gapLarge = 'Default', // enumOptions.gap
     richTextStyles = true,
-    classes = ''
+    classes = '' // Back end option
   } = args
 
   /* Normalize options */

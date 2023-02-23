@@ -1,12 +1,20 @@
 /**
- * Vars: enums for namespace, title, colors, meta, contentful data...
+ * Vars - enums
  */
 
-/* Namespace */
+/**
+ * Namespace
+ *
+ * @type {string}
+ */
 
 const enumNamespace = 'ok'
 
-/* Site info */
+/**
+ * Site info
+ *
+ * @type {object}
+ */
 
 const enumSite = {
   title: 'Olivia Korosak',
@@ -17,7 +25,11 @@ const enumSite = {
   }
 }
 
-/* Colors */
+/**
+ * Colors
+ *
+ * @type {object}
+ */
 
 const enumColors = {
   foreground: {
@@ -35,7 +47,11 @@ const enumColors = {
   tint: '#45464a'
 }
 
-/* Contentful content type by ids */
+/**
+ * Contentful content type by ids
+ *
+ * @type {object}
+ */
 
 const enumContentTypes = {
   button: 'button',
@@ -57,7 +73,11 @@ const enumContentTypes = {
   track: 'track'
 }
 
-/* Contentful field options */
+/**
+ * Contentful field options
+ *
+ * @type {object}
+ */
 
 const enumOptions = {
   button: {
@@ -134,7 +154,7 @@ const enumOptions = {
     '40px': 'm',
     '60px': 'xl',
     '80px': '2xl',
-    '100px': '3xl', // Static
+    '100px': '3xl', // Back end option
     '120px': '4xl'
   },
   gap: {

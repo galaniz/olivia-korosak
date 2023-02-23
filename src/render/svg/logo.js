@@ -1,10 +1,12 @@
 /**
- * Render: logo svg
- *
- * @return {string} HTML - svg
+ * Render - svg logo
  */
 
-/* Function */
+/**
+ * Function - output svg for logo
+ * 
+ * @return {string} HTML - svg
+ */
 
 const logoSvg = () => {
   return `

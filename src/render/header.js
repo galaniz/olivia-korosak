@@ -1,8 +1,5 @@
 /**
- * Render: header
- *
- * @param {object} navigations
- * @return {string} HTML - header
+ * Render - header
  */
 
 /* Imports */
@@ -11,10 +8,15 @@ const { getPermalink } = require('../utils')
 const { enumSite } = require('../vars/enums')
 const logoSvg = require('./svg/logo')
 
-/* Function */
+/**
+ * Function - output header
+ * 
+ * @param {object} navigations
+ * @return {string} HTML - header
+ */
 
 const header = (navigations = {}) => {
-  /* Nav */
+  /* Main and/or social navs */
 
   let nav = ''
 

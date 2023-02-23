@@ -1,10 +1,12 @@
 /**
- * Render: arrow svg
- *
- * @return {string} HTML - svg
+ * Render - svg arrow
  */
 
-/* Function */
+/**
+ * Function - output svg for down arrow
+ * 
+ * @return {string} HTML - svg
+ */
 
 const arrowSvg = () => {
   return `

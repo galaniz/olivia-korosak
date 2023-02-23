@@ -1,10 +1,12 @@
 /**
- * Render: info svg
- *
- * @return {string} HTML - svg
+ * Render - svg info
  */
 
-/* Function */
+/**
+ * Function - output svg for info icon
+ * 
+ * @return {string} HTML - svg
+ */
 
 const infoSvg = () => {
   return `

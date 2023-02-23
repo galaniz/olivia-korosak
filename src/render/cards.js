@@ -241,8 +241,8 @@ const _card = ({
  * Function - output card container
  *
  * @param {object} args {
- *  @param {string} gap
- *  @param {string} gapLarge
+ *  @prop {string} gap
+ *  @prop {string} gapLarge
  * }
  * @return {object}
  */
@@ -281,7 +281,12 @@ const card = ({ args = {} }) => {
 }
 
 /**
+ * Output single card and cards container
  *
+ * @type {object} {
+ *  @prop {function} render
+ *  @prop {function} renderCard
+ * }
  */
 
 const cards = {

@@ -1,28 +1,30 @@
 /**
- * Render: container
- *
- * @param {object} args {
- *  @param {string} tag
- *  @param {string} layout
- *  @param {string} maxWidth
- *  @param {string} paddingTop
- *  @param {string} paddingTopLarge
- *  @param {string} paddingBottom
- *  @param {string} paddingBottomLarge
- *  @param {string} gap
- *  @param {string} gapLarge
- *  @param {string} justify
- *  @param {string} align
- *  @param {string} classes
- * }
- * @return {object}
+ * Render - container
  */
 
 /* Imports */
 
 const { enumOptions } = require('../vars/enums')
 
-/* Function */
+/**
+ * Function - output container wrapper
+ * 
+ * @param {object} args {
+ *  @prop {string} tag
+ *  @prop {string} layout
+ *  @prop {string} maxWidth
+ *  @prop {string} paddingTop
+ *  @prop {string} paddingTopLarge
+ *  @prop {string} paddingBottom
+ *  @prop {string} paddingBottomLarge
+ *  @prop {string} gap
+ *  @prop {string} gapLarge
+ *  @prop {string} justify
+ *  @prop {string} align
+ *  @prop {string} classes
+ * }
+ * @return {object}
+ */
 
 const container = ({ args = {} }) => {
   let {
@@ -37,7 +39,7 @@ const container = ({ args = {} }) => {
     gapLarge = 'None', // enumOptions.gap
     justify = 'None', // enumOptions.justify
     align = 'None', // enumOptions.align
-    classes = '' // Static
+    classes = '' // Back end option
   } = args
 
   /* Normalize options */

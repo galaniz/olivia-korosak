@@ -1,13 +1,5 @@
 /**
- * Render: navigations
- *
- * @param {object} args {
- *  @param {array} navs
- *  @param {array} items
- *  @param {string} current
- *  @param {array} parents - For breadcrumbs
- *  @param {string} title - For breadcrumbs
- * }
+ * Render - navigations
  */
 
 /* Imports */
@@ -15,7 +7,17 @@
 const Navigation = require('./navigation')
 const socialSvg = require('./svg/social')
 
-/* Function */
+/**
+ * Function - output navigations
+ *
+ * @param {object} args {
+ *  @prop {array<object>} navs
+ *  @prop {array<object>} items
+ *  @prop {string} current
+ *  @prop {array} parents - For breadcrumbs
+ *  @prop {string} title - For breadcrumbs
+ * }
+ */
 
 const navigations = ({
   navs = [],

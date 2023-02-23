@@ -1,14 +1,16 @@
 /**
- * Utils: get contentful credentials
- *
- * @return {object}
+ * Utils - get contentful credentials
  */
 
 /* Imports */
 
 const { envData } = require('../vars/data')
 
-/* Function */
+/**
+ * Function - get space, access token and host information
+ * 
+ * @return {object}
+ */
 
 const getContentfulCredentials = () => {
   const space = envData.ctfl.spaceId

@@ -1,5 +1,5 @@
 /**
- * Serverless: send form
+ * Serverless - send form
  */
 
 /* Imports */
@@ -11,11 +11,12 @@ import { enumSite } from '../vars/enums'
 import { envData } from '../vars/data'
 
 /**
- * Recurse through data to output plain and html email body
+ * Function - recurse through data to output plain and html email body
  *
+ * @private
  * @param {object} data
  * @param {object} output
- * @param {integer} depth
+ * @param {number} depth
  */
 
 const _recurseEmailHtml = (data = {}, output = {}, depth = 1) => {
@@ -66,11 +67,11 @@ const _recurseEmailHtml = (data = {}, output = {}, depth = 1) => {
 }
 
 /**
- * Send form function
+ * Function - generate email from form fields and send with Smtp2go
  *
- * @param {object} data {
- *  @param {string} id
- *  @param {array} inputs
+ * @param {object} {
+ *  @prop {string} id
+ *  @prop {array} inputs
  * }
  * @return {object}
  */
