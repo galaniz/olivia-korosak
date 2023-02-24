@@ -73,15 +73,17 @@ const singleContent = async ({
   )
 
   const allLink = `
-    <div class="l-inline-flex l-align-center">
-      <span class="l-flex l-width-2xs l-height-2xs l-svg">
-        ${caretSvg('left')}
-      </span>
-      <span>
-        <a href="${allPermalink}" class="t t-weight-medium t-line-height-130-pc" data-inline>
-          All ${plural}
-        </a>
-      </span>
+    <div class="e-underline l-padding-top-4xs">
+      <div class="l-inline-flex l-align-center">
+        <span class="l-flex l-width-2xs l-height-2xs l-svg">
+          ${caretSvg('left')}
+        </span>
+        <span>
+          <a href="${allPermalink}" class="t t-weight-medium t-line-height-130-pc" data-inline>
+            All ${plural}
+          </a>
+        </span>
+      </div>
     </div>
   `
 
@@ -137,9 +139,7 @@ const singleContent = async ({
         <div class="l-padding-left-4xl-l l-margin-bottom-2xs-all l-margin-bottom-s-all-m">
           <h2 class="t-h4">${similarTitle}</h2>
           ${similar}
-          <div class="e-underline l-padding-top-4xs">
-            ${allLink}
-          </div>
+          ${allLink}
         </div>
       `
     }
@@ -177,7 +177,7 @@ const singleContent = async ({
       args: {
         contentType: 'Track',
         filters: [`fields.project.sys.id:${id}`],
-        noPostsText: false
+        nothingFoundText: false
       },
       pageData: item,
       getContentfulData
@@ -218,6 +218,7 @@ const singleContent = async ({
         similarContain.container.start +
         `<h2>${similarTitle}</h2>` +
         similar +
+        allLink +
         similarContain.container.end
       )
     }
