@@ -12,6 +12,7 @@
  *  @prop {number} quality
  *  @prop {string|integer} width
  *  @prop {string|integer} height
+ *  @prop {boolean} returnAspectRatio
  * }
  * @return {string} HTML - img
  */
@@ -22,7 +23,8 @@ const getImage = ({
   attr = '',
   quality = 75,
   width = 'auto',
-  height = 'auto'
+  height = 'auto',
+  returnAspectRatio = false
 }) => {
   /* Data required */
 
@@ -82,9 +84,18 @@ const getImage = ({
 
   /* Output */
 
-  return `
+  const output = `
     <img${classes ? ` class="${classes}"` : ''} alt="${description}" src="${src}" srcset="${srcset}" sizes="${sizes}" width="${w}" height="${h}"${attr ? ` ${attr}` : ''}>
   `
+
+  if (returnAspectRatio) {
+    return {
+      output,
+      aspectRatio
+    }
+  }
+
+  return output
 }
 
 /* Exports */
