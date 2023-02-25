@@ -70,7 +70,7 @@ const hero = ({
 
     imageOutput = getImage({
       data: image?.fields,
-      classes: 'l-absolute l-top-0 l-left-0 l-height-100-pc l-width-1-1',
+      classes: 'l-absolute l-top-0 l-left-0 l-width-100-pc l-height-100-pc l-object-cover',
       returnAspectRatio: true
     })
   }
@@ -112,7 +112,7 @@ const hero = ({
         <div class="${container === 'medium' ? 'l-width-1-2-s l-width-3-5-m' : 'l-width-1-2-m'}">
           ${textOutput}
         </div>
-        <div class="${container === 'medium' ? 'l-width-1-2-s l-width-2-5-m l-order-first-s' : 'l-width-1-2-m l-order-first-m'}">
+        <div class="l-width-1-1 ${container === 'medium' ? 'l-width-1-2-s l-width-2-5-m l-order-first-s' : 'l-width-1-2-m l-order-first-m'}">
           <div class="l-relative l-overflow-hidden" style="padding-top:${imageOutput.aspectRatio * 100}%">
             ${imageOutput.output}
           </div>
