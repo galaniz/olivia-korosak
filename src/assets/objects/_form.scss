@@ -76,6 +76,12 @@
     }
   }
 
+  /* Honeypot */
+
+  [data-asi] {
+    @extend %u-display-none;
+  }
+
   /* Required */
 
   legend[data-required] > span:first-child [data-required-icon]::after,

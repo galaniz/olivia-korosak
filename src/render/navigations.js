@@ -55,7 +55,8 @@ const navigations = ({
         listAttr: 'role="list"',
         itemClass: 'c-nav__item',
         itemAttr: 'data-overflow-group="0"',
-        linkClass: 'c-nav__link t-m t-line-height-130-pc l-inline-flex l-relative l-after l-padding-top-5xs l-padding-bottom-5xs'
+        linkClass: 'c-nav__link t-m t-line-height-130-pc l-inline-flex l-relative l-after l-padding-top-5xs l-padding-bottom-5xs',
+        internalLinkClass: 'js-pt-link'
       }
     ),
     breadcrumbs: nav.getBreadcrumbs(
@@ -66,6 +67,7 @@ const navigations = ({
         listAttr: 'role="list"',
         itemClass: 'l-flex',
         linkClass: 't-xs t-line-height-130-pc',
+        internalLinkClass: 'js-pt-link',
         linkAttr: 'data-inline',
         currentClass: 't-xs t-line-height-130-pc t-weight-medium t-background-light t-clamp-1',
         a11yClass: 'a11y-visually-hidden',
@@ -81,6 +83,7 @@ const navigations = ({
         listClass: 'l-flex l-flex-wrap l-justify-center l-gap-margin-2xs l-gap-margin-s-l t-list-style-none e-underline-reverse',
         listAttr: 'role="list"',
         linkClass: 't',
+        internalLinkClass: 'js-pt-link',
         linkAttr: 'data-inline'
       }
     ),

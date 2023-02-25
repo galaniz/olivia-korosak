@@ -79,7 +79,7 @@ const singleContent = async ({
           ${caretSvg('left')}
         </span>
         <span>
-          <a href="${allPermalink}" class="t t-weight-medium t-line-height-130-pc" data-inline>
+          <a href="${allPermalink}" class="t t-weight-medium t-line-height-130-pc js-pt-link" data-inline>
             All ${plural}
           </a>
         </span>

@@ -13,6 +13,7 @@ import Table from '@alanizcreative/formation/src/objects/table'
 import Collapsible from '@alanizcreative/formation/src/objects/collapsible'
 import SendForm from '@alanizcreative/formation/src/objects/form/send'
 import Audio from '@alanizcreative/formation/src/components/audio'
+import { pageTransition } from '@alanizcreative/formation/src/effects/page-transition'
 
 /* Variables */
 
@@ -20,6 +21,16 @@ const ns = window.namespace
 const n = window[ns]
 const el = {}
 const meta = [
+  {
+    prop: 'pageTransition',
+    selector: '#js-pt'
+  },
+  {
+    prop: 'pageTransitionLinks',
+    selector: '.js-pt-link',
+    all: true,
+    array: true
+  },
   {
     prop: 'nav',
     selector: '.c-nav',
@@ -151,9 +162,32 @@ const meta = [
 /* Init */
 
 const initialize = () => {
+  /* JavaScript enabled add js body class */
+
+  const body = document.body
+
+  body.classList.remove('no-js')
+  body.classList.add('js')
+
   /* Set elements object */
 
   setElements(document, meta, el)
+
+  /* Page transition off and transition links */
+
+  if (el.pageTransition) {
+    addEventListener('DOMContentLoaded', () => {
+      el.pageTransition.setAttribute('data-show', false)
+    })
+
+    if (el.pageTransitionLinks.length) {
+      pageTransition({
+        links: el.pageTransitionLinks,
+        transitionElement: el.pageTransition,
+        delay: 150
+      })
+    }
+  }
 
   /* Check if using mouse */
 

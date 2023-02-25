@@ -20,7 +20,7 @@ const audio = () => {
       <audio preload="auto">
         <source src="" type="">
         <div class="l-container l-absolute l-top-0 l-left-0 l-right-0 l-bottom-0 l-z-index-1 l-flex l-align-center bg-background-light">
-          <p class="t-xs t-line-height-130-pc e-underline">Your browser does not support HTML5 audio. Download track <a href="" class="c-audio__update" data-update="textContent:title,href:url" data-inline></a>.</p>
+          <p class="t-xs t-line-height-130-pc e-underline">Your browser does not support HTML5 audio. Download track <a href="" class="c-audio__update js-pt-link" data-update="textContent:title,href:url" data-inline></a>.</p>
         </div>
       </audio>
       <div class="c-audio__container l-padding-left-5xs l-padding-top-5xs l-padding-bottom-5xs l-padding-right-3xs l-padding-top-3xs-m l-padding-bottom-3xs-m l-margin-auto">
@@ -44,7 +44,7 @@ const audio = () => {
               <div>
                 <div class="c-audio__info e-underline-reverse">
                   <p class="t-xs t-weight-medium t-clamp-1 outline-tight">
-                    <a href="" class="c-audio__update t-line-height-120-pc" data-update="textContent:title,href:permalink" data-inline></a>
+                    <a href="" class="c-audio__update t-line-height-120-pc js-pt-link" data-update="textContent:title,href:permalink" data-inline></a>
                   </p>
                 </div>
               </div>
@@ -79,7 +79,7 @@ const audio = () => {
               </div>
             </div>
             <div>
-              <p class="t-xs t-weight-medium t-line-height-130-pc t-valign-middle l-margin-0 l-padding-top-5xs l-padding-bottom-5xs e-underline">Sorry, there is a problem with the service. Download track <a href="" class="c-audio__update" data-update="textContent:title,href:url" data-inline></a>.</p>
+              <p class="t-xs t-weight-medium t-line-height-130-pc t-valign-middle l-margin-0 l-padding-top-5xs l-padding-bottom-5xs e-underline">Sorry, there is a problem with the service. Download track <a href="" class="c-audio__update js-pt-link" data-update="textContent:title,href:url" data-inline></a>.</p>
             </div>
           </div>
         </div>

@@ -4,6 +4,8 @@
 
 /* Imports */
 
+const { v4: uuidv4 } = require('uuid')
+const { enumNamespace } = require('../vars/enums')
 const { scriptData } = require('../vars/data')
 const errorSvg = require('./svg/error')
 const checkSvg = require('./svg/check')
@@ -51,6 +53,17 @@ const form = ({ args = {}, id }) => {
 
   scriptData.sendUrl = '/ajax/'
 
+  /* Honeypot */
+
+  const honeypotId = uuidv4()
+  const honeypotName = `${enumNamespace}_asi`
+  const honeypot = `
+    <div data-asi>
+      <label for="${honeypotId}">Website</label>
+      <input type="url" name="${honeypotName}" id="${honeypotId}" autocomplete="off" class="js-input">
+    </div>
+  `
+
   /* Output */
 
   const start = `
@@ -74,6 +87,7 @@ const form = ({ args = {}, id }) => {
   `
 
   const end = `
+        ${honeypot}
         <div class="o-form-result__negative l-width-100-pc l-none" role="alert" tabindex="-1">
           <div class="o-info-negative bg-gradient-135 l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
             <div class="l-flex l-gap-margin-3xs">

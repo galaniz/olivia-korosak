@@ -37,7 +37,7 @@ const _getCommaLinks = (items = [], contentType = '') => {
         })
       )
 
-      links.push(`<a href="${permalink}" class="t-current" data-inline>${title}</a>`)
+      links.push(`<a href="${permalink}" class="t-current js-pt-link" data-inline>${title}</a>`)
     })
   } else {
     return ''
@@ -185,7 +185,7 @@ const tracks = async ({
 
     const detailsItems = [{
       title: 'Full Title',
-      desc: `<a href="${permalink}" class="t-current" data-inline>${title}</a>`
+      desc: `<a href="${permalink}" class="t-current js-pt-link" data-inline>${title}</a>`
     }]
 
     /* Cells */
@@ -202,7 +202,7 @@ const tracks = async ({
             </button>
           </div>
           <div class="t-m t-weight-medium t-clamp-1 e-underline-reverse outline-tight">
-            <a href="${permalink}" class="t-line-height-130-pc" data-inline>${title}</a>
+            <a href="${permalink}" class="t-line-height-130-pc js-pt-link" data-inline>${title}</a>
           </div>
         </div>
       `

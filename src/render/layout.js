@@ -81,8 +81,50 @@ const layout = ({
         <meta name="msapplication-TileColor" content="${enumColors.tint}">
         <meta name="theme-color" content="${enumColors.base}">
         <meta name="format-detection" content="telephone=no">
+        <style>
+          @media (prefers-reduced-motion: reduce) {
+            .reduce-motion-show {
+              display: block;
+            }
+
+            .reduce-motion-hide {
+              display: none;
+            }
+          }
+
+          @keyframes e-pt-fb {
+            0% { opacity: 1; }
+            99% { opacity: 0; }
+            100% { opacity: 0; visibility: hidden; }
+          }
+
+          .e-pt {
+            position: fixed;
+            background: #17181d;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            z-index: 200;
+            visibility: visible;
+            transition: visibility 150ms ease 0ms, opacity 150ms ease;
+          }
+
+          .js .e-pt[data-show="false"] {
+            opacity: 0;
+            visibility: hidden;
+            transition: visibility 0ms ease 150ms, opacity 150ms ease 10ms;
+          }
+
+          .no-js .e-pt[data-show="true"] {
+            transition: none;
+            animation: 150ms ease 1000ms forwards e-pt-fb;
+          }
+        </style>
       </head>
-      <body class="${enumNamespace} l-relative l-z-index-1 l-flex l-flex-column">
+      <body class="${enumNamespace} no-js l-relative l-z-index-1 l-flex l-flex-column">
+        <div class="e-pt reduce-motion-hide" id="js-pt" data-show="true"></div>
         ${gradients}
         ${content}
         ${script}
