@@ -119,7 +119,7 @@ const layout = ({
 
           .no-js .e-pt[data-show="true"] {
             transition: none;
-            animation: 150ms ease 1000ms forwards e-pt-fb;
+            animation: 150ms ease 800ms forwards e-pt-fb;
           }
         </style>
       </head>
