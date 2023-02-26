@@ -15,8 +15,8 @@ class Navigation {
    * Set public properties and initialize
    *
    * @param {object} args {
-   *  @prop {array} navs
-   *  @prop {array} items
+   *  @prop {array<object>} navs
+   *  @prop {array<object>} items
    * }
    * @return {void|boolean} - False if init errors
    */
@@ -158,8 +158,8 @@ class Navigation {
    * Loop through items to check and set children
    *
    * @private
-   * @param {array} children
-   * @param {array} store
+   * @param {array<object>} children
+   * @param {array<object>} store
    * @return {void}
    */
 
@@ -175,9 +175,9 @@ class Navigation {
    * Return navigation items by id
    *
    * @private
-   * @param {array} items
+   * @param {array<object>} items
    * @param {string} current
-   * @return {array}
+   * @return {array<object>}
    */
 
   _getItems (items = [], current = '') {
@@ -210,7 +210,7 @@ class Navigation {
    * Loop through items to create html
    *
    * @private
-   * @param {array} items
+   * @param {array<object>} items
    * @param {object} output
    * @param {number} depth
    * @param {object} args
@@ -353,7 +353,7 @@ class Navigation {
   /**
    * Return breadcrumbs html output
    *
-   * @param {array} items
+   * @param {array<object>} items
    * @param {string} current
    * @param {object} args
    * @return {string} HTML - ol

@@ -15,7 +15,7 @@ const { enumOptions } = require('../vars/enums')
  *  @prop {string} aspectRatio
  *  @prop {object} caption
  * }
- * @param {array} parents
+ * @param {array<object>} parents
  * @return {string} HTML - div
  */
 

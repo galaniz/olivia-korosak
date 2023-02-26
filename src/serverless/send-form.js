@@ -71,7 +71,7 @@ const _recurseEmailHtml = (data = {}, output = {}, depth = 1) => {
  *
  * @param {object} {
  *  @prop {string} id
- *  @prop {array} inputs
+ *  @prop {array<object>} inputs
  * }
  * @return {object}
  */

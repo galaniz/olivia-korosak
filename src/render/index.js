@@ -48,9 +48,9 @@ const _slugs = {}
  *
  * @private
  * @param {object} args {
- *  @prop {array} contentData
+ *  @prop {array<object>} contentData
  *  @prop {object} output
- *  @prop {array} parents
+ *  @prop {array<object>} parents
  *  @prop {object} pageData
  *  @prop {object} contains
  *  @prop {object} serverlessData

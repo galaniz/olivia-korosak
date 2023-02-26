@@ -20,8 +20,8 @@ const caretSvg = require('./svg/caret')
  *  @prop {number} display
  *  @prop {string} headingLevel
  *  @prop {boolean} pagination
- *  @prop {array} filters
- *  @prop {array} include
+ *  @prop {array<string>} filters
+ *  @prop {array<string>} include
  *  @prop {string} archiveType
  *  @prop {boolean} nothingFoundText
  *  @prop {number} columns

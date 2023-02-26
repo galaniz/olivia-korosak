@@ -47,7 +47,7 @@ const el = {}
 /**
  * Props and selectors for setElements
  *
- * @type {array}
+ * @type {array<object>}
  */
 
 const meta = [

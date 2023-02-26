@@ -11,7 +11,7 @@ const { slugData } = require('../vars/data')
  *
  * @private
  * @param {string} id
- * @param {array} p
+ * @param {array<object>} p
  * @return {number}
  */
 

@@ -50,7 +50,7 @@ const _getInlineTag = (marks) => {
  * @private
  * @param {object} obj {
  *  @prop {object} data
- *  @prop {array} content
+ *  @prop {array<object>} content
  * }
  * @return {string} HTML - a
  */
@@ -85,8 +85,8 @@ const _getLink = (obj) => {
  * Function - output rich text
  *
  * @param {string} type
- * @param {array} content
- * @param {array} parents
+ * @param {array<object>} content
+ * @param {array<object>} parents
  * @return {string}
  */
 

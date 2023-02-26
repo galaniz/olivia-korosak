@@ -14,7 +14,7 @@ const socialSvg = require('./svg/social')
  *  @prop {array<object>} navs
  *  @prop {array<object>} items
  *  @prop {string} current
- *  @prop {array} parents - For breadcrumbs
+ *  @prop {array<object>} parents - For breadcrumbs
  *  @prop {string} title - For breadcrumbs
  * }
  */

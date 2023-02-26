@@ -5,52 +5,16 @@
 /* Imports */
 
 const { v4: uuidv4 } = require('uuid')
-const { getSlug, getPermalink, getDuration } = require('../utils')
+const { getSlug, getPermalink, getDuration, getCommaLinks } = require('../utils')
 const { durationsData, scriptData } = require('../vars/data')
 const controlSvg = require('./svg/control')
 const caretSvg = require('./svg/caret')
 
 /**
- * Function - output comma separated links
- *
- * @private
- * @param {array} items
- * @param {string} contentType
- * @return {string} HTML
- */
-
-const _getCommaLinks = (items = [], contentType = '') => {
-  const links = []
-
-  if (items.length) {
-    items.forEach(item => {
-      const {
-        title = '',
-        slug = ''
-      } = item.fields
-
-      const permalink = getPermalink(
-        getSlug({
-          id: item.sys.id,
-          contentType,
-          slug
-        })
-      )
-
-      links.push(`<a href="${permalink}" class="t-current js-pt-link" data-inline>${title}</a>`)
-    })
-  } else {
-    return ''
-  }
-
-  return links.join(', ')
-}
-
-/**
  * Function - output testimonial
  *
  * @param {object} args {
- *  @prop {array} items
+ *  @prop {array<object>} items
  *  @prop {string} a11yLabel
  *  @prop {string} contentType
  *  @prop {boolean} includeProjects
@@ -211,7 +175,7 @@ const tracks = async ({
     /* Projects */
 
     if (includeProjects) {
-      const projects = _getCommaLinks(project, 'project')
+      const projects = getCommaLinks(project, 'project')
 
       cells.push({
         size: 'm',
@@ -234,7 +198,7 @@ const tracks = async ({
     /* Genres */
 
     if (includeGenres) {
-      const genres = _getCommaLinks(genre, 'genre')
+      const genres = getCommaLinks(genre, 'genre')
 
       cells.push({
         size: 'm',
