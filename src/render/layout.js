@@ -58,6 +58,20 @@ const layout = ({
 
   const assetsLink = `${getPermalink()}assets/`
 
+  /* Preload font links */
+
+  let preloadFonts = `
+    <link rel="preload" href="${assetsLink}/fonts/americana-bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="${assetsLink}/fonts/questa-sans-light.woff2" as="font" type="font/woff2" crossorigin>
+  `
+
+  if (!meta.isIndex) {
+    preloadFonts += `
+      <link rel="preload" href="${assetsLink}/fonts/americana-roman.woff2" as="font" type="font/woff2" crossorigin>
+      <link rel="preload" href="${assetsLink}/fonts/questa-sans-medium.woff2" as="font" type="font/woff2" crossorigin>
+    `
+  }
+
   /* Output */
 
   return `
@@ -72,8 +86,7 @@ const layout = ({
         ${canonical}
         ${prev}
         ${next}
-        <link rel="preload" href="${assetsLink}/fonts/americana-bold.woff2" as="font" type="font/woff2" crossorigin>
-        <link rel="preload" href="${assetsLink}/fonts/questa-sans-light.woff2" as="font" type="font/woff2" crossorigin>
+        ${preloadFonts}
         <link rel="stylesheet" href="${assetsLink}css/${enumNamespace}.css" media="all">
         <link rel="apple-touch-icon" sizes="180x180" href="${assetsLink}favicon/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="${assetsLink}favicon/favicon-32x32.png">

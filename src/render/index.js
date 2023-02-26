@@ -309,6 +309,12 @@ const _renderItem = async ({
     id
   }
 
+  /* Check if index */
+
+  const index = fields.slug === ''
+
+  meta.isIndex = index
+
   /* Gradient from and to */
 
   let gradientFrom = fields.colorFrom ? fields.colorFrom.value : ''
@@ -357,21 +363,21 @@ const _renderItem = async ({
     parents: s.parents
   })
 
-  /* Output */
-
-  let output = ''
-
   /* Hero */
 
-  output += hero({
+  const heroOutput = hero({
     id,
     contentType,
+    index,
     title: fields.heroTitle || fields.title,
     text: fields.heroText,
     image: fields.heroImage ? fields.heroImage : false,
-    index: fields.slug === '',
     breadcrumbs: navs.breadcrumbs || false
   })
+
+  /* Main output */
+
+  let output = ''
 
   /* Content loop */
 
@@ -489,7 +495,12 @@ const _renderItem = async ({
         content: `
           ${header(navs)}
           ${breadcrumbs(navs)}
-          <main id="main">${output}</main>
+          <main id="main">
+            ${heroOutput}
+            ${index ? '<div id="main-content">' : ''}
+            ${output}
+            ${index ? '</div>' : ''}
+          </main>
           ${footer(navs)}
           ${contains?.audio ? audio() : ''}
         `,

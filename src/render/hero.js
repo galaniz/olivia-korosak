@@ -92,7 +92,7 @@ const hero = ({
       <div class="l-margin-auto l-padding-top-2xl-m">
         ${textOutput}
       </div>
-      <a href="#" class="l-none l-block-m l-width-m l-padding-top-m">
+      <a href="#main-content" class="l-none l-block-m l-width-m l-padding-top-m">
         <span class="l-flex l-width-m l-height-m l-svg">
           ${arrowSvg()}
         </span>
@@ -149,7 +149,7 @@ const hero = ({
 
   if (arrow) {
     output += `
-      <a href="#" class="l-block l-none-m l-width-m l-padding-top-m">
+      <a href="#main-content" class="l-block l-none-m l-width-m l-padding-top-m">
         <span class="l-flex l-width-m l-height-m l-svg">
           ${arrowSvg()}
         </span>
