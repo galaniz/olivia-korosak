@@ -82,10 +82,21 @@ const hero = ({
 
   /* Text */
 
-  let textOutput = `
-    <h1 class="l-margin-0">${title}</h1>
-    ${text ? `<p class="t-m l-margin-0 l-padding-top-4xs l-padding-top-3xs-m">${text}</p>` : ''}
-  `
+  let textOutput = `<h1 class="l-margin-0">${title}</h1>`
+
+  if (text) {
+    let textClasses = 'l-margin-0'
+    let preText = ''
+
+    if (contentType === 'project') {
+      textClasses += ' t t-weight-medium l-relative l-padding-top-3xs l-padding-top-2xs-m e-underline-reverse'
+      preText = '<span class="a11y-visually-hidden">Types: </span>'
+    } else {
+      textClasses += ' t-m l-padding-top-4xs l-padding-top-3xs-m'
+    }
+
+    textOutput += `<p class="${textClasses}">${preText}${text}</p>`
+  }
 
   if (arrow) {
     textOutput = `
@@ -100,7 +111,7 @@ const hero = ({
     `
   }
 
-  /* Track */
+  /* Single track */
 
   if (contentType === 'track') {
     fullWidth = true

@@ -61,14 +61,14 @@ const layout = ({
   /* Preload font links */
 
   let preloadFonts = `
-    <link rel="preload" href="${assetsLink}/fonts/americana-bold.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="${assetsLink}/fonts/questa-sans-light.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="${assetsLink}fonts/americana-bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="${assetsLink}fonts/questa-sans-light.woff2" as="font" type="font/woff2" crossorigin>
   `
 
   if (!meta.isIndex) {
     preloadFonts += `
-      <link rel="preload" href="${assetsLink}/fonts/americana-roman.woff2" as="font" type="font/woff2" crossorigin>
-      <link rel="preload" href="${assetsLink}/fonts/questa-sans-medium.woff2" as="font" type="font/woff2" crossorigin>
+      <link rel="preload" href="${assetsLink}fonts/americana-roman.woff2" as="font" type="font/woff2" crossorigin>
+      <link rel="preload" href="${assetsLink}fonts/questa-sans-medium.woff2" as="font" type="font/woff2" crossorigin>
     `
   }
 

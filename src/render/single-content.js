@@ -5,8 +5,8 @@
 /* Imports */
 
 const { enumOptions } = require('../vars/enums')
-const { slugData } = require('../vars/data')
-const { getSimilarIds, getSlug, getPermalink } = require('../utils')
+const { slugData, durationsData } = require('../vars/data')
+const { getSimilarIds, getSlug, getPermalink, getDuration, getCommaLinks } = require('../utils')
 const container = require('./container')
 const content = require('./content')
 const richText = require('./rich-text')
@@ -132,6 +132,61 @@ const singleContent = async ({
       })
     }
 
+    /* Track details */
+
+    let details = ''
+
+    if (item?.fields?.audio) {
+      const audio = item.fields.audio
+
+      /* Store details */
+
+      const detailsItems = []
+
+      /* Projects */
+
+      if (item?.fields?.project) {
+        detailsItems.push({
+          title: 'Projects',
+          desc: getCommaLinks(item.fields.project, 'project')
+        })
+      }
+
+      /* Genres */
+
+      if (item?.fields?.genre) {
+        detailsItems.push({
+          title: 'Genres',
+          desc: getCommaLinks(item.fields.genre, 'genre')
+        })
+      }
+
+      /* Duration */
+
+      detailsItems.push({
+        title: 'Duration',
+        desc: getDuration(durationsData[audio.sys.id], true)
+      })
+
+      /* Details output */
+
+      details = `
+        <div class="l-padding-left-4xl-l l-margin-bottom-2xs-all l-margin-bottom-s-all-m">
+          <h2 class="t-h4">Track Details</h2>
+          <dl class="l-flex l-flex-column l-flex-row-s l-flex-wrap l-gap-margin-s l-gap-margin-l-m t-m t-background-light-60 t-number-normal t-line-height-130-pc e-underline-reverse">
+            ${detailsItems.map(d => {
+              return `
+                <div>
+                  <dt class="t-background-light t-line-height-130-pc l-margin-bottom-5xs l-margin-bottom-4xs-m">${d.title}</dt>
+                  <dd>${d.desc}</dd>
+                </div>
+              `
+            }).join('')}
+          </dl>
+        </div>
+      `
+    }
+
     /* Similar tracks */
 
     if (similar) {
@@ -148,6 +203,7 @@ const singleContent = async ({
 
     output.html = (
       contain.container.start +
+      details +
       similar +
       contain.container.end
     )

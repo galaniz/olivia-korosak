@@ -5,7 +5,7 @@
 /* Imports */
 
 const { enumNamespace, enumOptions, enumContentTypes } = require('../vars/enums')
-const { getAllContentfulData, getSlug, getPermalink } = require('../utils')
+const { getAllContentfulData, getSlug, getPermalink, getCommaLinks } = require('../utils')
 const { slugData, envData, navData, durationsData, archiveData, termData, scriptData, jsonFileData } = require('../vars/data')
 const slugParentsJson = require('../json/slug-parents.json')
 const archiveIdsJson = require('../json/archive-ids.json')
@@ -365,12 +365,14 @@ const _renderItem = async ({
 
   /* Hero */
 
+  const heroProjectTypes = item?.fields?.projectType ? item.fields.projectType : []
+
   const heroOutput = hero({
     id,
     contentType,
     index,
     title: fields.heroTitle || fields.title,
-    text: fields.heroText,
+    text: contentType === 'project' ? getCommaLinks(heroProjectTypes, 'project') : fields.heroText,
     image: fields.heroImage ? fields.heroImage : false,
     breadcrumbs: navs.breadcrumbs || false
   })
