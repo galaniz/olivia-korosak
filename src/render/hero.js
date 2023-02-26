@@ -103,7 +103,7 @@ const hero = ({
       <div class="l-margin-auto l-padding-top-2xl-m">
         ${textOutput}
       </div>
-      <a href="#main-content" class="l-none l-block-m l-width-m l-padding-top-m">
+      <a href="#main-content" class="l-none l-block-m l-width-m l-padding-top-m" aria-label="Jump to main content">
         <span class="l-flex l-width-m l-height-m l-svg">
           ${arrowSvg()}
         </span>
@@ -114,6 +114,7 @@ const hero = ({
   /* Single track */
 
   if (contentType === 'track') {
+    padding = 'l-padding-top-xl l-padding-bottom-xl l-padding-top-2xl-m'
     fullWidth = true
 
     textOutput = `
@@ -160,7 +161,7 @@ const hero = ({
 
   if (arrow) {
     output += `
-      <a href="#main-content" class="l-block l-none-m l-width-m l-padding-top-m">
+      <a href="#main-content" class="l-block l-none-m l-width-m l-padding-top-m" aria-label="Jump to main content">
         <span class="l-flex l-width-m l-height-m l-svg">
           ${arrowSvg()}
         </span>

@@ -237,7 +237,7 @@ const tracks = async ({
       cells.push({
         size: 's',
         headers: 'duration',
-        output: `<p class="t-s t-number-normal t-align-right l-relative">${durationOutput}</p>`
+        output: `<p class="t-s t-number-normal t-align-right t-background-light-60 l-relative">${durationOutput}</p>`
       })
 
       detailsItems.push({
