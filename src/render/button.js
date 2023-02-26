@@ -77,7 +77,7 @@ const button = ({ args = {} }) => {
 
   /* Attributes */
 
-  let linkAttrs = ' data-button'
+  const linkAttrs = ' data-button'
 
   /* Output */
 

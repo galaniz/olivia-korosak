@@ -214,7 +214,7 @@ const initialize = () => {
     const animDelay = 750
 
     document.addEventListener('DOMContentLoaded', () => {
-      const pageLoadTime = perf.domInteractive - perf.fetchStart;
+      const pageLoadTime = perf.domInteractive - perf.fetchStart
       const animDone = pageLoadTime >= animDelay
 
       if (animDone) {

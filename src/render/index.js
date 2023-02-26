@@ -6,7 +6,7 @@
 
 const { enumNamespace, enumOptions, enumContentTypes } = require('../vars/enums')
 const { getAllContentfulData, getSlug, getPermalink, getCommaLinks } = require('../utils')
-const { slugData, envData, navData, durationsData, archiveData, termData, scriptData, jsonFileData } = require('../vars/data')
+const { slugData, envData, navData, durationsData, archiveData, scriptData, jsonFileData } = require('../vars/data')
 const slugParentsJson = require('../json/slug-parents.json')
 const archiveIdsJson = require('../json/archive-ids.json')
 const durationsJson = require('../json/durations.json')
@@ -616,7 +616,7 @@ const render = async ({
       const item = content.track[i]
 
       if (item?.fields?.audio) {
-        const audio = item.fields.audio;
+        const audio = item.fields.audio
         const audioUrl = audio.fields.file.url
         const duration = await getAudioDuration(audioUrl)
 

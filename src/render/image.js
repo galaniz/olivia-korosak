@@ -67,7 +67,7 @@ const image = ({ args = {}, parents = [] }) => {
 
     if (aspectRatio) {
       classes += ` l-aspect-ratio-${aspectRatio}`
-    } 
+    }
 
     if (card) {
       classes += ' l-after bg-gradient-0'

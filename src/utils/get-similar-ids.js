@@ -129,7 +129,7 @@ const getSimilarIds = async ({
 
     if (getData) {
       const pp = await getContentfulData(`${key}_fallback`, queryArgs)
-  
+
       if (pp?.items) {
         ids = ids.concat(
           pp.items.map((it) => {

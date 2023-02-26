@@ -223,7 +223,7 @@ const richText = ({
 
   /* Id attribute */
 
-  const id = type.includes('heading-') ? ` id="${output.replace(/[\s,:;"'“”‘’]/g, "-").toLowerCase()}"` : '' 
+  const id = type.includes('heading-') ? ` id="${output.replace(/[\s,:;"'“”‘’]/g, '-').toLowerCase()}"` : ''
 
   /* Output */
 
