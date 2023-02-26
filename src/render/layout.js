@@ -72,6 +72,8 @@ const layout = ({
         ${canonical}
         ${prev}
         ${next}
+        <link rel="preload" href="${assetsLink}/fonts/americana-bold.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="${assetsLink}/fonts/questa-sans-light.woff2" as="font" type="font/woff2" crossorigin>
         <link rel="stylesheet" href="${assetsLink}css/${enumNamespace}.css" media="all">
         <link rel="apple-touch-icon" sizes="180x180" href="${assetsLink}favicon/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="${assetsLink}favicon/favicon-32x32.png">
@@ -105,8 +107,15 @@ const layout = ({
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 1;
             z-index: 200;
+          }
+
+          .no-js .e-pt {
+            animation: 150ms ease 750ms forwards e-pt-fb;
+          }
+
+          .js .e-pt[data-show="true"] {
+            opacity: 1;
             visibility: visible;
             transition: visibility 150ms ease 0ms, opacity 150ms ease;
           }
@@ -115,11 +124,6 @@ const layout = ({
             opacity: 0;
             visibility: hidden;
             transition: visibility 0ms ease 150ms, opacity 150ms ease 10ms;
-          }
-
-          .no-js .e-pt[data-show="true"] {
-            transition: none;
-            animation: 150ms ease 800ms forwards e-pt-fb;
           }
         </style>
       </head>

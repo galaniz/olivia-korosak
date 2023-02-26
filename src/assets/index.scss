@@ -46,7 +46,7 @@
 @use "@alanizcreative/formation/src/layouts/aspect-ratio";
 @use "@alanizcreative/formation/src/layouts/overflow";
 @use "@alanizcreative/formation/src/layouts/container";
-@use "@alanizcreative/formation/src/layouts/display";
+@use "layouts/display";
 @use "layouts/flex";
 @use "layouts/gap-margin";
 @use "layouts/padding";

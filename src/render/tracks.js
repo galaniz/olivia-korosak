@@ -217,7 +217,7 @@ const tracks = async ({
         size: 'm',
         headers: 'projects',
         output: `
-          <span class="t-s t-background-light-60 t-line-height-130-pc t-clamp-2 l-relative e-underline-reverse e-underline-thin">
+          <span class="t-s t-background-light-60 t-line-height-130-pc t-clamp-2 l-relative e-underline-reverse e-underline-thin outline-tight">
             ${projects}
           </span>
         `
@@ -240,7 +240,7 @@ const tracks = async ({
         size: 'm',
         headers: 'genres',
         output: `
-          <span class="t-s t-background-light-60 t-line-height-130-pc t-clamp-2 l-relative e-underline-reverse e-underline-thin">
+          <span class="t-s t-background-light-60 t-line-height-130-pc t-clamp-2 l-relative e-underline-reverse e-underline-thin outline-tight">
             ${genres}
           </span>
         `

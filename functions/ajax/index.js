@@ -103,8 +103,14 @@ const ajax = async ({ request, env }) => {
 
     const honeypotName = `${enumNamespace}_asi`
 
-    if (inputs?.[honeypotName]) {
-      console.log('HONEYPOT', inputs[honeypotName])
+    if (data.inputs?.[honeypotName]) {
+      if (data.inputs[honeypotName].value) {
+        return new Response(JSON.stringify({ success: 'Form successully sent.' }), {
+          status: 200
+        })
+      }
+
+      delete data.inputs[honeypotName]
     }
 
     /* Id required */

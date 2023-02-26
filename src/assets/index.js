@@ -5,21 +5,51 @@
 /* Imports */
 
 import { setElements, usingMouse } from '@alanizcreative/formation/src/utils'
-
-/* Classes */
-
+import { pageTransition } from '@alanizcreative/formation/src/effects/page-transition'
 import Nav from '@alanizcreative/formation/src/components/nav'
 import Table from '@alanizcreative/formation/src/objects/table'
 import Collapsible from '@alanizcreative/formation/src/objects/collapsible'
 import SendForm from '@alanizcreative/formation/src/objects/form/send'
 import Audio from '@alanizcreative/formation/src/components/audio'
-import { pageTransition } from '@alanizcreative/formation/src/effects/page-transition'
 
-/* Variables */
+/**
+ * Performance object
+ *
+ * @type {object}
+ */
+
+const perf = window.PerformanceNavigationTiming ? performance.getEntriesByType('navigation')[0] : performance.timing
+
+/**
+ * Namespace
+ *
+ * @type {string}
+ */
 
 const ns = window.namespace
+
+/**
+ * Namespace object - back end info
+ *
+ * @type {object}
+ */
+
 const n = window[ns]
+
+/**
+ * Store DOM elements from setElements
+ *
+ * @type {object}
+ */
+
 const el = {}
+
+/**
+ * Props and selectors for setElements
+ *
+ * @type {array}
+ */
+
 const meta = [
   {
     prop: 'pageTransition',
@@ -123,7 +153,7 @@ const meta = [
       },
       {
         prop: 'audioNext',
-        selector: '.c-audio__next'
+        selector: '.c-audio_next'
       },
       {
         prop: 'audioTime',
@@ -159,7 +189,11 @@ const meta = [
   }
 ]
 
-/* Init */
+/**
+ * Function - initialize functions and classes
+ *
+ * @return {void}
+ */
 
 const initialize = () => {
   /* JavaScript enabled add js body class */
@@ -176,15 +210,31 @@ const initialize = () => {
   /* Page transition off and transition links */
 
   if (el.pageTransition) {
-    addEventListener('DOMContentLoaded', () => {
+    const transDuration = 150
+    const animDelay = 750
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const pageLoadTime = perf.domInteractive - perf.fetchStart;
+      const animDone = pageLoadTime >= animDelay
+
+      if (animDone) {
+        el.pageTransition.style.setProperty('transition', 'none')
+      }
+
       el.pageTransition.setAttribute('data-show', false)
+
+      if (animDone) {
+        setTimeout(() => {
+          el.pageTransition.style.setProperty('transition', '')
+        }, transDuration)
+      }
     })
 
     if (el.pageTransitionLinks.length) {
       pageTransition({
         links: el.pageTransitionLinks,
         transitionElement: el.pageTransition,
-        delay: 150
+        delay: transDuration
       })
     }
   }
@@ -348,7 +398,7 @@ const initialize = () => {
         },
         {
           prop: 'error',
-          selector: '.o-form-result__negative',
+          selector: '.o-form-result_negative',
           items: [
             {
               prop: 'errorPrimary',

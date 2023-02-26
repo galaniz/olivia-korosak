@@ -14,6 +14,10 @@
   svg {
     color: var(--link-color);
   }
+
+  [tabindex="-1"]:focus & {
+    box-shadow: inset 0 0 0 var(--outline-width) var(--link-color);
+  }
 }
 
 .o-info-negative {

@@ -180,7 +180,7 @@ const richText = ({
 
   classes = classes.join(' ')
 
-  /* Output */
+  /* Generate output */
 
   let output = ''
 
@@ -221,7 +221,13 @@ const richText = ({
     })
   }
 
-  return output ? `<${tag}${classes ? ` class="${classes}"` : ''}>${output}</${tag}>` : ''
+  /* Id attribute */
+
+  const id = type.includes('heading-') ? ` id="${output.replace(/[\s,:;"'“”‘’]/g, "-").toLowerCase()}"` : '' 
+
+  /* Output */
+
+  return output ? `<${tag}${id}${classes ? ` class="${classes}"` : ''}>${output}</${tag}>` : ''
 }
 
 /* Exports */

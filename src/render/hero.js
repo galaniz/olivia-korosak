@@ -6,6 +6,7 @@
 
 const { getImage } = require('../utils')
 const controlSvg = require('./svg/control')
+const arrowSvg = require('./svg/arrow')
 
 /**
  * Function - output hero
@@ -58,7 +59,7 @@ const hero = ({
   if (image?.fields) {
     type = 'media-text'
 
-    if (index) {
+    if (!index) {
       container = 'medium'
     }
 
@@ -75,12 +76,29 @@ const hero = ({
     })
   }
 
+  /* Arrow jump link */
+
+  const arrow = index && type === 'media-text'
+
   /* Text */
 
   let textOutput = `
     <h1 class="l-margin-0">${title}</h1>
     ${text ? `<p class="t-m l-margin-0 l-padding-top-4xs l-padding-top-3xs-m">${text}</p>` : ''}
   `
+
+  if (arrow) {
+    textOutput = `
+      <div class="l-margin-auto l-padding-top-2xl-m">
+        ${textOutput}
+      </div>
+      <a href="#" class="l-none l-block-m l-width-m l-padding-top-m">
+        <span class="l-flex l-width-m l-height-m l-svg">
+          ${arrowSvg()}
+        </span>
+      </a>
+    `
+  }
 
   /* Track */
 
@@ -108,8 +126,8 @@ const hero = ({
 
   if (type === 'media-text') {
     output = `
-      <div class="l-flex l-flex-wrap l-gap-margin-m l-gap-margin-2xl-l l-align-center">
-        <div class="${container === 'medium' ? 'l-width-1-2-s l-width-3-5-m' : 'l-width-1-2-m'}">
+      <div class="l-flex l-flex-wrap l-gap-margin-m l-gap-margin-2xl-l${!arrow ? ' l-align-center' : ''}">
+        <div class="${container === 'medium' ? 'l-width-1-2-s l-width-3-5-m' : 'l-width-1-2-m'}${arrow ? ' l-flex l-flex-column' : ''}">
           ${textOutput}
         </div>
         <div class="l-width-1-1 ${container === 'medium' ? 'l-width-1-2-s l-width-2-5-m l-order-first-s' : 'l-width-1-2-m l-order-first-m'}">
@@ -124,6 +142,18 @@ const hero = ({
       ${fullWidth ? '' : '<div class="l-width-2-3-m">'}
         ${textOutput}
       ${fullWidth ? '' : '</div>'}
+    `
+  }
+
+  /* Arrow */
+
+  if (arrow) {
+    output += `
+      <a href="#" class="l-block l-none-m l-width-m l-padding-top-m">
+        <span class="l-flex l-width-m l-height-m l-svg">
+          ${arrowSvg()}
+        </span>
+      </a>
     `
   }
 

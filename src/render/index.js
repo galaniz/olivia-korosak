@@ -369,7 +369,7 @@ const _renderItem = async ({
     title: fields.heroTitle || fields.title,
     text: fields.heroText,
     image: fields.heroImage ? fields.heroImage : false,
-    index: fields.slug !== '',
+    index: fields.slug === '',
     breadcrumbs: navs.breadcrumbs || false
   })
 

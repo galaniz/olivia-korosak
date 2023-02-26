@@ -92,6 +92,10 @@ const posts = async ({
     queryArgs.order = '-fields.date'
   }
 
+  if ((contentType === 'projectType' || contentType === 'genre')) {
+    queryArgs.order = '-fields.order'
+  }
+
   if (filters.length) {
     filters.forEach(filter => {
       const f = filter.split(':')
@@ -325,7 +329,7 @@ const posts = async ({
       if (current > 1) {
         prevLink = `
           <a
-            class="${classes} b-all e-transition e-border-solid"
+            class="${classes} b-all e-transition e-border-solid js-pt-link"
             href="${pageData.fields.basePermalink}${current > 2 ? `?page=${current - 1}` : ''}${prevPaginationFilters}"
             aria-label="Previous page"
             ${maxWidth}
@@ -369,7 +373,7 @@ const posts = async ({
           }
 
           content = `
-            <a class="${classes} b-all e-transition e-border-solid" href="${link}${currPaginationFilters}"${maxWidth}>
+            <a class="${classes} b-all e-transition e-border-solid js-pt-link" href="${link}${currPaginationFilters}"${maxWidth}>
               <span class="a11y-visually-hidden">Page </span>
               ${i}
             </a>
@@ -398,7 +402,7 @@ const posts = async ({
       if (current < totalPages) {
         nextLink = `
           <a
-            class="${classes} b-all e-transition e-border-solid"
+            class="${classes} b-all e-transition e-border-solid js-pt-link"
             href="${pageData.fields.basePermalink}?page=${current + 1}${nextPaginationFilters}"
             aria-label="Next page"
             ${maxWidth}

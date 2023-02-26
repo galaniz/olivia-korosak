@@ -39,7 +39,7 @@ const loader = (args = {}) => {
   /* Output */
 
   return `
-    <span class="o-loader l-absolute l-top-0 l-left-0 l-right-0 l-bottom-0 l-flex l-align-center l-justify-center e-transition outline-none b-radius-s"${attr}>
+    <span class="o-loader l-absolute l-top-0 l-left-0 l-right-0 l-bottom-0 l-flex l-align-center l-justify-center e-transition b-radius-s"${attr}>
       <span class="l-height-s l-flex l-align-center l-justify-center reduce-motion-hide">
         <span></span>
         <span></span>
