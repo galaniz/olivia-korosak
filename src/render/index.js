@@ -10,7 +10,6 @@ const { slugData, envData, navData, archiveData, scriptData, jsonFileData } = re
 const slugParentsJson = require('../json/slug-parents.json')
 const archiveIdsJson = require('../json/archive-ids.json')
 const navDataJson = require('../json/nav-data.json')
-const comingSoon = require('./coming-soon')
 const singleContent = require('./single-content')
 const termContent = require('./term-content')
 const layout = require('./layout')
@@ -540,15 +539,6 @@ const render = async ({
     envData.dev = env.dev
     envData.prod = env.prod
     envData.ctfl = env.ctfl
-  }
-
-  /* Coming soon page */
-
-  if (envData.prod) {
-    return [{
-      slug: '/',
-      output: comingSoon()
-    }]
   }
 
   /* Contentful data */
