@@ -20,8 +20,6 @@ import getContentfulDataServerless from '../utils/get-contentful-data-serverless
  */
 
 const reload = async ({ request, env }) => {
-  console.log('SERVERLESS', request, env)
-
   try {
     /* Query */
 
