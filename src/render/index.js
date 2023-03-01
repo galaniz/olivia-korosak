@@ -590,7 +590,7 @@ const render = async ({
         }
       }
 
-      if (parent) { // RECURSE FOR PREVIEW
+      if (parent) {
         if (parent.fields?.slug && parent.fields?.title) {
           slugData.parents[item.sys.id] = {
             id: parent.sys.id,
