@@ -5,52 +5,16 @@
 /* Imports */
 
 const { v4: uuidv4 } = require('uuid')
-const { getSlug, getPermalink, getDuration } = require('../utils')
-const { durationsData, scriptData } = require('../vars/data')
+const { getSlug, getPermalink, getDuration, getDurationReverse, getCommaLinks } = require('../utils')
+const { scriptData } = require('../vars/data')
 const controlSvg = require('./svg/control')
 const caretSvg = require('./svg/caret')
-
-/**
- * Function - output comma separated links
- *
- * @private
- * @param {array} items
- * @param {string} contentType
- * @return {string} HTML
- */
-
-const _getCommaLinks = (items = [], contentType = '') => {
-  const links = []
-
-  if (items.length) {
-    items.forEach(item => {
-      const {
-        title = '',
-        slug = ''
-      } = item.fields
-
-      const permalink = getPermalink(
-        getSlug({
-          id: item.sys.id,
-          contentType,
-          slug
-        })
-      )
-
-      links.push(`<a href="${permalink}" class="t-current" data-inline>${title}</a>`)
-    })
-  } else {
-    return ''
-  }
-
-  return links.join(', ')
-}
 
 /**
  * Function - output testimonial
  *
  * @param {object} args {
- *  @prop {array} items
+ *  @prop {array<object>} items
  *  @prop {string} a11yLabel
  *  @prop {string} contentType
  *  @prop {boolean} includeProjects
@@ -149,13 +113,14 @@ const tracks = async ({
       title = '',
       slug = '',
       audio = false,
+      audioDuration = '',
       project = [],
       genre = []
     } = item.fields
 
     /* Audio, title and slug required */
 
-    if (!title || !slug || !audio) {
+    if (!title || !slug || !audio || !audioDuration) {
       return ''
     }
 
@@ -185,7 +150,7 @@ const tracks = async ({
 
     const detailsItems = [{
       title: 'Full Title',
-      desc: `<a href="${permalink}" class="t-current" data-inline>${title}</a>`
+      desc: `<a href="${permalink}" class="t-current js-pt-link" data-inline>${title}</a>`
     }]
 
     /* Cells */
@@ -202,7 +167,7 @@ const tracks = async ({
             </button>
           </div>
           <div class="t-m t-weight-medium t-clamp-1 e-underline-reverse outline-tight">
-            <a href="${permalink}" class="t-line-height-130-pc" data-inline>${title}</a>
+            <a href="${permalink}" class="t-line-height-130-pc js-pt-link" data-inline>${title}</a>
           </div>
         </div>
       `
@@ -211,13 +176,13 @@ const tracks = async ({
     /* Projects */
 
     if (includeProjects) {
-      const projects = _getCommaLinks(project, 'project')
+      const projects = getCommaLinks(project, 'project')
 
       cells.push({
         size: 'm',
         headers: 'projects',
         output: `
-          <span class="t-s t-background-light-60 t-line-height-130-pc t-clamp-2 l-relative e-underline-reverse e-underline-thin">
+          <span class="t-s t-background-light-60 t-line-height-130-pc t-clamp-2 l-relative e-underline-reverse e-underline-thin outline-tight">
             ${projects}
           </span>
         `
@@ -234,13 +199,13 @@ const tracks = async ({
     /* Genres */
 
     if (includeGenres) {
-      const genres = _getCommaLinks(genre, 'genre')
+      const genres = getCommaLinks(genre, 'genre')
 
       cells.push({
         size: 'm',
         headers: 'genres',
         output: `
-          <span class="t-s t-background-light-60 t-line-height-130-pc t-clamp-2 l-relative e-underline-reverse e-underline-thin">
+          <span class="t-s t-background-light-60 t-line-height-130-pc t-clamp-2 l-relative e-underline-reverse e-underline-thin outline-tight">
             ${genres}
           </span>
         `
@@ -256,7 +221,7 @@ const tracks = async ({
 
     /* Duration */
 
-    const seconds = durationsData[audio.sys.id] || 0
+    const seconds = getDurationReverse(audioDuration)
 
     const duration = {
       seconds,
@@ -264,23 +229,21 @@ const tracks = async ({
       output: getDuration(seconds)
     }
 
-    if (duration) {
-      const durationOutput = `
-        <span class="a11y-visually-hidden">${duration.a11yOutput}</span>
-        <span aria-hidden="true">${duration.output}</span>
-      `
+    const durationOutput = `
+      <span class="a11y-visually-hidden">${duration.a11yOutput}</span>
+      <span aria-hidden="true">${duration.output}</span>
+    `
 
-      cells.push({
-        size: 's',
-        headers: 'duration',
-        output: `<p class="t-s t-number-normal t-align-right l-relative">${durationOutput}</p>`
-      })
+    cells.push({
+      size: 's',
+      headers: 'duration',
+      output: `<p class="t-s t-number-normal t-align-right t-background-light-60 l-relative">${durationOutput}</p>`
+    })
 
-      detailsItems.push({
-        title: 'Duration',
-        desc: durationOutput
-      })
-    }
+    detailsItems.push({
+      title: 'Duration',
+      desc: durationOutput
+    })
 
     /* Details */
 
@@ -306,7 +269,7 @@ const tracks = async ({
       button: null,
       url: `https:${url}`,
       type: fileType,
-      duration: duration ? duration.seconds : 0
+      duration: seconds
     })
 
     /* Output */

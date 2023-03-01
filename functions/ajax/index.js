@@ -1,15 +1,17 @@
 /**
- * Functions: ajax
+ * Functions - ajax
  */
 
 /* Imports */
 
 import sendForm from '../../src/serverless/send-form'
+import { enumNamespace } from '../../src/vars/enums'
 import { envData } from '../../src/vars/data'
 
 /**
- * Normalize body data
+ * Function - normalize inputs body data to reflect nested structures
  *
+ * @private
  * @param {object} data
  * @return {object}
  */
@@ -58,7 +60,7 @@ const _normalizeBody = (data = {}) => {
 }
 
 /**
- * Ajax function
+ * Function - set env variables, normalize request body, check for required props and call actions
  *
  * @param {object} context {
  *  @prop {object} request
@@ -95,6 +97,20 @@ const ajax = async ({ request, env }) => {
 
     if (!data?.inputs) {
       throw new Error('No inputs')
+    }
+
+    /* Honeypot check */
+
+    const honeypotName = `${enumNamespace}_asi`
+
+    if (data.inputs?.[honeypotName]) {
+      if (data.inputs[honeypotName].value) {
+        return new Response(JSON.stringify({ success: 'Form successully sent.' }), {
+          status: 200
+        })
+      }
+
+      delete data.inputs[honeypotName]
     }
 
     /* Id required */

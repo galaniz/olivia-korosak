@@ -10,11 +10,12 @@ const slugsJson = require('../json/slugs.json')
  * Function - fetch data from all content types or single entry if serverless
  *
  * @param {object} serverlessData
+ * @param {object} previewData
  * @param {function} getContentfulData
  * @return {object|boolean}
  */
 
-const getAllContentfulData = async (serverlessData = {}, getContentfulData) => {
+const getAllContentfulData = async (serverlessData, previewData, getContentfulData) => {
   try {
     /* Get contentful data function required */
 
@@ -61,13 +62,25 @@ const getAllContentfulData = async (serverlessData = {}, getContentfulData) => {
 
     let entry = false
 
-    if (serverlessData) {
-      if (slugsJson?.[serverlessData.path]) {
-        const item = slugsJson[serverlessData.path]
+    if (serverlessData || previewData) {
+      let contentType = ''
+      let id = ''
 
-        const id = item.id
-        const contentType = item.contentType
+      if (serverlessData) {
+        if (slugsJson?.[serverlessData.path]) {
+          const item = slugsJson[serverlessData.path]
 
+          contentType = item.contentType
+          id = item.id
+        }
+      }
+
+      if (previewData) {
+        id = previewData.id
+        contentType = previewData.contentType
+      }
+
+      if (id) {
         entry = await getContentfulData(
           `serverless_${id}`,
           {
@@ -82,7 +95,7 @@ const getAllContentfulData = async (serverlessData = {}, getContentfulData) => {
       }
     }
 
-    if (!serverlessData || !entry) {
+    if ((!serverlessData && !previewData) || !entry) {
       /* Pages */
 
       const pages = await getContentfulData(

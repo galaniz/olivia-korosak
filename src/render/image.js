@@ -15,7 +15,7 @@ const { enumOptions } = require('../vars/enums')
  *  @prop {string} aspectRatio
  *  @prop {object} caption
  * }
- * @param {array} parents
+ * @param {array<object>} parents
  * @return {string} HTML - div
  */
 
@@ -50,11 +50,7 @@ const image = ({ args = {}, parents = [] }) => {
   }
 
   if (imageData) {
-    const imageClasses = []
-
-    if (aspectRatio) {
-      imageClasses.push('l-absolute l-top-0 l-left-0 l-width-100-pc l-height-100-pc l-object-cover')
-    }
+    const imageClasses = ['l-absolute l-top-0 l-left-0 l-width-100-pc l-height-100-pc l-object-cover']
 
     if (card) {
       imageClasses.push('e-transition l-object-left-top')
@@ -63,7 +59,8 @@ const image = ({ args = {}, parents = [] }) => {
     imageOutput = getImage({
       data: imageData,
       classes: imageClasses.join(' '),
-      attr: card ? 'data-scale' : ''
+      attr: card ? 'data-scale' : '',
+      returnAspectRatio: true
     })
 
     let classes = 'l-relative l-overflow-hidden'
@@ -76,13 +73,21 @@ const image = ({ args = {}, parents = [] }) => {
       classes += ' l-after bg-gradient-0'
     }
 
-    imageOutput = `<div class="${classes}">${imageOutput}</div>`
+    imageOutput = `
+      <div class="${classes}"${!aspectRatio ? ` style="padding-top:${imageOutput.aspectRatio * 100}%"` : ''}>
+        ${imageOutput.output}
+      </div>
+    `
   }
 
   /* Card wrapper */
 
   if (imageOutput && card) {
-    imageOutput = `<div class="l-relative l-z-index--1 l-overflow-hidden l-after bg-overlay l-order-first" data-overlay>${imageOutput}</div>`
+    imageOutput = `
+      <div class="l-relative l-z-index--1 l-overflow-hidden l-after bg-overlay l-order-first" data-overlay>
+        ${imageOutput}
+      </div>
+    `
   }
 
   /* Output */

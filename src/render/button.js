@@ -71,13 +71,13 @@ const button = ({ args = {} }) => {
     linkClasses += ' o-button-large'
   }
 
+  if (!external) {
+    linkClasses += ' js-pt-link'
+  }
+
   /* Attributes */
 
-  let linkAttrs = ' data-button'
-
-  if (external) {
-    linkAttrs = ' target="_blank" rel="noreferrer"'
-  }
+  const linkAttrs = ' data-button'
 
   /* Output */
 

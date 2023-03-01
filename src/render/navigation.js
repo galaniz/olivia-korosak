@@ -15,8 +15,8 @@ class Navigation {
    * Set public properties and initialize
    *
    * @param {object} args {
-   *  @prop {array} navs
-   *  @prop {array} items
+   *  @prop {array<object>} navs
+   *  @prop {array<object>} items
    * }
    * @return {void|boolean} - False if init errors
    */
@@ -158,8 +158,8 @@ class Navigation {
    * Loop through items to check and set children
    *
    * @private
-   * @param {array} children
-   * @param {array} store
+   * @param {array<object>} children
+   * @param {array<object>} store
    * @return {void}
    */
 
@@ -175,9 +175,9 @@ class Navigation {
    * Return navigation items by id
    *
    * @private
-   * @param {array} items
+   * @param {array<object>} items
    * @param {string} current
-   * @return {array}
+   * @return {array<object>}
    */
 
   _getItems (items = [], current = '') {
@@ -210,7 +210,7 @@ class Navigation {
    * Loop through items to create html
    *
    * @private
-   * @param {array} items
+   * @param {array<object>} items
    * @param {object} output
    * @param {number} depth
    * @param {object} args
@@ -235,6 +235,8 @@ class Navigation {
         descendentCurrent = false
       } = item
 
+      /* Item start */
+
       args.filterBeforeItem(args, item, output)
 
       const itemClasses = args.itemClass ? ` class="${args.itemClass}"` : ''
@@ -250,14 +252,23 @@ class Navigation {
 
       output.html += `<li data-depth="${depth}"${itemClasses}${itemAttrs}>`
 
+      /* Link start */
+
       args.filterBeforeLink(args, item, output)
 
-      const linkClasses = args.linkClass ? ` class="${args.linkClass}"` : ''
-      let linkAttrs = args.linkAttr ? ` ${args.linkAttr}` : ''
+      let linkClasses = []
 
-      if (external) {
-        linkAttrs += ' target="_blank" rel="noreferrer"'
+      if (args.linkClass) {
+        linkClasses.push(args.linkClass)
       }
+
+      if (!external && args.internalLinkClass) {
+        linkClasses.push(args.internalLinkClass)
+      }
+
+      linkClasses = linkClasses.length ? ` class="${linkClasses.join(' ')}"` : ''
+
+      let linkAttrs = args.linkAttr ? ` ${args.linkAttr}` : ''
 
       if (current) {
         linkAttrs += ' aria-current="page" data-current="true"'
@@ -275,13 +286,19 @@ class Navigation {
 
       args.filterAfterLinkText(args, item, output)
 
+      /* Link end */
+
       output.html += '</a>'
 
       args.filterAfterLink(args, item, output)
 
+      /* Nested content */
+
       if (children.length) {
         this._recurseOutput(children, output, depth, args)
       }
+
+      /* Item end */
 
       output.html += '</li>'
 
@@ -314,6 +331,7 @@ class Navigation {
       itemClass: '',
       itemAttr: '',
       linkClass: '',
+      internalLinkClass: '',
       linkAttr: '',
       filterBeforeItem: () => {},
       filterAfterItem: () => {},
@@ -335,7 +353,7 @@ class Navigation {
   /**
    * Return breadcrumbs html output
    *
-   * @param {array} items
+   * @param {array<object>} items
    * @param {string} current
    * @param {object} args
    * @return {string} HTML - ol
@@ -356,6 +374,7 @@ class Navigation {
       itemClass: '',
       itemAttr: '',
       linkClass: '',
+      internalLinkClass: '',
       linkAttr: '',
       currentClass: '',
       a11yClass: 'a11y-visually-hidden',
@@ -386,7 +405,18 @@ class Navigation {
 
       args.filterBeforeLink(output, isLastLevel)
 
-      const linkClasses = args.linkClass ? ` class="${args.linkClass}"` : ''
+      let linkClasses = []
+
+      if (args.linkClass) {
+        linkClasses.push(args.linkClass)
+      }
+
+      if (args.internalLinkClass) {
+        linkClasses.push(args.internalLinkClass)
+      }
+
+      linkClasses = linkClasses.length ? ` class="${linkClasses.join(' ')}"` : ''
+
       const linkAttrs = args.linkAttr ? ` ${args.linkAttr}` : ''
 
       const permalink = getPermalink(

@@ -32,6 +32,14 @@ const getSimilarIds = async ({
     return false
   }
 
+  /* Curated similar list */
+
+  if (item?.fields?.similar) {
+    return item.fields.similar.map((it) => {
+      return it.sys.id
+    })
+  }
+
   /* Current post id */
 
   const id = item.sys.id
@@ -44,8 +52,7 @@ const getSimilarIds = async ({
 
   const queryArgsBase = {
     content_type: contentType,
-    select: 'sys.id',
-    'sys.id[ne]': id
+    select: 'sys.id'
   }
 
   const queryArgs = { ...queryArgsBase }
@@ -54,58 +61,82 @@ const getSimilarIds = async ({
 
   let ids = []
 
+  /* Can fetch check */
+
+  let getData = false
+
   /* Track */
 
   if (contentType === 'track' && item.fields?.genre) {
-    if (item.fields?.genre) {
-      const genres = item.fields.genre.map((item) => {
-        return item.sys.id
-      })
+    const genres = item.fields.genre.map((it) => {
+      return it.sys.id
+    })
 
-      queryArgs[`fields.genre.sys.id${genres.length > 1 ? '[in]' : ''}`] = genres.join()
-    }
+    queryArgs[`fields.genre.sys.id${genres.length > 1 ? '[in]' : ''}`] = genres.join()
+    queryArgs['sys.id[ne]'] = id
+
+    getData = true
   }
 
   /* Project */
 
   if (contentType === 'project' && item.fields?.projectType) {
-    const projectTypes = item.fields.projectType.map((item) => {
-      return item.sys.id
+    const projectTypes = item.fields.projectType.map((it) => {
+      return it.sys.id
     })
 
     queryArgs[`fields.projectType.sys.id${projectTypes.length > 1 ? '[in]' : ''}`] = projectTypes.join()
+    queryArgs['sys.id[ne]'] = id
+
+    getData = true
   }
 
   /* Get posts */
 
-  const p = await getContentfulData(key, queryArgs)
+  if (getData) {
+    const p = await getContentfulData(key, queryArgs)
 
-  if (p?.items) {
-    ids = p.items.map((item) => {
-      return item.sys.id
-    })
+    if (p?.items) {
+      ids = p.items.map((it) => {
+        return it.sys.id
+      })
+    }
   }
 
-  /* Track project fallback */
+  /* Fallback if limited or no results */
 
-  if (contentType === 'track' && item.fields?.project && ids.length < display) {
+  if (ids.length < display) {
     const queryArgs = { ...queryArgsBase }
 
-    const projects = item.fields.project.map((item) => {
-      return item.sys.id
-    })
-
-    queryArgs[`fields.project.sys.id${projects.length > 1 ? '[in]' : ''}`] = projects.join()
+    queryArgs['sys.id[nin]'] = ids.concat([id]).join()
     queryArgs.limit = Math.abs(ids.length - display)
 
-    const pp = await getContentfulData(key, queryArgs)
+    getData = false
 
-    if (pp?.items) {
-      ids = ids.concat(
-        pp.items.map((item) => {
-          return item.sys.id
-        })
-      )
+    if (contentType === 'track' && item.fields?.project) {
+      const projects = item.fields.project.map((it) => {
+        return it.sys.id
+      })
+
+      queryArgs[`fields.project.sys.id${projects.length > 1 ? '[in]' : ''}`] = projects.join()
+
+      getData = true
+    }
+
+    if (contentType === 'project') {
+      getData = true
+    }
+
+    if (getData) {
+      const pp = await getContentfulData(`${key}_fallback`, queryArgs)
+
+      if (pp?.items) {
+        ids = ids.concat(
+          pp.items.map((it) => {
+            return it.sys.id
+          }).concat(ids)
+        )
+      }
     }
   }
 

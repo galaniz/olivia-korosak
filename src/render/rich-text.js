@@ -50,7 +50,7 @@ const _getInlineTag = (marks) => {
  * @private
  * @param {object} obj {
  *  @prop {object} data
- *  @prop {array} content
+ *  @prop {array<object>} content
  * }
  * @return {string} HTML - a
  */
@@ -85,8 +85,8 @@ const _getLink = (obj) => {
  * Function - output rich text
  *
  * @param {string} type
- * @param {array} content
- * @param {array} parents
+ * @param {array<object>} content
+ * @param {array<object>} parents
  * @return {string}
  */
 
@@ -180,7 +180,7 @@ const richText = ({
 
   classes = classes.join(' ')
 
-  /* Output */
+  /* Generate output */
 
   let output = ''
 
@@ -221,7 +221,13 @@ const richText = ({
     })
   }
 
-  return output ? `<${tag}${classes ? ` class="${classes}"` : ''}>${output}</${tag}>` : ''
+  /* Id attribute */
+
+  const id = type.includes('heading-') ? ` id="${output.replace(/[\s,:;"'“”‘’]/g, '-').toLowerCase()}"` : ''
+
+  /* Output */
+
+  return output ? `<${tag}${id}${classes ? ` class="${classes}"` : ''}>${output}</${tag}>` : ''
 }
 
 /* Exports */

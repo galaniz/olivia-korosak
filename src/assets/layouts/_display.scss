@@ -1,0 +1,22 @@
+/**
+ * Layouts - display
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/layouts/display";
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Styles */
+
+.l-none-m {
+  @include mix.breakpoint-min("m") {
+    display: none;
+  }
+}
+
+.l-block-m {
+  @include mix.breakpoint-min("m") {
+    display: block;
+  }
+}

@@ -7,7 +7,6 @@ src/json/slugs.json
 src/json/slug-parents.json
 src/json/archive-counts.json
 src/json/archive-ids.json
-src/json/durations.json
 src/json/nav-data.json
 functions/*
 !functions/ajax/

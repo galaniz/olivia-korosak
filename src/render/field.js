@@ -62,7 +62,7 @@ const _getCheckboxRadioOpts = (args = {}) => {
  *  @prop {string} width
  *  @prop {string} autoCompleteToken
  *  @prop {string} placeholder
- *  @prop {array} options
+ *  @prop {array<string>} options
  *  @prop {number} rows
  *  @prop {string} emptyErrorMessage
  *  @prop {string} invalidErrorMessage

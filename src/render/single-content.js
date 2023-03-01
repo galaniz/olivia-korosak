@@ -6,7 +6,7 @@
 
 const { enumOptions } = require('../vars/enums')
 const { slugData } = require('../vars/data')
-const { getSimilarIds, getSlug, getPermalink } = require('../utils')
+const { getSimilarIds, getSlug, getPermalink, getDuration, getDurationReverse, getCommaLinks } = require('../utils')
 const container = require('./container')
 const content = require('./content')
 const richText = require('./rich-text')
@@ -73,15 +73,17 @@ const singleContent = async ({
   )
 
   const allLink = `
-    <div class="l-inline-flex l-align-center">
-      <span class="l-flex l-width-2xs l-height-2xs l-svg">
-        ${caretSvg('left')}
-      </span>
-      <span>
-        <a href="${allPermalink}" class="t t-weight-medium t-line-height-130-pc" data-inline>
-          All ${plural}
-        </a>
-      </span>
+    <div class="e-underline l-padding-top-4xs">
+      <div class="l-inline-flex l-align-center">
+        <span class="l-flex l-width-2xs l-height-2xs l-svg">
+          ${caretSvg('left')}
+        </span>
+        <span>
+          <a href="${allPermalink}" class="t t-weight-medium t-line-height-130-pc js-pt-link" data-inline>
+            All ${plural}
+          </a>
+        </span>
+      </div>
     </div>
   `
 
@@ -130,6 +132,64 @@ const singleContent = async ({
       })
     }
 
+    /* Track details */
+
+    let details = ''
+
+    if (item?.fields?.audio && item?.fields?.audioDuration) {
+      /* Store details */
+
+      const detailsItems = []
+
+      /* Projects */
+
+      if (item?.fields?.project) {
+        detailsItems.push({
+          title: 'Projects',
+          desc: getCommaLinks(item.fields.project, 'project')
+        })
+      }
+
+      /* Genres */
+
+      if (item?.fields?.genre) {
+        detailsItems.push({
+          title: 'Genres',
+          desc: getCommaLinks(item.fields.genre, 'genre')
+        })
+      }
+
+      /* Duration */
+
+      detailsItems.push({
+        title: 'Duration',
+        desc: getDuration(
+          getDurationReverse(
+            item.fields.audioDuration
+          ),
+          true
+        )
+      })
+
+      /* Details output */
+
+      details = `
+        <div class="l-padding-left-4xl-l l-margin-bottom-2xs-all l-margin-bottom-s-all-m">
+          <h2 class="t-h4">Track Details</h2>
+          <dl class="l-flex l-flex-column l-flex-row-s l-flex-wrap l-gap-margin-s l-gap-margin-l-m t-m t-background-light-60 t-number-normal t-line-height-130-pc e-underline-reverse">
+            ${detailsItems.map(d => {
+              return `
+                <div>
+                  <dt class="t-background-light t-line-height-130-pc l-margin-bottom-5xs l-margin-bottom-4xs-m">${d.title}</dt>
+                  <dd>${d.desc}</dd>
+                </div>
+              `
+            }).join('')}
+          </dl>
+        </div>
+      `
+    }
+
     /* Similar tracks */
 
     if (similar) {
@@ -137,9 +197,7 @@ const singleContent = async ({
         <div class="l-padding-left-4xl-l l-margin-bottom-2xs-all l-margin-bottom-s-all-m">
           <h2 class="t-h4">${similarTitle}</h2>
           ${similar}
-          <div class="e-underline l-padding-top-4xs">
-            ${allLink}
-          </div>
+          ${allLink}
         </div>
       `
     }
@@ -148,6 +206,7 @@ const singleContent = async ({
 
     output.html = (
       contain.container.start +
+      details +
       similar +
       contain.container.end
     )
@@ -177,7 +236,7 @@ const singleContent = async ({
       args: {
         contentType: 'Track',
         filters: [`fields.project.sys.id:${id}`],
-        noPostsText: false
+        nothingFoundText: false
       },
       pageData: item,
       getContentfulData
@@ -218,6 +277,7 @@ const singleContent = async ({
         similarContain.container.start +
         `<h2>${similarTitle}</h2>` +
         similar +
+        allLink +
         similarContain.container.end
       )
     }

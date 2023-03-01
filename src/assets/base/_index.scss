@@ -91,3 +91,7 @@ hr {
   margin: 0;
   border: 0;
 }
+
+:target {
+  scroll-margin-top: var(--xl);
+}
