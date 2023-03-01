@@ -46,10 +46,10 @@
 @use "@alanizcreative/formation/src/layouts/aspect-ratio";
 @use "@alanizcreative/formation/src/layouts/overflow";
 @use "@alanizcreative/formation/src/layouts/container";
-@use "@alanizcreative/formation/src/layouts/display";
+@use "layouts/display";
 @use "layouts/flex";
 @use "layouts/gap-margin";
-@use "@alanizcreative/formation/src/layouts/padding";
+@use "layouts/padding";
 @use "@alanizcreative/formation/src/layouts/margin";
 @use "@alanizcreative/formation/src/layouts/height";
 @use "@alanizcreative/formation/src/layouts/object";
@@ -97,14 +97,6 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .reduce-motion-show {
-    display: block;
-  }
-
-  .reduce-motion-hide {
-    display: none;
   }
 
   #ok .ok {

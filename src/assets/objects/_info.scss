@@ -1,5 +1,5 @@
 /**
- * Objects: info
+ * Objects - info
  */
 
 /* Imports */
@@ -7,14 +7,6 @@
 @use "@alanizcreative/formation/src/utils/functions" as func;
 
 /* Styles */
-
-.o-info-negative,
-.o-info-positive,
-.o-info-neutral {
-  svg {
-    color: var(--link-color);
-  }
-}
 
 .o-info-negative {
   --link-color: var(--negative);
@@ -32,4 +24,16 @@
   --link-color: var(--heading-color);
   --from: var(--neutral-rgb), 0.1;
   --to: var(--neutral-rgb), 0.05;
+}
+
+.o-info-negative,
+.o-info-positive,
+.o-info-neutral {
+  svg {
+    color: var(--link-color);
+  }
+
+  [tabindex="-1"]:focus & {
+    box-shadow: inset 0 0 0 var(--outline-width) var(--link-color);
+  }
 }

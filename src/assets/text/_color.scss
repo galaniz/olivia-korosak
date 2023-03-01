@@ -1,10 +1,11 @@
 /**
- * Text: color
+ * Text - color
  */
 
 /* Imports */
 
-@use "@alanizcreative/formation/src/text/color";
+@use "sass:color";
+@use "@alanizcreative/formation/src/text/color" as c;
 @use "@alanizcreative/formation/src/utils/functions" as func;
 
 /* Variables */
@@ -23,9 +24,9 @@ $neutral: func.get-color("foreground-tint");
   --border-color: #{rgba(func.get-color("foreground-base"), 0.5)};
   --negative: var(--negative-dark);
   --positive: var(--positive-dark);
-  --negative-rgb: #{red($negative), green($negative), blue($negative)};
-  --positive-rgb: #{red($positive), green($positive), blue($positive)};
-  --neutral-rgb: #{red($neutral), green($neutral), blue($neutral)};
+  --negative-rgb: #{color.red($negative), color.green($negative), color.blue($negative)};
+  --positive-rgb: #{color.red($positive), color.green($positive), color.blue($positive)};
+  --neutral-rgb: #{color.red($neutral), color.green($neutral), color.blue($neutral)};
 
   color: var(--text-color);
 }

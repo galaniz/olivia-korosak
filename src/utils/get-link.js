@@ -1,9 +1,5 @@
 /**
- * Utils: get link from external and internal options
- *
- * @param {object} internalLink
- * @param {string} externalLink
- * @return {string/object}
+ * Utils - get link
  */
 
 /* Imports */
@@ -11,7 +7,13 @@
 const getPermalink = require('./get-permalink')
 const getSlug = require('./get-slug')
 
-/* Function */
+/**
+ * Function - get permalink from external or internal source
+ *
+ * @param {object} internalLink
+ * @param {string} externalLink
+ * @return {string|object}
+ */
 
 const getLink = (internalLink, externalLink = '') => {
   if (externalLink) {

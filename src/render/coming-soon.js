@@ -1,7 +1,5 @@
 /**
- * Render: coming soon
- *
- * @return {string} HTML - html
+ * Render - coming soon
  */
 
 /* Imports */
@@ -12,24 +10,30 @@ const container = require('./container')
 const content = require('./content')
 const logoSvg = require('./svg/logo')
 
-/* Function */
+/**
+ * Function - output coming soon page
+ *
+ * @return {string} HTML - html
+ */
 
 const comingSoon = () => {
   /* Container and content */
 
   const output = {
     container: container({
-      tag: 'Div',
-      Column: 'Block',
-      maxWidth: '650px',
-      paddingTop: '80px',
-      paddingTopLarge: '120px',
-      paddingBottom: '80px',
-      paddingBottomLarge: '120px',
-      classes: 'l-min-height-100-vh l-flex l-align-center'
+      args: {
+        maxWidth: '650px',
+        paddingTop: '80px',
+        paddingTopLarge: '120px',
+        paddingBottom: '80px',
+        paddingBottomLarge: '120px',
+        classes: 'l-min-height-100-vh l-flex l-align-center'
+      }
     }),
     content: content({
-      richTextStyles: true
+      args: {
+        richTextStyles: true
+      }
     })
   }
 

@@ -1,30 +1,22 @@
 /**
  * Render
- *
- * @param {object} args {
- *  @param {object} serverlessData
- *  @param {object} env
- *  @param {function} onRenderEnd
- *  @param {function} getAudioDuration
- * }
- * @return {array}
  */
 
 /* Imports */
 
 const { enumNamespace, enumOptions, enumContentTypes } = require('../vars/enums')
-const { getAllContentfulData, getSlug, getPermalink } = require('../utils')
-const { slugData, envData, navData, archiveData, termData, scriptData, jsonFileData } = require('../vars/data')
+const { getAllContentfulData, getSlug, getPermalink, getDurationReverse, getCommaLinks } = require('../utils')
+const { slugData, envData, navData, archiveData, scriptData, jsonFileData } = require('../vars/data')
 const slugParentsJson = require('../json/slug-parents.json')
 const archiveIdsJson = require('../json/archive-ids.json')
 const navDataJson = require('../json/nav-data.json')
-const comingSoon = require('./coming-soon')
+const singleContent = require('./single-content')
+const termContent = require('./term-content')
 const layout = require('./layout')
 const header = require('./header')
 const breadcrumbs = require('./breadcrumbs')
 const footer = require('./footer')
 const button = require('./button')
-const card = require('./card')
 const column = require('./column')
 const container = require('./container')
 const content = require('./content')
@@ -39,16 +31,32 @@ const hero = require('./hero')
 const gradients = require('./gradients')
 const audio = require('./audio')
 const httpError = require('./http-error')
+const { card } = require('./cards')
 
-/* Store slug data for json */
+/**
+ * Store slug data for json
+ *
+ * @type {object}
+ */
 
 const _slugs = {}
 
-/* Store audio durations for json */
-
-const _durations = {}
-
-/* Recurse and render nested content */
+/**
+ * Function - recurse and output nested content
+ *
+ * @private
+ * @param {object} args {
+ *  @prop {array<object>} contentData
+ *  @prop {object} output
+ *  @prop {array<object>} parents
+ *  @prop {object} pageData
+ *  @prop {object} contains
+ *  @prop {object} serverlessData
+ *  @prop {function} getContentfulData
+ *  @prop {object} navs
+ * }
+ * @return {void}
+ */
 
 const _renderContent = async ({
   contentData = [],
@@ -205,13 +213,23 @@ const _renderContent = async ({
   }
 }
 
-/* Render page */
+/**
+ * Function - output single post or page
+ *
+ * @private
+ * @param {object} args {
+ *  @prop {object} item
+ *  @prop {string} contentType
+ *  @prop {object} serverlessData
+ *  @prop {function} getContentfulData
+ * }
+ * @return {object}
+ */
 
 const _renderItem = async ({
   item = {},
   contentType = 'page',
   serverlessData,
-  getAudioDuration,
   getContentfulData
 }) => {
   /* Serverless render check */
@@ -221,6 +239,10 @@ const _renderItem = async ({
   /* Item id */
 
   const id = item.sys.id
+
+  /* Add posts for terms - project type and genre */
+
+  termContent({ item, contentType })
 
   /* Item fields */
 
@@ -237,64 +259,13 @@ const _renderItem = async ({
     metaTitle: '',
     metaDescription: '',
     metaImage: false,
-    audio: false
+    audio: false,
+    audioDuration: ''
   }, item.fields)
 
-  /* Add posts for terms - project type and genre */
+  /* Store if contains components like audio  */
 
-  if (contentType === 'projectType' || contentType === 'genre') {
-    const postsContent = [
-      {
-        sys: {
-          contentType: {
-            sys: {
-              id: 'section'
-            }
-          }
-        },
-        fields: {
-          tag: 'Div',
-          layout: 'Column',
-          maxWidth: '1300px',
-          paddingBottom: '80px',
-          paddingBottomLarge: '120px',
-          content: [
-            {
-              sys: {
-                contentType: {
-                  sys: {
-                    id: 'posts'
-                  }
-                }
-              },
-              fields: {
-                archiveType: fields.slug,
-                contentType: termData[contentType].contentType,
-                display: termData[contentType].display,
-                headingLevel: 'Heading Two',
-                pagination: true,
-                filters: [
-                  `fields.${termData[contentType].field}.sys.id:${item.sys.id}`
-                ],
-                include: termData[contentType].include
-              }
-            }
-          ]
-        }
-      }
-    ]
-
-    item.fields.content = postsContent
-    fields.content = postsContent
-  }
-
-  /* Get durations for audio */
-
-  if (contentType === 'track' && audio && !serverlessData) {
-    const duration = await getAudioDuration(fields.audio.fields.file.url)
-
-    _durations[fields.audio.sys.id] = duration
-  }
+  const contains = {}
 
   /* Meta */
 
@@ -337,6 +308,50 @@ const _renderItem = async ({
     id
   }
 
+  /* Check if index */
+
+  const index = fields.slug === ''
+
+  meta.isIndex = index
+
+  /* Gradient from and to */
+
+  let gradientFrom = fields.colorFrom ? fields.colorFrom.value : ''
+  let gradientTo = fields.colorTo ? fields.colorTo.value : ''
+
+  /* Set single track data for front end */
+
+  if (contentType === 'track' && fields.audio && fields.audioDuration && !serverlessData) {
+    contains.audio = true
+
+    if (fields?.project) {
+      const trackProject = fields.project[0]
+
+      if (trackProject?.fields?.colorFrom?.value) {
+        gradientFrom = trackProject.fields.colorFrom.value
+      }
+
+      if (trackProject?.fields?.colorTo?.value) {
+        gradientTo = trackProject.fields.colorTo.value
+      }
+    }
+
+    if (!scriptData?.tracks) {
+      scriptData.tracks = []
+    }
+
+    scriptData.tracks.push({
+      id,
+      title,
+      permalink,
+      item: null,
+      button: null,
+      url: `https:${fields.audio.fields.file.url}`,
+      type: fields.audio.fields.file.contentType,
+      duration: getDurationReverse(fields.audioDuration)
+    })
+  }
+
   /* Navigations */
 
   const navs = navigations({
@@ -347,24 +362,27 @@ const _renderItem = async ({
     parents: s.parents
   })
 
-  /* Output */
-
-  let output = ''
-
   /* Hero */
 
-  output += hero({
+  const heroProjectTypes = item?.fields?.projectType ? item.fields.projectType : []
+
+  const heroOutput = hero({
+    id,
+    contentType,
+    index,
     title: fields.heroTitle || fields.title,
-    text: fields.heroText,
+    text: contentType === 'project' ? getCommaLinks(heroProjectTypes, 'project') : fields.heroText,
     image: fields.heroImage ? fields.heroImage : false,
-    index: fields.slug !== '',
     breadcrumbs: navs.breadcrumbs || false
   })
+
+  /* Main output */
+
+  let output = ''
 
   /* Content loop */
 
   const contentOutput = { html: '' }
-  const contains = {}
 
   let contentData = fields.content
 
@@ -400,28 +418,15 @@ const _renderItem = async ({
     })
   }
 
-  let contentBefore = ''
-  let contentAfter = ''
+  await singleContent({
+    item,
+    contentType,
+    getContentfulData,
+    output: contentOutput,
+    contains
+  })
 
-  if (contentType === 'project') {
-    const projectContain = {
-      container: container({
-        tag: 'Div',
-        Column: 'Block',
-        maxWidth: '650px',
-        paddingBottom: '80px',
-        paddingBottomLarge: '120px'
-      }),
-      content: content({
-        richTextStyles: true
-      })
-    }
-
-    contentBefore = projectContain.container.start + projectContain.content.start
-    contentAfter = projectContain.container.end + projectContain.content.end
-  }
-
-  output += contentBefore + contentOutput.html + contentAfter
+  output += contentOutput.html
 
   /* Prev next pagination - end for pagination update from posts */
 
@@ -485,13 +490,18 @@ const _renderItem = async ({
       output: layout({
         meta,
         gradients: gradients({
-          from: fields.colorFrom ? fields.colorFrom.value : '',
-          to: fields.colorTo ? fields.colorTo.value : ''
+          from: gradientFrom,
+          to: gradientTo
         }),
         content: `
           ${header(navs)}
           ${breadcrumbs(navs)}
-          <main id="main">${output}</main>
+          <main id="main">
+            ${heroOutput}
+            ${index ? '<div id="main-content">' : ''}
+            ${output}
+            ${index ? '</div>' : ''}
+          </main>
           ${footer(navs)}
           ${contains?.audio ? audio() : ''}
         `,
@@ -501,13 +511,24 @@ const _renderItem = async ({
   }
 }
 
-/* Function */
+/**
+ * Function - loop through all content types to output pages and posts
+ *
+ * @param {object} args {
+ *  @prop {object} serverlessData
+ *  @prop {object} previewData
+ *  @prop {object} env
+ *  @prop {function} onRenderEnd
+ *  @prop {function} getContentfulData
+ * }
+ * @return {array|object}
+ */
 
 const render = async ({
   serverlessData,
+  previewData,
   env,
   onRenderEnd,
-  getAudioDuration,
   getContentfulData
 }) => {
   /* Serverless data */
@@ -520,18 +541,9 @@ const render = async ({
     envData.ctfl = env.ctfl
   }
 
-  /* Coming soon page */
-
-  if (envData.prod) {
-    return [{
-      slug: '/',
-      output: comingSoon()
-    }]
-  }
-
   /* Contentful data */
 
-  const contentfulData = await getAllContentfulData(serverlessData, getContentfulData)
+  const contentfulData = await getAllContentfulData(serverlessData, previewData, getContentfulData)
 
   if (!contentfulData) {
     return [{
@@ -559,7 +571,7 @@ const render = async ({
 
   const serverlessRoutes = []
 
-  /* Loop through pages first to set parent slugs */
+  /* Loop through pages first to set parent slugs and tracks for durations */
 
   if (!serverlessData) {
     content.page.forEach(item => {
@@ -612,7 +624,7 @@ const render = async ({
 
   /* 404 page */
 
-  if (!serverlessData) {
+  if (!serverlessData && !previewData) {
     data.push({
       slug: '404.html',
       output: httpError('404')
@@ -631,7 +643,6 @@ const render = async ({
         item: content[contentType][i],
         contentType,
         serverlessData,
-        getAudioDuration,
         getContentfulData
       })
 
@@ -660,7 +671,6 @@ const render = async ({
       jsonFileData.slugParents.data = slugData.parents
       jsonFileData.archiveIds.data = archiveData.ids
       jsonFileData.archiveCounts.data = archiveData.counts
-      jsonFileData.durations.data = _durations
       jsonFileData.navData.data = navData
 
       jsonData = jsonFileData
@@ -674,7 +684,7 @@ const render = async ({
 
   /* Output */
 
-  if (serverlessData) {
+  if (serverlessData || previewData) {
     return data[0]
   }
 

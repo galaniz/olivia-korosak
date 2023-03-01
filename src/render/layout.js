@@ -1,13 +1,5 @@
 /**
- * Render: layout
- *
- * @param {object} args {
- *  @param {object} meta
- *  @param {string} gradients
- *  @param {string} content
- *  @param {string} script
- * }
- * @return {string} HTML - html
+ * Render - layout
  */
 
 /* Imports */
@@ -16,7 +8,17 @@ const { envData } = require('../vars/data')
 const { enumNamespace, enumSite, enumColors } = require('../vars/enums')
 const { getPermalink } = require('../utils')
 
-/* Function */
+/**
+ * Function - output html
+ *
+ * @param {object} args {
+ *  @prop {object} meta
+ *  @prop {string} gradients
+ *  @prop {string} content
+ *  @prop {string} script
+ * }
+ * @return {string} HTML - html
+ */
 
 const layout = ({
   meta = {},
@@ -52,9 +54,27 @@ const layout = ({
     noIndex = true
   }
 
+  /* TEMP */
+
+  noIndex = true
+
   /* Assets link */
 
   const assetsLink = `${getPermalink()}assets/`
+
+  /* Preload font links */
+
+  let preloadFonts = `
+    <link rel="preload" href="${assetsLink}fonts/americana-bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="${assetsLink}fonts/questa-sans-light.woff2" as="font" type="font/woff2" crossorigin>
+  `
+
+  if (!meta.isIndex) {
+    preloadFonts += `
+      <link rel="preload" href="${assetsLink}fonts/americana-roman.woff2" as="font" type="font/woff2" crossorigin>
+      <link rel="preload" href="${assetsLink}fonts/questa-sans-medium.woff2" as="font" type="font/woff2" crossorigin>
+    `
+  }
 
   /* Output */
 
@@ -70,6 +90,7 @@ const layout = ({
         ${canonical}
         ${prev}
         ${next}
+        ${preloadFonts}
         <link rel="stylesheet" href="${assetsLink}css/${enumNamespace}.css" media="all">
         <link rel="apple-touch-icon" sizes="180x180" href="${assetsLink}favicon/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="${assetsLink}favicon/favicon-32x32.png">
@@ -79,8 +100,52 @@ const layout = ({
         <meta name="msapplication-TileColor" content="${enumColors.tint}">
         <meta name="theme-color" content="${enumColors.base}">
         <meta name="format-detection" content="telephone=no">
+        <style>
+          @media (prefers-reduced-motion: reduce) {
+            .reduce-motion-show {
+              display: block;
+            }
+
+            .reduce-motion-hide {
+              display: none;
+            }
+          }
+
+          @keyframes e-pt-fb {
+            0% { opacity: 1; }
+            99% { opacity: 0; }
+            100% { opacity: 0; visibility: hidden; }
+          }
+
+          .e-pt {
+            position: fixed;
+            background: #17181d;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
+          }
+
+          .no-js .e-pt {
+            animation: 150ms ease 750ms forwards e-pt-fb;
+          }
+
+          .js .e-pt[data-show="true"] {
+            opacity: 1;
+            visibility: visible;
+            transition: visibility 150ms ease 0ms, opacity 150ms ease;
+          }
+
+          .js .e-pt[data-show="false"] {
+            opacity: 0;
+            visibility: hidden;
+            transition: visibility 0ms ease 150ms, opacity 150ms ease 10ms;
+          }
+        </style>
       </head>
-      <body class="${enumNamespace} l-relative l-z-index-1 l-flex l-flex-column">
+      <body class="${enumNamespace} no-js l-relative l-z-index-1 l-flex l-flex-column">
+        <div class="e-pt reduce-motion-hide" id="js-pt" data-show="true"></div>
         ${gradients}
         ${content}
         ${script}

@@ -1,28 +1,27 @@
 /**
- * Render: navigation
- *
- * @param {object} args {
- *  @param {array} navs
- *  @param {array} items
- * }
+ * Render - navigation
  */
 
 /* Imports */
 
 const { getSlug, getPermalink, getLink } = require('../utils')
 
-/* Class */
+/**
+ * Class - recursively generate navigation output
+ */
 
 class Navigation {
   /**
-   * Constructor
+   * Set public properties and initialize
+   *
+   * @param {object} args {
+   *  @prop {array<object>} navs
+   *  @prop {array<object>} items
+   * }
+   * @return {void|boolean} - False if init errors
    */
 
   constructor (args) {
-    /**
-     * Public variables
-     */
-
     const {
       navs = [],
       items = []
@@ -32,15 +31,24 @@ class Navigation {
     this.items = items
 
     /**
-     * Internal
+     * Store items by od
+     *
+     * @private
+     * @type {object}
      */
 
     this._itemsById = {}
-    this._navsByLocation = {}
 
     /**
-     * Initialize
+     * Store navs by location
+     *
+     * @private
+     * @type {object}
      */
+
+    this._navsByLocation = {}
+
+    /* Initialize */
 
     const init = this._initialize()
 
@@ -52,13 +60,18 @@ class Navigation {
   }
 
   /**
-   * Initialize
+   * Initialize - check required props and set internal props
+   *
+   * @private
+   * @return {boolean}
    */
 
   _initialize () {
     /* Check that required items exist */
 
-    if (!this.navs || !this.items) { return false }
+    if (!this.navs || !this.items) {
+      return false
+    }
 
     /* Items by id */
 
@@ -91,10 +104,12 @@ class Navigation {
   }
 
   /**
-   * Helpers
+   * Normalize navigation item props
+   *
+   * @private
+   * @param {object} item
+   * @return {object}
    */
-
-  /* Normalize navigation item props */
 
   _getItemInfo (item) {
     const fields = item.fields
@@ -139,7 +154,14 @@ class Navigation {
     }
   }
 
-  /* Loop through items to check and set children */
+  /**
+   * Loop through items to check and set children
+   *
+   * @private
+   * @param {array<object>} children
+   * @param {array<object>} store
+   * @return {void}
+   */
 
   _recurseItemChildren (children = [], store = []) {
     children.forEach(child => {
@@ -149,7 +171,14 @@ class Navigation {
     })
   }
 
-  /* Return navigation items by id */
+  /**
+   * Return navigation items by id
+   *
+   * @private
+   * @param {array<object>} items
+   * @param {string} current
+   * @return {array<object>}
+   */
 
   _getItems (items = [], current = '') {
     if (!items.length) {
@@ -177,7 +206,16 @@ class Navigation {
     })
   }
 
-  /* Loop through items to create html */
+  /**
+   * Loop through items to create html
+   *
+   * @private
+   * @param {array<object>} items
+   * @param {object} output
+   * @param {number} depth
+   * @param {object} args
+   * @return {void}
+   */
 
   _recurseOutput = (items = [], output = {}, depth = -1, args = {}) => {
     depth += 1
@@ -197,6 +235,8 @@ class Navigation {
         descendentCurrent = false
       } = item
 
+      /* Item start */
+
       args.filterBeforeItem(args, item, output)
 
       const itemClasses = args.itemClass ? ` class="${args.itemClass}"` : ''
@@ -212,14 +252,23 @@ class Navigation {
 
       output.html += `<li data-depth="${depth}"${itemClasses}${itemAttrs}>`
 
+      /* Link start */
+
       args.filterBeforeLink(args, item, output)
 
-      const linkClasses = args.linkClass ? ` class="${args.linkClass}"` : ''
-      let linkAttrs = args.linkAttr ? ` ${args.linkAttr}` : ''
+      let linkClasses = []
 
-      if (external) {
-        linkAttrs += ' target="_blank" rel="noreferrer"'
+      if (args.linkClass) {
+        linkClasses.push(args.linkClass)
       }
+
+      if (!external && args.internalLinkClass) {
+        linkClasses.push(args.internalLinkClass)
+      }
+
+      linkClasses = linkClasses.length ? ` class="${linkClasses.join(' ')}"` : ''
+
+      let linkAttrs = args.linkAttr ? ` ${args.linkAttr}` : ''
 
       if (current) {
         linkAttrs += ' aria-current="page" data-current="true"'
@@ -237,13 +286,19 @@ class Navigation {
 
       args.filterAfterLinkText(args, item, output)
 
+      /* Link end */
+
       output.html += '</a>'
 
       args.filterAfterLink(args, item, output)
 
+      /* Nested content */
+
       if (children.length) {
         this._recurseOutput(children, output, depth, args)
       }
+
+      /* Item end */
 
       output.html += '</li>'
 
@@ -254,10 +309,13 @@ class Navigation {
   }
 
   /**
-   * Public methods
+   * Return navigation html output
+   *
+   * @param {string} location
+   * @param {string} current
+   * @param {object} args
+   * @return {string} HTML - ul
    */
-
-  /* Return navigation html output */
 
   getOutput (location = '', current = '', args = {}) {
     if (!this._navsByLocation?.[location]) {
@@ -273,6 +331,7 @@ class Navigation {
       itemClass: '',
       itemAttr: '',
       linkClass: '',
+      internalLinkClass: '',
       linkAttr: '',
       filterBeforeItem: () => {},
       filterAfterItem: () => {},
@@ -291,7 +350,14 @@ class Navigation {
     return output.html
   }
 
-  /* Return breadcrumbs html output */
+  /**
+   * Return breadcrumbs html output
+   *
+   * @param {array<object>} items
+   * @param {string} current
+   * @param {object} args
+   * @return {string} HTML - ol
+   */
 
   getBreadcrumbs (items = [], current = '', args = {}) {
     /* Items required */
@@ -308,6 +374,7 @@ class Navigation {
       itemClass: '',
       itemAttr: '',
       linkClass: '',
+      internalLinkClass: '',
       linkAttr: '',
       currentClass: '',
       a11yClass: 'a11y-visually-hidden',
@@ -338,7 +405,18 @@ class Navigation {
 
       args.filterBeforeLink(output, isLastLevel)
 
-      const linkClasses = args.linkClass ? ` class="${args.linkClass}"` : ''
+      let linkClasses = []
+
+      if (args.linkClass) {
+        linkClasses.push(args.linkClass)
+      }
+
+      if (args.internalLinkClass) {
+        linkClasses.push(args.internalLinkClass)
+      }
+
+      linkClasses = linkClasses.length ? ` class="${linkClasses.join(' ')}"` : ''
+
       const linkAttrs = args.linkAttr ? ` ${args.linkAttr}` : ''
 
       const permalink = getPermalink(
@@ -373,7 +451,7 @@ class Navigation {
       </ol>
     `
   }
-} // End Navigation
+}
 
 /* Exports */
 

@@ -1,10 +1,5 @@
 /**
- * Render: rich text
- *
- * @param {string} type
- * @param {array} content
- * @param {array} parents
- * @return {string}
+ * Render - rich text
  */
 
 /* Imports */
@@ -12,7 +7,13 @@
 const { enumOptions } = require('../vars/enums')
 const { getLink } = require('../utils')
 
-/* Get inline start and end tags */
+/**
+ * Function - get inline start and end tags
+ *
+ * @private
+ * @param {array<object>} marks
+ * @return {object}
+ */
 
 const _getInlineTag = (marks) => {
   if (!marks.length) {
@@ -43,7 +44,16 @@ const _getInlineTag = (marks) => {
   }
 }
 
-/* Link markup */
+/**
+ * Function - output link
+ *
+ * @private
+ * @param {object} obj {
+ *  @prop {object} data
+ *  @prop {array<object>} content
+ * }
+ * @return {string} HTML - a
+ */
 
 const _getLink = (obj) => {
   const {
@@ -71,7 +81,14 @@ const _getLink = (obj) => {
   return `<a href="${link}" data-inline>${text.join('')}</a>`
 }
 
-/* Function */
+/**
+ * Function - output rich text
+ *
+ * @param {string} type
+ * @param {array<object>} content
+ * @param {array<object>} parents
+ * @return {string}
+ */
 
 const richText = ({
   type = 'paragraph',
@@ -163,7 +180,7 @@ const richText = ({
 
   classes = classes.join(' ')
 
-  /* Output */
+  /* Generate output */
 
   let output = ''
 
@@ -204,7 +221,13 @@ const richText = ({
     })
   }
 
-  return output ? `<${tag}${classes ? ` class="${classes}"` : ''}>${output}</${tag}>` : ''
+  /* Id attribute */
+
+  const id = type.includes('heading-') ? ` id="${output.replace(/[\s,:;"'“”‘’]/g, '-').toLowerCase()}"` : ''
+
+  /* Output */
+
+  return output ? `<${tag}${id}${classes ? ` class="${classes}"` : ''}>${output}</${tag}>` : ''
 }
 
 /* Exports */

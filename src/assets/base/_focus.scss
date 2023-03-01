@@ -1,5 +1,5 @@
 /**
- * Base: focus
+ * Base - focus
  */
 
 /* Imports */
@@ -18,4 +18,8 @@
 
 .outline-inset {
   --outline-offset: -0.5rem;
+}
+
+body .outline-none:focus {
+  outline: none;
 }

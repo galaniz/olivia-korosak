@@ -1,10 +1,12 @@
 /**
- * Render: check svg
+ * Render - svg check
+ */
+
+/**
+ * Function - output svg for checkmark
  *
  * @return {string} HTML - svg
  */
-
-/* Function */
 
 const checkSvg = () => {
   return `

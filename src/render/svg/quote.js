@@ -1,10 +1,12 @@
 /**
- * Render: quote svg
+ * Render - svg quote
+ */
+
+/**
+ * Function - output svg for quotemark
  *
  * @return {string} HTML - svg
  */
-
-/* Function */
 
 const quoteSvg = () => {
   return `

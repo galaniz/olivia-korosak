@@ -1,0 +1,16 @@
+/**
+ * Layouts - padding
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/layouts/padding";
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+
+/* Styles */
+
+.l-padding-left-4xl-l {
+  @include mix.breakpoint-min("l") {
+    padding-left: var(--4xl);
+  }
+}

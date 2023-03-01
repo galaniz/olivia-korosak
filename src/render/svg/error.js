@@ -1,10 +1,12 @@
 /**
- * Render: error svg
+ * Render - svg error
+ */
+
+/**
+ * Function - output svg for error icon
  *
  * @return {string} HTML - svg
  */
-
-/* Function */
 
 const errorSvg = () => {
   return `

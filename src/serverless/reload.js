@@ -1,5 +1,5 @@
 /**
- * Serverless: reload
+ * Serverless - reload
  */
 
 /* Imports */
@@ -8,11 +8,18 @@ import render from '../render'
 import httpError from '../render/http-error'
 import getContentfulDataServerless from '../utils/get-contentful-data-serverless'
 
-/* Function */
+/**
+ * Function - output paginated and/or filtered page on browser reload
+ *
+ * @private
+ * @param {object} {
+ *  @prop {object} request
+ *  @prop {object} env
+ * }
+ * @return {object} Response
+ */
 
 const reload = async ({ request, env }) => {
-  console.log('SERVERLESS', request, env)
-
   try {
     /* Query */
 
@@ -72,5 +79,7 @@ const reload = async ({ request, env }) => {
     })
   }
 }
+
+/* Export */
 
 export default reload

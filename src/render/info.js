@@ -1,19 +1,19 @@
 /**
- * Render: info
- *
- * @param {string} text
- * @return {string} HTML - div
+ * Render - info
  */
 
 /* Imports */
 
 const infoSvg = require('./svg/info')
 
-/* Function */
+/**
+ * Function - output info message
+ *
+ * @param {string} text
+ * @return {string} HTML - div
+ */
 
 const info = (text = '') => {
-  /* Output */
-
   return `
     <div class="o-info-neutral bg-gradient-135 l-overflow-hidden bg-gradient-135 l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
       <div class="l-flex l-gap-margin-3xs">

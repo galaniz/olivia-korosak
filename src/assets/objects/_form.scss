@@ -1,5 +1,5 @@
 /**
- * Objects: form
+ * Objects - form
  */
 
 /* Imports */
@@ -74,6 +74,12 @@
         --border-color: var(--outline-color);
       }
     }
+  }
+
+  /* Honeypot */
+
+  [data-asi] {
+    @extend %u-display-none;
   }
 
   /* Required */

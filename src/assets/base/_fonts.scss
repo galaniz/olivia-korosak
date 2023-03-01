@@ -1,15 +1,6 @@
 /**
- * Base: fonts
+ * Base - fonts
  */
-
-@font-face {
-  font-family: Americana;
-  src:
-    url("../fonts/americana-roman.woff2") format("woff2"),
-    url("../fonts/americana-roman.woff") format("woff");
-  font-weight: 400;
-  font-display: swap;
-}
 
 @font-face {
   font-family: Americana;
@@ -30,13 +21,12 @@
 }
 
 @font-face {
-  font-family: "Questa Sans";
+  font-family: Americana;
   src:
-    url("../fonts/questa-sans-light-italic.woff2") format("woff2"),
-    url("../fonts/questa-sans-light-italic.woff") format("woff");
-  font-weight: 300;
+    url("../fonts/americana-roman.woff2") format("woff2"),
+    url("../fonts/americana-roman.woff") format("woff");
+  font-weight: 400;
   font-display: swap;
-  font-style: italic;
 }
 
 @font-face {
@@ -46,4 +36,14 @@
     url("../fonts/questa-sans-medium.woff") format("woff");
   font-weight: 500;
   font-display: swap;
+}
+
+@font-face {
+  font-family: "Questa Sans";
+  src:
+    url("../fonts/questa-sans-light-italic.woff2") format("woff2"),
+    url("../fonts/questa-sans-light-italic.woff") format("woff");
+  font-weight: 300;
+  font-display: swap;
+  font-style: italic;
 }

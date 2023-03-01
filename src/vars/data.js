@@ -1,8 +1,12 @@
 /**
- * Vars: slug, term, nav, script, archive and env data objects
+ * Vars - data
  */
 
-/* Slug data for link and json file generation */
+/**
+ * Slug data for link and json file generation
+ *
+ * @type {object}
+ */
 
 const slugData = {
   parents: {}, // Parent items for slug generation
@@ -39,7 +43,11 @@ const slugData = {
   }
 }
 
-/* Terms data for posts content */
+/**
+ * Terms data for posts content
+ *
+ * @type {object}
+ */
 
 const termData = {
   projectType: {
@@ -64,22 +72,38 @@ const termData = {
   }
 }
 
-/* Nav data for json storage */
+/**
+ * Nav data for json storage
+ *
+ * @type {object}
+ */
 
 const navData = {}
 
-/* Script data for front end */
+/**
+ * Script data for front end
+ *
+ * @type {object}
+ */
 
 const scriptData = {}
 
-/* Archive data */
+/**
+ * Archive data
+ *
+ * @type {object}
+ */
 
 const archiveData = {
   ids: {}, // Page archive ids by content type
   counts: {} // Posts archive counts
 }
 
-/* Data to store in json files */
+/**
+ * Data to store in json files
+ *
+ * @type {object}
+ */
 
 const jsonFileData = {
   slugs: {
@@ -98,24 +122,24 @@ const jsonFileData = {
     data: '',
     name: 'archive-counts.json'
   },
-  durations: {
-    data: '',
-    name: 'durations.json'
-  },
   navData: {
     data: '',
     name: 'nav-data.json'
   }
 }
 
-/* Env/context data */
+/**
+ * Env/context data
+ *
+ * @type {object}
+ */
 
 const envData = {
   dev: true,
   prod: false,
   urls: {
     dev: '/',
-    prod: 'https://oliviakorosak.com/'
+    prod: 'https://olivia-korosak.pages.dev/'
   },
   eleventy: {
     cache: false

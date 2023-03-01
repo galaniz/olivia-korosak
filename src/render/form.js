@@ -1,24 +1,28 @@
 /**
- * Render: form
- *
- * @param {object} args {
- *  @param {string} subject
- *  @param {string} submitLabel
- *  @param {string} successTitle
- *  @param {string} successText
- * }
- * @param {string} id
- * @return {object}
+ * Render - form
  */
 
 /* Imports */
 
+const { v4: uuidv4 } = require('uuid')
+const { enumNamespace } = require('../vars/enums')
 const { scriptData } = require('../vars/data')
 const errorSvg = require('./svg/error')
 const checkSvg = require('./svg/check')
 const loader = require('./loader')
 
-/* Function */
+/**
+ * Function - output form wrapper
+ *
+ * @param {object} args {
+ *  @prop {string} subject
+ *  @prop {string} submitLabel
+ *  @prop {string} successTitle
+ *  @prop {string} successText
+ * }
+ * @param {string} id
+ * @return {object}
+ */
 
 const form = ({ args = {}, id }) => {
   const {
@@ -49,12 +53,23 @@ const form = ({ args = {}, id }) => {
 
   scriptData.sendUrl = '/ajax/'
 
+  /* Honeypot */
+
+  const honeypotId = uuidv4()
+  const honeypotName = `${enumNamespace}_asi`
+  const honeypot = `
+    <div class="o-form__field l-width-1-1" data-asi>
+      <label class="o-form__label" for="${honeypotId}">Website</label>
+      <input type="url" name="${honeypotName}" id="${honeypotId}" autocomplete="off" class="js-input">
+    </div>
+  `
+
   /* Output */
 
   const start = `
     <form id="${id}" class="o-form js-send-form" method="post" novalidate>
       <div class="l-flex l-flex-column l-flex-row-l l-flex-wrap l-align-end-l l-gap-margin-s l-gap-margin-m-m">
-        <div class="o-form-error__summary l-width-100-pc l-none" tabindex="-1">
+        <div class="o-form-error__summary l-width-100-pc l-none outline-none" tabindex="-1">
           <div class="o-info-negative bg-gradient-135 l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
             <div class="l-flex l-gap-margin-3xs">
               <div>
@@ -72,7 +87,8 @@ const form = ({ args = {}, id }) => {
   `
 
   const end = `
-        <div class="o-form-result__negative l-width-100-pc l-none" role="alert" tabindex="-1">
+        ${honeypot}
+        <div class="o-form-result__negative l-width-100-pc l-none outline-none" role="alert" tabindex="-1">
           <div class="o-info-negative bg-gradient-135 l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
             <div class="l-flex l-gap-margin-3xs">
               <div>
@@ -95,7 +111,7 @@ const form = ({ args = {}, id }) => {
             </button>
           </div>
         </div>
-        <div class="o-form-result__positive l-width-100-pc l-none" role="alert" tabindex="-1">
+        <div class="o-form-result__positive l-width-100-pc l-none outline-none" role="alert" tabindex="-1">
           <div class="o-info-positive bg-gradient-135 l-padding-left-3xs l-padding-right-3xs l-padding-top-3xs l-padding-bottom-3xs b-radius-s">
             <div class="l-flex l-gap-margin-3xs">
               <div>

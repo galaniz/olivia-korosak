@@ -1,7 +1,5 @@
 /**
- * Render: audio player
- *
- * @return {string} HTML - div
+ * Render - audio
  */
 
 /* Imports */
@@ -10,7 +8,11 @@ const controlSvg = require('./svg/control')
 const closeSvg = require('./svg/close')
 const errorSvg = require('./svg/error')
 
-/* Function */
+/**
+ * Function - output audio player
+ *
+ * @return {string} HTML - div
+ */
 
 const audio = () => {
   return `
@@ -18,7 +20,7 @@ const audio = () => {
       <audio preload="auto">
         <source src="" type="">
         <div class="l-container l-absolute l-top-0 l-left-0 l-right-0 l-bottom-0 l-z-index-1 l-flex l-align-center bg-background-light">
-          <p class="t-xs t-line-height-130-pc e-underline">Your browser does not support HTML5 audio. Download track <a href="" class="c-audio__update" data-update="textContent:title,href:url" data-inline></a>.</p>
+          <p class="t-xs t-line-height-130-pc e-underline">Your browser does not support HTML5 audio. Download track <a href="" class="c-audio__update js-pt-link" data-update="textContent:title,href:url" data-inline></a>.</p>
         </div>
       </audio>
       <div class="c-audio__container l-padding-left-5xs l-padding-top-5xs l-padding-bottom-5xs l-padding-right-3xs l-padding-top-3xs-m l-padding-bottom-3xs-m l-margin-auto">
@@ -27,14 +29,14 @@ const audio = () => {
             <div class="l-flex l-align-center l-gap-margin-3xs l-gap-margin-s-m outline-snug">
               <div>
                 <div class="c-audio__offset l-flex l-align-center">
-                  <button type="button" class="c-audio__prev l-width-r l-height-r l-svg b-radius-100-pc e-bg-foreground-base-12" aria-label="Previous track">
+                  <button type="button" class="c-audio__prev l-width-r l-height-r l-svg b-radius-100-pc t-foreground-base e-bg-foreground-base-12" aria-label="Previous track">
                     ${controlSvg('playPrev')}
                   </button>
-                  <button type="button" class="c-audio__play o-play l-width-l l-height-l l-svg b-radius-100-pc e-bg-foreground-base-12" aria-label="Play" data-state="play">
+                  <button type="button" class="c-audio__play o-play l-width-l l-height-l l-svg b-radius-100-pc t-foreground-base e-bg-foreground-base-12" aria-label="Play" data-state="play">
                     ${controlSvg('play')}
                     ${controlSvg('pause')}
                   </button>
-                  <button type="button" class="c-audio__next l-width-r l-height-r l-svg b-radius-100-pc e-bg-foreground-base-12" aria-label="Next track">
+                  <button type="button" class="c-audio__next l-width-r l-height-r l-svg b-radius-100-pc t-foreground-base e-bg-foreground-base-12" aria-label="Next track">
                     ${controlSvg('playNext')}
                   </button>
                 </div>
@@ -42,7 +44,7 @@ const audio = () => {
               <div>
                 <div class="c-audio__info e-underline-reverse">
                   <p class="t-xs t-weight-medium t-clamp-1 outline-tight">
-                    <a href="" class="c-audio__update t-line-height-120-pc" data-update="textContent:title,href:permalink" data-inline></a>
+                    <a href="" class="c-audio__update t-line-height-120-pc js-pt-link" data-update="textContent:title,href:permalink" data-inline></a>
                   </p>
                 </div>
               </div>
@@ -77,12 +79,12 @@ const audio = () => {
               </div>
             </div>
             <div>
-              <p class="t-xs t-weight-medium t-line-height-130-pc t-valign-middle l-margin-0 l-padding-top-5xs l-padding-bottom-5xs e-underline">Sorry, there is a problem with the service. Download track <a href="" class="c-audio__update" data-update="textContent:title,href:url" data-inline></a>.</p>
+              <p class="t-xs t-weight-medium t-line-height-130-pc t-valign-middle l-margin-0 l-padding-top-5xs l-padding-bottom-5xs e-underline">Sorry, there is a problem with the service. Download track <a href="" class="c-audio__update js-pt-link" data-update="textContent:title,href:url" data-inline></a>.</p>
             </div>
           </div>
         </div>
       </div>
-      <button type="button" class="c-audio__close l-absolute l-right-0 l-top-0 l-z-index-1 l-width-xs l-height-xs l-flex l-align-center l-justify-center outline-snug" aria-label="Close audio player">
+      <button type="button" class="c-audio__close l-absolute l-right-0 l-top-0 l-z-index-1 l-width-xs l-height-xs l-flex l-align-center l-justify-center t-foreground-base outline-snug" aria-label="Close audio player">
         <span class="l-width-2xs l-height-2xs l-svg">
           ${closeSvg()}
         </span>

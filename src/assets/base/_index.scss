@@ -4,6 +4,7 @@
 
 /* Imports */
 
+@use "sass:color";
 @use "../config/mixins" as m;
 @use "@alanizcreative/formation/src/base/mixins" as mix;
 @use "@alanizcreative/formation/src/utils/functions" as func;
@@ -32,14 +33,13 @@ $neutral: func.get-color("background-light");
   --underline-offset: 0.3125rem;
   --negative: var(--negative-light);
   --positive: var(--positive-light);
-  --negative-rgb: #{red($negative), green($negative), blue($negative)};
-  --positive-rgb: #{red($positive), green($positive), blue($positive)};
-  --neutral-rgb: #{red($neutral), green($neutral), blue($neutral)};
+  --negative-rgb: #{color.red($negative), color.green($negative), color.blue($negative)};
+  --positive-rgb: #{color.red($positive), color.green($positive), color.blue($positive)};
+  --neutral-rgb: #{color.red($neutral), color.green($neutral), color.blue($neutral)};
 }
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
 
   @include mixi.fluid-size(
     --logo-height,
@@ -56,6 +56,10 @@ body {
   color: var(--text-color);
   background: var(--foreground-base);
   min-height: 100vh;
+}
+
+main {
+  @extend %u-overflow-x-hidden;
 }
 
 a {
@@ -86,4 +90,8 @@ hr {
   background: var(--background-light-20);
   margin: 0;
   border: 0;
+}
+
+:target {
+  scroll-margin-top: var(--xl);
 }

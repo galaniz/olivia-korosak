@@ -171,6 +171,8 @@ $gaps: (
     "r",
     "m",
     "l",
+    "xl",
+    "2xl",
   ),
 
   $width-breakpoints: ("s", "m"),
@@ -185,6 +187,8 @@ $gaps: (
     "r",
     "m",
     "l",
+    "xl",
+    "2xl",
   ),
 
   $height-breakpoints: ("s", "m"),
@@ -205,7 +209,7 @@ $gaps: (
 
   /* Flex */
 
-  $flex-row-breakpoints: ("l"),
+  $flex-row-breakpoints: ("s", "l"),
 
   /* Nav icon */
 
