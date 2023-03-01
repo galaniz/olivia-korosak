@@ -24,31 +24,31 @@ module.exports = async (args = {}) => {
 
           for (let i = 0; i < jsonDataKeys.length; i++) {
             const json = jsonData[jsonDataKeys[i]]
-      
+
             writeFile(`./src/json/${json.name}`, JSON.stringify(json.data, null, 2), (error) => {
               if (error) {
                 console.error(`Error writing ${json.name} `, error)
                 return
               }
-      
+
               console.log(`Successfully wrote ${json.name}`)
             })
           }
         }
 
         if (envData.dev) {
-          const middlewareContent = `import preview from '../src/serverless/preview'; const render = async (context) => { return await preview(context); }; export const onRequestGet = [render];`
+          const middlewareContent = 'import preview from \'../src/serverless/preview\'; const render = async (context) => { return await preview(context); }; export const onRequestGet = [render];'
 
           writeFile('./functions/_middleware.js', middlewareContent, (error) => {
             if (error) {
-              console.error(`Error writing _middleware.js `, error)
+              console.error('Error writing _middleware.js ', error)
               return
             }
 
-            console.log(`Successfully wrote _middleware.js`)
+            console.log('Successfully wrote _middleware.js')
           })
         }
-        
+
         if (serverlessRoutes.length) {
           for (let i = 0; i < serverlessRoutes.length; i++) {
             const path = serverlessRoutes[i]
@@ -67,13 +67,13 @@ module.exports = async (args = {}) => {
                 console.error(`Error writing ./functions${path} `, error)
                 return
               }
-          
+
               writeFile(`./functions${path}index.js`, content, (err) => {
                 if (err) {
                   console.error(`Error writing ./functions${path}index.js `, err)
                   return
                 }
-        
+
                 console.log(`Successfully wrote ./functions${path}index.js`)
               })
             })

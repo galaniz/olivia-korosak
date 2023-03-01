@@ -69,7 +69,7 @@ const getAllContentfulData = async (serverlessData, previewData, getContentfulDa
       if (serverlessData) {
         if (slugsJson?.[serverlessData.path]) {
           const item = slugsJson[serverlessData.path]
-          
+
           contentType = item.contentType
           id = item.id
         }
@@ -110,7 +110,7 @@ const getAllContentfulData = async (serverlessData, previewData, getContentfulDa
         content.page = pages.items
       }
 
-      /* Projects */ 
+      /* Projects */
 
       const projects = await getContentfulData(
         'init_contentful_projects',

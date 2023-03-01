@@ -17,7 +17,7 @@ import getContentfulDataServerless from '../utils/get-contentful-data-serverless
 
 const preview = async ({ request, next, env }) => {
   /* Params */
-  
+
   const { searchParams } = new URL(request.url)
   const contentType = searchParams.get('content_type')
   const id = searchParams.get('preview')
