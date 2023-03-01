@@ -10,7 +10,6 @@ const { slugData, envData, navData, archiveData, scriptData, jsonFileData } = re
 const slugParentsJson = require('../json/slug-parents.json')
 const archiveIdsJson = require('../json/archive-ids.json')
 const navDataJson = require('../json/nav-data.json')
-const comingSoon = require('./coming-soon')
 const singleContent = require('./single-content')
 const termContent = require('./term-content')
 const layout = require('./layout')
@@ -542,15 +541,6 @@ const render = async ({
     envData.ctfl = env.ctfl
   }
 
-  /* Coming soon page */
-
-  if (envData.prod) {
-    return [{
-      slug: '/',
-      output: comingSoon()
-    }]
-  }
-
   /* Contentful data */
 
   const contentfulData = await getAllContentfulData(serverlessData, previewData, getContentfulData)
@@ -600,7 +590,7 @@ const render = async ({
         }
       }
 
-      if (parent) { // RECURSE FOR PREVIEW
+      if (parent) {
         if (parent.fields?.slug && parent.fields?.title) {
           slugData.parents[item.sys.id] = {
             id: parent.sys.id,

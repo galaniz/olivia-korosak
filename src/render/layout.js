@@ -54,6 +54,10 @@ const layout = ({
     noIndex = true
   }
 
+  /* TEMP */
+
+  noIndex = true
+
   /* Assets link */
 
   const assetsLink = `${getPermalink()}assets/`
