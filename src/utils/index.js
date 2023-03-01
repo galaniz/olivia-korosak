@@ -7,6 +7,7 @@
 const getAllContentfulData = require('./get-all-contentful-data')
 const getCommaLinks = require('./get-comma-links')
 const getSimilarIds = require('./get-similar-ids')
+const getDurationReverse = require('./get-duration-reverse')
 const getDuration = require('./get-duration')
 const getImage = require('./get-image')
 const getLink = require('./get-link')
@@ -21,6 +22,7 @@ module.exports = {
   getAllContentfulData,
   getCommaLinks,
   getSimilarIds,
+  getDurationReverse,
   getDuration,
   getImage,
   getLink,

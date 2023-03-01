@@ -5,8 +5,8 @@
 /* Imports */
 
 const { enumOptions } = require('../vars/enums')
-const { slugData, durationsData } = require('../vars/data')
-const { getSimilarIds, getSlug, getPermalink, getDuration, getCommaLinks } = require('../utils')
+const { slugData } = require('../vars/data')
+const { getSimilarIds, getSlug, getPermalink, getDuration, getDurationReverse, getCommaLinks } = require('../utils')
 const container = require('./container')
 const content = require('./content')
 const richText = require('./rich-text')
@@ -136,9 +136,7 @@ const singleContent = async ({
 
     let details = ''
 
-    if (item?.fields?.audio) {
-      const audio = item.fields.audio
-
+    if (item?.fields?.audio && item?.fields?.audioDuration) {
       /* Store details */
 
       const detailsItems = []
@@ -165,7 +163,12 @@ const singleContent = async ({
 
       detailsItems.push({
         title: 'Duration',
-        desc: getDuration(durationsData[audio.sys.id], true)
+        desc: getDuration(
+          getDurationReverse(
+            item.fields.audioDuration
+          ),
+          true
+        )
       })
 
       /* Details output */

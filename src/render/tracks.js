@@ -5,8 +5,8 @@
 /* Imports */
 
 const { v4: uuidv4 } = require('uuid')
-const { getSlug, getPermalink, getDuration, getCommaLinks } = require('../utils')
-const { durationsData, scriptData } = require('../vars/data')
+const { getSlug, getPermalink, getDuration, getDurationReverse, getCommaLinks } = require('../utils')
+const { scriptData } = require('../vars/data')
 const controlSvg = require('./svg/control')
 const caretSvg = require('./svg/caret')
 
@@ -113,13 +113,14 @@ const tracks = async ({
       title = '',
       slug = '',
       audio = false,
+      audioDuration = '',
       project = [],
       genre = []
     } = item.fields
 
     /* Audio, title and slug required */
 
-    if (!title || !slug || !audio) {
+    if (!title || !slug || !audio || !audioDuration) {
       return ''
     }
 
@@ -220,7 +221,7 @@ const tracks = async ({
 
     /* Duration */
 
-    const seconds = durationsData[audio.sys.id] || 0
+    const seconds = getDurationReverse(audioDuration)
 
     const duration = {
       seconds,
@@ -228,23 +229,21 @@ const tracks = async ({
       output: getDuration(seconds)
     }
 
-    if (duration) {
-      const durationOutput = `
-        <span class="a11y-visually-hidden">${duration.a11yOutput}</span>
-        <span aria-hidden="true">${duration.output}</span>
-      `
+    const durationOutput = `
+      <span class="a11y-visually-hidden">${duration.a11yOutput}</span>
+      <span aria-hidden="true">${duration.output}</span>
+    `
 
-      cells.push({
-        size: 's',
-        headers: 'duration',
-        output: `<p class="t-s t-number-normal t-align-right t-background-light-60 l-relative">${durationOutput}</p>`
-      })
+    cells.push({
+      size: 's',
+      headers: 'duration',
+      output: `<p class="t-s t-number-normal t-align-right t-background-light-60 l-relative">${durationOutput}</p>`
+    })
 
-      detailsItems.push({
-        title: 'Duration',
-        desc: durationOutput
-      })
-    }
+    detailsItems.push({
+      title: 'Duration',
+      desc: durationOutput
+    })
 
     /* Details */
 
@@ -270,7 +269,7 @@ const tracks = async ({
       button: null,
       url: `https:${url}`,
       type: fileType,
-      duration: duration ? duration.seconds : 0
+      duration: seconds
     })
 
     /* Output */

@@ -5,11 +5,10 @@
 /* Imports */
 
 const { enumNamespace, enumOptions, enumContentTypes } = require('../vars/enums')
-const { getAllContentfulData, getSlug, getPermalink, getCommaLinks } = require('../utils')
-const { slugData, envData, navData, durationsData, archiveData, scriptData, jsonFileData } = require('../vars/data')
+const { getAllContentfulData, getSlug, getPermalink, getDurationReverse, getCommaLinks } = require('../utils')
+const { slugData, envData, navData, archiveData, scriptData, jsonFileData } = require('../vars/data')
 const slugParentsJson = require('../json/slug-parents.json')
 const archiveIdsJson = require('../json/archive-ids.json')
-const durationsJson = require('../json/durations.json')
 const navDataJson = require('../json/nav-data.json')
 const comingSoon = require('./coming-soon')
 const singleContent = require('./single-content')
@@ -261,7 +260,8 @@ const _renderItem = async ({
     metaTitle: '',
     metaDescription: '',
     metaImage: false,
-    audio: false
+    audio: false,
+    audioDuration: ''
   }, item.fields)
 
   /* Store if contains components like audio  */
@@ -322,7 +322,7 @@ const _renderItem = async ({
 
   /* Set single track data for front end */
 
-  if (contentType === 'track' && fields.audio && !serverlessData) {
+  if (contentType === 'track' && fields.audio && fields.audioDuration && !serverlessData) {
     contains.audio = true
 
     if (fields?.project) {
@@ -349,7 +349,7 @@ const _renderItem = async ({
       button: null,
       url: `https:${fields.audio.fields.file.url}`,
       type: fields.audio.fields.file.contentType,
-      duration: durationsData[fields.audio.sys.id]
+      duration: getDurationReverse(fields.audioDuration)
     })
   }
 
@@ -517,9 +517,9 @@ const _renderItem = async ({
  *
  * @param {object} args {
  *  @prop {object} serverlessData
+ *  @prop {object} previewData
  *  @prop {object} env
  *  @prop {function} onRenderEnd
- *  @prop {function} getAudioDuration
  *  @prop {function} getContentfulData
  * }
  * @return {array|object}
@@ -527,9 +527,9 @@ const _renderItem = async ({
 
 const render = async ({
   serverlessData,
+  previewData,
   env,
   onRenderEnd,
-  getAudioDuration,
   getContentfulData
 }) => {
   /* Serverless data */
@@ -553,7 +553,7 @@ const render = async ({
 
   /* Contentful data */
 
-  const contentfulData = await getAllContentfulData(serverlessData, getContentfulData)
+  const contentfulData = await getAllContentfulData(serverlessData, previewData, getContentfulData)
 
   if (!contentfulData) {
     return [{
@@ -600,7 +600,7 @@ const render = async ({
         }
       }
 
-      if (parent) {
+      if (parent) { // RECURSE FOR PREVIEW
         if (parent.fields?.slug && parent.fields?.title) {
           slugData.parents[item.sys.id] = {
             id: parent.sys.id,
@@ -611,18 +611,6 @@ const render = async ({
         }
       }
     })
-
-    for (let i = 0; i < content.track.length; i++) {
-      const item = content.track[i]
-
-      if (item?.fields?.audio) {
-        const audio = item.fields.audio
-        const audioUrl = audio.fields.file.url
-        const duration = await getAudioDuration(audioUrl)
-
-        durationsData[audio.sys.id] = duration
-      }
-    }
   } else {
     if (slugParentsJson) {
       Object.keys(slugParentsJson).forEach((s) => {
@@ -642,17 +630,11 @@ const render = async ({
       navData.navs = navDataJson.navs
       navData.items = navDataJson.items
     }
-
-    if (durationsJson) {
-      Object.keys(durationsJson).forEach((d) => {
-        durationsData[d] = durationsJson[d]
-      })
-    }
   }
 
   /* 404 page */
 
-  if (!serverlessData) {
+  if (!serverlessData && !previewData) {
     data.push({
       slug: '404.html',
       output: httpError('404')
@@ -699,7 +681,6 @@ const render = async ({
       jsonFileData.slugParents.data = slugData.parents
       jsonFileData.archiveIds.data = archiveData.ids
       jsonFileData.archiveCounts.data = archiveData.counts
-      jsonFileData.durations.data = durationsData
       jsonFileData.navData.data = navData
 
       jsonData = jsonFileData
@@ -713,7 +694,7 @@ const render = async ({
 
   /* Output */
 
-  if (serverlessData) {
+  if (serverlessData || previewData) {
     return data[0]
   }
 

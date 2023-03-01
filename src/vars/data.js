@@ -81,14 +81,6 @@ const termData = {
 const navData = {}
 
 /**
- * Duration data for json storage
- *
- * @type {object}
- */
-
-const durationsData = {}
-
-/**
  * Script data for front end
  *
  * @type {object}
@@ -130,10 +122,6 @@ const jsonFileData = {
     data: '',
     name: 'archive-counts.json'
   },
-  durations: {
-    data: '',
-    name: 'durations.json'
-  },
   navData: {
     data: '',
     name: 'nav-data.json'
@@ -172,7 +160,6 @@ module.exports = {
   slugData,
   termData,
   navData,
-  durationsData,
   scriptData,
   archiveData,
   jsonFileData,
