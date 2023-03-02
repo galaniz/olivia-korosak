@@ -310,7 +310,7 @@ const _renderItem = async ({
 
   /* Check if index */
 
-  const index = fields.slug === ''
+  const index = fields.slug === 'index'
 
   meta.isIndex = index
 
