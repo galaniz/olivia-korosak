@@ -29,7 +29,7 @@ const header = (navigations = {}) => {
     const navSocial = navigations?.social?.left ? `<div class="l-padding-top-m">${navigations.social.left}</div>` : ''
 
     nav = `
-      <nav class="c-nav l-container l-padding-top-2xs l-padding-bottom-2xs l-padding-top-s-m l-padding-bottom-s-m" aria-label="Main" data-overflow="false" data-overflow-all="false" data-open="false">
+      <nav class="c-nav l-relative l-container l-padding-top-2xs l-padding-bottom-2xs l-padding-top-s-m l-padding-bottom-s-m" aria-label="Main" data-overflow="false" data-overflow-all="false" data-open="false">
         <div class="c-nav__overlay l-fixed l-top-0 l-left-0 l-z-index-1 l-width-100-pc l-height-100-pc e-transition"></div>
         <div class="l-flex l-justify-between l-align-center">
           <a class="c-nav__logo o-logo l-block l-svg js-pt-link" href="${getPermalink()}">
