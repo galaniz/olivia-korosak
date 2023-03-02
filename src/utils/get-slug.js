@@ -45,7 +45,7 @@ const getSlug = ({
 }) => {
   /* Index */
 
-  if (slug === '/') {
+  if (slug === 'index') {
     return ''
   }
 

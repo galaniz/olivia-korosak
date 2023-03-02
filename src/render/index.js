@@ -310,7 +310,7 @@ const _renderItem = async ({
 
   /* Check if index */
 
-  const index = fields.slug === ''
+  const index = fields.slug === 'index'
 
   meta.isIndex = index
 
@@ -371,7 +371,7 @@ const _renderItem = async ({
     contentType,
     index,
     title: fields.heroTitle || fields.title,
-    text: contentType === 'project' ? getCommaLinks(heroProjectTypes, 'project') : fields.heroText,
+    text: contentType === 'project' ? getCommaLinks(heroProjectTypes, 'projectType') : fields.heroText,
     image: fields.heroImage ? fields.heroImage : false,
     breadcrumbs: navs.breadcrumbs || false
   })
