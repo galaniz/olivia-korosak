@@ -7,6 +7,7 @@
 const controlSvg = require('./svg/control')
 const closeSvg = require('./svg/close')
 const errorSvg = require('./svg/error')
+const loader = require('./loader')
 
 /**
  * Function - output audio player
@@ -89,6 +90,7 @@ const audio = () => {
           ${closeSvg()}
         </span>
       </button>
+      ${loader({ classes: 't-foreground-base' })}
     </div>
   `
 }

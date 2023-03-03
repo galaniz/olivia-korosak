@@ -24,7 +24,8 @@ const getImage = ({
   quality = 75,
   width = 'auto',
   height = 'auto',
-  returnAspectRatio = false
+  returnAspectRatio = false,
+  lazy = true
 }) => {
   /* Data required */
 
@@ -85,7 +86,7 @@ const getImage = ({
   /* Output */
 
   const output = `
-    <img${classes ? ` class="${classes}"` : ''} alt="${description}" src="${src}" srcset="${srcset}" sizes="${sizes}" width="${w}" height="${h}"${attr ? ` ${attr}` : ''}>
+    <img${classes ? ` class="${classes}"` : ''} alt="${description}" src="${src}" srcset="${srcset}" sizes="${sizes}" width="${w}" height="${h}"${attr ? ` ${attr}` : ''}${lazy ? ' loading="lazy"' : ''}>
   `
 
   if (returnAspectRatio) {

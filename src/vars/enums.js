@@ -21,7 +21,7 @@ const enumSite = {
   email: 'hello@oliviakorosak.com',
   meta: {
     description: 'Lorem ipsum sed dolorem quisque',
-    image: ''
+    image: 'img/olivia-korosak-meta.jpg'
   }
 }
 

@@ -153,7 +153,7 @@ const meta = [
       },
       {
         prop: 'audioNext',
-        selector: '.c-audio_next'
+        selector: '.c-audio__next'
       },
       {
         prop: 'audioTime',
