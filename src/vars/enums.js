@@ -20,7 +20,7 @@ const enumSite = {
   title: 'Olivia Korosak',
   email: 'hello@oliviakorosak.com',
   meta: {
-    description: 'Lorem ipsum sed dolorem quisque',
+    description: 'Olivia Korosak is a Canadian composer and performer. Classically trained, she is a Royal Conservatory of Music and McMaster University Alum. Currently, she composes for a variety of media from short films to live theatre.',
     image: 'img/olivia-korosak-meta.jpg'
   }
 }
