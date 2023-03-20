@@ -32,8 +32,6 @@ module.exports = (config) => {
     }
   }
 
-  console.log('ENV_DATA', envData)
-
   /* Check/build json files */
 
   Object.keys(jsonFileData).forEach((k) => {

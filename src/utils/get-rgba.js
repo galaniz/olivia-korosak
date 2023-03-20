@@ -118,10 +118,11 @@ const _alphaCodes = {
  *
  * @param {string} hex
  * @param {float} alpha
- * @return {string}
+ * @param {boolean} returnArray
+ * @return {array|string}
  */
 
-const getRgba = (hex = '', alpha = 1) => {
+const getRgba = (hex = '', alpha = 1, returnArray = false) => {
   let r = 0
   let g = 0
   let b = 0
@@ -138,6 +139,10 @@ const getRgba = (hex = '', alpha = 1) => {
   r = +r
   g = +g
   b = +b
+
+  if (returnArray) {
+    return [r, g, b, a]
+  }
 
   return [r, g, b, a].join(', ')
 }

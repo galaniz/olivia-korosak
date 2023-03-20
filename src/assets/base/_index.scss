@@ -33,9 +33,9 @@ $neutral: func.get-color("background-light");
   --underline-offset: 0.3125rem;
   --negative: var(--negative-light);
   --positive: var(--positive-light);
-  --negative-rgb: #{color.red($negative), color.green($negative), color.blue($negative)};
-  --positive-rgb: #{color.red($positive), color.green($positive), color.blue($positive)};
-  --neutral-rgb: #{color.red($neutral), color.green($neutral), color.blue($neutral)};
+  --negative-hsl: #{color.hue($negative), color.saturation($negative), color.lightness($negative)};
+  --positive-hsl: #{color.hue($positive), color.saturation($positive), color.lightness($positive)};
+  --neutral-hsl: #{color.hue($neutral), color.saturation($neutral), color.lightness($neutral)};
 }
 
 html {

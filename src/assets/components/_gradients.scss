@@ -16,9 +16,9 @@
     height: 100vw;
     background: radial-gradient(
       50% 50% at 50% 50%,
-      rgba(var(--from)) 0%,
-      rgba(var(--between)) 75%, /* Hack to blend into a different color */
-      rgba(var(--to)) 100%
+      hsla(var(--from)) 0%,
+      hsla(var(--between)) 75%, /* Hack to blend into a different color */
+      hsla(var(--to)) 100%
     );
   }
 

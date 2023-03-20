@@ -4,32 +4,41 @@
 
 /* Imports */
 
-const { getRgba } = require('../utils')
+const { getHue } = require('../utils')
 
 /**
  * Function - output gradients for page or card
  *
  * @param {object} args {
  *  @prop {string} from
- *  @prop {string} to
  *  @prop {string} type
  *  @prop {boolean} bottom
  * }
  * @return {string} HTML - div
  */
 
-const gradients = ({ from = '', to = '', type = 'page', bottom = true }) => {
-  /* From and to required */
+const gradients = ({ from = '', type = 'page', bottom = true }) => {
+  /* From required */
 
-  if (!from && !to) {
+  if (!from) {
     return ''
   }
 
-  /* Get colors as rgba */
+  /* Get colors as hsla */
 
-  const colorFrom = getRgba(from, 1)
-  const colorBetween = getRgba(to, 0.25)
-  const colorTo = getRgba(to, 0)
+  const rotate = -30
+  const fromHue = getHue(from)
+  const fromSat = fromHue >= 330 || fromHue <= 10 ? 45 : 35
+  let toHue = fromHue + rotate
+
+  if (toHue < 0) {
+    toHue = 360 + toHue
+  }
+
+  const toSat = toHue >= 330 || toHue <= 10 ? 45 : 35
+  const colorFrom = `${fromHue}, ${fromSat}%, 25%, 1`
+  const colorBetween = `${toHue}, ${toSat}%, 25%, 0.25`
+  const colorTo = `${toHue}, ${toSat}%, 25%, 0`
   const style = `style="--from:${colorFrom};--to:${colorTo}${type === 'page' ? `;--between:${colorBetween}` : ''}"`
 
   /* Card gradient */

@@ -75,8 +75,7 @@ const httpError = (type = '404') => {
       noIndex: true
     },
     gradients: gradients({
-      from: '#4d2d2d',
-      to: '#4c2d3c',
+      from: '#5e2424',
       bottom: false
     }),
     content: `

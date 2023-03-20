@@ -42,7 +42,6 @@ const _card = ({
     slug = '',
     heroImage,
     cardFrom,
-    cardTo,
     projectType
   } = item.fields
 
@@ -197,7 +196,6 @@ const _card = ({
   if (!heroImage) {
     output += gradients({
       from: cardFrom?.value || '#4e515f',
-      to: cardTo?.value || '#534e5f',
       type: 'card'
     })
   }

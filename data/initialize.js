@@ -18,7 +18,7 @@ module.exports = async (args = {}) => {
     return render({
       ...args,
       getContentfulData: getContentfulDataEleventy,
-      onRenderEnd: ({ jsonData, serverlessRoutes = [] }) => {
+      onRenderEnd: ({ jsonData, serverlessRoutes = [], redirects = [] }) => {
         if (jsonData) {
           const jsonDataKeys = Object.keys(jsonData)
 
@@ -76,6 +76,29 @@ module.exports = async (args = {}) => {
 
                 console.log(`Successfully wrote ./functions${path}index.js`)
               })
+            })
+          }
+        }
+
+        if (redirects.length) {
+          let redirectsData = ''
+
+          redirects.forEach((r) => {
+            const { redirect } = r.fields
+
+            if (redirect.length) {
+              redirectsData += redirect.join('\n')
+            }
+          })
+
+          if (redirectsData) {
+            writeFile('./site/_redirects', redirectsData, (err) => {
+              if (err) {
+                console.error(`Error writing ./site/_redirects `, err)
+                return
+              }
+
+              console.log(`Successfully wrote ./site/_redirects`)
             })
           }
         }
