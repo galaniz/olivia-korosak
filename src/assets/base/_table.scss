@@ -1,0 +1,42 @@
+/**
+ * Base - table
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config";
+@use "@alanizcreative/formation/src/base/table";
+
+/* Styles */
+
+th {
+  @extend %u-text-align-left;
+}
+
+[data-inline-table] {
+  --border-color: var(--foreground-tint);
+
+  th {
+    @extend %u-line-height-130-pc;
+    @extend %u-font-weight-medium;
+
+    color: var(--heading-color);
+  }
+
+  th,
+  td {
+    padding: var(--2xs);
+    vertical-align: top;
+    min-width: var(--4xl);
+  }
+
+  tr:nth-child(odd) {
+    background: var(--foreground-light);
+    border-bottom: var(--border-width) solid var(--border-color);
+    border-top: var(--border-width) solid var(--border-color);
+  }
+
+  tr:first-child {
+    border-top: 0;
+  }
+}

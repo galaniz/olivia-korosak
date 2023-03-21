@@ -31,11 +31,12 @@ $neutral: func.get-color("background-light");
   --link-color: var(--background-light);
   --underline: #{func.calc-rem(1px)};
   --underline-offset: 0.3125rem;
+  --underline-hover: #{rgba(func.get-color("background-light"), 0.5)};
   --negative: var(--negative-light);
   --positive: var(--positive-light);
-  --negative-rgb: #{color.red($negative), color.green($negative), color.blue($negative)};
-  --positive-rgb: #{color.red($positive), color.green($positive), color.blue($positive)};
-  --neutral-rgb: #{color.red($neutral), color.green($neutral), color.blue($neutral)};
+  --negative-hsl: #{color.hue($negative), color.saturation($negative), color.lightness($negative)};
+  --positive-hsl: #{color.hue($positive), color.saturation($positive), color.lightness($positive)};
+  --neutral-hsl: #{color.hue($neutral), color.saturation($neutral), color.lightness($neutral)};
 }
 
 html {
@@ -89,6 +90,10 @@ hr {
   height: var(--border-width);
   background: var(--background-light-20);
   margin: 0;
+  border: 0;
+}
+
+iframe {
   border: 0;
 }
 

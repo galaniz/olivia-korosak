@@ -7,6 +7,7 @@
 const controlSvg = require('./svg/control')
 const closeSvg = require('./svg/close')
 const errorSvg = require('./svg/error')
+const loader = require('./loader')
 
 /**
  * Function - output audio player
@@ -52,18 +53,18 @@ const audio = () => {
           </div>
           <div class="l-flex-grow-1 l-width-1-1 l-width-2-5-m">
             <div class="c-audio__offset l-flex l-align-center l-flex-wrap l-gap-margin-5xs" data-offset="l">
-              <span class="t-3xs t-line-height-120-pc t-foreground-base l-order-first-m">
+              <span class="t-3xs t-line-height-120-pc t-foreground-base l-order-first-m" aria-hidden="true">
                 <span class="c-audio__time l-block l-width-l">0:00</span>
               </span>
               <div class="c-audio__progress l-width-100-pc l-flex-grow-1 l-order-first">
-                <div class="c-audio__slider l-relative l-before b-radius-s" tabindex="0" role="slider" aria-label="Seek slider" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="">
+                <div class="c-audio__slider l-relative l-before b-radius-s" tabindex="0" role="slider" aria-label="Audio timeline" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="">
                   <div class="c-audio__length l-relative">
                     <div class="c-audio__bar l-absolute l-top-0 l-left-0 l-width-100-pc l-height-100-pc bg-foreground-base"></div>
                     <div class="c-audio__scrub l-absolute l-left-0 bg-foreground-base l-width-4xs l-height-4xs b-radius-100-pc e-transition"></div>
                   </div>
                 </div>
               </div>
-              <span class="t-3xs t-line-height-120-pc l-margin-left-auto">
+              <span class="t-3xs t-line-height-120-pc l-margin-left-auto" aria-hidden="true">
                 <span class="c-audio__duration l-block l-width-l t-align-right">0:00</span>
               </span>
             </div>
@@ -89,6 +90,7 @@ const audio = () => {
           ${closeSvg()}
         </span>
       </button>
+      ${loader({ classes: 't-foreground-base' })}
     </div>
   `
 }

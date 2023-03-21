@@ -24,7 +24,9 @@ const getImage = ({
   quality = 75,
   width = 'auto',
   height = 'auto',
-  returnAspectRatio = false
+  returnAspectRatio = false,
+  lazy = true,
+  max = 1600
 }) => {
   /* Data required */
 
@@ -75,8 +77,11 @@ const getImage = ({
 
   let srcset = [200, 400, 600, 800, 1200, 1600, 2000]
 
-  srcset = srcset.filter(s => s < w)
-  srcset.push(w)
+  srcset = srcset.filter(s => s < w && s <= max)
+
+  if (w <= max) {
+    srcset.push(w)
+  }
 
   srcset = srcset.map(s => {
     return `https:${url}?fm=webp&q=${quality}&w=${s}&h=${Math.round(s * aspectRatio)} ${s}w`
@@ -85,7 +90,7 @@ const getImage = ({
   /* Output */
 
   const output = `
-    <img${classes ? ` class="${classes}"` : ''} alt="${description}" src="${src}" srcset="${srcset}" sizes="${sizes}" width="${w}" height="${h}"${attr ? ` ${attr}` : ''}>
+    <img${classes ? ` class="${classes}"` : ''} alt="${description}" src="${src}" srcset="${srcset}" sizes="${sizes}" width="${w}" height="${h}"${attr ? ` ${attr}` : ''}${lazy ? ' loading="lazy"' : ''}>
   `
 
   if (returnAspectRatio) {

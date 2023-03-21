@@ -255,7 +255,6 @@ const _renderItem = async ({
     heroText: '',
     content: [],
     colorFrom: '',
-    colorTo: '',
     metaTitle: '',
     metaDescription: '',
     metaImage: false,
@@ -317,7 +316,6 @@ const _renderItem = async ({
   /* Gradient from and to */
 
   let gradientFrom = fields.colorFrom ? fields.colorFrom.value : ''
-  let gradientTo = fields.colorTo ? fields.colorTo.value : ''
 
   /* Set single track data for front end */
 
@@ -329,10 +327,6 @@ const _renderItem = async ({
 
       if (trackProject?.fields?.colorFrom?.value) {
         gradientFrom = trackProject.fields.colorFrom.value
-      }
-
-      if (trackProject?.fields?.colorTo?.value) {
-        gradientTo = trackProject.fields.colorTo.value
       }
     }
 
@@ -490,8 +484,7 @@ const _renderItem = async ({
       output: layout({
         meta,
         gradients: gradients({
-          from: gradientFrom,
-          to: gradientTo
+          from: gradientFrom
         }),
         content: `
           ${header(navs)}
@@ -555,7 +548,8 @@ const render = async ({
   const {
     content = {},
     navs = [],
-    navItems = []
+    navItems = [],
+    redirects = []
   } = contentfulData
 
   /* Store navigations and items */
@@ -678,7 +672,8 @@ const render = async ({
 
     onRenderEnd({
       jsonData,
-      serverlessRoutes
+      serverlessRoutes,
+      redirects
     })
   }
 

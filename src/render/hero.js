@@ -72,7 +72,9 @@ const hero = ({
     imageOutput = getImage({
       data: image?.fields,
       classes: 'l-absolute l-top-0 l-left-0 l-width-100-pc l-height-100-pc l-object-cover',
-      returnAspectRatio: true
+      returnAspectRatio: true,
+      lazy: false,
+      max: container === 'medium' ? 800 : 1200
     })
   }
 

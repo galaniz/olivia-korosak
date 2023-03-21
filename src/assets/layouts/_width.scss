@@ -1,0 +1,14 @@
+/**
+ * Layouts - width
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/layouts/width";
+
+/* Styles */
+
+.l-width-min-max {
+  min-width: var(--l);
+  max-width: var(--3xl);
+}
