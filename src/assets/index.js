@@ -395,7 +395,6 @@ const initialize = () => {
 
       let iframeLink = ''
       let player = false
-      let firstFocusableItem = null
 
       if (iframe) {
         iframeLink = iframe.getAttribute('data-src')
@@ -422,8 +421,6 @@ const initialize = () => {
           }
 
           window.onPlayerReady = (event) => {
-            modalInstance.setFirstFocusableItem(firstFocusableItem)
-
             iframe.focus()
 
             event.target.playVideo()
