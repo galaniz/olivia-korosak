@@ -32,7 +32,7 @@
 .e-underline-all a:active,
 .e-underline a[data-inline]:hover,
 .e-underline a[data-inline]:active {
-  --color: transparent;
+  --color: var(--underline-hover);
 }
 
 .e-underline-reverse a[data-inline]:hover,

@@ -14,6 +14,7 @@ const getLink = require('./get-link')
 const getPermalink = require('./get-permalink')
 const getSlug = require('./get-slug')
 const getRgba = require('./get-rgba')
+const getHue = require('./get-hue')
 const getYear = require('./get-year')
 
 /* Exports */
@@ -29,5 +30,6 @@ module.exports = {
   getPermalink,
   getSlug,
   getRgba,
+  getHue,
   getYear
 }

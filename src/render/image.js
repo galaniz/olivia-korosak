@@ -6,6 +6,7 @@
 
 const { getImage } = require('../utils')
 const { enumOptions } = require('../vars/enums')
+const richText = require('./rich-text')
 
 /**
  * Function - output image
@@ -60,7 +61,8 @@ const image = ({ args = {}, parents = [] }) => {
       data: imageData,
       classes: imageClasses.join(' '),
       attr: card ? 'data-scale' : '',
-      returnAspectRatio: true
+      returnAspectRatio: true,
+      max: card ? 800 : 1200
     })
 
     let classes = 'l-relative l-overflow-hidden'
@@ -88,6 +90,28 @@ const image = ({ args = {}, parents = [] }) => {
         ${imageOutput}
       </div>
     `
+  }
+
+  /* Figure caption */
+
+  const { content } = caption
+
+  if (content) {
+    const captionContent = richText({
+      type: 'paragraph',
+      content: content[0].content,
+      textStyle: 'Small',
+      classes: 'l-padding-top-3xs l-padding-top-2xs-m'
+    })
+
+    if (captionContent) {
+      imageOutput = `
+        <figure>
+          ${imageOutput}
+          <figcaption data-inline>${captionContent}</figcaption>
+        </figure>
+      `
+    }
   }
 
   /* Output */

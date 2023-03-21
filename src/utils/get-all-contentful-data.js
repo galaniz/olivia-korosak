@@ -50,7 +50,7 @@ const getAllContentfulData = async (serverlessData, previewData, getContentfulDa
       navItems = navigationItems.items
     }
 
-    /* Content data */
+    /* Content data and redirects */
 
     const content = {
       project: [],
@@ -60,6 +60,7 @@ const getAllContentfulData = async (serverlessData, previewData, getContentfulDa
       page: []
     }
 
+    let redirects = []
     let entry = false
 
     if (serverlessData || previewData) {
@@ -161,6 +162,19 @@ const getAllContentfulData = async (serverlessData, previewData, getContentfulDa
       if (genres?.items) {
         content.genre = genres.items
       }
+
+      /* Redirects */
+
+      const redirect = await getContentfulData(
+        'init_contentful_redirects',
+        {
+          content_type: 'redirect'
+        }
+      )
+
+      if (redirect?.items) {
+        redirects = redirect.items
+      }
     }
 
     /* Output */
@@ -168,7 +182,8 @@ const getAllContentfulData = async (serverlessData, previewData, getContentfulDa
     return {
       content,
       navs,
-      navItems
+      navItems,
+      redirects
     }
   } catch (error) {
     console.error('Error getting all Contentful data: ', error)

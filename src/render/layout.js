@@ -26,6 +26,10 @@ const layout = ({
   content = '',
   script = ''
 }) => {
+  /* Assets link */
+
+  const assetsLink = `${getPermalink()}assets/`
+
   /* Title */
 
   const title = (meta?.title ? `${meta.title} | ` : '') + enumSite.title
@@ -33,6 +37,10 @@ const layout = ({
   /* Description */
 
   const description = meta?.description ? meta.description : enumSite.meta.description
+
+  /* Image */
+
+  const image = meta?.image ? `https:${meta.image.fields.file.url}` : `${assetsLink}${enumSite.meta.image}`
 
   /* Canonical */
 
@@ -57,10 +65,6 @@ const layout = ({
   /* TEMP */
 
   noIndex = true
-
-  /* Assets link */
-
-  const assetsLink = `${getPermalink()}assets/`
 
   /* Preload font links */
 
@@ -90,6 +94,16 @@ const layout = ({
         ${canonical}
         ${prev}
         ${next}
+        <meta name="image" content="${image}">
+        <meta property="og:url" content="">
+        <meta property="og:title" content="${title}">
+        <meta property="og:description" content="${description}">
+        <meta property="og:image" content="${image}">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="${title}">
+        <meta name="twitter:description" content="${description}">
+        <meta name="twitter:image" content="${image}">
+        <meta content="summary_large_image" property="twitter:card">
         ${preloadFonts}
         <link rel="stylesheet" href="${assetsLink}css/${enumNamespace}.css" media="all">
         <link rel="apple-touch-icon" sizes="180x180" href="${assetsLink}favicon/apple-touch-icon.png">

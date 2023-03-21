@@ -7,10 +7,12 @@
 import { setElements, usingMouse } from '@alanizcreative/formation/src/utils'
 import { pageTransition } from '@alanizcreative/formation/src/effects/page-transition'
 import Nav from '@alanizcreative/formation/src/components/nav'
+import Audio from '@alanizcreative/formation/src/components/audio'
 import Table from '@alanizcreative/formation/src/objects/table'
 import Collapsible from '@alanizcreative/formation/src/objects/collapsible'
 import SendForm from '@alanizcreative/formation/src/objects/form/send'
-import Audio from '@alanizcreative/formation/src/components/audio'
+import Modal from '@alanizcreative/formation/src/objects/modal'
+import OverflowIndicator from '@alanizcreative/formation/src/objects/overflow-indicator'
 
 /**
  * Performance object
@@ -118,6 +120,18 @@ const meta = [
     array: true
   },
   {
+    prop: 'overflow',
+    selector: '.o-overflow',
+    all: true,
+    array: true
+  },
+  {
+    prop: 'modalTriggers',
+    selector: '.js-modal-trigger',
+    all: true,
+    array: true
+  },
+  {
     prop: 'forms',
     selector: '.js-send-form',
     all: true,
@@ -153,7 +167,7 @@ const meta = [
       },
       {
         prop: 'audioNext',
-        selector: '.c-audio_next'
+        selector: '.c-audio__next'
       },
       {
         prop: 'audioTime',
@@ -315,6 +329,127 @@ const initialize = () => {
       }
 
       collapsible(args)
+    })
+  }
+
+  /* Overflow containers */
+
+  if (el.overflow.length) {
+    const overflowIndicator = (args) => {
+      return new OverflowIndicator(args)
+    }
+
+    el.overflow.forEach(o => {
+      overflowIndicator({
+        indicator: o.parentElement,
+        scroll: o,
+        y: false
+      })
+    })
+  }
+
+  /* Modal triggers and modals */
+
+  if (el.modalTriggers.length) {
+    const modal = (args) => {
+      return new Modal(args)
+    }
+
+    el.modalTriggers.forEach((m) => {
+      /* Get elements */
+
+      const meta = [
+        {
+          prop: 'modal',
+          selector: `#${m.getAttribute('aria-controls')}`,
+          items: [
+            {
+              prop: 'window',
+              selector: '.o-modal__window'
+            },
+            {
+              prop: 'overlay',
+              selector: '.o-modal__overlay'
+            },
+            {
+              prop: 'close',
+              selector: '.o-modal__close'
+            },
+            {
+              prop: 'iframe',
+              selector: 'iframe'
+            }
+          ]
+        }
+      ]
+
+      const args = {}
+
+      setElements(document, meta, args)
+
+      args.trigger = m
+
+      /* Iframe player */
+
+      const { iframe } = args
+
+      let iframeLink = ''
+      let player = false
+      let firstFocusableItem = null
+
+      if (iframe) {
+        iframeLink = iframe.getAttribute('data-src')
+      }
+
+      args.onToggle = (open) => {
+        if (iframeLink && open && !player) {
+          iframe.src = `${iframeLink}?autoplay=1&enablejsapi=1`
+
+          /* Load IFrame Player API code */
+
+          const tag = document.createElement('script')
+          tag.src = 'https://www.youtube.com/iframe_api'
+
+          const firstScriptTag = document.getElementsByTagName('script')[0]
+          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+
+          window.onYouTubeIframeAPIReady = () => {
+            player = new window.YT.Player(iframe.id, {
+              events: {
+                onReady: window.onPlayerReady
+              }
+            })
+          }
+
+          window.onPlayerReady = (event) => {
+            modalInstance.setFirstFocusableItem(firstFocusableItem)
+
+            iframe.focus()
+
+            event.target.playVideo()
+          }
+        }
+
+        if (player) {
+          if (!open) {
+            if (player.getPlayerState() === 1 || player.getPlayerState() === 3) {
+              setTimeout(() => {
+                player.stopVideo()
+              }, 300)
+            }
+          } else {
+            if (player.getPlayerState() !== 1) {
+              setTimeout(() => {
+                player.playVideo()
+              }, 300)
+            }
+          }
+        }
+      }
+
+      /* Init */
+
+      const modalInstance = modal(args)
     })
   }
 

@@ -16,6 +16,7 @@
 const loader = (args = {}) => {
   let {
     hide = true,
+    classes = '',
     ariaHidden = true,
     a11yHideText = ''
   } = args
@@ -36,10 +37,14 @@ const loader = (args = {}) => {
     a11yHideText = `<span class="a11y-visually-hidden reduce-motion-hide">${a11yHideText}</span>`
   }
 
+  /* Classes */
+
+  classes = `o-loader l-absolute l-top-0 l-left-0 l-right-0 l-bottom-0 l-flex l-align-center l-justify-center e-transition b-radius-s${classes ? ` ${classes}` : ''}`
+
   /* Output */
 
   return `
-    <span class="o-loader l-absolute l-top-0 l-left-0 l-right-0 l-bottom-0 l-flex l-align-center l-justify-center e-transition b-radius-s"${attr}>
+    <span class="${classes}"${attr}>
       <span class="l-height-s l-flex l-align-center l-justify-center reduce-motion-hide">
         <span></span>
         <span></span>

@@ -37,16 +37,6 @@ const reload = async ({ request, env }) => {
       query.filters = filters
     }
 
-    console.log('SERVERLESS_ENV_DATA', {
-      dev: env.ENVIRONMENT === 'dev',
-      prod: env.ENVIRONMENT === 'production',
-      ctfl: {
-        spaceId: env.CTFL_SPACE_ID,
-        cpaToken: env.CTFL_CPA_TOKEN,
-        cdaToken: env.CTFL_CDA_TOKEN
-      }
-    })
-
     const data = await render({
       serverlessData: { query, path },
       getContentfulData: getContentfulDataServerless,

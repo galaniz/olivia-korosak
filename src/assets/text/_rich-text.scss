@@ -9,6 +9,10 @@
 /* Styles */
 
 .t-rich-text {
+  hr {
+    margin: var(--m) 0;
+  }
+
   h2 {
     margin: var(--m) 0 var(--4xs);
   }
@@ -20,13 +24,38 @@
     margin: var(--s) 0 var(--4xs);
   }
 
-  p {
+  p[data-inline] {
     margin-bottom: var(--2xs);
   }
 
   ul[data-inline],
-  ol[data-inline] {
-    margin: var(--3xs) 0 var(--2xs);
+  ol[data-inline],
+  blockquote[data-inline] {
+    margin: var(--3xs) 0 var(--2xs) 5%;
+  }
+
+  figcaption[data-inline],
+  blockquote[data-inline] {
+    font-style: italic;
+  }
+
+  blockquote[data-inline] {
+    p {
+      font-size: inherit;
+    }
+  }
+
+  ol[data-inline] ol {
+    list-style-type: lower-alpha;
+  }
+
+  li[data-inline] {
+    margin-top: var(--4xs);
+    padding-left: var(--5xs);
+
+    &::marker {
+      font-size: 0.9em;
+    }
   }
 
   a[data-button] {
@@ -38,7 +67,7 @@
   h4,
   h5,
   h6,
-  p,
+  p[data-inline],
   ul[data-inline],
   ol[data-inline],
   a[data-button] {
@@ -52,6 +81,10 @@
   }
 
   @include mix.breakpoint-min("l") {
+    hr {
+      margin: var(--xl) 0;
+    }
+
     h2 {
       margin: var(--xl) 0 var(--2xs);
     }
@@ -63,13 +96,14 @@
       margin: var(--m) 0 var(--2xs);
     }
 
-    p {
+    p[data-inline] {
       margin-bottom: var(--s);
     }
 
     ul[data-inline],
-    ol[data-inline] {
-      margin: var(--s) 0;
+    ol[data-inline],
+    blockquote[data-inline] {
+      margin: var(--s) 0 var(--s) 5%;
     }
   }
 }
