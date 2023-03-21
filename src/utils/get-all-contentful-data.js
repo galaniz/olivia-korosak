@@ -116,7 +116,8 @@ const getAllContentfulData = async (serverlessData, previewData, getContentfulDa
       const projects = await getContentfulData(
         'init_contentful_projects',
         {
-          content_type: 'project'
+          content_type: 'project',
+          include: 10
         }
       )
 
