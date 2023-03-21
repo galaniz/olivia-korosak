@@ -9,9 +9,7 @@
 /* Styles */
 
 .t-rich-text {
-  hr,
-  > figure,
-  > div {
+  hr {
     margin: var(--m) 0;
   }
 
@@ -83,9 +81,7 @@
   }
 
   @include mix.breakpoint-min("l") {
-    hr,
-    > figure,
-    > div {
+    hr {
       margin: var(--xl) 0;
     }
 
