@@ -21,6 +21,7 @@ $neutral: func.get-color("foreground-tint");
   --heading-color: var(--foreground-base);
   --text-color: var(--foreground-base);
   --link-color: var(--foreground-base);
+  --underline-hover: #{rgba(func.get-color("foreground-base"), 0.5)};
   --border-color: #{rgba(func.get-color("foreground-base"), 0.5)};
   --negative: var(--negative-dark);
   --positive: var(--positive-dark);

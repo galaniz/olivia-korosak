@@ -1,0 +1,48 @@
+/**
+ * Objects - modal
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/src/config" as con;
+@use "@alanizcreative/formation/src/utils/mixins" as mix;
+@use "@alanizcreative/formation/src/objects/modal";
+
+/* Styles */
+
+.o-modal__window {
+  --max-height: none;
+  --l: 0rem;
+  --r: 0rem;
+
+  max-height: var(--max-height);
+
+  @include mix.breakpoint-min("l") {
+    --max-height: calc(var(--l) - var(--r));
+    --l: 56.25vw;
+
+    height: 100vh;
+    width: 100vw;
+  }
+
+  @include mix.breakpoint-min("container") {
+    --l: var(--container-no-padding) * 0.5625;
+
+    &[data-type="media-text"] {
+      --r: var(--container-no-padding) * 0.33 * 0.5625;
+    }
+
+    max-width: var(--container-no-padding);
+  }
+}
+
+.o-modal__media {
+  width: 177.78vh;
+  height: 56.25vw;
+  max-width: 100vw;
+  max-height: 100vh;
+
+  @include mix.breakpoint-min("l") {
+    height: 100%;
+  }
+}

@@ -8,6 +8,71 @@ const { enumOptions } = require('../vars/enums')
 const { getLink } = require('../utils')
 
 /**
+ * Function - get html tag from type
+ *
+ * @private
+ * @param {string} type
+ * @return {string}
+ */
+
+const _getTag = (type) => {
+  let tag = ''
+
+  switch (type) {
+    case 'paragraph':
+      tag = 'p'
+      break
+    case 'blockquote':
+      tag = 'blockquote'
+      break
+    case 'bold':
+      tag = 'b'
+      break
+    case 'italic':
+      tag = 'i'
+      break
+    case 'heading-2':
+      tag = 'h2'
+      break
+    case 'heading-3':
+      tag = 'h3'
+      break
+    case 'heading-4':
+      tag = 'h4'
+      break
+    case 'heading-5':
+      tag = 'h5'
+      break
+    case 'heading-6':
+      tag = 'h6'
+      break
+    case 'list-item':
+      tag = 'li'
+      break
+    case 'unordered-list':
+      tag = 'ul'
+      break
+    case 'ordered-list':
+      tag = 'ol'
+      break
+    case 'table':
+      tag = 'table'
+      break
+    case 'table-row':
+      tag = 'tr'
+      break
+    case 'table-cell':
+      tag = 'td'
+      break
+    case 'table-header-cell':
+      tag = 'th'
+      break
+  }
+
+  return tag
+}
+
+/**
  * Function - get inline start and end tags
  *
  * @private
@@ -24,18 +89,7 @@ const _getInlineTag = (marks) => {
   }
 
   marks = marks.map(m => {
-    let tag = ''
-
-    switch (m.type) {
-      case 'bold':
-        tag = 'b'
-        break
-      case 'italic':
-        tag = 'i'
-        break
-    }
-
-    return tag
+    return _getTag(m.type)
   })
 
   return {
@@ -82,20 +136,123 @@ const _getLink = (obj) => {
 }
 
 /**
- * Function - output rich text
- *
- * @param {string} type
- * @param {array<object>} content
- * @param {array<object>} parents
+ * Function - recursively output content
+ * 
+ * @private
+ * @param {object} args {
+ *  @prop {array} content
+ *  @prop {string} cardLink
+ *  @prop {string} outerTag
+ * }
  * @return {string}
  */
 
-const richText = ({
-  type = 'paragraph',
+const _getContent = ({
   content = [],
-  parents = [],
-  classes = ''
+  cardLink = '',
+  outerTag = '',
+  _output = ''
 }) => {
+  content.forEach(c => {
+    const {
+      nodeType = 'text',
+      value = '',
+      marks,
+      content: con,
+    } = c
+
+    /* Text */
+
+    if (nodeType === 'text' && value) {
+      let linkText = value
+      let val = value
+
+      if (cardLink && value) {
+        const textArray = linkText.split(' ')
+
+        linkText = textArray.map((l, i) => {
+          if (i === textArray.length - 1) {
+            return `<span data-title>${l}</span>`
+          }
+
+          return l
+        }).join(' ')
+
+        linkText = `<span role="text">${linkText}</span>`
+      }
+
+      if (marks) {
+        const markTag = _getInlineTag(marks)
+
+        val = `${markTag.start}${value}${markTag.end}`
+      }
+
+      _output += cardLink ? `<a class="l-before" href="${cardLink}" data-inline>${linkText}</a>` : val
+    }
+
+    /* Nested content */
+
+    if (Array.isArray(con)) {
+      const tag = _getTag(nodeType)
+      const inner = _getContent({
+        content: con,
+        cardLink,
+        outerTag
+      })
+
+      if (tag && inner) {
+        if ((outerTag === 'ul' || outerTag === 'ol' || outerTag === 'table') && tag === 'p') {
+          _output += inner
+        } else {
+          const attr = []
+
+          if (tag === 'ul' || tag === 'ol' || tag === 'li' || tag === 'blockquote' || tag === 'p') {
+            attr.push('data-inline')
+          }
+
+          if (tag === 'th') {
+            attr.push('scope="col"')
+          }
+
+          _output += `<${tag}${attr.length ? ` ${attr.join(' ')}` : ''}>${inner}</${tag}>`
+        }
+      }
+    }
+
+    /* Link */
+
+    if (nodeType === 'hyperlink') {
+      _output += _getLink(c)
+    }
+  })
+
+  return _output
+}
+
+/**
+ * Function - output rich text
+ *
+ * @param {object} args {
+ *  @prop {string} type
+ *  @prop {array<object>} content
+ *  @prop {array<object>} parents
+ *  @prop {string} classes
+ *  @prop {string} textStyle
+ *  @prop {string} headingStyle
+ * }
+ * @return {string}
+ */
+
+const richText = (args = {}) => {
+  let {
+    type = 'paragraph',
+    content = [],
+    parents = [],
+    classes = ''
+  } = args
+
+  /* Hr */
+
   if (type === 'hr') {
     return '<hr>'
   }
@@ -105,8 +262,6 @@ const richText = ({
   const heading = type.includes('heading')
 
   /* Check content and card parent */
-
-  let args = {}
 
   let cardLink = ''
   let card = false
@@ -123,10 +278,13 @@ const richText = ({
     if (card && heading) {
       const {
         internalLink = false,
-        externalLink = ''
+        externalLink = '',
+        embed
       } = parents[1].fields
 
-      cardLink = getLink(internalLink, externalLink)
+      if (!embed) {
+        cardLink = getLink(internalLink, externalLink)
+      }
     }
   }
 
@@ -142,40 +300,26 @@ const richText = ({
 
   /* Tag */
 
-  let tag = 'p'
-
-  switch (type) {
-    case 'heading-2':
-      tag = 'h2'
-      break
-    case 'heading-3':
-      tag = 'h3'
-      break
-    case 'heading-4':
-      tag = 'h4'
-      break
-    case 'heading-5':
-      tag = 'h5'
-      break
-    case 'heading-6':
-      tag = 'h6'
-      break
-  }
+  const tag = _getTag(type)
 
   /* Classes */
 
-  classes = [classes]
+  classes = classes ? [classes] : []
 
   if (card && tag === 'p') {
     classes.push('t-link-current t-background-light-60')
   }
 
-  if (textStyle && (tag === 'p' || tag === 'li')) {
+  if (textStyle && (tag === 'p' || tag === 'ul' || tag === 'ol' || tag === 'blockquote' || tag === 'table')) {
     classes.push(`t-${textStyle}`)
   }
 
   if (headingStyle && heading) {
     classes.push(`t-${headingStyle}`)
+  }
+
+  if (tag === 'ol') {
+    classes.push('t-number-normal')
   }
 
   classes = classes.join(' ')
@@ -185,49 +329,44 @@ const richText = ({
   let output = ''
 
   if (content.length) {
-    content.forEach(c => {
-      const {
-        nodeType = 'text',
-        value = ''
-      } = c
-
-      /* Text */
-
-      if (nodeType === 'text' && value) {
-        let linkText = value
-
-        if (cardLink && value) {
-          const textArray = linkText.split(' ')
-
-          linkText = textArray.map((l, i) => {
-            if (i === textArray.length - 1) {
-              return `<span data-title>${l}</span>`
-            }
-
-            return l
-          }).join(' ')
-
-          linkText = `<span role="text">${linkText}</span>`
-        }
-
-        output += cardLink ? `<a class="l-before" href="${cardLink}" data-inline>${linkText}</a>` : value
-      }
-
-      /* Link */
-
-      if (nodeType === 'hyperlink') {
-        output += _getLink(c)
-      }
+    output = _getContent({
+      content,
+      cardLink,
+      outerTag: tag
     })
   }
 
-  /* Id attribute */
+  /* Attributes */
 
-  const id = type.includes('heading-') ? ` id="${output.replace(/[\s,:;"'“”‘’]/g, '-').toLowerCase()}"` : ''
+  const attr = []
+
+  if (type.includes('heading-')) {
+    attr.push(`id="${output.replace(/[\s,:;"'“”‘’]/g, '-').toLowerCase()}"`)
+  }
+
+  if (tag === 'ul' || tag === 'ol' || tag === 'blockquote' || tag === 'p') {
+    attr.push('data-inline')
+  }
+
+  if (classes) {
+    attr.push(`class="${classes}"`)
+  }
 
   /* Output */
 
-  return output ? `<${tag}${id}${classes ? ` class="${classes}"` : ''}>${output}</${tag}>` : ''
+  output = tag && output ? `<${tag}${attr.length ? ` ${attr.join(' ')}` : ''}>${output}</${tag}>` : ''
+
+  if (tag === 'table') {
+    output = `
+      <div class="l-overflow-hidden" data-inline-table>
+        <div class="l-overflow-x-auto l-width-100-pc b-all o-overflow">
+          ${output}
+        </div>
+      </div>
+    `
+  }
+
+  return output
 }
 
 /* Exports */

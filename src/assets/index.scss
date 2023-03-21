@@ -15,8 +15,8 @@
 @use "base/fonts";
 @use "@alanizcreative/formation/src/base";
 @use "@alanizcreative/formation/src/base/inputs-reset";
-@use "@alanizcreative/formation/src/base/table";
 @use "base" as b;
+@use "base/table";
 @use "base/focus";
 
 /* A11y */
@@ -42,7 +42,7 @@
 
 /* Layouts */
 
-@use "@alanizcreative/formation/src/layouts/position";
+@use "layouts/position";
 @use "@alanizcreative/formation/src/layouts/aspect-ratio";
 @use "@alanizcreative/formation/src/layouts/overflow";
 @use "@alanizcreative/formation/src/layouts/container";
@@ -53,7 +53,7 @@
 @use "@alanizcreative/formation/src/layouts/margin";
 @use "@alanizcreative/formation/src/layouts/height";
 @use "@alanizcreative/formation/src/layouts/object";
-@use "@alanizcreative/formation/src/layouts/width";
+@use "layouts/width";
 @use "layouts/svg";
 @use "layouts/object-position";
 
@@ -80,7 +80,9 @@
 @use "objects/track";
 @use "objects/loader";
 @use "objects/form";
+@use "objects/overflow" as o;
 @use "objects/info";
+@use "objects/modal";
 
 /* Effects */
 

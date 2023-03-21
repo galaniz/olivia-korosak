@@ -4,6 +4,7 @@
 
 /* Imports */
 
+const { v4: uuidv4 } = require('uuid')
 const { getSlug, getPermalink } = require('../utils')
 const { enumOptions } = require('../vars/enums')
 const { archiveData, termData } = require('../vars/data')
@@ -13,6 +14,8 @@ const image = require('./image')
 const gradients = require('./gradients')
 const content = require('./content')
 const richText = require('./rich-text')
+const controlSvg = require('./svg/control')
+const closeSvg = require('./svg/close')
 
 /**
  * Function - output post with card layout
@@ -241,6 +244,10 @@ const _card = ({
  * @param {object} args {
  *  @prop {string} gap
  *  @prop {string} gapLarge
+ *  @prop {string} externalLink
+ *  @prop {boolean} embed
+ *  @prop {string} embedTitle
+ *  @prop {object} embedText
  * }
  * @return {object}
  */
@@ -248,7 +255,11 @@ const _card = ({
 const card = ({ args = {} }) => {
   let {
     gap = 'None', // enumOptions.gap
-    gapLarge = 'None' // enumOptions.gap
+    gapLarge = 'None', // enumOptions.gap
+    externalLink,
+    embed,
+    embedTitle,
+    embedText
   } = args
 
   /* Normalize options */
@@ -258,7 +269,7 @@ const card = ({ args = {} }) => {
 
   /* Classes */
 
-  let classes = 'l-relative l-z-index-1 l-flex l-flex-column l-flex-grow-1 e-overlay e-title-line'
+  let classes = 'l-relative l-flex l-flex-column l-flex-grow-1 e-overlay e-title-line'
 
   /* Gap */
 
@@ -270,11 +281,58 @@ const card = ({ args = {} }) => {
     classes += ` l-gap-margin-${gapLarge}-m`
   }
 
+  /* Embed */
+
+  let embedOutput = ''
+
+  if (embed && embedTitle && externalLink) {
+    const modalId = `m-${uuidv4()}`
+
+    embedOutput = `
+      <div class="l-absolute l-top-0 l-left-0 l-right-0 l-bottom-0 l-margin-auto l-flex l-align-center l-justify-center">
+        <button
+          type="button"
+          class="l-width-1-5 l-width-min-max l-after l-aspect-ratio-100 l-flex l-align-center l-justify-center b-radius-100-pc bg-background-light t-foreground-base js-modal-trigger"
+          aria-haspopup="dialog"
+          aria-controls="${modalId}"
+          aria-label="Play ${embedTitle}"
+        >
+          <span class="l-width-100-pc l-height-100-pc l-flex l-svg">
+            ${controlSvg('play')}
+          </span>
+        </button>
+      </div>
+      <div class="o-modal t-light l-fixed l-top-0 l-left-0 l-width-100-vw l-height-100-vh l-flex l-align-center l-justify-center" id="${modalId}" role="dialog" aria-modal="true" aria-label="${embedTitle}">
+        <div class="o-modal__overlay bg-foreground-base l-fixed l-top-0 l-left-0 l-z-index-1 l-width-100-pc l-height-100-pc e-transition"></div>
+        <div class="o-modal__window l-flex l-flex-column l-flex-row-l l-align-center l-justify-center l-z-index-1 e-transition outline-snug">
+          <div class="o-modal__media">
+            <div class="l-width-100-pc l-height-100-pc l-relative bg-foreground-base t-background-light">
+              <iframe id="i-${modalId}" class="l-absolute l-top-0 l-left-0 l-width-100-pc l-height-100-pc" data-src="${externalLink}" title="Video player" allow="autoplay" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="o-modal__close l-absolute l-top-0 l-right-0 l-z-index-1 l-width-xl l-height-xl l-width-2xl-m l-height-2xl-m l-flex l-align-center l-justify-center t-background-light"
+          aria-label="Close modal"
+        >
+          <span class="l-width-m l-height-m l-svg">
+            ${closeSvg()}
+          </span>
+        </button>
+      </div>
+    `
+  }
+
+  /* Z index */
+
+  classes += ` l-z-index-${embedOutput ? 'modal' : '1'}`
+
   /* Output */
 
   return {
     start: `<div class="${classes}">`,
-    end: '</div>'
+    end: `${embedOutput}</div>`
   }
 }
 

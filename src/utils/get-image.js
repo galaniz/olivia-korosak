@@ -25,7 +25,8 @@ const getImage = ({
   width = 'auto',
   height = 'auto',
   returnAspectRatio = false,
-  lazy = true
+  lazy = true,
+  max = 1600
 }) => {
   /* Data required */
 
@@ -76,8 +77,11 @@ const getImage = ({
 
   let srcset = [200, 400, 600, 800, 1200, 1600, 2000]
 
-  srcset = srcset.filter(s => s < w)
-  srcset.push(w)
+  srcset = srcset.filter(s => s < w && s <= max)
+
+  if (w <= max) {
+    srcset.push(w)
+  }
 
   srcset = srcset.map(s => {
     return `https:${url}?fm=webp&q=${quality}&w=${s}&h=${Math.round(s * aspectRatio)} ${s}w`
