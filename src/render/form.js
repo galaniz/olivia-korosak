@@ -55,7 +55,7 @@ const form = ({ args = {}, id }) => {
 
   /* Honeypot */
 
-  const honeypotId = uuidv4()
+  const honeypotId = `h-${uuidv4()}`
   const honeypotName = `${enumNamespace}_asi`
   const honeypot = `
     <div class="o-form__field l-width-1-1" data-asi>

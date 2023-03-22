@@ -37,7 +37,7 @@ const _getCheckboxRadioOpts = (args = {}) => {
       selected
     } = opt
 
-    const id = uuidv4()
+    const id = `c-${uuidv4()}`
 
     return `
       <div data-${type}-opt>
@@ -100,7 +100,7 @@ const field = ({ args = {} }) => {
 
   /* Id */
 
-  const id = uuidv4()
+  const id = `f-${uuidv4()}`
 
   /* Normalize options */
 
