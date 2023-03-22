@@ -286,7 +286,7 @@ const card = ({ args = {} }) => {
   let embedOutput = ''
 
   if (embed && embedTitle && externalLink) {
-    const modalId = `${uuidv4()}`
+    const modalId = `m-${uuidv4()}`
 
     embedOutput = `
       <div class="l-absolute l-top-0 l-left-0 l-right-0 l-bottom-0 l-margin-auto l-flex l-align-center l-justify-center">
@@ -326,7 +326,9 @@ const card = ({ args = {} }) => {
 
   /* Z index */
 
-  classes += ` l-z-index-${embedOutput ? 'modal' : '1'}`
+  if (!embedOutput) {
+    classes += ' l-z-index-1'
+  }
 
   /* Output */
 
