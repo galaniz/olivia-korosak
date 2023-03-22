@@ -416,9 +416,9 @@ const initialize = () => {
             window.onYouTubeIframeAPIReady = () => {
               player = new window.YT.Player(iframe.id, {
                 events: {
-                  onReady(event) {
+                  onReady (event) {
                     iframe.focus()
-  
+
                     event.target.playVideo()
                   }
                 }
@@ -427,9 +427,9 @@ const initialize = () => {
           } else {
             player = new window.YT.Player(iframe.id, {
               events: {
-                onReady(event) {
+                onReady (event) {
                   iframe.focus()
-  
+
                   event.target.playVideo()
                 }
               }
