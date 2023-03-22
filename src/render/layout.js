@@ -62,10 +62,6 @@ const layout = ({
     noIndex = true
   }
 
-  /* TEMP */
-
-  noIndex = true
-
   /* Preload font links */
 
   let preloadFonts = `

@@ -404,30 +404,40 @@ const initialize = () => {
         if (iframeLink && open && !player) {
           iframe.src = `${iframeLink}?autoplay=1&enablejsapi=1`
 
-          /* Load IFrame Player API code */
+          /* Load Iframe Player API code */
 
-          const tag = document.createElement('script')
-          tag.src = 'https://www.youtube.com/iframe_api'
+          if (!document.getElementById('yt-iframe-api')) {
+            const script = document.createElement('script')
+            script.id = 'yt-iframe-api'
+            script.src = 'https://www.youtube.com/iframe_api'
 
-          const firstScriptTag = document.getElementsByTagName('script')[0]
-          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+            document.head.appendChild(script)
 
-          window.onYouTubeIframeAPIReady = () => {
+            window.onYouTubeIframeAPIReady = () => {
+              player = new window.YT.Player(iframe.id, {
+                events: {
+                  onReady (event) {
+                    iframe.focus()
+
+                    event.target.playVideo()
+                  }
+                }
+              })
+            }
+          } else {
             player = new window.YT.Player(iframe.id, {
               events: {
-                onReady: window.onPlayerReady
+                onReady (event) {
+                  iframe.focus()
+
+                  event.target.playVideo()
+                }
               }
             })
           }
-
-          window.onPlayerReady = (event) => {
-            iframe.focus()
-
-            event.target.playVideo()
-          }
         }
 
-        if (player) {
+        if (player && typeof player.getPlayerState === 'function') {
           if (!open) {
             if (player.getPlayerState() === 1 || player.getPlayerState() === 3) {
               setTimeout(() => {
@@ -446,7 +456,7 @@ const initialize = () => {
 
       /* Init */
 
-      const modalInstance = modal(args)
+      modal(args)
     })
   }
 

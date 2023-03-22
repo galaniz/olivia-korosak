@@ -137,7 +137,7 @@ const _getLink = (obj) => {
 
 /**
  * Function - recursively output content
- * 
+ *
  * @private
  * @param {object} args {
  *  @prop {array} content
@@ -158,7 +158,7 @@ const _getContent = ({
       nodeType = 'text',
       value = '',
       marks,
-      content: con,
+      content: con
     } = c
 
     /* Text */
