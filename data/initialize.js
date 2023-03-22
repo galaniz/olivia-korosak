@@ -94,11 +94,11 @@ module.exports = async (args = {}) => {
           if (redirectsData) {
             writeFile('./site/_redirects', redirectsData, (err) => {
               if (err) {
-                console.error(`Error writing ./site/_redirects `, err)
+                console.error('Error writing ./site/_redirects ', err)
                 return
               }
 
-              console.log(`Successfully wrote ./site/_redirects`)
+              console.log('Successfully wrote ./site/_redirects')
             })
           }
         }

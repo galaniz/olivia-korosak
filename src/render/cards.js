@@ -286,7 +286,7 @@ const card = ({ args = {} }) => {
   let embedOutput = ''
 
   if (embed && embedTitle && externalLink) {
-    const modalId = `m-${uuidv4()}`
+    const modalId = `${uuidv4()}`
 
     embedOutput = `
       <div class="l-absolute l-top-0 l-left-0 l-right-0 l-bottom-0 l-margin-auto l-flex l-align-center l-justify-center">
@@ -313,7 +313,7 @@ const card = ({ args = {} }) => {
         </div>
         <button
           type="button"
-          class="o-modal__close l-absolute l-top-0 l-right-0 l-z-index-1 l-width-xl l-height-xl l-width-2xl-m l-height-2xl-m l-flex l-align-center l-justify-center t-background-light"
+          class="o-modal__close l-absolute l-top-0 l-right-0 l-z-index-1 l-width-xl l-height-xl l-width-2xl-m l-height-2xl-m l-flex l-align-center l-justify-center t-background-light outline-tight"
           aria-label="Close modal"
         >
           <span class="l-width-m l-height-m l-svg">

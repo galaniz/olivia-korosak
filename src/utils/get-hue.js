@@ -8,7 +8,7 @@ const getRgba = require('./get-rgba')
 
 /**
  * Function - get hue from hex color string
- * 
+ *
  * Source - https://css-tricks.com/converting-color-spaces-in-javascript/#aa-hex-to-hsl
  *
  * @param {string} hex

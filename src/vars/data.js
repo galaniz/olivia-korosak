@@ -139,7 +139,7 @@ const envData = {
   prod: false,
   urls: {
     dev: '/',
-    prod: 'https://olivia-korosak.pages.dev/'
+    prod: 'https://oliviakorosak.com/'
   },
   eleventy: {
     cache: false
