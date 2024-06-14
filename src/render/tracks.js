@@ -121,7 +121,7 @@ const tracks = async ({
     /* Audio, title and slug required */
 
     if (!title || !slug || !audio || !audioDuration) {
-      return ''
+      continue
     }
 
     /* Audio info */

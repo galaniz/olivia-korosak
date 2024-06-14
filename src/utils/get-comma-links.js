@@ -21,6 +21,10 @@ const getCommaLinks = (items = [], contentType = '') => {
 
   if (items.length) {
     items.forEach(item => {
+      if (item.fields === undefined) {
+        return;
+      }
+
       const {
         title = '',
         slug = ''
