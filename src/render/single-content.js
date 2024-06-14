@@ -144,19 +144,27 @@ const singleContent = async ({
       /* Projects */
 
       if (item?.fields?.project) {
-        detailsItems.push({
-          title: 'Projects',
-          desc: getCommaLinks(item.fields.project, 'project')
-        })
+        const itemProjects = getCommaLinks(item.fields.project, 'project')
+
+        if (itemProjects) {
+          detailsItems.push({
+            title: 'Projects',
+            desc: itemProjects
+          })
+        }
       }
 
       /* Genres */
 
       if (item?.fields?.genre) {
-        detailsItems.push({
-          title: 'Genres',
-          desc: getCommaLinks(item.fields.genre, 'genre')
-        })
+        const itemGenres = getCommaLinks(item.fields.genre, 'genre')
+
+        if (itemGenres) {
+          detailsItems.push({
+            title: 'Genres',
+            desc: itemGenres
+          })
+        }
       }
 
       /* Duration */
