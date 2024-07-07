@@ -334,16 +334,18 @@ const _renderItem = async ({
       scriptData.tracks = []
     }
 
-    scriptData.tracks.push({
-      id,
-      title,
-      permalink,
-      item: null,
-      button: null,
-      url: `https:${fields.audio.fields.file.url}`,
-      type: fields.audio.fields.file.contentType,
-      duration: getDurationReverse(fields.audioDuration)
-    })
+    if (fields.audio?.fields?.file) {
+      scriptData.tracks.push({
+        id,
+        title,
+        permalink,
+        item: null,
+        button: null,
+        url: `https:${fields.audio.fields.file.url}`,
+        type: fields.audio.fields.file.contentType,
+        duration: getDurationReverse(fields.audioDuration)
+      })
+    }
   }
 
   /* Navigations */
