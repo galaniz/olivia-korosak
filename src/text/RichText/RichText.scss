@@ -1,0 +1,82 @@
+/**
+ * Text - Rich Text Styles
+ */
+
+/* Imports */
+
+@forward "../../config/config";
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+
+/* Styles */
+
+.rich-text {
+  --rt-max: var(--m); // 40px
+  --rt-high: var(--s); // 30px
+  --rt-mid: var(--2xs); // 20px
+  --rt-low: var(--4xs); // 10px
+
+  hr {
+    margin: var(--rt-max) 0;
+  }
+
+  h2 {
+    margin: var(--rt-max) 0 var(--rt-low);
+  }
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: var(--rt-high) 0 var(--rt-low);
+  }
+
+  p[data-rich] {
+    margin: var(--rt-mid) 0;
+  }
+
+  ul[data-rich],
+  ol[data-rich],
+  blockquote[data-rich] {
+    margin: var(--rt-mid) 0 var(--rt-mid) 5%;
+  }
+
+  figcaption[data-rich],
+  blockquote[data-rich] {
+    font-style: italic;
+  }
+
+  p[data-rich],
+  li[data-rich] {
+    font-size: inherit;
+  }
+
+  ol[data-rich] ol {
+    list-style-type: lower-alpha;
+  }
+
+  li[data-rich] {
+    margin-top: var(--4xs);
+    padding-left: var(--5xs);
+
+    &::marker {
+      font-size: 0.9em;
+    }
+  }
+
+  [data-rich]:first-child,
+  > :first-child {
+    margin-top: 0;
+  }
+
+  [data-rich]:last-child,
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  @include util.breakpoint-min("l") {
+    --rt-max: var(--xl); // 60px
+    --rt-high: var(--m); // 40px
+    --rt-mid: var(--s); // 30px
+    --rt-low: var(--2xs); // 20px
+  }
+}

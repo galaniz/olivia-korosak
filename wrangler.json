@@ -1,0 +1,44 @@
+{
+  "name": "olivia-korosak",
+  "main": "./src/workers/Site/SiteWorker.ts",
+  "compatibility_date": "2025-11-24",
+  "workers_dev": false,
+  "preview_urls": true,
+  "keep_vars": true,
+  "minify": true,
+  "kv_namespaces": [
+    {
+      "binding": "SITE_KV",
+      "id": "e7aaa78c1e944e5bae8126bedd908414"
+    }
+  ],
+  "assets": {
+    "directory": "./site/",
+    "run_worker_first": true,
+    "not_found_handling": "404-page",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.02
+  },
+  "env": {
+    "staging": {
+      "main": "./src/workers/Site/SiteWorker.ts",
+      "preview_urls": false,
+      "workers_dev": false,
+      "keep_vars": true,
+      "minify": true,
+      "kv_namespaces": [
+        {
+          "binding": "SITE_KV",
+          "id": "7cff93c48bc343d4b1abb24bfec5e95a"
+        }
+      ],
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,81 @@
+/**
+ * Backgrounds - Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/backgrounds/backgrounds";
+
+/* Styles */
+
+.bg-foreground-base,
+.bg-foreground-light,
+.bg-foreground-dark {
+  --text-color: hsla(var(--background-light-hsl), 0.8);
+  --sharp-color: var(--background-light);
+  --inverse-color: var(--foreground-base);
+  --interactive-color: var(--background-light);
+  --muted-color: hsla(var(--background-light-hsl), 0.6);
+  --faded-color: hsla(var(--background-light-hsl), 0.35);
+  --dull-color: hsla(var(--background-light-hsl), 0.2);
+  --negative-color: var(--negative-light);
+  --positive-color: var(--positive-light);
+  --sharp-hsl: var(--background-light-hsl);
+  --negative-hsl: var(--negative-light-hsl);
+  --positive-hsl: var(--positive-light-hsl);
+  --neutral-hsl: var(--background-light-hsl);
+
+  color: var(--text-color);
+}
+
+.bg-background-light {
+  --text-color: hsla(var(--foreground-base-hsl), 0.8);
+  --sharp-color: var(--foreground-base);
+  --inverse-color: var(--background-light);
+  --interactive-color: var(--foreground-base);
+  --outline-color: var(--foreground-base);
+  --border-color: hsla(var(--foreground-base-hsl), 0.5);
+  --muted-color: hsla(var(--foreground-base-hsl), 0.6);
+  --faded-color: hsla(var(--foreground-base-hsl), 0.35);
+  --dull-color: hsla(var(--foreground-base-hsl), 0.2);
+  --negative-color: var(--negative-dark);
+  --positive-color: var(--positive-dark);
+  --sharp-hsl: var(--foreground-base-hsl);
+  --negative-hsl: var(--negative-dark-hsl);
+  --positive-hsl: var(--positive-dark-hsl);
+  --neutral-hsl: var(--foreground-base-hsl);
+
+  color: var(--text-color);
+}
+
+.bg-faded {
+  background: var(--faded-color);
+}
+
+.bg-current {
+  background: currentcolor;
+}
+
+.bg-overlay::after {
+  background: var(--foreground-base);
+  opacity: 0.3;
+}
+
+.bg-fade-up::after {
+  background:
+    linear-gradient(
+      to top,
+      var(--foreground-base) 0%,
+      hsla(--foreground-base-hsl, 0) 100%
+    );
+}
+
+.bg-diagonal,
+.bg-diagonal-before::before {
+  background:
+    linear-gradient(
+      135deg,
+      hsla(var(--bg-from)) 0%,
+      hsla(var(--bg-to)) 100%
+    );
+}

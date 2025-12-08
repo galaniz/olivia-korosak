@@ -1,41 +1,59 @@
 {
   "name": "olivia-korosak",
-  "version": "1.0.0",
-  "description": "Static site for Olivia Korosak",
-  "main": "index.njk",
-  "engines": {
-    "node": ">=19"
-  },
+  "main": "lib/esbuild/esbuild.js",
+  "packageManager": "pnpm@10.23.0",
+  "type": "module",
   "scripts": {
-    "start": "npx @11ty/eleventy --serve",
-    "build": "npx @11ty/eleventy",
-    "debug": "DEBUG=* npx @11ty/eleventy"
+    "build:client": "npx tsc --project tsconfig.client.json",
+    "build:node": "npx tsc --project tsconfig.node.json",
+    "build": "pnpm build:client && pnpm build:node && node lib/esbuild/esbuild.js --site",
+    "watch:client": "npx tsc --watch --preserveWatchOutput --project tsconfig.client.json",
+    "watch:node": "npx tsc --watch --preserveWatchOutput --project tsconfig.node.json",
+    "watch:esbuild": "node scripts/watch.js",
+    "start": "npm-run-all --parallel watch:node watch:client watch:esbuild",
+    "lint:ts": "npx eslint .",
+    "lint:scss": "stylelint 'src/**/*.scss'",
+    "lint": "pnpm lint:ts && pnpm lint:scss",
+    "wrangler:contact": "npx wrangler dev --config src/workers/Contact/wrangler.json",
+    "wrangler:site": "npx wrangler dev --config wrangler.json",
+    "wrangler:staging": "npx wrangler dev --config wrangler.json --env staging",
+    "clean": "rm -rf node_modules/.cache/tsbuildinfo.* || true && rm -rf .cache || true && rm -rf site || true && rm -rf lib || true && rm -rf functions || true"
   },
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": ">=22"
+  },
   "dependencies": {
-    "@11ty/eleventy": "^2.0.1",
-    "@11ty/eleventy-fetch": "^4.0.0",
-    "@alanizcreative/formation": "^4.1.2",
-    "autoprefixer": "^10.4.15",
-    "contentful-resolve-response": "^1.8.1",
-    "dotenv": "^16.3.1",
-    "esbuild": "^0.19.2",
-    "esbuild-sass-plugin": "^2.13.0",
-    "html-minifier": "^4.0.0",
-    "node-fetch": "^3.3.2",
-    "normalize.css": "^8.0.1",
-    "postcss": "^8.4.28",
-    "postcss-preset-env": "^9.1.2",
-    "safe-json-stringify": "^1.2.0",
-    "standard": "^17.1.0",
-    "stylelint": "^15.10.3",
-    "stylelint-config-standard-scss": "^10.0.0",
-    "uuid": "^9.0.0",
-    "validator": "^13.11.0",
-    "wrangler": "^3.6.0"
+    "@alanizcreative/formation": "5.1.0-beta.23",
+    "@alanizcreative/formation-static": "0.0.1",
+    "@cloudflare/workers-types": "4.20251121.0",
+    "@esbuild/linux-x64": "0.27.0",
+    "@fullhuman/postcss-purgecss": "7.0.2",
+    "@types/html-minifier-terser": "^7.0.2",
+    "@types/node": "^24.10.1",
+    "@types/validator": "13.15.10",
+    "autoprefixer": "^10.4.22",
+    "dotenv": "^17.2.3",
+    "esbuild": "^0.27.0",
+    "html-minifier-terser": "^7.2.0",
+    "postcss": "^8.5.6",
+    "postcss-modules": "^6.0.1",
+    "sass": "^1.94.2",
+    "typescript": "^5.9.3",
+    "uuid": "^13.0.0",
+    "validator": "13.15.23"
+  },
+  "devDependencies": {
+    "eslint": "9.39.1",
+    "stylelint": "^16.26.0",
+    "stylelint-config-standard-scss": "^16.0.0",
+    "typescript-eslint": "8.47.0"
+  },
+  "optionalDependencies": {
+    "nodemon": "3.1.11",
+    "npm-run-all": "^4.1.5",
+    "wrangler": "^4.50.0"
   },
   "browserslist": [
-    "edge 16"
+    "> 0.5%"
   ]
 }

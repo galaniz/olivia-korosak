@@ -1,0 +1,27 @@
+/**
+ * Colors - Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/colors/colors";
+
+/* Styles */
+
+.sharp {
+  color: var(--sharp-color);
+}
+
+.current {
+  --interactive-color: currentcolor;
+
+  color: currentcolor;
+}
+
+.dull {
+  color: var(--dull-color);
+}
+
+.muted {
+  color: var(--muted-color);
+}

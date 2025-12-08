@@ -1,0 +1,40 @@
+/**
+ * Base - Base Styles
+ */
+
+html {
+  scroll-behavior: smooth;
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-base);
+  font-family: var(--font-primary);
+  color: var(--text-color);
+}
+
+body {
+  min-height: 100vh; // Fallback for old browsers
+  min-height: 100dvh;
+}
+
+a {
+  color: var(--interactive-color);
+}
+
+p {
+  color: var(--text-color);
+}
+
+b,
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+hr {
+  height: var(--border-width);
+  background: var(--dull-color);
+  margin: 0;
+  border: 0;
+}
+
+:target {
+  scroll-margin-top: var(--xl);
+}

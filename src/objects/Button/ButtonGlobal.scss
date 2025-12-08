@@ -1,0 +1,62 @@
+/**
+ * Objects - Button Global Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+
+/* Styles */
+
+.button {
+  --btn-translate: #{util.calc-rem(-2px)};
+  --btn-offset: #{util.calc-rem(6px)};
+  --btn-drop: var(--background-light);
+
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+  padding: var(--btn-padding, var(--4xs) var(--3xs));
+  font-size: var(--btn-size, var(--font-18));
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: var(--btn-offset);
+    left: var(--btn-offset);
+    border-right: #{util.calc-rem(1px)} solid var(--btn-drop);
+    border-bottom: #{util.calc-rem(1px)} solid var(--btn-drop);
+    border-bottom-right-radius: #{util.calc-rem(9px)};
+    opacity: var(--btn-opacity, 0);
+    transform: translate(var(--btn-translate), var(--btn-translate));
+    transition:
+      opacity var(--duration) var(--easing),
+      transform var(--duration) var(--easing);
+  }
+
+  &:hover::after {
+    --btn-opacity: 1;
+    --btn-translate: 0;
+  }
+}
+
+.button-primary {
+  background: var(--sharp-color);
+  color: var(--inverse-color);
+}
+
+.button-secondary {
+  --btn-offset: #{util.calc-rem(7px)};
+  --btn-drop: hsla(var(--sharp-hsl), 0.5);
+
+  color: var(--sharp-color);
+}
+
+.button-l {
+  --btn-padding: var(--3xs) var(--2xs);
+  --btn-size: var(--font-20);
+}

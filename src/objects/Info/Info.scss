@@ -1,0 +1,31 @@
+/**
+ * Objects - Info Styles
+ */
+
+.info-error {
+  --text-color: var(--negative-color);
+  --bg-from: var(--negative-hsl), 0.1;
+  --bg-to: var(--negative-hsl), 0.05;
+}
+
+.info-success {
+  --text-color: var(--positive-color);
+  --bg-from: var(--positive-hsl), 0.1;
+  --bg-to: var(--positive-hsl), 0.05;
+}
+
+.info-neutral {
+  --text-color: var(--sharp-color);
+  --bg-from: var(--neutral-hsl), 0.1;
+  --bg-to: var(--neutral-hsl), 0.05;
+}
+
+.info-error,
+.info-success,
+.info-neutral {
+  color: var(--text-color);
+
+  &[tabindex="-1"]:focus {
+    box-shadow: inset 0 0 0 var(--outline-width) var(--text-color);
+  }
+}
