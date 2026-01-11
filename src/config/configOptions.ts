@@ -18,8 +18,39 @@ import type {
   ConfigContainerLabel,
   ConfigBreakpoint,
   ConfigColumn,
-  ConfigColumnLabel
+  ConfigColumnLabel,
+  ConfigAspectRatio,
+  ConfigAspectRatioLabel,
+  ConfigHeading,
+  ConfigHeadingLevel,
+  ConfigHeadingLabel,
+  ConfigText,
+  ConfigTextLabel,
+  ConfigTextAlignLabel,
+  ConfigTextAlign,
+  ConfigContentTypeLabel,
+  ConfigContentType
 } from './configTypes.js'
+
+/**
+ * Content type values.
+ *
+ * @type {Object<ConfigContentTypeLabel, ConfigContentType>}
+ */
+export const configContentType: Record<ConfigContentTypeLabel, ConfigContentType> = {
+  Project: 'project',
+  Track: 'track'
+}
+
+/**
+ * Content type labels from values.
+ *
+ * @type {Object<ConfigContentType, ConfigContentTypeLabel>}
+ */
+export const configContentTypeLabel: Record<ConfigContentType, ConfigContentTypeLabel> = {
+  project: 'Project',
+  track: 'Track'
+}
 
 /**
  * Tag values.
@@ -99,6 +130,17 @@ export const configGap: Map<ConfigGapLabel, ConfigSize> = new Map([
 ])
 
 /**
+ * Aspect ratio values.
+ *
+ * @type {Map<ConfigAspectRatioLabel, ConfigAspectRatio>}
+ */
+export const configAspectRatio: Map<ConfigAspectRatioLabel, ConfigAspectRatio> = new Map([
+  ['1:1', '1-1'],
+  ['5:4', '5-4'],
+  ['16:9', '16-9']
+])
+
+/**
  * Container suffix values.
  *
  * @type {Map<ConfigContainerLabel, ConfigContainer>}
@@ -171,3 +213,51 @@ export const configColumnFloats: Record<ConfigColumnLabel, number> = {
   '1/5': 0.1666,
   '1/6': 0.0833
 }
+
+/**
+ * Heading levels.
+ *
+ * @type {Map<ConfigHeadingLabel, ConfigHeadingLevel>}
+ */
+export const configHeadingLevel: Map<ConfigHeadingLabel, ConfigHeadingLevel> = new Map([
+  ['Heading Two', 'h2'],
+  ['Heading Three', 'h3'],
+  ['Heading Four', 'h4'],
+  ['Heading Five', 'h5'],
+  ['Heading Six', 'h6']
+])
+
+/**
+ * Heading styles.
+ *
+ * @type {Map<ConfigHeadingLabel, ConfigHeading>}
+ */
+export const configHeadingStyle: Map<ConfigHeadingLabel, ConfigHeading> = new Map([
+  ['Heading Two', 'xl'],
+  ['Heading Three', 'l'],
+  ['Heading Four', 'm'],
+  ['Heading Five', 's'],
+  ['Heading Six', 'xs']
+])
+
+/**
+ * Text styles.
+ *
+ * @type {Map<ConfigTextLabel, ConfigText>}
+ */
+export const configTextStyle: Map<ConfigTextLabel, ConfigText> = new Map([
+  ['Extra Large', 'xl'],
+  ['Large', 'l'],
+  ['Medium', 'm-flex'],
+  ['Small', 's']
+])
+
+/**
+ * Text align values.
+ *
+ * @type {Map<ConfigTextAlignLabel, ConfigTextAlign>}
+ */
+export const configTextAlign: Map<ConfigTextAlignLabel, ConfigTextAlign> = new Map([
+  ['Left', 'left'],
+  ['Center', 'center']
+])

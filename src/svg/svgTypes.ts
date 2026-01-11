@@ -8,12 +8,12 @@ import type { ConfigSize } from '../config/configTypes.js'
 
 /**
  * @typedef {object} SvgArgs
- * @prop {ConfigGeometry} [width='2xs']
- * @prop {ConfigGeometry} [height='2xs']
+ * @prop {ConfigSize|'full'} [width='2xs']
+ * @prop {ConfigSize|'full'} [height='2xs']
  * @prop {string} [classes]
  */
 export interface SvgArgs {
-  width?: ConfigSize
-  height?: ConfigSize
+  width?: ConfigSize | 'full'
+  height?: ConfigSize | 'full'
   classes?: string
 }

@@ -74,6 +74,16 @@ export interface ConfigVars {
 }
 
 /**
+ * @typedef {'project'|'track'} ConfigContentType
+ */
+export type ConfigContentType = 'project' | 'track'
+
+/**
+ * @typedef {'Project'|'Track'} ConfigContentTypeLabel
+ */
+export type ConfigContentTypeLabel = 'Project' | 'Track'
+
+/**
  * @typedef {'foreground-base'|'foreground-light'|'foreground-dark'|'background-light'} ConfigBackgroundColor
  */
 export type ConfigBackgroundColor = 'foreground-base' | 'foreground-light' | 'foreground-dark' | 'background-light'
@@ -183,6 +193,11 @@ export type ConfigAlignLabel = 'Start' | 'Center' | 'End'
 export type ConfigAspectRatio = '1-1' | '5-4' | '16-9'
 
 /**
+ * @typedef {'1:1'|'5:4'|'16:9'} ConfigAspectRatioLabel
+ */
+export type ConfigAspectRatioLabel = '1:1' | '5:4' | '16:9'
+
+/**
  * @typedef {0|600|900|1200} ConfigBreakpoint
  */
 export type ConfigBreakpoint = 0 | 600 | 900 | 1200
@@ -232,6 +247,45 @@ export type ConfigColumnLabel =
   '1/6'
 
 /**
- * @typedef {2|3|4|5|6} ConfigHeadingLevel
+ * @typedef {'xl'|'l'|'m'|'s'|'xs'} ConfigHeading
  */
-export type ConfigHeadingLevel = 2 | 3 | 4 | 5 | 6
+export type ConfigHeading = 'xl' | 'l' | 'm' | 's' | 'xs'
+
+/**
+ * @typedef {'h2'|'h3'|'h4'|'h5'|'h6'} ConfigHeadingLevel
+ */
+export type ConfigHeadingLevel = 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+/**
+ * @typedef {'Heading Two'|'Heading Three'|'Heading Four'|'Heading Five'|'Heading Six'} ConfigHeadingLabel
+ */
+export type ConfigHeadingLabel =
+  'Heading Two' |
+  'Heading Three' |
+  'Heading Four' |
+  'Heading Five' |
+  'Heading Six'
+
+/**
+ * @typedef {'xl'|'l'|'m-flex'|'s'} ConfigText
+ */
+export type ConfigText = 'xl' | 'l' | 'm-flex' | 's'
+
+/**
+ * @typedef {'Extra Large'|'Large'|'Medium'|'Small'} ConfigTextLabel
+ */
+export type ConfigTextLabel =
+  'Extra Large' |
+  'Large' |
+  'Medium' |
+  'Small'
+
+/**
+ * @typedef {'left'|'center'} ConfigTextAlign
+ */
+export type ConfigTextAlign = 'left' | 'center'
+
+/**
+ * @typedef {'Left'|'Center'} ConfigTextAlignLabel
+ */
+export type ConfigTextAlignLabel = 'Left' | 'Center'

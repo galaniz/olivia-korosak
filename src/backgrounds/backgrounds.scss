@@ -11,45 +11,45 @@
 .bg-foreground-base,
 .bg-foreground-light,
 .bg-foreground-dark {
-  --text-color: hsla(var(--background-light-hsl), 0.8);
-  --sharp-color: var(--background-light);
-  --inverse-color: var(--foreground-base);
-  --interactive-color: var(--background-light);
-  --muted-color: hsla(var(--background-light-hsl), 0.6);
-  --faded-color: hsla(var(--background-light-hsl), 0.35);
-  --dull-color: hsla(var(--background-light-hsl), 0.2);
-  --negative-color: var(--negative-light);
-  --positive-color: var(--positive-light);
-  --sharp-hsl: var(--background-light-hsl);
-  --negative-hsl: var(--negative-light-hsl);
-  --positive-hsl: var(--positive-light-hsl);
-  --neutral-hsl: var(--background-light-hsl);
+  --ok-text-color: hsla(var(--ok-background-light-hsl), 0.8);
+  --ok-sharp-color: var(--ok-background-light);
+  --ok-inverse-color: var(--ok-foreground-base);
+  --ok-interactive-color: var(--ok-background-light);
+  --ok-muted-color: hsla(var(--ok-background-light-hsl), 0.6);
+  --ok-faded-color: hsla(var(--ok-background-light-hsl), 0.35);
+  --ok-dull-color: hsla(var(--ok-background-light-hsl), 0.2);
+  --ok-negative-color: var(--ok-negative-light);
+  --ok-positive-color: var(--ok-positive-light);
+  --ok-sharp-hsl: var(--ok-background-light-hsl);
+  --ok-negative-hsl: var(--ok-negative-light-hsl);
+  --ok-positive-hsl: var(--ok-positive-light-hsl);
+  --ok-neutral-hsl: var(--ok-background-light-hsl);
 
-  color: var(--text-color);
+  color: var(--ok-text-color);
 }
 
 .bg-background-light {
-  --text-color: hsla(var(--foreground-base-hsl), 0.8);
-  --sharp-color: var(--foreground-base);
-  --inverse-color: var(--background-light);
-  --interactive-color: var(--foreground-base);
-  --outline-color: var(--foreground-base);
-  --border-color: hsla(var(--foreground-base-hsl), 0.5);
-  --muted-color: hsla(var(--foreground-base-hsl), 0.6);
-  --faded-color: hsla(var(--foreground-base-hsl), 0.35);
-  --dull-color: hsla(var(--foreground-base-hsl), 0.2);
-  --negative-color: var(--negative-dark);
-  --positive-color: var(--positive-dark);
-  --sharp-hsl: var(--foreground-base-hsl);
-  --negative-hsl: var(--negative-dark-hsl);
-  --positive-hsl: var(--positive-dark-hsl);
-  --neutral-hsl: var(--foreground-base-hsl);
+  --ok-text-color: hsla(var(--ok-foreground-base-hsl), 0.8);
+  --ok-sharp-color: var(--ok-foreground-base);
+  --ok-inverse-color: var(--ok-background-light);
+  --ok-interactive-color: var(--ok-foreground-base);
+  --ok-outline-color: var(--ok-foreground-base);
+  --ok-border-color: hsla(var(--ok-foreground-base-hsl), 0.5);
+  --ok-muted-color: hsla(var(--ok-foreground-base-hsl), 0.6);
+  --ok-faded-color: hsla(var(--ok-foreground-base-hsl), 0.35);
+  --ok-dull-color: hsla(var(--ok-foreground-base-hsl), 0.2);
+  --ok-negative-color: var(--ok-negative-dark);
+  --ok-positive-color: var(--ok-positive-dark);
+  --ok-sharp-hsl: var(--ok-foreground-base-hsl);
+  --ok-negative-hsl: var(--ok-negative-dark-hsl);
+  --ok-positive-hsl: var(--ok-positive-dark-hsl);
+  --ok-neutral-hsl: var(--ok-foreground-base-hsl);
 
-  color: var(--text-color);
+  color: var(--ok-text-color);
 }
 
 .bg-faded {
-  background: var(--faded-color);
+  background: var(--ok-faded-color);
 }
 
 .bg-current {
@@ -57,7 +57,7 @@
 }
 
 .bg-overlay::after {
-  background: var(--foreground-base);
+  background: var(--ok-foreground-base);
   opacity: 0.3;
 }
 
@@ -65,8 +65,8 @@
   background:
     linear-gradient(
       to top,
-      var(--foreground-base) 0%,
-      hsla(--foreground-base-hsl, 0) 100%
+      var(--ok-foreground-base) 0%,
+      hsla(--ok-foreground-base-hsl, 0) 100%
     );
 }
 
@@ -75,7 +75,7 @@
   background:
     linear-gradient(
       135deg,
-      hsla(var(--bg-from)) 0%,
-      hsla(var(--bg-to)) 100%
+      hsla(var(--ok-bg-from)) 0%,
+      hsla(var(--ok-bg-to)) 100%
     );
 }

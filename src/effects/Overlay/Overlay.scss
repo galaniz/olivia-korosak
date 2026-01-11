@@ -1,0 +1,12 @@
+/**
+ * Effects - Overlay
+ */
+
+.e-overlay:hover {
+  --ov-opacity: 0;
+}
+
+.e-overlay-item::after {
+  opacity: var(--ov-opacity, 1);
+  transition: opacity var(--ok-duration) var(--ok-easing);
+}

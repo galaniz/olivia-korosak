@@ -3,29 +3,29 @@
  */
 
 .info-error {
-  --text-color: var(--negative-color);
-  --bg-from: var(--negative-hsl), 0.1;
-  --bg-to: var(--negative-hsl), 0.05;
+  --ok-text-color: var(--ok-negative-color);
+  --ok-bg-from: var(--ok-negative-hsl), 0.1;
+  --ok-bg-to: var(--ok-negative-hsl), 0.05;
 }
 
 .info-success {
-  --text-color: var(--positive-color);
-  --bg-from: var(--positive-hsl), 0.1;
-  --bg-to: var(--positive-hsl), 0.05;
+  --ok-text-color: var(--ok-positive-color);
+  --ok-bg-from: var(--ok-positive-hsl), 0.1;
+  --ok-bg-to: var(--ok-positive-hsl), 0.05;
 }
 
 .info-neutral {
-  --text-color: var(--sharp-color);
-  --bg-from: var(--neutral-hsl), 0.1;
-  --bg-to: var(--neutral-hsl), 0.05;
+  --ok-text-color: var(--ok-sharp-color);
+  --ok-bg-from: var(--ok-neutral-hsl), 0.1;
+  --ok-bg-to: var(--ok-neutral-hsl), 0.05;
 }
 
 .info-error,
 .info-success,
 .info-neutral {
-  color: var(--text-color);
+  color: var(--ok-text-color);
 
   &[tabindex="-1"]:focus {
-    box-shadow: inset 0 0 0 var(--outline-width) var(--text-color);
+    box-shadow: inset 0 0 0 var(--ok-outline-width) var(--ok-text-color);
   }
 }

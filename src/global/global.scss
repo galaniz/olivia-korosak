@@ -46,17 +46,13 @@
 
 @use "../objects/Button/ButtonGlobal";
 
-/* Header */
-
-@use "../components/Header/HeaderGlobal";
-
 /* Hero */
 
 @use "../components/Hero/HeroGlobal";
 
 /* Skip Link */
 
-@use "../components/SkipLink/SkipLinkGlobal";
+@use "@alanizcreative/formation/lib/components/SkipLink/SkipLink";
 
 /* Effects */
 

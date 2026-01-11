@@ -1,0 +1,19 @@
+/**
+ * Objects - Logo Global Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+
+/* Styles */
+
+.logo {
+  width: #{util.fluid-size-clamp((200px, 250px), ("s", "l"))};
+  height: #{util.fluid-size-clamp((20px, 25px), ("s", "l"))};
+}
+
+.logo-s {
+  width: #{util.fluid-size-clamp((180px, 200px), ("s", "l"))};
+  height: #{util.fluid-size-clamp((18px, 20px), ("s", "l"))};
+}

@@ -14,8 +14,8 @@ h6,
 .heading-m,
 .heading-s,
 .heading-xs {
-  font-family: var(--font-secondary);
-  color: var(--sharp-color);
+  font-family: var(--ok-font-secondary);
+  color: var(--ok-sharp-color);
 }
 
 h2,
@@ -28,8 +28,8 @@ h6,
 .heading-m,
 .heading-s,
 .heading-xs {
-  font-weight: var(--font-weight-normal);
-  line-height: var(--line-height-base);
+  font-weight: var(--ok-font-weight-normal);
+  line-height: var(--ok-line-height-base);
 }
 
 p,
@@ -41,81 +41,89 @@ p,
 .text-s,
 .text-xs,
 .text-xs-flex {
-  font-family: var(--font-primary);
-  font-weight: var(--font-weight-light);
-  line-height: var(--line-height-loose);
-  letter-spacing: var(--letter-spacing-base);
+  font-family: var(--ok-font-primary);
+  font-weight: var(--ok-font-weight-light);
+  line-height: var(--ok-line-height-loose);
+  letter-spacing: var(--ok-letter-spacing-base);
 }
 
 h1,
 .heading-2xl {
-  font-size: var(--font-64-flex);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-base);
-  line-height: var(--line-height-snug);
+  font-size: var(--ok-font-64-flex);
+  font-weight: var(--ok-font-weight-bold);
+  letter-spacing: var(--ok-letter-spacing-base);
+  line-height: var(--ok-line-height-snug);
 }
 
 h2,
 .heading-xl {
-  font-size: var(--font-40-flex);
-  letter-spacing: var(--letter-spacing-base);
+  font-size: var(--ok-font-40-flex);
+  letter-spacing: var(--ok-letter-spacing-base);
 }
 
 h3,
 .heading-l {
-  font-size: var(--font-30-flex);
-  letter-spacing: var(--letter-spacing-open);
+  font-size: var(--ok-font-30-flex);
+  letter-spacing: var(--ok-letter-spacing-open);
 }
 
 h4,
 .heading-m {
-  font-size: var(--font-24);
-  letter-spacing: var(--letter-spacing-open);
+  font-size: var(--ok-font-24);
+  letter-spacing: var(--ok-letter-spacing-open);
 }
 
 h5,
 .heading-s {
-  font-size: var(--font-20);
-  letter-spacing: var(--letter-spacing-loose);
+  font-size: var(--ok-font-20);
+  letter-spacing: var(--ok-letter-spacing-loose);
 }
 
 h6,
 .heading-xs {
-  font-size: var(--font-18);
-  letter-spacing: var(--letter-spacing-loose);
+  font-size: var(--ok-font-18);
+  letter-spacing: var(--ok-letter-spacing-loose);
+}
+
+.text-italic,
+.text-quote {
+  font-style: italic;
 }
 
 .text-quote {
-  font-size: var(--font-28-flex);
-  font-style: italic;
-  line-height: var(--line-height-open);
+  font-size: var(--ok-font-28-flex);
+  line-height: var(--ok-line-height-open);
 }
 
 p,
 .text-xl {
-  font-size: var(--font-22-flex);
+  font-size: var(--ok-font-22-flex);
 }
 
 .text-l {
-  font-size: var(--font-20-flex);
+  font-size: var(--ok-font-20-flex);
 }
 
 .text-m { 
-  font-size: var(--font-18);
+  font-size: var(--ok-font-18);
 }
 
 .text-m-flex {
-  font-size: var(--font-18-flex);
+  font-size: var(--ok-font-18-flex);
 }
 
 .text-s {
-  font-size: var(--font-16);
+  font-size: var(--ok-font-16);
 }
 
 .text-xs {
-  font-size: var(--font-14);
+  font-size: var(--ok-font-14);
 }
 
 .text-xs-flex {
-  font-size: var(--font-14-flex);
+  font-size: var(--ok-font-14-flex);
+}
+
+.text-inherit {
+  font-size: inherit;
 }

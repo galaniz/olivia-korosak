@@ -4,6 +4,7 @@
 
 /* Imports */
 
+import type { InternalLink } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { RenderItem, RenderFile } from '@alanizcreative/formation-static/render/renderTypes.js'
 
 /**
@@ -25,10 +26,10 @@ export interface Color {
  * @prop {Color} [colorFrom]
  * @prop {RenderFile} [audio]
  * @prop {string} [audioDuration]
- * @prop {RenderItem[]} [similar]
- * @prop {RenderItem[]} [project]
- * @prop {RenderItem[]} [projectType]
- * @prop {RenderItem[]} [genre]
+ * @prop {Item[]} [similar]
+ * @prop {Item[]} [project]
+ * @prop {InternalLink[]} [projectType]
+ * @prop {InternalLink[]} [genre]
  */
 export interface Item extends RenderItem {
   heroTitle?: string
@@ -39,8 +40,8 @@ export interface Item extends RenderItem {
   colorFrom?: Color
   audio?: RenderFile
   audioDuration?: string
-  similar?: RenderItem[]
-  project?: RenderItem[]
-  projectType?: RenderItem[]
-  genre?: RenderItem[]
+  similar?: Item[]
+  project?: Item[]
+  projectType?: InternalLink[]
+  genre?: InternalLink[]
 }

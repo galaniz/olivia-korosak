@@ -7,34 +7,7 @@
  *
  * @type {object}
  */
-
 const enumOptions = {
-  aspectRatio: {
-    None: '',
-    '1:1': '100',
-    '4:5': '80',
-    '16:9': '56'
-  },
-  content: {
-    text: {
-      Default: 'l',
-      Medium: 'm',
-      Small: 's',
-      'Extra Small': 'xs'
-    },
-    heading: {
-      Default: '',
-      'Heading Two': 'h2',
-      'Heading Three': 'h3',
-      'Heading Four': 'h4',
-      'Heading Five': 'h5',
-      'Heading Six': 'h6'
-    },
-    align: {
-      Left: 'left',
-      Center: 'center'
-    }
-  },
   posts: {
     contentType: {
       Project: 'project',

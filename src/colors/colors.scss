@@ -9,19 +9,23 @@
 /* Styles */
 
 .sharp {
-  color: var(--sharp-color);
+  color: var(--ok-sharp-color);
 }
 
 .current {
-  --interactive-color: currentcolor;
+  --ok-interactive-color: currentcolor;
 
   color: currentcolor;
 }
 
+.faded {
+  color: var(--ok-faded-color);
+}
+
 .dull {
-  color: var(--dull-color);
+  color: var(--ok-dull-color);
 }
 
 .muted {
-  color: var(--muted-color);
+  color: var(--ok-muted-color);
 }

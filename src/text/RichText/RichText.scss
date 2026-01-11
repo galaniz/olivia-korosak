@@ -10,10 +10,10 @@
 /* Styles */
 
 .rich-text {
-  --rt-max: var(--m); // 40px
-  --rt-high: var(--s); // 30px
-  --rt-mid: var(--2xs); // 20px
-  --rt-low: var(--4xs); // 10px
+  --rt-max: var(--ok-m); // 40px
+  --rt-high: var(--ok-s); // 30px
+  --rt-mid: var(--ok-2xs); // 20px
+  --rt-low: var(--ok-4xs); // 10px
 
   hr {
     margin: var(--rt-max) 0;
@@ -35,14 +35,8 @@
   }
 
   ul[data-rich],
-  ol[data-rich],
-  blockquote[data-rich] {
+  ol[data-rich] {
     margin: var(--rt-mid) 0 var(--rt-mid) 5%;
-  }
-
-  figcaption[data-rich],
-  blockquote[data-rich] {
-    font-style: italic;
   }
 
   p[data-rich],
@@ -55,8 +49,8 @@
   }
 
   li[data-rich] {
-    margin-top: var(--4xs);
-    padding-left: var(--5xs);
+    margin-top: var(--ok-4xs);
+    padding-left: var(--ok-5xs);
 
     &::marker {
       font-size: 0.9em;
@@ -74,9 +68,9 @@
   }
 
   @include util.breakpoint-min("l") {
-    --rt-max: var(--xl); // 60px
-    --rt-high: var(--m); // 40px
-    --rt-mid: var(--s); // 30px
-    --rt-low: var(--2xs); // 20px
+    --rt-max: var(--ok-xl); // 60px
+    --rt-high: var(--ok-m); // 40px
+    --rt-mid: var(--ok-s); // 30px
+    --rt-low: var(--ok-2xs); // 20px
   }
 }

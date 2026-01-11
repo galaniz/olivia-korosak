@@ -4,6 +4,8 @@
 
 /* Imports */
 
+import type { ColumnArgs as FormationColumnArgs } from '@alanizcreative/formation-static/layouts/Column/ColumnTypes.js'
+import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 import type {
   ConfigTag,
@@ -13,8 +15,6 @@ import type {
   ConfigAlignLabel,
   ConfigJustifyLabel
 } from '../../config/configTypes.js'
-import type { ColumnArgs as FormationColumnArgs } from '@alanizcreative/formation-static/layouts/Column/ColumnTypes.js'
-import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 
 /**
  * @typedef {ConfigTag|ConfigTagLabel} ContainerTag

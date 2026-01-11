@@ -1,0 +1,57 @@
+/**
+ * Effects - Line Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+
+/* Styles */
+
+%e-line {
+  --ln-prop: text-decoration-color;
+  --ln-color: var(--ln-from, currentcolor);
+  --ln-width: #{util.calc-rem(1px)};
+  --ln-offset: #{util.calc-rem(5px)};
+  --ln-duration: 200ms;
+
+  text-decoration: underline;
+  text-decoration-thickness: var(--ln-width);
+  text-underline-offset: var(--ln-offset);
+  text-decoration-color: var(--ln-color, currentcolor);
+}
+
+%e-line-transition {
+  transition-property: var(--ln-prop);
+  transition-duration: var(--ln-duration);
+  transition-timing-function: var(--ok-easing);
+
+  &:hover,
+  &:active,
+  &:focus,
+  &[aria-current="page"] {
+    --ln-color: var(--ln-to, currentcolor);
+  }
+}
+
+.e-line-thin {
+  --ln-width: #{util.calc-rem(0.64px)};
+  --ln-offset: #{util.calc-rem(4px)};
+}
+
+.e-line-all a,
+.e-line-out a[data-rich] {
+  --ln-from: currentcolor;
+  --ln-to: hsla(var(--ok-sharp-hsl), 0.5);
+
+  @extend %e-line;
+  @extend %e-line-transition;
+}
+
+.e-line-in a[data-rich] {
+  --ln-from: transparent;
+  --ln-to: currentcolor;
+
+  @extend %e-line;
+  @extend %e-line-transition;
+}

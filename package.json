@@ -1,7 +1,6 @@
 {
   "name": "olivia-korosak",
-  "main": "lib/esbuild/esbuild.js",
-  "packageManager": "pnpm@10.23.0",
+  "packageManager": "pnpm@10.27.0",
   "type": "module",
   "scripts": {
     "build:client": "npx tsc --project tsconfig.client.json",
@@ -17,41 +16,41 @@
     "wrangler:contact": "npx wrangler dev --config src/workers/Contact/wrangler.json",
     "wrangler:site": "npx wrangler dev --config wrangler.json",
     "wrangler:staging": "npx wrangler dev --config wrangler.json --env staging",
-    "clean": "rm -rf node_modules/.cache/tsbuildinfo.* || true && rm -rf .cache || true && rm -rf site || true && rm -rf lib || true && rm -rf functions || true"
+    "clean": "rm -rf node_modules/.cache/tsbuildinfo.* || true && rm -rf .cache || true && rm -rf site || true && rm -rf lib || true"
   },
   "engines": {
     "node": ">=22"
   },
   "dependencies": {
-    "@alanizcreative/formation": "5.1.0-beta.23",
-    "@alanizcreative/formation-static": "0.0.1",
-    "@cloudflare/workers-types": "4.20251121.0",
-    "@esbuild/linux-x64": "0.27.0",
+    "@alanizcreative/formation": "5.1.0-beta.24",
+    "@alanizcreative/formation-static": "0.0.2",
+    "@cloudflare/workers-types": "4.20260103.0",
+    "@esbuild/linux-x64": "0.27.2",
     "@fullhuman/postcss-purgecss": "7.0.2",
     "@types/html-minifier-terser": "^7.0.2",
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.3",
     "@types/validator": "13.15.10",
-    "autoprefixer": "^10.4.22",
+    "autoprefixer": "^10.4.23",
     "dotenv": "^17.2.3",
-    "esbuild": "^0.27.0",
+    "esbuild": "^0.27.2",
     "html-minifier-terser": "^7.2.0",
     "postcss": "^8.5.6",
     "postcss-modules": "^6.0.1",
-    "sass": "^1.94.2",
+    "sass": "^1.97.1",
     "typescript": "^5.9.3",
     "uuid": "^13.0.0",
-    "validator": "13.15.23"
+    "validator": "13.15.26"
   },
   "devDependencies": {
-    "eslint": "9.39.1",
-    "stylelint": "^16.26.0",
+    "eslint": "9.39.2",
+    "stylelint": "^16.26.1",
     "stylelint-config-standard-scss": "^16.0.0",
-    "typescript-eslint": "8.47.0"
+    "typescript-eslint": "8.50.0"
   },
   "optionalDependencies": {
     "nodemon": "3.1.11",
     "npm-run-all": "^4.1.5",
-    "wrangler": "^4.50.0"
+    "wrangler": "^4.54.0"
   },
   "browserslist": [
     "> 0.5%"

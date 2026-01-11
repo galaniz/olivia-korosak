@@ -4,10 +4,10 @@
 
 /* Imports */
 
-import type { Item } from '../../global/globalTypes.js'
 import type { InternalLink } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { ConfigJustifyLabel, ConfigPaddingLabel } from '../../config/configTypes.js'
+import type { Item } from '../../global/globalTypes.js'
 
 /**
  * @typedef {object} ButtonArgs

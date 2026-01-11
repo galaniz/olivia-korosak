@@ -9,6 +9,15 @@ import type { Generic } from '@alanizcreative/formation-static/global/globalType
 import type { RenderServerlessData } from '@alanizcreative/formation-static/render/renderTypes.js'
 
 /**
+ * @typedef {object} WorkerRequest
+ * @extends {Request}
+ * @prop {IncomingRequestCfProperties} [cf]
+ */
+export type WorkerRequest = Request & {
+  cf?: IncomingRequestCfProperties
+}
+
+/**
  * @typedef {object} WorkerEnv
  * @extends {Generic}
  * @prop {string} [CF_TURNSTILE_KEY]
@@ -18,10 +27,10 @@ export interface WorkerEnv extends Generic {
 }
 
 /**
- * @typedef {object} WorkerTurnstile
+ * @typedef {object} WorkerTurnstileResult
  * @prop {boolean} success
  */
-export interface WorkerTurnstile {
+export interface WorkerTurnstileResult {
   success: boolean
 }
 
@@ -33,13 +42,4 @@ export interface WorkerTurnstile {
 export interface WorkerServerlessReturn {
   type: '404' | 'reload'
   data?: RenderServerlessData
-}
-
-/**
- * @typedef {object} WorkerRequest
- * @extends {Request}
- * @prop {IncomingRequestCfProperties} [cf]
- */
-export type WorkerRequest = Request & {
-  cf?: IncomingRequestCfProperties
 }

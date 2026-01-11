@@ -7,7 +7,11 @@
 import type { InfoArgs } from './InfoTypes.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
+import { addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
+import { configVars } from '../../config/config.js'
 import { InfoSvg } from '../../svg/Info/Info.js'
+import { CheckmarkSvg } from '../../svg/Checkmark/Checkmark.js'
+import { ErrorSvg } from '../../svg/Error/Error.js'
 
 /**
  * Output info message.
@@ -34,6 +38,7 @@ const Info = (args: InfoArgs): string => {
   const isError = type === 'error'
   const isSuccess = type === 'success'
   const isErrorSummary = type === 'error-summary'
+  const isEmbed = type === 'embed'
   const isAlert = isError || isSuccess
 
   /* Text */
@@ -53,9 +58,18 @@ const Info = (args: InfoArgs): string => {
     textOutput = `
       <div>
         ${textOutput}
-        <p class="text-${hasTitle ? 's' : 'm wt-medium'} lead-open m-0">
+        <p class="text-m-flex pb-5xs e-line-all">
           ${text}
         </p>
+      </div>
+    `
+  }
+
+  if (isErrorSummary) {
+    textOutput = `
+      <div>
+        ${textOutput}
+        <ul class="flex col pt-5xs pb-4xs gap-4xs text-m-flex lead-base list-none e-line-all" role="list"></ul>
       </div>
     `
   }
@@ -64,99 +78,58 @@ const Info = (args: InfoArgs): string => {
     return ''
   }
 
+  /* Icon */
+
+  const Icon = isError || isErrorSummary ? ErrorSvg : isSuccess ? CheckmarkSvg : InfoSvg
+
+  /* Styles */
+
+  addStyle('objects/Info/Info')
+
+  /* Attributes */
+
+  let attrs = ''
+
+  if (template) {
+    attrs = ' tabindex="-1"' + (isAlert ? ' role="alert"' : '')
+  }
+
+  /* Classes */
+
+  let classes = `info-${isErrorSummary ? 'error' : type} bg-diagonal flex gap-3xs px-3xs py-3xs w-full outline-none`
+
+  if (isEmbed) {
+    classes += ' absolute inset-0 h-full col justify-center'
+  } else {
+    classes += ' b-radius-s'
+  }
+
   /* Output */
 
-  return /* html */`
-    <div class="info-${isErrorSummary ? 'error' : type} bg-diagonal flex gap-3xs px-3xs py-3xs b-radius-s w-full outline-none">
-      ${InfoSvg({
+  const output = /* html */`
+    <div class="${classes}"${attrs}>
+      ${Icon({
         width: 's',
         height: 'm',
         classes: 'w-m-m'
       })}
-      <p class="text-l wt-medium sharp m-0 py-5xs">
-        ${text}
-      </p>
+      ${textOutput}
     </div>
   `
+
+  /* Template */
+
+  const templateId = `tmpl-info-${type}`
+
+  if (template) {
+    configVars.template.set(templateId, output)
+  }
+
+  /* Result */
+
+  return template ? templateId : output
 }
 
 /* Exports */
 
 export { Info }
-
-
-
-
-<div class="o-form-error__summary w-full none outline-none" tabindex="-1">
-  <div class="info-negative bg-diagonal pl-3xs pr-3xs pt-3xs pb-3xs b-radius-s">
-    <div class="flex gap-3xs">
-      <div>
-        <div class="w-s h-m w-m-m l-svg">
-          ${errorSvg()}
-        </div>
-      </div>
-      <div>
-        <h2 class="">There is a problem</h2>
-        <ul class="flex col pt-5xs pb-4xs mb-4xs-all m-0-last text-m-flex lead-base list-none e-underline-all" role="list"></ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="o-form-result__negative w-full none outline-none" role="alert" tabindex="-1">
-  <div class="info-negative bg-diagonal pl-3xs pr-3xs pt-3xs pb-3xs b-radius-s">
-    <div class="flex gap-3xs">
-      <div>
-        <div class="w-s h-m w-m-m l-svg">
-          ${errorSvg()}
-        </div>
-      </div>
-      <div>
-        <h2 class=""></h2>
-        <p class="text-m-flex pb-5xs e-underline-all"></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="o-form-result__positive w-full none outline-none" role="alert" tabindex="-1">
-  <div class="info-positive bg-diagonal pl-3xs pr-3xs pt-3xs pb-3xs b-radius-s">
-    <div class="flex gap-3xs">
-      <div>
-        <div class="w-s h-m w-m-m l-svg">
-          ${checkSvg()}
-        </div>
-      </div>
-      <div>
-        <h2 class=""></h2>
-        <p class="o-form-result__secondary text-m-flex pb-5xs e-underline-all"></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-<div class="audio-error m-auto none" tabindex="-1">
-  <div class="info-negative bg-diagonal pl-4xs pr-4xs pt-4xs pb-4xs b-radius-s">
-    <div class="flex gap-4xs">
-      <div>
-        <div class="w-xs h-s l-svg">
-          ${errorSvg()}
-        </div>
-      </div>
-      <div>
-        <p class="text-s wt-medium lead-base valign-middle m-0 pt-5xs pb-5xs e-underline">Sorry, there is a problem with the service. Download track <a href="" class="audio-update" data-update="textContent:title,href:url" data-rich></a>.</p>
-      </div>
-    </div>
-  </div>
-</div>
-

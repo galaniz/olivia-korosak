@@ -26,6 +26,10 @@ $sizes: (
 /* Config variables */
 
 @use "@alanizcreative/formation/lib/config/config" with (
+  /* Namespace */
+
+  $namespace: "ok",
+
   /* Colors */
 
   $colors-type: "hsla",
@@ -118,7 +122,6 @@ $sizes: (
   /* Line heights */
 
   $line-heights: (
-    "tight": 1,
     "snug": 1.15,
     "close": 1.2,
     "base": 1.3,
@@ -215,6 +218,7 @@ $sizes: (
     "default": 1340px,
     "m": 1080px,
     "s": 690px,
+    "xs": 490px,
   ),
 
   /* Aspect ratios */
@@ -238,8 +242,8 @@ $sizes: (
   $borders: (
     "sides": ("all", "top"),
     "colors": (
-      "default": "var(--faded-color)",
-      "separator": "var(--dull-color)",
+      "default": "var(--ok-faded-color)",
+      "dull": "var(--ok-dull-color)",
       "current": "currentcolor"
     ),
     "widths": (
@@ -259,7 +263,7 @@ $sizes: (
       "default": 2.8px
     ),
     "colors": (
-      "default": "var(--background-light)"
+      "default": "var(--ok-background-light)"
     ),
     "offsets": (
       "default": 4.8px,

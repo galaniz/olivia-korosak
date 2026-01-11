@@ -367,7 +367,7 @@ const _renderItem = async ({
     contentType,
     index,
     title: fields.heroTitle || fields.title,
-    text: contentType === 'project' ? getCommaLinks(heroProjectTypes, 'projectType') : fields.heroText,
+    text: 
     image: fields.heroImage ? fields.heroImage : false,
     breadcrumbs: navs.breadcrumbs || false
   })

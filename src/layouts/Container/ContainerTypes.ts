@@ -4,6 +4,10 @@
 
 /* Imports */
 
+import type {
+  ContainerArgs as FormationContainerArgs
+} from '@alanizcreative/formation-static/layouts/Container/ContainerTypes.js'
+import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 import type {
   ConfigTag,
@@ -15,10 +19,6 @@ import type {
   ConfigJustifyLabel,
   ConfigAlignLabel
 } from '../../config/configTypes.js'
-import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
-import type {
-  ContainerArgs as FormationContainerArgs
-} from '@alanizcreative/formation-static/layouts/Container/ContainerTypes.js'
 
 /**
  * @typedef {ConfigTag|ConfigTagLabel} ContainerTag

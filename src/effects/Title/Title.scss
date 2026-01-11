@@ -1,0 +1,30 @@
+/**
+ * Effects - Title Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+
+/* Styles */
+
+.e-title:hover {
+  --tt-scale: 1;
+}
+
+.e-title-item {
+  white-space: nowrap;
+
+  &::after {
+    content: "";
+    background: var(--ok-background-light);
+    display: inline-block;
+    width: var(--ok-s);
+    height: #{util.calc-rem(1px)};
+    margin-bottom: var(--ok-5xs);
+    margin-left: var(--ok-5xs);
+    transition: transform var(--ok-duration) var(--ok-easing);
+    transform-origin: 0 0;
+    transform: scaleX(var(--tt-scale, 0));
+  }
+}

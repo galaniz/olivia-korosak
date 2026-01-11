@@ -18,7 +18,7 @@ const getSlug = require('./get-slug')
 
 const getCommaLinks = (items = [], contentType = '') => {
   const links = []
-
+ 
   if (items.length) {
     items.forEach(item => {
       if (item.fields === undefined) {

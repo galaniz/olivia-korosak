@@ -11,15 +11,15 @@
 .button {
   --btn-translate: #{util.calc-rem(-2px)};
   --btn-offset: #{util.calc-rem(6px)};
-  --btn-drop: var(--background-light);
+  --btn-drop: var(--ok-background-light);
 
   display: inline-flex;
   justify-content: center;
   position: relative;
-  padding: var(--btn-padding, var(--4xs) var(--3xs));
-  font-size: var(--btn-size, var(--font-18));
-  font-family: var(--font-primary);
-  font-weight: var(--font-weight-medium);
+  padding: var(--btn-padding, var(--ok-4xs) var(--ok-3xs));
+  font-size: var(--btn-size, var(--ok-font-18));
+  font-family: var(--ok-font-primary);
+  font-weight: var(--ok-font-weight-medium);
 
   &::after {
     content: "";
@@ -34,8 +34,8 @@
     opacity: var(--btn-opacity, 0);
     transform: translate(var(--btn-translate), var(--btn-translate));
     transition:
-      opacity var(--duration) var(--easing),
-      transform var(--duration) var(--easing);
+      opacity var(--ok-duration) var(--ok-easing),
+      transform var(--ok-duration) var(--ok-easing);
   }
 
   &:hover::after {
@@ -45,18 +45,18 @@
 }
 
 .button-primary {
-  background: var(--sharp-color);
-  color: var(--inverse-color);
+  background: var(--ok-sharp-color);
+  color: var(--ok-inverse-color);
 }
 
 .button-secondary {
   --btn-offset: #{util.calc-rem(7px)};
-  --btn-drop: hsla(var(--sharp-hsl), 0.5);
+  --btn-drop: hsla(var(--ok-sharp-hsl), 0.5);
 
-  color: var(--sharp-color);
+  color: var(--ok-sharp-color);
 }
 
 .button-l {
-  --btn-padding: var(--3xs) var(--2xs);
-  --btn-size: var(--font-20);
+  --btn-padding: var(--ok-3xs) var(--ok-2xs);
+  --btn-size: var(--ok-font-20);
 }

@@ -1,0 +1,125 @@
+/**
+ * Components - Navigation Primary Styles
+ */
+
+/* Imports */
+
+@use "sass:math";
+@forward "../../config/config";
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+@use "@alanizcreative/formation/lib/config/config" as con;
+@use "@alanizcreative/formation/lib/components/Navigation/Navigation";
+@use "@alanizcreative/formation/lib/components/Navigation/NavigationIcon";
+@use "@alanizcreative/formation/lib/components/Navigation/NavigationIconOne";
+
+/* Wrapper */
+
+.nav {
+  --nav-duration: #{con.$default-duration};
+  --nav-delay: var(--nav-duration), 10ms;
+  --nav-padding: var(--ok-2xs);
+  --nav-color: var(--ok-background-light);
+
+  &[open="true"] {
+    --nav-delay: 10ms, 0ms;
+    --nav-color: var(--ok-foreground-base);
+    --nav-modal-x: 0;
+    --nav-overlay-opacity: 1;
+  }
+
+  &[show-modal="items"] {
+    --nav-items-delay: 0ms;
+    --nav-items-opacity: 1;
+  }
+
+  @include util.breakpoint-min("m") {
+    --nav-padding: var(--ok-s);
+  }
+}
+
+/* List */
+
+.nav-list {
+  &[data-nav-slot] {
+    opacity: var(--nav-slot-opacity, 0);
+  }
+}
+
+/* Link */
+
+.nav-link[data-depth="0"] {
+  font-size: var(--ok-font-20);
+
+  &::after {
+    transform: scaleX(var(--nav-link-scale, 0));
+    transform-origin: var(--nav-link-origin, 0 100%);
+    transition: transform 400ms var(--ok-easing);
+    height: #{util.calc-rem(1px)};
+    background: currentcolor;
+    top: auto;
+  }
+
+  &:hover,
+  &:active,
+  &[data-nav-current],
+  &[data-nav-archive-current] {
+    --nav-link-scale: 1;
+    --nav-link-origin: 100% 100%;
+  }
+}
+
+/* Icon */
+
+.nav-icon {
+  --ok-outline-color: var(--nav-color);
+
+  color: var(--nav-color);
+}
+
+.nav-icon-text {
+  letter-spacing: var(--ok-letter-spacing-loose);
+  line-height: 1;
+}
+
+/* Open */
+
+.nav-open {
+  z-index: 2;
+}
+
+/* Close */
+
+.nav-close {
+  top: var(--nav-padding);
+  right: var(--ok-container-padding);
+}
+
+/* Modal */
+
+.nav-modal {
+  --ok-prop: visibility, transform;
+  --ok-duration: 0ms, var(--nav-duration);
+  --ok-delay: var(--nav-delay);
+
+  max-width: #{util.calc-rem(300px)};
+  transform: translateX(var(--nav-modal-x, 100%));
+}
+
+.nav-modal-scroll {
+  --ok-prop: opacity;
+  --ok-duration: 200ms;
+  --ok-delay: var(--nav-items-delay, 200ms);
+
+  opacity: var(--nav-items-opacity, 0);
+}
+
+/* Overlay */
+
+.nav-overlay {
+  --ok-prop: visibility, opacity;
+  --ok-duration: 0ms, var(--nav-duration);
+  --ok-delay: var(--nav-delay);
+
+  background: hsla(var(--ok-foreground-base-hsl), 0.8);
+  opacity: var(--nav-overlay-opacity, 0);
+}

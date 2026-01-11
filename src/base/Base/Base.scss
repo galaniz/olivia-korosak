@@ -2,12 +2,16 @@
  * Base - Base Styles
  */
 
+@view-transition {
+  navigation: auto;
+}
+
 html {
   scroll-behavior: smooth;
-  font-weight: var(--font-weight-normal);
-  line-height: var(--line-height-base);
-  font-family: var(--font-primary);
-  color: var(--text-color);
+  font-weight: var(--ok-font-weight-normal);
+  line-height: var(--ok-line-height-base);
+  font-family: var(--ok-font-primary);
+  color: var(--ok-text-color);
 }
 
 body {
@@ -16,25 +20,29 @@ body {
 }
 
 a {
-  color: var(--interactive-color);
+  color: var(--ok-interactive-color);
 }
 
 p {
-  color: var(--text-color);
+  color: var(--ok-text-color);
 }
 
 b,
 strong {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--ok-font-weight-bold);
 }
 
 hr {
-  height: var(--border-width);
-  background: var(--dull-color);
+  height: var(--ok-border-width);
+  background: var(--ok-dull-color);
   margin: 0;
   border: 0;
 }
 
+th {
+  text-align: left;
+}
+
 :target {
-  scroll-margin-top: var(--xl);
+  scroll-margin-top: var(--ok-xl);
 }
