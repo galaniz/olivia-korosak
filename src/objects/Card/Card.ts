@@ -6,15 +6,15 @@
 
 import type { CardProps } from './CardTypes.js'
 import type { PostsItemArgs } from '../Posts/PostsTypes.js'
-import { getPermalink, getSlug } from '@alanizcreative/formation-static/utils/link/link.js'
+import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
-import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
 import { getArchiveLabels } from '@alanizcreative/formation-static/utils/archive/archive.js'
 import { RichText } from '@alanizcreative/formation-static/text/RichText/RichText.js'
 import { getGradient } from '../../utils/gradient/gradient.js'
 import { getStoreCount } from '../../store/store.js'
 import { configGap } from '../../config/configOptions.js'
+import { Links } from '../../text/Links/Links.js'
 import { Embed } from '../Embed/Embed.js'
 import { Image } from '../Image/Image.js'
 
@@ -185,32 +185,12 @@ const CardColumn = (args: PostsItemArgs): string => {
   let textOutput = ''
 
   if (!isTerm && isArrayStrict(projectType)) {
-    const types: string[] = []
-
-    projectType.forEach(type => {
-      const {
-        title: typeTitle,
-        slug: typeSlug
-      } = type
-
-      if (!isStringStrict(typeTitle) || !isStringStrict(typeSlug)) {
-        return
-      }
-
-      const typeLink = getPermalink(getSlug({
-        ...type,
-        slug: typeSlug
-      }))
-
-      types.push(`<a href="${typeLink}" data-rich>${title}</a>`)
-    })
-
     textOutput = /* html */`
       <p class="text-s lead-base relative mt-auto e-line-in e-line-thin">
         <span class="a-hide-vis">Types: </span>
-        ${types.join(', ')}
+        ${Links(projectType)}
       </p>
-    `
+    `   
   }
   
   if (isTaxonomy) {
@@ -276,11 +256,12 @@ const CardColumn = (args: PostsItemArgs): string => {
  * Output card list.
  *
  * @param {string} output
+ * @param {boolean} [pagination=false]
  * @return {string} HTMLUListElement
  */
-const CardContainer = (output: string): string => {
+const CardContainer = (output: string, pagination?: boolean): string => {
   return /* html */`
-    <ul class="ls-none flex wrap gap-m gap-xl-m-s" role="list">
+    <ul class="list-none flex wrap gap-m gap-xl-m-s" role="list"${pagination ? ' data-pag-slot="entry"' : ''}>
       ${output}
     </ul>
   `

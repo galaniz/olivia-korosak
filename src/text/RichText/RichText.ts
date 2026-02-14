@@ -28,7 +28,7 @@ import { Table } from '../../objects/Table/Table.js'
 const RichTextProps: RichTextPropsFilter = (props) => {
   /* Props and args */
 
-  const { args, parents = [] } = props
+  const { args, parents } = props
   const newArgs = { ...args }
   const {
     tag = '',
@@ -50,8 +50,8 @@ const RichTextProps: RichTextPropsFilter = (props) => {
 
   /* Parents */
 
-  const parent = parents[0]
-  const grandParent = parents[1]
+  const parent = parents?.[0]
+  const grandParent = parents?.[1]
 
   /* List */
 

@@ -2,6 +2,18 @@
  * Objects - Embed Styles
  */
 
+.embed {
+  --ok-bg-from: var(--ok-foreground-light-hsl);
+  --ok-bg-to: var(--ok-foreground-light-hsl);
+  --info-pos: absolute;
+  --info-inset: 0;
+  --info-layout: column;
+  --info-justify: center;
+  --info-align: center;
+}
+
+/*! purgecss start ignore */
+
 .embed-iframe {
   position: absolute;
   top: 0;
@@ -10,6 +22,8 @@
   height: 100%;
   border: 0;
 }
+
+/*! purgecss end ignore */
 
 .embed-play {
   width: clamp(var(--ok-l), 20%, var(--ok-3xl));

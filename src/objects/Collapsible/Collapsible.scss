@@ -1,0 +1,19 @@
+/**
+ * Objects - Collapsible Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/objects/Collapsible/Collapsible";
+
+/* Styles */
+
+.collapsible {
+  &[expanded="true"] {
+    --clp-rotate: 180deg;
+  }
+}
+
+.collapsible-icon {
+  transform: rotate(var(--clp-rotate), 0deg);
+}

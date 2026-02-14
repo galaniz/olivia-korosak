@@ -5,14 +5,14 @@
 /* Imports */
 
 import type { Item } from '../../global/globalTypes.js'
+import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
-import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
-import { getPermalink, getSlug } from '@alanizcreative/formation-static/utils/link/link.js'
 import { addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { Image } from '../../objects/Image/Image.js'
 import { ArrowSvg } from '../../svg/Arrow/Arrow.js'
 import { ControlSvg } from '../../svg/Control/Control.js'
+import { Links } from '../../text/Links/Links.js'
 
 /**
  * Output hero section.
@@ -94,28 +94,12 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
   let textOutput = `<h1 class="m-0">${title}</h1>`
   let textClasses = 'text-l m-0 pt-4xs pt-3xs-m'
 
-  if (isProject && isArrayStrict(projectType)) {
+  if (isProject) {
     textClasses = 'text-m wt-medium relative m-0 pt-3xs pt-2xs-m e-line-in'
-    heroText = /* html */`
-      <span class="a-hide-vis">Types: </span>
-      ${projectType.map(type => {
-        const {
-          title: typeTitle,
-          slug: typeSlug
-        } = type
 
-        if (!isStringStrict(typeTitle) || !isStringStrict(typeSlug)) {
-          return
-        }
-
-        const typeLink = getPermalink(getSlug({
-          ...type,
-          slug: typeSlug
-        }))
-
-        return `<a href="${typeLink}" class="current" data-rich>${title}</a>`
-      }).join(', ')}
-    `
+    if (isArrayStrict(projectType)) {
+      heroText = `<span class="a-hide-vis">Types: </span>${Links(projectType)}`
+    }
   }
 
   if (isStringStrict(heroText)) {
@@ -156,8 +140,18 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
           class="control w-xl h-xl w-2xl-m h-2xl-m sharp bg-background-light b-radius-full"
           aria-label="Play ${title}"
         >
-          ${ControlSvg({ type: 'play', classes: 'control-play' })}
-          ${ControlSvg({ type: 'pause', classes: 'control-pause' })}
+          ${ControlSvg({
+            type: 'play',
+            width: 'full',
+            height: 'full',
+            classes: 'control-play'
+          })}
+          ${ControlSvg({
+            type: 'pause',
+            width: 'full',
+            height: 'full',
+            classes: 'control-pause'
+          })}
         </button>
         ${textOutput}
       </div>

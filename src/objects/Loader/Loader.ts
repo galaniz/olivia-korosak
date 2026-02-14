@@ -23,7 +23,7 @@ const Loader = (): string => {
 
   configVars.template.set(loaderId, /* html */`
     <span
-      class="loader absolute top-0 left-0 right-0 bottom-0 flex align-center justify-center e-trans b-radius-s sharp"
+      class="loader top-0 left-0 right-0 bottom-0 flex align-center justify-center e-trans b-radius-s sharp"
       tabindex="-1"
       aria-label="Loading"
     >

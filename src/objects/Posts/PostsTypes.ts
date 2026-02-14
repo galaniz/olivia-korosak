@@ -7,6 +7,7 @@
 import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { ParentArgs } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { ConfigContentTypeLabel, ConfigHeadingLabel, ConfigHeadingLevel } from '../../config/configTypes.js'
+import type { PaginationServerlessData } from '../../components/Pagination/PaginationTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 
 /**
@@ -39,6 +40,16 @@ export interface PostsProps extends RenderFunctionArgs {
   args: PostsArgs
   itemData?: Item
 }
+
+/**
+ * @typedef {'string'|'data'} PostsReturnKind
+ */
+export type PostsReturnKind = 'string' | 'data'
+
+/**
+ * @typedef {string|PaginationServerlessData} PostsReturnType
+ */
+export type PostsReturnType<R extends PostsReturnKind> = R extends 'data' ? PaginationServerlessData : string
 
 /**
  * @typedef {object} PostsItemArgs

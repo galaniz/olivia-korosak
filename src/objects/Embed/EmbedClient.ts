@@ -5,7 +5,7 @@
 /* Imports */
 
 import type { EmbedTemplate } from './EmbedTypes.js'
-import { getItem, getTemplateItem, cloneItem } from '@alanizcreative/formation/utils/item/item.js'
+import { getItem, getTemplateItem, cloneItem } from '@alanizcreative/formation/items/items.js'
 import { isHtmlElement } from '@alanizcreative/formation/utils/html/html.js'
 import { isStringStrict } from '@alanizcreative/formation/utils/string/string.js'
 import { setDisplay } from '@alanizcreative/formation/utils/display/display.js'
@@ -131,7 +131,13 @@ class Embed extends HTMLElement {
 
     /* Check required items exist */
 
-    if (!isHtmlElement(loads, HTMLButtonElement) || !isHtmlElement(loader) || !isHtmlElement(error) || !isStringStrict(url) || !isStringStrict(title)) {
+    if (
+      !isHtmlElement(loads, HTMLButtonElement) ||
+      !isHtmlElement(loader) ||
+      !isHtmlElement(error) ||
+      !isStringStrict(url) ||
+      !isStringStrict(title)
+    ) {
       return false
     }
 

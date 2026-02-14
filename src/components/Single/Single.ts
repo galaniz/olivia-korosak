@@ -10,13 +10,13 @@ import { isStringStrict } from '@alanizcreative/formation-static/utils/string/st
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
 import { getArchiveLink } from '@alanizcreative/formation-static/utils/archive/archive.js'
-import { getPermalink, getSlug } from '@alanizcreative/formation-static/utils/link/link.js'
 import { getContentfulData } from '@alanizcreative/formation-static/contentful/contentfulData.js'
 import { getDuration, getDurationSeconds } from '../../utils/duration/duration.js'
 import { configContentTypeLabel } from '../../config/configOptions.js'
 import { Posts } from '../../objects/Posts/Posts.js'
 import { CaretSvg } from '../../svg/Caret/Caret.js'
 import { Content } from '../../text/Content/Content.js'
+import { Links } from '../../text/Links/Links.js'
 
 /**
  * Output singular post content.
@@ -192,33 +192,13 @@ const Single = async (content: string, itemData: Item): Promise<string> => {
     /* Projects */
 
     if (hasProjects) {
-      details.push(['Projects', project.map(item => {
-        const { title, slug } = item
-
-        if (!isStringStrict(title) || !isStringStrict(slug)) {
-          return
-        }
-
-        const projectLink = getPermalink(getSlug({ ...item, slug }))
-
-        return `<a href="${projectLink}" class="current" data-rich>${title}</a>`
-      }).join(', ')])
+      details.push(['Projects', Links(project)])
     }
 
     /* Genres */
 
     if (hasGenres) {
-      details.push(['Genres', genre.map(item => {
-        const { title, slug } = item
-
-        if (!isStringStrict(title) || !isStringStrict(slug)) {
-          return
-        }
-
-        const genreLink = getPermalink(getSlug({ ...item, slug }))
-
-        return `<a href="${genreLink}" class="current" data-rich>${title}</a>`
-      }).join(', ')])
+      details.push(['Genres', Links(genre)])
     }
 
     /* Duration */

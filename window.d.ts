@@ -4,6 +4,19 @@
 
 declare global {
   interface Window {
+    /* Front end */
+
+    ok: {
+      posts?: Record<string, unknown>
+      tracks?: Record<string, {
+        title: string
+        link: string
+        url: string
+      }>
+    }
+
+    /* Turnstile */
+
     turnstile?: {
       render: (container: string | HTMLElement, params: {
         sitekey: string

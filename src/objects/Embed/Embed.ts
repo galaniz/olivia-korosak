@@ -92,7 +92,7 @@ const Embed = (props: EmbedProps): string => {
     title: 'Sorry, there was a problem loading the file.',
     text: 'Try again later.',
     template: true,
-    type: 'embed'
+    type: 'error'
   })
 
   /* Output */

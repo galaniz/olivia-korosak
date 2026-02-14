@@ -22,6 +22,10 @@
   }
 }
 
+.loader {
+  position: var(--ld-position, absolute);
+}
+
 .loader-bar {
   height: 100%;
   background: currentcolor;
@@ -30,21 +34,21 @@
 }
 
 .loader-bar-1 {
-  animation: a-line-scale 1.2s infinite ease-in-out;
+  animation: e-line-scale 1.2s infinite ease-in-out;
 }
 
 .loader-bar-2 {
-  animation: a-line-scale 1.2s -1.1s infinite ease-in-out;
+  animation: e-line-scale 1.2s -1.1s infinite ease-in-out;
 }
 
 .loader-bar-3 {
-  animation: a-line-scale 1.2s -1s infinite ease-in-out;
+  animation: e-line-scale 1.2s -1s infinite ease-in-out;
 }
 
 .loader-bar-4 {
-  animation: a-line-scale 1.2s -0.9s infinite ease-in-out;
+  animation: e-line-scale 1.2s -0.9s infinite ease-in-out;
 }
 
 .loader-bar-5 {
-  animation: a-line-scale 1.2s -0.8s infinite ease-in-out;
+  animation: e-line-scale 1.2s -0.8s infinite ease-in-out;
 }

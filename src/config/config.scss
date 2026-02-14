@@ -284,4 +284,12 @@ $sizes: (
       "easing": "cubic-bezier(0.45, 0, 0.55, 1)",
     ),
   ),
+
+  /* Z index */
+
+  $z-index: (
+    "loader": 95,
+    "skip-link": 90,
+    "header": 85,
+  ),
 );

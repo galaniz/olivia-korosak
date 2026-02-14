@@ -4,7 +4,7 @@
 
 /* Imports */
 
-import type { PostsItemArgs, PostsProps } from './PostsTypes.js'
+import type { PostsItemArgs, PostsProps, PostsReturnKind, PostsReturnType } from './PostsTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 import type { ConfigContentType, ConfigContentTypeLabel } from '../../config/configTypes.js'
 import type { ContentfulDataParams } from '@alanizcreative/formation-static/contentful/contentfulDataTypes.js'
@@ -14,14 +14,13 @@ import { isStringStrict } from '@alanizcreative/formation-static/utils/string/st
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
 import { isNumber } from '@alanizcreative/formation-static/utils/number/number.js'
+import { scripts } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { print } from '@alanizcreative/formation-static/utils/print/print.js'
 import { getContentfulData } from '@alanizcreative/formation-static/contentful/contentfulData.js'
-import { getArchiveLabels } from '@alanizcreative/formation-static/utils/archive/archive.js'
-import { Pagination } from '@alanizcreative/formation-static/components/Pagination/Pagination.js'
 import { configContentType, configHeadingLevel } from '../../config/configOptions.js'
+import { MediaAudioTracks, MediaAudioTracksContainer } from '../../components/MediaAudio/MediaAudioTracks.js'
+import { Pagination } from '../../components/Pagination/Pagination.js'
 import { CardColumn, CardContainer } from '../Card/Card.js'
-import { CaretSvg } from '../../svg/Caret/Caret.js'
-import { Info } from '../Info/Info.js'
 
 /**
  * Cache posts data.
@@ -54,19 +53,31 @@ const postsTermFields: Record<ConfigContentType, string> = {
  * Output posts.
  *
  * @param {PostsProps} props
- * @return {Promise<string>} HTMLElement
+ * @param {PostsReturnKind} [returnType='string']
+ * @return {Promise<PostsReturnType>}
  */
-const Posts = async (props: PostsProps): Promise<string> => {
+const Posts = async <R extends PostsReturnKind = 'string'>(
+  props: PostsProps,
+  returnType: R = 'string' as R
+): Promise<PostsReturnType<R>> => {
+  /* Return types */
+
+  const isData = returnType === 'data'
+
+  /* Fallback */
+
+  const fallback = isData ? {} : ''
+
   /* Props and args required */
 
   if (!isObjectStrict(props)) {
-    return ''
+    return fallback as PostsReturnType<R>
   }
 
   const { args, itemData, serverlessData, parents } = props
 
   if (!isObjectStrict(args)) {
-    return ''
+    return fallback as PostsReturnType<R>
   }
 
   /* Args */
@@ -92,20 +103,24 @@ const Posts = async (props: PostsProps): Promise<string> => {
   /* Data */
 
   if (!isObjectStrict(itemData)) {
-    return ''
+    return fallback as PostsReturnType<R>
   }
 
   const {
     id,
+    slug,
+    title,
     archive,
     contentType,
-    taxonomy
+    taxonomy,
+    baseUrl,
+    meta
   } = itemData
 
   /* ID required */
 
   if (!isStringStrict(id)) {
-    return ''
+    return fallback as PostsReturnType<R>
   }
 
   /* Term */
@@ -125,11 +140,14 @@ const Posts = async (props: PostsProps): Promise<string> => {
   /* Content types required */
 
   if (!isArrayStrict(contentTypes)) {
-    return ''
+    return fallback as PostsReturnType<R>
   }
 
-  const multiContentType = contentTypes.length > 1
   const primaryContentType = contentTypes[0] as ConfigContentType
+
+  /* Layout */
+
+  const isTrack = primaryContentType === 'track'
 
   /* Select fields */
 
@@ -141,7 +159,7 @@ const Posts = async (props: PostsProps): Promise<string> => {
 
   /* Pagination variables */
 
-  let current = 1
+  let paginationCurrent = 1
   const paginationFilters: Record<string, string> = {}
 
   /* Query prep */
@@ -175,11 +193,11 @@ const Posts = async (props: PostsProps): Promise<string> => {
     const queryPage = serverlessData.query.page
 
     if (isStringStrict(queryPage)) {
-      current = parseInt(escape(queryPage), 10)
+      paginationCurrent = parseInt(escape(queryPage), 10)
 
-      if (isNumber(current) && current > 0) {
-        key += `_${current}`
-        params.skip = display * (current - 1)
+      if (isNumber(paginationCurrent) && paginationCurrent > 0) {
+        key += `_${paginationCurrent}`
+        params.skip = display * (paginationCurrent - 1)
       }
     }
   }
@@ -212,89 +230,102 @@ const Posts = async (props: PostsProps): Promise<string> => {
       throw new Error('No posts found')
     }
 
-    const postsOutput: string[] = []
+    /* Posts */
 
-    posts.forEach(post => {
-      const itemArgs: PostsItemArgs = {
-        post,
+    let postsOutput = ''
+
+    if (isTrack) {
+      postsOutput = MediaAudioTracks({
+        items: posts,
         contentType,
-        primaryContentType,
-        headingLevel,
-        archive,
         parents
-      }
-
-      postsOutput.push(CardColumn(itemArgs))
-    })
-
-    /* Pagination data and output */
-
-    let pagOutput = ''
-
-    if (pagination) {
-      const pagClasses = 'h-s w-s h-m-s w-m-s flex align-center justify-center b-radius-s'
-      const pag = Pagination({
-        total: Math.ceil(total / display),
-        url: itemData.baseUrl,
-        filters: paginationFilters,
-        current,
-        prev: CaretSvg({
-          type: 'left',
-          width: '2xs',
-          height: '2xs',
-          classes: 'w-xs-m h-xs-m'
-        }),
-        next: CaretSvg({
-          type: 'right',
-          width: '2xs',
-          height: '2xs',
-          classes: 'w-xs-m h-xs-m'
-        }),
-        ellipsis: `<span class="${pagClasses} b-all">&hellip;</span>`,
-        prevLabel: 'Previous page',
-        nextLabel: 'Next page',
-        currentLabel: 'Current page',
-        pageLabel: 'Page',
-        titleTemplate: 'Page %current of %total',
-        args: {
-          listClass: 'list-none flex justify-center gap-4xs gap-3xs-s num-normal wt-medium text-l',
-          listAttr: 'role="list"',
-          itemClass: 'relative',
-          currentClass: `${pagClasses} bg-faded`,
-          prevSpanClass: `${pagClasses} b-all b-dull faded`,
-          prevLinkClass: `${pagClasses} b-all e-trans e-border`,
-          nextSpanClass: `${pagClasses} b-all b-dull faded`,
-          nextLinkClass: `${pagClasses} b-all e-trans e-border`,
-          linkClass: `${pagClasses} b-all e-trans e-border`,
-          linkAttr: 'data-rich'
-        }
       })
+    } else {
+      posts.forEach(post => {
+        const itemArgs: PostsItemArgs = {
+          post,
+          contentType,
+          primaryContentType,
+          headingLevel,
+          archive,
+          parents
+        }
 
-      pagOutput = `<nav class="pt-xl pt-2xl-m" aria-label="Pagination">${pag.output}</nav>`
-      itemData.pagination = pag.data
+        postsOutput += CardColumn(itemArgs)
+      })
     }
 
     /* Output */
 
-    if (!postsOutput.length) {
-      return ''
+    if (!postsOutput) {
+      return fallback as PostsReturnType<R>
     }
 
-    const output = postsOutput.join('')
+    let output = postsOutput
 
-    return CardContainer(output) + pagOutput
+    if (isTrack) {
+      output = MediaAudioTracksContainer(output, pagination)
+    } else {
+      output = CardContainer(output, pagination)
+    }
+
+    if (pagination) {
+      if (returnType === 'string') {
+        const postsItemData: Item = {
+          id,
+          slug,
+          title,
+          contentType,
+          archive,
+          baseUrl
+        }
+
+        if (taxonomy) {
+          postsItemData.taxonomy = taxonomy
+        }
+
+        if (meta) {
+          postsItemData.meta = {
+            title: meta.title,
+            canonical: meta.canonical,
+            index: meta.index
+          }
+        }
+
+        scripts.meta.posts = {
+          args,
+          itemData: postsItemData
+        }
+      }
+
+      return Pagination({
+        output: isData ? postsOutput : output,
+        total: Math.ceil(total / display),
+        itemData,
+        serverlessData,
+        current: paginationCurrent,
+        archiveType: primaryContentType,
+        filters: paginationFilters
+      }, isData ? 'data' : 'string') as PostsReturnType<R>
+    }
+
+    return output as PostsReturnType<R>
   } catch (error) {
     if (pagination) {
-      const label = getArchiveLabels(multiContentType ? 'post' : primaryContentType, itemData).plural
-
-      return Info({
-        title: `Looks like no ${label.toLowerCase()} were found.`
-      })
+      return Pagination({
+        output: '',
+        total: 0,
+        itemData,
+        serverlessData,
+        current: paginationCurrent,
+        archiveType: primaryContentType,
+        filters: paginationFilters
+      }, isData ? 'data' : 'string') as PostsReturnType<R>
     }
 
     print('[OK] Error querying and/or outputting posts', error)
 
-    return ''
+    return fallback as PostsReturnType<R>
   }
 }
 
