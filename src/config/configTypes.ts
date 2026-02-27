@@ -10,9 +10,25 @@ import type { Generic } from '@alanizcreative/formation-static/global/globalType
  * @typedef {object} ConfigEnv
  * @extends {Generic}
  * @prop {string} [ENVIRONMENT]
+ * @prop {string} [CTFL_SPACE_ID]
+ * @prop {string} [CTFL_PRODUCTION_TOKEN]
+ * @prop {string} [CTFL_PRODUCTION_HOST]
+ * @prop {string} [CTFL_DEVELOPMENT_TOKEN]
+ * @prop {string} [CTFL_DEVELOPMENT_HOST]
+ * @prop {string} [STRIPE_API_TOKEN]
+ * @prop {string} [LOCAL_CACHE]
+ * @prop {string} [LOCAL]
  */
 export interface ConfigEnv extends Generic {
   ENVIRONMENT?: string
+  CTFL_SPACE_ID?: string
+  CTFL_PRODUCTION_TOKEN?: string
+  CTFL_PRODUCTION_HOST?: string
+  CTFL_DEVELOPMENT_TOKEN?: string
+  CTFL_DEVELOPMENT_HOST?: string
+  STRIPE_API_TOKEN?: string
+  LOCAL_CACHE?: string
+  LOCAL?: string
 }
 
 /**
@@ -289,3 +305,16 @@ export type ConfigTextAlign = 'left' | 'center'
  * @typedef {'Left'|'Center'} ConfigTextAlignLabel
  */
 export type ConfigTextAlignLabel = 'Left' | 'Center'
+
+/**
+ * @typedef {'Text'|'Email'|'Tel'|'Checkbox'|'Radio'|'Number'|'Textarea'|'Select'} ConfigFieldTypeLabel
+ */
+export type ConfigFieldTypeLabel =
+  'Text' |
+  'Email' |
+  'Tel' |
+  'Checkbox' |
+  'Radio' |
+  'Number' |
+  'Textarea' |
+  'Select'

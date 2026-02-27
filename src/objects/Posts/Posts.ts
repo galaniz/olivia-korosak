@@ -86,7 +86,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     display = 12,
     order = 'date',
     headingLevel: headingLevelLabel = 'Heading Three',
-    contentTypes: contentTypesLabels = ['Project'],
+    contentTypes: contentTypesLabels,
     filters = [],
     exclude = false
   } = args
@@ -96,7 +96,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
   } = args
 
   const headingLevel = configHeadingLevel.get(headingLevelLabel)
-  let contentTypes = contentTypesLabels.map(type => {
+  let contentTypes = contentTypesLabels?.map(type => {
     return configContentType[type]
   })
 
@@ -143,6 +143,9 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     return fallback as PostsReturnType<R>
   }
 
+
+
+  const multiContentType = contentTypes.length > 1
   const primaryContentType = contentTypes[0] as ConfigContentType
 
   /* Layout */
@@ -166,9 +169,14 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
 
   let key = `posts_${id}_${contentTypes.join('_')}_${display}`
   const params: ContentfulDataParams = {
-    'sys.contentType.sys.id[in]': contentTypes.join(),
     order: contentType === 'term' ? '-fields.order' : order === 'date' ? '-fields.date' : order,
     select
+  }
+
+  if (multiContentType) {
+    params['sys.contentType.sys.id[in]'] = contentTypes.join()
+  } else {
+    params['content_type'] = primaryContentType
   }
 
   if (isNumber(display)) {

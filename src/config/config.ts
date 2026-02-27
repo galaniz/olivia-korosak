@@ -7,6 +7,7 @@
 import type { ConfigVars, ConfigEnv } from './configTypes.js'
 import type { Config } from '@alanizcreative/formation-static/config/configTypes.js'
 import { setConfig } from '@alanizcreative/formation-static/config/config.js'
+import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 
 /**
  * Style, script, svg and template options.
@@ -44,7 +45,7 @@ const config: Config = setConfig({
   title: 'Olivia Korosak',
   meta: {
     description: 'Olivia Korosak is a Canadian composer and performer. Classically trained, she is a Royal Conservatory of Music and McMaster University Alum. Currently, she composes for a variety of media from short films to live theatre.',
-    image: 'static/img/olivia-korosak-meta.jpg'
+    image: 'img/olivia-korosak-meta.jpg'
   },
   wholeTypes: [
     'page',
@@ -75,6 +76,8 @@ const config: Config = setConfig({
     section: 'container',
     text: 'content',
     forms: 'form',
+    field: 'formField',
+    formOption: 'formOption',
     genre: 'genre',
     image: 'image',
     navigation: 'navigation',
@@ -87,10 +90,29 @@ const config: Config = setConfig({
     track: 'track'
   },
   filter: (config, env: ConfigEnv) => {
-    config.env.dev = env.ENVIRONMENT === 'development'
-    config.env.prod = env.ENVIRONMENT === 'production'
+    const isDev = env.ENVIRONMENT === 'development'
+    const isProd = env.ENVIRONMENT === 'production'
+
+    let cred = isStringStrict(env.CTFL_PRODUCTION_TOKEN) ? env.CTFL_PRODUCTION_TOKEN : ''
+    let host = isStringStrict(env.CTFL_PRODUCTION_HOST) ? env.CTFL_PRODUCTION_HOST : ''
+
+    if (isDev) {
+      cred = isStringStrict(env.CTFL_DEVELOPMENT_TOKEN) ? env.CTFL_DEVELOPMENT_TOKEN : ''
+      host = isStringStrict(env.CTFL_DEVELOPMENT_HOST) ? env.CTFL_DEVELOPMENT_HOST : ''
+    }
+
+    config.env.cache = env.LOCAL_CACHE === 'true'
+    config.env.dev = isDev
+    config.env.prod = isProd
     config.env.devUrl = ''
-    config.env.prodUrl = 'https://oliviakorosak.com'
+    config.env.prodUrl = 'https://alanizcreative.com'
+    config.cms.name = 'contentful'
+    config.cms.space = isStringStrict(env.CTFL_SPACE_ID) ? env.CTFL_SPACE_ID : ''
+    config.cms.devCredential = cred
+    config.cms.devHost = host
+    config.cms.prodCredential = cred
+    config.cms.prodHost = host
+
     configVars.local = env.LOCAL === 'true'
 
     return config

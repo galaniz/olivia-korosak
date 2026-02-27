@@ -13,6 +13,6 @@ export interface NavigationPrimaryArgs {
 }
 
 /**
- * @typedef {'header'|'footer'|'social'} NavigationsLocations
+ * @typedef {'Main'|'Footer'|'Social'} NavigationsLocations
  */
-export type NavigationLocations = 'header' | 'footer' | 'social'
+export type NavigationLocations = 'Main' | 'Footer' | 'Social'

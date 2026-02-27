@@ -47,7 +47,7 @@
 
 /* Link */
 
-.nav-link[data-depth="0"] {
+.nav-link[data-nav-depth="0"] {
   font-size: var(--ok-font-20);
 
   &::after {
@@ -76,7 +76,12 @@
   color: var(--nav-color);
 }
 
+.nav-icon-middle {
+  opacity: 0;
+}
+
 .nav-icon-text {
+  color: var(--nav-color);
   letter-spacing: var(--ok-letter-spacing-loose);
   line-height: 1;
 }
@@ -96,21 +101,13 @@
 
 /* Modal */
 
-.nav-modal {
+.nav-modal-scroll {
   --ok-prop: visibility, transform;
   --ok-duration: 0ms, var(--nav-duration);
   --ok-delay: var(--nav-delay);
 
-  max-width: #{util.calc-rem(300px)};
+  max-width: #{util.calc-rem(320px)};
   transform: translateX(var(--nav-modal-x, 100%));
-}
-
-.nav-modal-scroll {
-  --ok-prop: opacity;
-  --ok-duration: 200ms;
-  --ok-delay: var(--nav-items-delay, 200ms);
-
-  opacity: var(--nav-items-opacity, 0);
 }
 
 /* Overlay */

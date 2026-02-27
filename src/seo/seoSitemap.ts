@@ -19,13 +19,12 @@ const seoSitemap: Map<string, SeoSitemapItem[]> = new Map()
  * Append to sitemap.
  *
  * @param {Item} itemData
- * @param {string} assetsLink
  * @return {boolean}
  */
-const setSeoSitemapItem = (itemData: Item, assetsLink: string): boolean => {
-  const { contentType, baseUrl, date, dateModified, hero } = itemData
+const setSeoSitemapItem = (itemData: Item): boolean => {
+  const { contentType, baseUrl, updatedAt, heroImage } = itemData
 
-  if (!isStringStrict(contentType) || !isStringStrict(baseUrl) || !isStringStrict(date)) {
+  if (!isStringStrict(contentType) || !isStringStrict(baseUrl) || !isStringStrict(updatedAt)) {
     return false
   }
 
@@ -33,14 +32,14 @@ const setSeoSitemapItem = (itemData: Item, assetsLink: string): boolean => {
     seoSitemap.set(contentType, [])
   }
 
-  const seoImage = hero?.image?.path
+  const seoImage = heroImage?.url
   const seoSitemapData: SeoSitemapItem = {
     loc: baseUrl,
-    lastMod: isStringStrict(dateModified) ? dateModified : date
+    lastMod: updatedAt
   }
 
   if (isStringStrict(seoImage)) {
-    seoSitemapData.imageLoc = `${assetsLink}${seoImage}`
+    seoSitemapData.imageLoc = seoImage
   }
 
   seoSitemap.get(contentType)?.push(seoSitemapData)

@@ -6,25 +6,27 @@
 
 import type { LayoutArgs } from './LayoutTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
+import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { getPermalink } from '@alanizcreative/formation-static/utils/link/link.js'
 import {
   scripts,
   outputScripts,
   outputStyles
 } from '@alanizcreative/formation-static/scripts/scripts.js'
-import { setStoreItem } from '@alanizcreative/formation-static/store/store.js'
 import { config, configVars } from '../../config/config.js'
+import { getGradient } from '../../utils/gradient/gradient.js'
 import { Seo, seoSchema } from '../../seo/Seo.js'
 import { Header } from '../Header/Header.js'
 import { Footer } from '../Footer/Footer.js'
 import { Hero } from '../Hero/Hero.js'
-import { Single } from '../Single/Single.js'
+// import { Single } from '../Single/Single.js'
+import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs.js'
 
 /**
  * Output root.
  *
  * @param {LayoutArgs} args
- * @return {string} HTMLHtmlElement
+ * @return {Promise<string>} HTMLHtmlElement
  */
 const Layout = (args: LayoutArgs): string => {
   /* Args required */
@@ -45,45 +47,50 @@ const Layout = (args: LayoutArgs): string => {
 
   /* Page data */
 
-  const {
-    baseType,
-    hero,
-    template
-  } = itemData
+  const { baseType, colorFrom } = itemData
+
+  /* Type */
+
+  const isIndex = meta.isIndex
+  const isProject = contentType === 'project'
+  const isTrack = contentType === 'track'
 
   /* Assets link */
 
   const baseLink = getPermalink()
   const fontsLink = `${baseLink}fonts/`
   const faviconLink = `${baseLink}favicon/`
-  const assetsLink = `${baseLink}assets/`
 
   /* Namespace */
 
   const ns = config.namespace
 
-  /* Header, footer and hero */
+  /* Gradient */
+
+  let gradientOutput = ''
+
+  if (isStringStrict(colorFrom?.value)) {
+    gradientOutput = getGradient(colorFrom.value, 'page', true)
+  }
+
+  /* Header, breadcrumbs, hero and footer */
 
   const headerOutput = Header(slug, baseType)
+  const breadcrumbsOutput = Breadcrumbs(itemData)
   const footerOutput = Footer(slug, baseType)
-  const heroOutput = Hero({
-    ...itemData,
-    ...hero
-  })
+  const heroOutput = Hero({ ...itemData, meta }, !!breadcrumbsOutput)
 
   /* Content */
 
-  let contentOutput = content
+  const contentOutput = content
 
-  if (contentType === 'work') {
-    contentOutput = Single(content, contentType, itemData)
+  if (isProject || isTrack) {
+    // contentOutput = await Single(content, itemData)
   }
 
   /* Seo */
 
-  const seoOutput = Seo(meta, itemData, assetsLink, slug === '/')
-
-  seoSchema.clear()
+  const seoOutput = Seo(meta, itemData, slug === '/')
 
   /* Script data */
 
@@ -117,8 +124,6 @@ const Layout = (args: LayoutArgs): string => {
     stylesOutput += s
   })
 
-  configVars.style.clear()
-
   /* Svg sprites */
 
   let spritesOutput = ''
@@ -140,8 +145,6 @@ const Layout = (args: LayoutArgs): string => {
     `
   }
 
-  configVars.svg.clear()
-
   /* Templates */
 
   let templatesOutput = ''
@@ -154,17 +157,13 @@ const Layout = (args: LayoutArgs): string => {
     `
   }
 
-  configVars.template.clear()
-
-  /* Noscript */
+  /* No script */
 
   let noscriptOutput = `<link rel="stylesheet" href="${baseLink}css/global/globalNoJs.css" media="all">`
 
   configVars.noscript.forEach(noscript => {
     noscriptOutput += noscript
   })
-
-  configVars.noscript.clear()
 
   /* Check if local */
 
@@ -183,16 +182,25 @@ const Layout = (args: LayoutArgs): string => {
     `
   }
 
+  /* Reset */
+
+  seoSchema.clear()
+  configVars.style.clear()
+  configVars.svg.clear()
+  configVars.template.clear()
+  configVars.noscript.clear()
+  configVars.formId = ''
+
   /* Output */
 
   return /* html */`
     <!DOCTYPE html>
-    <html lang="en-CA" id="${ns}" class="bg-background-light" data-root>
+    <html lang="en-CA" id="${ns}" class="bg-foreground-base" data-root>
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="preload" href="${fontsLink}larsseit.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-        <link rel="preload" href="${fontsLink}larsseit-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="${fontsLink}americana-bold.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="${fontsLink}questa-sans-light.woff2" as="font" type="font/woff2" crossorigin>
         ${seoOutput}
         ${configVars.css.replace}
         <style>${stylesOutput}</style>
@@ -202,11 +210,14 @@ const Layout = (args: LayoutArgs): string => {
         <link rel="icon" href="${faviconLink}favicon-512x512.png" sizes="512x512">
         <link rel="apple-touch-icon" href="${faviconLink}favicon-180x180.png">
       </head>
-      <body class="${ns} no-js flex col">
+      <body class="${ns} no-js relative z-1 flex col">
         ${spritesOutput}
+        ${gradientOutput}
         ${headerOutput}
-        <main id="main" class="${isBlank ? 'flex col justify-center grow-1' : 'main pb-3xs overflow-hidden'}">
+        ${breadcrumbsOutput}
+        <main id="main">
           ${heroOutput}
+          ${isIndex ? '<div id="content"></div>' : ''}
           ${contentOutput}
         </main>
         ${footerOutput}

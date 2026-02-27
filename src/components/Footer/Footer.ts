@@ -21,7 +21,7 @@ import { SocialSvg } from '../../svg/Social/Social.js'
 const Footer = (currentLink: string, currentType?: string | string[]): string => {
   /* List */
   
-  const listOutput = navigationsInstance?.getOutput('footer', {
+  const listOutput = navigationsInstance?.getOutput('Footer', {
     currentLink,
     currentType,
     listClass: 'flex wrap justify-center gap-2xs gap-s-l list-none e-line-in',
@@ -32,7 +32,7 @@ const Footer = (currentLink: string, currentType?: string | string[]): string =>
 
   /* Social */
 
-  const socialOutput = navigationsInstance?.getOutput('social', {
+  const socialOutput = navigationsInstance?.getOutput('Social', {
     currentLink,
     currentType,
     listClass: 'flex wrap justify-center gap-2xs list-none',

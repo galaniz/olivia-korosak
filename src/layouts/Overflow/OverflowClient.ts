@@ -4,7 +4,7 @@
 
 /* Imports */
 
-import { Overflow } from '@alanizcreative/formation/objects/Overflow/Overflow.js'
+import { Overflow } from '@alanizcreative/formation/layouts/Overflow/Overflow.js'
 
 /* Register */
 

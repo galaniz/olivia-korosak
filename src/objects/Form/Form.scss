@@ -1,0 +1,72 @@
+/**
+ * Objects - Form Styles
+ */
+
+/* Imports */
+
+@forward "../../config/config";
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+
+/* Styles */
+
+.form {
+  --frm-label-margin: var(--ok-4xs);
+
+  @include util.breakpoint-min("m") {
+    --frm-label-margin: var(--ok-3xs);
+  }
+}
+
+.form-field-hp {
+  display: none;
+}
+
+.form-label [data-form-label] {
+  font-size: var(--ok-font-20-flex);
+  font-weight: var(--ok-font-weight-medium);
+  line-height: var(--ok-line-height-base);
+  color: var(--ok-background-light);
+  margin-bottom: var(--frm-label-margin);
+  display: block;
+}
+
+.form-input-text,
+.form-input-email,
+.form-input-url,
+.form-input-select,
+.form-input-textarea {
+  --ok-border-width: #{util.calc-rem(1px)};
+
+  width: 100%;
+  font-weight: var(--ok-font-weight-light);
+  line-height: var(--ok-line-height-loose);
+  color: var(--ok-background-light);
+  padding: var(--ok-3xs) var(--ok-2xs);
+  border-radius: var(--ok-border-radius-s);
+  font-size: var(--ok-font-22-flex);
+  box-shadow: inset 0 0 0 var(--ok-border-width) var(--ok-border-color);
+  transition: box-shadow var(--ok-duration) var(--ok-easing);
+
+  &[aria-invalid="true"] {
+    --ok-border-color: var(--ok-negative-color);
+
+    &:focus {
+      --ok-border-color: var(--ok-outline-color);
+    }
+  }
+
+  &:focus {
+    --ok-outline-width: 0;
+    --ok-border-color: var(--ok-outline-color);
+    --ok-border-width: #{util.calc-rem(2px)};
+  }
+}
+
+.form-required-icon,
+.form-error-inline {
+  color: var(--ok-negative-color);
+}
+
+.form-error-inline {
+  margin-bottom: var(--frm-label-margin);
+}

@@ -5,6 +5,9 @@
 /* Imports */
 
 import type {
+  FormFieldType as FormationFormFieldType
+} from '@alanizcreative/formation-static/objects/Form/FormTypes.js'
+import type {
   ConfigTag,
   ConfigTagLabel,
   ConfigSize,
@@ -29,7 +32,8 @@ import type {
   ConfigTextAlignLabel,
   ConfigTextAlign,
   ConfigContentTypeLabel,
-  ConfigContentType
+  ConfigContentType,
+  ConfigFieldTypeLabel
 } from './configTypes.js'
 
 /**
@@ -260,4 +264,20 @@ export const configTextStyle: Map<ConfigTextLabel, ConfigText> = new Map([
 export const configTextAlign: Map<ConfigTextAlignLabel, ConfigTextAlign> = new Map([
   ['Left', 'left'],
   ['Center', 'center']
+])
+
+/**
+ * Form field type values.
+ * 
+ * @type {Map<ConfigFieldTypeLabel, FormationFormFieldType>}
+ */
+export const configFieldType: Map<ConfigFieldTypeLabel, FormationFormFieldType> = new Map([
+  ['Text', 'text'],
+  ['Email', 'email'],
+  ['Tel', 'tel'],
+  ['Checkbox', 'checkbox'],
+  ['Radio', 'radio'],
+  ['Number', 'number'],
+  ['Textarea', 'textarea'],
+  ['Select', 'select']
 ])

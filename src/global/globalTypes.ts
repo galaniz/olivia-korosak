@@ -22,6 +22,8 @@ export interface Color {
  * @prop {string} [heroText]
  * @prop {RenderFile} [heroImage]
  * @prop {string} [date]
+ * @prop {string} [createdAt]
+ * @prop {string} [updatedAt]
  * @prop {number} [order]
  * @prop {Color} [colorFrom]
  * @prop {RenderFile} [audio]
@@ -36,6 +38,8 @@ export interface Item extends RenderItem {
   heroText?: string
   heroImage?: RenderFile
   date?: string
+  createdAt?: string
+  updatedAt?: string
   order?: number
   colorFrom?: Color
   audio?: RenderFile

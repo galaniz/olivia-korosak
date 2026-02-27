@@ -25,7 +25,6 @@ const Form = (props: FormProps): FormProps => {
 
   const { args } = props
   const {
-    type = 'contact',
     successTitle,
     successText,
     toEmail,
@@ -38,7 +37,7 @@ const Form = (props: FormProps): FormProps => {
   const errorInlineId = 'tmpl-error-inline'
 
   configVars.template.set(errorInlineId, /* html */`
-    <span class="form-error-inline flex gap-5xs pt-5xs pt-4xs-m">
+    <span class="form-error-inline flex gap-5xs">
       ${ErrorSvg({ width: '2xs', height: '2xs', classes: 'h-xs-m' })}
       <span class="a-hide-vis">Error: </span>
       <span class="text-m-flex wt-medium lead-base" data-form-error-text></span>
@@ -82,12 +81,16 @@ const Form = (props: FormProps): FormProps => {
 
   /* Action */
 
-  const action: FormAction = `${type}${config.env.prod ? '' : '-dev'}`
+  const action: FormAction = `contact${config.env.prod ? '' : '-dev'}`
+
+  /* Site key */
+
+  const siteKey = config.env.prod ? '0x4AAAAAABpyURQ9TLndYvrm' : '1x00000000000000000000BB'
 
   /* Attributes */
 
-  const siteKey = config.env.prod ? '0x4AAAAAABpyURQ9TLndYvrm' : '1x00000000000000000000BB'
-  let formAttr = ` action="${action}" error-summary="${errorSummaryId}" error-inline="${errorInlineId}" error="${errorId}" success="${successId}" loader="${loaderId}" sitekey="${siteKey}"`
+  let formAttr =
+    ` action="${action}" error-summary="${errorSummaryId}" error-inline="${errorInlineId}" error="${errorId}" success="${successId}" loader="${loaderId}" sitekey="${siteKey}"`
 
   if (isStringStrict(successTitle)) {
     formAttr += ` success-title="${successTitle}"`
@@ -99,7 +102,7 @@ const Form = (props: FormProps): FormProps => {
 
   /* Meta */
 
-  if (type === 'contact' && isStringStrict(toEmail) && isStringStrict('senderEmail')) {
+  if (isStringStrict(toEmail) && isStringStrict('senderEmail')) {
     setStoreItem('formMeta', {
       toEmail,
       senderEmail
@@ -118,16 +121,16 @@ const Form = (props: FormProps): FormProps => {
     args: {
       ...args,
       id: formId,
-      formTag: 'ac-form',
+      formTag: 'ok-form',
       formClasses: 'form',
       formAttr,
-      fields: `<div id="ac-turnstile-${formId}" class="none"></div>`,
-      fieldsClasses: 'form flex wrap align-end gap-m',
+      fields: `<div id="ok-turnstile-${formId}" class="none"></div>`,
+      fieldsClasses: 'form flex col row-l wrap align-end-l gap-s gap-m-m',
       fieldsAttr: 'novalidate',
-      submitFieldClasses: 'relative',
-      submitClasses: 'button button-primary button-xl b-radius-l e-trans e-quad',
+      submitFieldClasses: 'relative mt-4xs',
+      submitClasses: 'button button-l b-radius-s e-trans-quad bg-background-light sharp',
       submitLabel,
-      honeypotName: 'ac_hp',
+      honeypotName: 'ok_hp',
       honeypotFieldClasses: 'form-field-hp col-12',
       honeypotFieldAttr: 'data-form-field="url"',
       honeypotLabelClasses: 'form-label',

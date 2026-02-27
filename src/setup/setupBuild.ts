@@ -5,7 +5,7 @@
 /* Imports */
 
 import type { Item } from '../global/globalTypes.js'
-import type { RenderReturn } from '@alanizcreative/formation-static/render/renderTypes.js'
+import type { RenderAllData, RenderReturn } from '@alanizcreative/formation-static/render/renderTypes.js'
 import { resolve } from 'node:path'
 import esbuild from 'esbuild'
 import * as sass from 'sass'
@@ -30,15 +30,17 @@ import { config, configVars } from '../config/config.js'
 import { filters } from '../filters/filters.js'
 import { actions } from '../actions/actions.js'
 import { createSeoSitemapFiles } from '../seo/seoSitemapFiles.js'
+import { getDevData, initDevCache } from './setupDev.js'
 import { HttpError } from '../components/HttpError/HttpError.js'
 
 /**
  * Set up config, filters, actions and fetch/render in build context.
  *
  * @param {boolean} build
+ * @param {string[]} [devPaths=[]]
  * @return {Promise<RenderReturn[]>}
  */
-const setupBuild = async (build: boolean): Promise<RenderReturn[]> => {
+const setupBuild = async (build: boolean, devPaths: string[] = []): Promise<RenderReturn[]> => {
   /* Config env */
 
   setConfigFilter(process.env)
@@ -72,7 +74,7 @@ const setupBuild = async (build: boolean): Promise<RenderReturn[]> => {
 
     await esbuild.build({
       entryPoints,
-      outdir: 'site/assets',
+      outdir: 'site',
       minify: true,
       bundle: true,
       splitting: true,
@@ -200,6 +202,12 @@ const setupBuild = async (build: boolean): Promise<RenderReturn[]> => {
     return output
   }
 
+  /* Cache data */
+
+  if (config.env.cache) {
+    await initDevCache(filters)
+  }
+
   /* Set up filters, actions and render functions */
 
   setFilters(filters)
@@ -209,7 +217,14 @@ const setupBuild = async (build: boolean): Promise<RenderReturn[]> => {
 
   /* Render output */
 
-  const data = await getAllContentfulData()
+  let data: RenderAllData | undefined
+
+  if (build) {
+    data = await getAllContentfulData()
+  } else {
+    data = await getDevData(devPaths)
+  }
+
   const countEntries: Item[] = []
 
   if (data?.content.project) {

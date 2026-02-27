@@ -66,7 +66,7 @@
     linear-gradient(
       to top,
       var(--ok-foreground-base) 0%,
-      hsla(--ok-foreground-base-hsl, 0) 100%
+      hsla(var(--ok-foreground-base-hsl, 0)) 100%
     );
 }
 

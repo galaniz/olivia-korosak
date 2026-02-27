@@ -37,7 +37,7 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
   const listAttr = 'role="list"'
   const linkClass = 'nav-link'
   const itemClass = 'nav-item'
-  const listOutput = navigationsInstance?.getOutput('header', {
+  const listOutput = navigationsInstance?.getOutput('Main', {
     currentLink,
     currentType,
     listClass,
@@ -79,7 +79,7 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
 
   /* Social */
 
-  const socialOutput = navigationsInstance?.getOutput('social', {
+  const socialOutput = navigationsInstance?.getOutput('Social', {
     currentLink,
     currentType,
     listClass: 'flex wrap gap-2xs pt-m list-none',
@@ -116,13 +116,13 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
         <span class="nav-icon-text text-s pt-4xs block" aria-hidden="true">Menu</span>
       </button>
       <div
-        class="nav-modal fixed right-0 bottom-0 z-1 col-10 h-full bg-background-light e-trans"
+        class="nav-modal fixed inset-0 w-full h-full z-1"
         role="dialog"
         aria-modal="true"
         aria-label="Primary menu"
         data-nav-modal
       >
-        <div class="nav-modal-scroll overflow-y-auto overscroll-none overflow-x-hidden h-full px-s pt-3xl pb-xs e-trans"> 
+        <div class="nav-modal-scroll overflow-y-auto overscroll-none overflow-x-hidden col-10 bg-background-light h-full ml-auto px-s pt-3xl pb-xs e-trans">
           <ul class="nav-modal-list flex col gap-2xs list-none" role="list" data-nav-modal-slot></ul>
           ${socialOutput}
           <button
@@ -163,7 +163,7 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
       role="navigation"
       aria-label="Primary"
     >
-      ${Logo({ classes: 'mr-2xl' })}
+      ${Logo({ classes: 'mr-2xs' })}
       ${listOutput}
       ${modalOutput}
     </ok-navigation-primary>

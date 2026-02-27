@@ -16,6 +16,7 @@
   display: inline-flex;
   justify-content: center;
   position: relative;
+  text-decoration: none;
   padding: var(--btn-padding, var(--ok-4xs) var(--ok-3xs));
   font-size: var(--btn-size, var(--ok-font-18));
   font-family: var(--ok-font-primary);

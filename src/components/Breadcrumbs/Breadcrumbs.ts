@@ -34,7 +34,7 @@ const Breadcrumbs = (itemData: Item): string => {
     return ''
   }
 
-  /* Data */
+  /* Parents required */
 
   const { parents } = getSlug({
     id,
@@ -43,9 +43,15 @@ const Breadcrumbs = (itemData: Item): string => {
     itemData
   }, true)
 
+  const parentsCount = parents.length
+
+  if (!parentsCount) {
+    return ''
+  }
+
   /* Trail */
 
-  const lastIndex = parents.length - 1
+  const lastIndex = parentsCount - 1
   const breadcrumbs = parents.map((item, i) => {
     const { title: itemTitle } = item
 

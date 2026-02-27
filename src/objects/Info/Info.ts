@@ -37,9 +37,9 @@ const Info = (args: InfoArgs): string => {
 
   const isError = type === 'error'
   const isSuccess = type === 'success'
-  const isSummary = type === 'summary'
+  const isErrorSummary = type === 'error-summary'
   const isAlert = isError || isSuccess
-  const isErrorType = isError || isSummary
+  const isErrorType = isError || isErrorSummary
 
   /* Text */
 
@@ -65,7 +65,7 @@ const Info = (args: InfoArgs): string => {
     `
   }
 
-  if (isSummary) {
+  if (isErrorSummary) {
     textOutput = /* html */`
       <div>
         ${textOutput}

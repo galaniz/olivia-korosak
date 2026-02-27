@@ -130,6 +130,6 @@ export default {
 
     /* Result */
 
-    return await doServerlessAction(request, env, corsHeaders, 'ac_hp') // Request method checked here
+    return await doServerlessAction(request, env, corsHeaders, 'ok_hp') // Request method checked here
   }
 }

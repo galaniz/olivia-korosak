@@ -47,15 +47,15 @@ const Column = (props: ColumnProps): ColumnProps => {
   }
 
   if (isStringStrict(widthSmall)) {
-    classesArr.push(`col-${widthSmall}-s`)
+    classesArr.push(`col-${configColumns.get(widthSmall as ConfigColumnLabel) || widthSmall}-s`)
   }
 
   if (isStringStrict(widthMedium)) {
-    classesArr.push(`col-${widthMedium}-m`)
+    classesArr.push(`col-${configColumns.get(widthMedium as ConfigColumnLabel) || widthMedium}-m`)
   }
 
   if (isStringStrict(widthLarge)) {
-    classesArr.push(`col-${widthLarge}-l`)
+    classesArr.push(`col-${configColumns.get(widthLarge as ConfigColumnLabel) || widthLarge}-l`)
   }
 
   /* Flex */

@@ -8,7 +8,6 @@ import type { Item } from '../../global/globalTypes.js'
 import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
-import { addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { Image } from '../../objects/Image/Image.js'
 import { ArrowSvg } from '../../svg/Arrow/Arrow.js'
 import { ControlSvg } from '../../svg/Control/Control.js'
@@ -68,8 +67,8 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
         lazy: false,
         aspectRatio: '1-1',
         maxWidth: isIndex ? 1200 : 800,
-        classes: `hero-max-${isIndex ? 's' : 'xs'} m-auto`,
-        sizes: // '(min-width: 75rem) 35.5rem, (min-width: 40rem) 40rem, 80vw'
+        classes: `hero-max-${isIndex ? 's' : 'xs'} m-auto`
+        // sizes: // '(min-width: 75rem) 35.5rem, (min-width: 40rem) 40rem, 80vw' TODO
       }
     })
   }
@@ -114,7 +113,7 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
     const arrowIcon = ArrowSvg({ width: 'm', height: 'm' })
 
     arrowOutput = /* html */`
-      <a href="#main-content" class="none block-m w-m h-m mt-m" aria-label="Jump to main content">
+      <a href="#content" class="none-m w-m h-m" aria-label="Jump to content">
         ${arrowIcon}
       </a>
     `
@@ -123,7 +122,9 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
       <div class="my-auto pt-2xl-m">
         ${textOutput}
       </div>
-      ${arrowOutput}
+      <a href="#content" class="none block-m w-m h-m mt-m" aria-label="Jump to content">
+        ${arrowIcon}
+      </a>
     `
   }
 
@@ -158,10 +159,6 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
     `
   }
 
-  /* Styles */
-
-  addStyle('components/Hero/Hero')
-
   /* Output */
 
   let output = ''
@@ -185,7 +182,7 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
   }
 
   return /* html */`
-    <section class="container${isMedium ? '-m' : ''}${classes}">
+    <section class="container${isMedium ? '-m' : ''} ${classes}">
       ${output}
       ${arrowOutput}
     </section>

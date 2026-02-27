@@ -20,7 +20,7 @@ import { ImageArgs } from '../Image/ImageTypes.js'
  * Output YouTube or Vimeo embed.
  *
  * @param {EmbedProps} props
- * @return {string} HTMLDivElement
+ * @return {string} HTMLElement
  */
 const Embed = (props: EmbedProps): string => {
   /* Props and args required */
@@ -97,35 +97,31 @@ const Embed = (props: EmbedProps): string => {
 
   /* Output */
 
-  const output = /* html */`
-    <ok-embed
-      class="embed bg-foreground-light block relative overflow-hidden outline-inset"
-      url="${link}&autoplay=1&rel=0"
-      title="${title}"
-      loader="${loaderId}"
-      error="${errorId}"
-    >
-      ${thumbOutput}
-      <button
-        type="button"
-        aria-label="Play ${title}"
-        class="absolute inset-0 flex justify-center align-center"
-        data-embed-load
-      >
-        <span class="embed-play ar-1-1 b-radius-full b-all bg-background-light sharp relative e-trans">
-          ${ControlSvg({
-            classes: 'absolute inset-0',
-            width: 'full',
-            height: 'full'
-          })}
-        </span>
-      </button>
-    </ok-embed>
-  `
-
   return /* html */`
     <figure>
-      ${output}
+      <ok-embed
+        class="embed bg-foreground-light block relative overflow-hidden outline-inset"
+        url="${link}&autoplay=1&rel=0"
+        title="${title}"
+        loader="${loaderId}"
+        error="${errorId}"
+      >
+        ${thumbOutput}
+        <button
+          type="button"
+          aria-label="Play ${title}"
+          class="absolute inset-0 flex justify-center align-center"
+          data-embed-load
+        >
+          <span class="embed-play ar-1-1 b-radius-full b-all bg-background-light sharp relative e-trans">
+            ${ControlSvg({
+              classes: 'absolute inset-0',
+              width: 'full',
+              height: 'full'
+            })}
+          </span>
+        </button>
+      </ok-embed>
       ${isStringStrict(captionOutput) ? captionOutput : ''}
     </figure>
   `

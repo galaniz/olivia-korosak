@@ -26,11 +26,10 @@ const seoSchema: SeoSchema = new Map()
  *
  * @param {RenderMeta} meta
  * @param {Item} itemData
- * @param {string} assetsLink
  * @param {boolean} [home=false]
  * @return {string}
  */
-const Seo = (meta: RenderMeta, itemData: Item, assetsLink: string, home: boolean = false): string => {
+const Seo = (meta: RenderMeta, itemData: Item, home: boolean = false): string => {
   /* Meta */
 
   const {
@@ -48,7 +47,11 @@ const Seo = (meta: RenderMeta, itemData: Item, assetsLink: string, home: boolean
 
   /* Data */
 
-  const { date } = itemData
+  const {
+    createdAt,
+    updatedAt,
+    heroImage
+  } = itemData
 
   /* Output */
 
@@ -93,17 +96,7 @@ const Seo = (meta: RenderMeta, itemData: Item, assetsLink: string, home: boolean
     output += `<link rel="next" href="${next}">`
   }
 
-  /* Image */
-
-  let imageLink = `${assetsLink}${config.meta.image}`
-
-  if (image) {
-    imageLink = `${assetsLink}${image}`
-  }
-
   /* Hero */
-
-  const heroImage = hero?.image
 
   let hasHero = false
   let heroImageId = ''
@@ -124,12 +117,12 @@ const Seo = (meta: RenderMeta, itemData: Item, assetsLink: string, home: boolean
       heroImageLink = heroLink
       heroImageWidth = heroWidth
       heroImageHeight = heroHeight
-
-      if (!image) {
-        imageLink = heroImageLink
-      }
     }
   }
+
+  /* Image */
+
+  const imageLink = image || heroImageLink || `${getPermalink()}/${config.meta.image}`
 
   output += `<meta name="image" content="${imageLink}">`
 
@@ -166,8 +159,8 @@ const Seo = (meta: RenderMeta, itemData: Item, assetsLink: string, home: boolean
   const person: Generic = {
     '@type': 'Person',
     '@id': personId,
-    name: 'Graciela Alaniz',
-    jobTitle: 'Web developer/designer',
+    name: 'Olivia Korosak',
+    jobTitle: 'Composer and performer',
     url: siteUrl
   }
 
@@ -226,8 +219,8 @@ const Seo = (meta: RenderMeta, itemData: Item, assetsLink: string, home: boolean
       '@id': siteId
     },
     inLanguage: locale,
-    datePublished: date,
-    dateModified: dateModified,
+    datePublished: createdAt,
+    dateModified: updatedAt,
     description,
     potentialAction: [
       {
@@ -259,7 +252,7 @@ const Seo = (meta: RenderMeta, itemData: Item, assetsLink: string, home: boolean
   })}</script>`
 
   if (index) {
-    setSeoSitemapItem(itemData, assetsLink)
+    setSeoSitemapItem(itemData)
   }
 
   /* Result */

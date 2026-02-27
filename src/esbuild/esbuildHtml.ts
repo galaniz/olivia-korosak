@@ -42,8 +42,15 @@ const esbuildHtml = (args: EsbuildHtmlArgs): Plugin => {
         /* Create files */
 
         const { minify } = await import('html-minifier-terser')
-        const { setupBuild } = await import('../setup/setup.js')
-        const res: RenderReturn[] = await setupBuild(!watch)
+        const { setupBuild } = await import('../setup/setupBuild.js')
+
+        let devPaths: string[] | undefined
+
+        if (watch) {
+          devPaths = process.env.DEV_PATHS?.split(',') ?? []
+        }
+
+        const res: RenderReturn[] = await setupBuild(!watch, devPaths)
         const paths: string[] = []
 
         for (const item of res) {

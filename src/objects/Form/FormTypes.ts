@@ -6,37 +6,34 @@
 
 import type {
   FormArgs as FormationFormArgs,
-  FormFieldArgs as FormationFormFieldArgs
+  FormFieldArgs as FormationFormFieldArgs,
+  FormFieldType as FormationFormFieldType
 } from '@alanizcreative/formation-static/objects/Form/FormTypes.js'
 import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Item } from '../../global/globalTypes.js'
-import type { ConfigColumn } from '../../config/configTypes.js'
+import type { ColumnWidth } from '../../layouts/Column/ColumnTypes.js'
+import type { ConfigFieldTypeLabel } from '../../config/configTypes.js'
 
 /**
- * @typedef {'contact'|'password'} FormType
+ * @typedef {'contact'|'contact-dev'} FormAction
  */
-export type FormType = 'contact' | 'password'
-
-/**
- * @typedef {'contact'|'contact-dev'|'password'|'password-dev'} FormAction
- */
-export type FormAction = 'contact' | 'contact-dev' | 'password' | 'password-dev'
+export type FormAction = 'contact' | 'contact-dev'
 
 /**
  * @typedef {object} FormArgs
  * @extends {FormationFormArgs}
- * @prop {FormType} [type='contact']
  * @prop {string} [successTitle]
  * @prop {string} [successText]
- * @prop {string} [toEmail]
  * @prop {string} [senderEmail]
+ * @prop {string} [toEmail]
+ * @prop {string} [subject]
  */
 export interface FormArgs extends FormationFormArgs {
-  type?: FormType
   successTitle?: string
   successText?: string
-  toEmail?: string
   senderEmail?: string
+  toEmail?: string
+  subject?: string
 }
 
 /**
@@ -51,26 +48,25 @@ export interface FormProps extends RenderFunctionArgs  {
 }
 
 /**
+ * @typedef {FormationFormFieldType|ConfigFieldTypeLabel} FormFieldType
+ */
+export type FormFieldType = FormationFormFieldType | ConfigFieldTypeLabel
+
+/**
  * @typedef {object} FormFieldArgs
  * @extends {FormationFormFieldArgs}
- * @prop {ConfigColumn} [width='12']
- * @prop {ConfigColumn} [widthSmall]
- * @prop {ConfigColumn} [widthMedium]
- * @prop {ConfigColumn} [widthLarge]
+ * @prop {FormFieldType} [type='Text']
+ * @prop {ColumnWidth} [width='1/1']
  * @prop {string} [autoComplete]
  * @prop {string} [placeholder]
  * @prop {number} [rows=5]
- * @prop {boolean} [grow=false]
  */
 export interface FormFieldArgs extends FormationFormFieldArgs {
-  width?: ConfigColumn
-  widthSmall?: ConfigColumn
-  widthMedium?: ConfigColumn
-  widthLarge?: ConfigColumn
+  // type?: FormFieldType | ConfigFieldTypeLabel
+  width?: ColumnWidth
   autoComplete?: string
   placeholder?: string
   rows?: number
-  grow?: boolean
 }
 
 /**
