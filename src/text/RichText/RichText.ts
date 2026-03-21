@@ -102,7 +102,7 @@ const RichTextProps: RichTextPropsFilter = (props) => {
 
     const cardLink = getLink(internalLink, externalLink)
 
-    if (!embed && cardLink) {
+    if (!embed && isSectionHeading && cardLink) {
       const text = getPlainText(content).split(' ')
       const textLastIndex = text.length - 1
       const linkText = text.map((text, i) => {

@@ -24,9 +24,9 @@ export type SeoSchema = Map<string, unknown[]> & Map<'breadcrumbs', SeoSchemaBre
 
 /**
  * @typedef {object} SeoSitemapItem
- * @prop {string} loc - Absolute entry url.
+ * @prop {string} loc - Absolute entry URL.
  * @prop {string} lastMod - Last modified date of the entry.
- * @prop {string} imageLoc - Absolute featured image url.
+ * @prop {string} imageLoc - Absolute featured image URL.
  */
 export interface SeoSitemapItem {
   loc: string

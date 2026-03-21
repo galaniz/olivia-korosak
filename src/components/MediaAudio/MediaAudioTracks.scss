@@ -1,0 +1,87 @@
+/**
+ * Components - Media Audio Tracks Styles
+ */
+
+/* Imports */
+
+@use "sass:math";
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+
+/* Styles */
+
+.media-audio-tracks {
+  --med-cell-height: var(--ok-2xl);
+  --clp-inset: calc((var(--med-cell-height) / 2) - (var(--ok-xs) / 2)) 0 auto auto;
+  --clp-position: absolute;
+
+  container: tracks / inline-size;
+
+  @include util.breakpoint-min("m") {
+    --med-cell-height: var(--ok-3xl);
+  }
+}
+
+.media-audio-track {
+  --ok-border-color: var(--ok-foreground-tint);
+
+  &[data-media-track="playing"] {
+    --med-row-border-color: var(--ok-faded-color);
+    --med-row-opacity: 1;
+    --med-play-display: none;
+    --med-pause-display: block;
+
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    --med-row-opacity: 1;
+  }
+}
+
+.media-audio-track-item {
+  min-height: var(--med-cell-height);
+
+  &::before {
+    opacity: var(--med-row-opacity, 0);
+    background: var(--ok-foreground-light);
+    box-shadow: 0 0 0 #{util.calc-rem(1px)} var(--ok-foreground-light);
+    left: calc(var(--ok-container-padding) * -1);
+    width: calc(var(--med-row-width, 100%) + var(--ok-container-padding) * 2);
+    border-radius: var(--ok-border-radius-s);
+    border: #{util.calc-rem(1px)} solid var(--med-row-border-color, var(--ok-foreground-light));
+    z-index: -1;
+  }
+}
+
+.media-audio-track-cell-s,
+.media-audio-track-cell-m,
+.media-audio-track-cell-l {
+  min-width: var(--med-cell-width, #{util.calc-rem(80px)});
+}
+
+.media-audio-track-cell-m {
+  --med-cell-width: #{util.calc-rem(200px)};
+}
+
+.media-audio-track-cell-l {
+  --med-cell-width: #{util.fluid-size-clamp((200px, 300px), ("xs", "m"))};
+}
+
+.media-audio-track-control {
+  --ok-outline-color: var(--ok-background-light);
+}
+
+.media-audio-track-wide {
+  display: none;
+}
+
+@container tracks (width > #{util.calc-rem(800px)}) {
+  .media-audio-track-wide {
+    display: table-cell;
+  }
+
+  .media-audio-track-compact {
+    display: none;
+  }
+}

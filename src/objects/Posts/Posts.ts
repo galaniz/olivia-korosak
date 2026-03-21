@@ -74,7 +74,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     return fallback as PostsReturnType<R>
   }
 
-  const { args, itemData, serverlessData, parents } = props
+  const { args, itemData, itemContains, serverlessData, parents } = props
 
   if (!isObjectStrict(args)) {
     return fallback as PostsReturnType<R>
@@ -245,6 +245,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     if (isTrack) {
       postsOutput = MediaAudioTracks({
         items: posts,
+        itemContains,
         contentType,
         parents
       })

@@ -65,7 +65,7 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
       args: {
         image: heroImage,
         lazy: false,
-        aspectRatio: '1-1',
+        aspectRatio: '1:1',
         maxWidth: isIndex ? 1200 : 800,
         classes: `hero-max-${isIndex ? 's' : 'xs'} m-auto`
         // sizes: // '(min-width: 75rem) 35.5rem, (min-width: 40rem) 40rem, 80vw' TODO

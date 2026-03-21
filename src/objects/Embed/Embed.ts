@@ -61,7 +61,7 @@ const Embed = (props: EmbedProps): string => {
     thumbOutput = Image({
       args: {
         ...(child as ImageArgs),
-        aspectRatio: '16-9'
+        aspectRatio: '16:9'
       },
       parents
     })

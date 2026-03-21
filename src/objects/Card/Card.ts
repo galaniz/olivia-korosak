@@ -45,12 +45,24 @@ const Card = (props: CardProps): string | string[] => {
     externalLink,
     embed = false,
     embedTitle,
-    embedText
+    embedText,
+    colorFrom
   } = args
 
   /* Classes */
 
-  let classes = 'relative flex col grow-1 e-overlay e-title'
+  let classes = 'relative flex col grow-1 e-overlay e-title deco-none'
+
+  /* Styles */
+
+  let styles = ''
+
+  /* Gradient */
+
+  if (isStringStrict(colorFrom?.value)) {
+    classes += ' bg-diagonal'
+    styles += getGradient(colorFrom.value || '#4e515f')
+  }
 
   /* Gap */
 
@@ -81,7 +93,7 @@ const Card = (props: CardProps): string | string[] => {
   /* Output */
 
   return [
-    `<div class="${classes}">`,
+    `<div class="${classes}"${styles ? ` styles="${styles}"` : ''}>`,
     '</div>'
   ]
 }
@@ -136,7 +148,10 @@ const CardColumn = (args: PostsItemArgs): string => {
     {
       renderType: 'card',
       args: {
-        internalLink: post
+        internalLink: {
+          ...post,
+          contentType: primaryContentType
+        }
       }
     },
     {
@@ -159,7 +174,7 @@ const CardColumn = (args: PostsItemArgs): string => {
     imageOutput = Image({
       args: {
         image: heroImage,
-        aspectRatio: '1-1'
+        aspectRatio: '1:1'
       },
       parents: newParents
     })
@@ -169,7 +184,7 @@ const CardColumn = (args: PostsItemArgs): string => {
 
   /* Classes */
 
-  let classes = 'flex col col-12 col-6-s col-4-m'
+  let classes = 'flex col col-12 col-6-s col-3-m'
   let contentClasses = 'flex col grow-1 gap-5xs gap-4xs-m'
 
   if (!heroImage) {
@@ -200,26 +215,13 @@ const CardColumn = (args: PostsItemArgs): string => {
     textOutput = `<p class="text-s num-normal">${count} ${count === 1 ? singular : plural}</p>`
   }
 
-  /* Gradient */
-
-  let gradientOutput = ''
-
-  if (!hasImage) {
-    gradientOutput = /* html */`
-      <div class="ar-16-9">
-        <div
-          class="before after bg-fade-up bg-diagonal-before e-overlay-item"
-          style="${getGradient(colorFrom?.value || '#4e515f')}"
-        ></div>
-      </div>
-    `
-  }
-
   /* Output */
 
   const [cardStart, cardEnd] = Card({
     args: {
-      ...post
+      ...post,
+      colorFrom: !hasImage ? colorFrom : undefined,
+      gap: '15px'
     },
     parents: newParents
   })
@@ -227,7 +229,7 @@ const CardColumn = (args: PostsItemArgs): string => {
   return /* html */`
     <li class="${classes}">
       ${cardStart}
-        ${gradientOutput}
+        ${!hasImage ? '<div class="ar-16-9 e-overlay-item"></div>' : ''}
         <div class="${contentClasses}">
           ${RichText({
             args: {

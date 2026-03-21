@@ -10,11 +10,13 @@ import type { ParentArgs } from '@alanizcreative/formation-static/global/globalT
 /**
  * @typedef {object} MediaAudioTracksArgs
  * @prop {Item[]} items
+ * @prop {Set<string>} [itemContains]
  * @prop {string} [contentType='page']
  * @prop {ParentArgs[]} [parents]
  */
 export interface MediaAudioTracksArgs {
   items: Item[]
+  itemContains?: Set<string>
   contentType?: string
   parents?: ParentArgs[]
 }

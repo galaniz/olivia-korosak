@@ -13,9 +13,7 @@ import { CaretSvg } from '../../svg/Caret/Caret.js'
 /**
  * Output collapsible section.
  *
- * @param {string} label
- * @param {string} content
- * @param {string} [classes]
+ * @param {CollapsibleArgs} args
  * @return {string} HTMLElement
  */
 const Collapsible = (args: CollapsibleArgs): string => {
@@ -45,10 +43,10 @@ const Collapsible = (args: CollapsibleArgs): string => {
   /* Output */
 
   return /* html */`
-    <ok-collapsible class="collapsible relative z-1${isStringStrict(classes) ? ` ${classes}` : ''}">
+    <ok-collapsible class="collapsible block${isStringStrict(classes) ? ` ${classes}` : ''}">
       <button
         type="button"
-        class="w-s h-s flex align-center justify-center"
+        class="collapsible-toggle w-s h-s flex align-center justify-center"
         aria-label="${label}"
         data-collapsible-toggle
       >
@@ -56,7 +54,7 @@ const Collapsible = (args: CollapsibleArgs): string => {
           type: 'down',
           width: 'xs',
           height: 'xs',
-          classes: 'sharp collapsible-icon e-trans'
+          classes: 'collapsible-icon sharp e-trans'
         })}
       </button>
       <div class="collapsible-panel e-trans outline-tight" data-collapsible-panel>

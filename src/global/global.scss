@@ -2,10 +2,6 @@
  * Global - Styles
  */
 
-/* Config */
-
-@forward "../config/config";
-
 /* Base */
 
 @use "../base/base";
@@ -41,6 +37,10 @@
 /* Buttons */
 
 @use "../objects/Button/ButtonGlobal";
+
+/* Header */
+
+@use "../components/Header/HeaderGlobal";
 
 /* Hero */
 

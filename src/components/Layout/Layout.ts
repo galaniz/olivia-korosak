@@ -21,6 +21,7 @@ import { Footer } from '../Footer/Footer.js'
 import { Hero } from '../Hero/Hero.js'
 // import { Single } from '../Single/Single.js'
 import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs.js'
+import { MediaAudio } from '../MediaAudio/MediaAudio.js'
 
 /**
  * Output root.
@@ -42,6 +43,7 @@ const Layout = (args: LayoutArgs): string => {
     contentType,
     content,
     itemData,
+    itemContains,
     meta
   } = args
 
@@ -91,6 +93,10 @@ const Layout = (args: LayoutArgs): string => {
   /* Seo */
 
   const seoOutput = Seo(meta, itemData, slug === '/')
+
+  /* Audio */
+
+  const mediaAudioOutput = itemContains?.has('mediaAudio') ? MediaAudio() : ''
 
   /* Script data */
 
@@ -221,6 +227,7 @@ const Layout = (args: LayoutArgs): string => {
           ${contentOutput}
         </main>
         ${footerOutput}
+        ${mediaAudioOutput}
         ${scriptMeta}
         ${templatesOutput}
         ${scriptsOutput}

@@ -51,7 +51,7 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
 
       if (depth === 0) {
         listAttrs += ' data-nav-slot'
-        listClasses += ' flex align-center gap-m overflow-x-auto overflow-y-hidden outline-snug'
+        listClasses += ' flex align-center gap-m overflow-x-auto overflow-y-hidden outline-tight'
       }
 
       args.listAttr = listAttrs
@@ -104,7 +104,6 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
     modalOutput = /* html */`
       <button
         class="nav-open pt-5xs h-l w-m flex nav-hide no-js-none"
-        aria-haspopup="true"
         aria-label="Open menu"
         data-nav-open
       >
@@ -158,7 +157,7 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
 
   return /* html */`
     <ok-navigation-primary
-      class="nav relative container py-2xs py-s-m flex justify-between align-center deco-none"
+      class="nav relative container py-2xs py-m-m flex justify-between align-center deco-none"
       breakpoints="${breakpoint}"
       role="navigation"
       aria-label="Primary"

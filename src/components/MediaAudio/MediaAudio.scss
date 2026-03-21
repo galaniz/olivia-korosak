@@ -5,10 +5,9 @@
 /* Imports */
 
 @use "sass:math";
-@forward "../../config/config";
 @use "@alanizcreative/formation/lib/utils/utils" as util;
 
-/* Player */
+/* Styles */
 
 .media-audio {
   --med-y: 100%;
@@ -17,11 +16,13 @@
 
   &[open] {
     --med-y: 0;
+
+    position: sticky;
   }
 
   &[playing] {
-    --med-play-display: block;
-    --med-pause-display: none;
+    --med-play-display: none;
+    --med-pause-display: block;
   }
 
   &[dragging] {
@@ -32,6 +33,7 @@
     --med-text-width: #{util.calc-rem(200px)};
     --med-prog-top: #{util.calc-rem(-20px)};
     --med-prog-width: auto;
+    --med-seek-margin: 0;
   }
 
   @include util.breakpoint-min("l") {
@@ -44,19 +46,24 @@
 }
 
 .media-audio-play {
-  display: var(--med-play-display, none);
+  display: var(--med-play-display, block);
 }
 
 .media-audio-pause {
-  display: var(--med-pause-display, block);
+  display: var(--med-pause-display, none);
 }
 
 .media-audio-text {
   width: var(--med-text-width, auto);
 }
 
+.media-audio-seek {
+  margin: 0 var(--med-seek-margin, var(--ok-5xs));
+}
+
 .media-audio-progress {
   width: var(--med-prog-width, 100%);
+  height: #{util.calc-rem(3px)};
   touch-action: none;
   user-select: none;
   cursor: pointer;
@@ -74,12 +81,14 @@
 }
 
 .media-audio-bar {
-  height: #{util.calc-rem(3px)};
   background: hsla(var(--ok-foreground-base-hsl), 0.2);
-  border-top-left-radius: var(--ok-border-radius-s);
-  border-bottom-left-radius: var(--ok-border-radius-s);
-  transform: scaleX(0.2);
-  transform-origin: 0 0;
+  height: inherit;
+
+  &::after {
+    background: var(--ok-foreground-base),;
+    transform: scaleX(var(--med-progress-bar));
+    transform-origin: 0 0;
+  }
 }
 
 .media-audio-scrub {
@@ -89,81 +98,5 @@
   top: #{util.calc-rem(-3.5px)};
   left: #{util.calc-rem(-5px)};
   opacity: var(--med-scrub-opacity, 0);
-}
-
-/* Tracks */
-
-.media-audio-tracks {
-  container: tracks / inline-size;
-}
-
-.media-audio-compact {
-  display: var(--med-display-compact);
-}
-
-.media-audio-wide {
-  display: var(--med-display-wide);
-}
-
-@container tracks (width < #{util.calc-rem(600px)}) {
-  .media-audio-tracks {
-    --med-display-wide: none;
-  }
-}
-
-@container tracks (width >= #{util.calc-rem(600px)}) {
-  .media-audio-tracks {
-    --med-display-compact: none;
-  }
-}
-
-.media-audio-track-bg::before {
-  opacity: var(--opacity, 0);
-  background: var(--ok-foreground-light);
-  box-shadow: 0 0 0 func.calc-rem(1px) var(--ok-foreground-light);
-  left: func.calc-rem(-26px);
-  right: func.calc-rem(-26px);
-  width: calc(var(--target-width) + func.calc-rem(52px));
-  border-radius: var(--ok-border-radius-s);
-  height: var(--track-height);
-}
-
-.media-audio-track {
-  --ok-border-color: var(--ok-foreground-tint);
-  --track-height: var(--ok-2xl);
-
-  &[data-media-track="playing"] {
-    position: relative;
-    z-index: 1;
-
-    .track-bg::before {
-      border: func.calc-rem(1px) solid var(--ok-faded-color);
-    }
-  }
-
-  &:hover,
-  &[data-active="true"] {
-    .track-bg {
-      --opacity: 1;
-    }
-  }
-
-  @include mix.breakpoint-min("m") {
-    --track-height: var(--ok-3xl);
-  }
-}
-
-.media-audio-track-cell-s,
-.media-audio-track-cell-m,
-.media-audio-track-cell-l {
-  height: var(--med-cell-height);
-  min-width: var(--med-cell-width, #{util.calc-rem(80px)});
-}
-
-.media-audio-track-cell-m {
-  --med-cell-width: #{util.calc-rem(200px)};
-}
-
-.media-audio-track-cell-l {
-  --med-cell-width: #{util.fluid-size-clamp((220px, 300px), ("xs", "m"))};
+  transform: translateX(var(--med-progress-scrub));
 }

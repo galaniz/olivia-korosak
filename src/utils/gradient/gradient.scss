@@ -4,7 +4,6 @@
 
 /* Imports */
 
-@forward "../../config/config";
 @use "@alanizcreative/formation/lib/utils/utils" as util;
 
 /* Styles */
@@ -23,14 +22,14 @@
   }
 
   &::before {
-    max-height: #{util.calc-rem(752px)};
+    max-height: #{util.calc-rem(750px)};
     transform: scale(2) translate(-50%, -50%);
     transform-origin: 0 0;
   }
 
   &::after {
     top: auto;
-    max-height: #{util.calc-rem(376px)};
+    max-height: #{util.calc-rem(375px)};
     transform: scale(2) translate(50%, 50%);
     transform-origin: 100% 100%;
     opacity: 0.5;

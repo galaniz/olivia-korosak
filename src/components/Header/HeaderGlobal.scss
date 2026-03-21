@@ -1,0 +1,14 @@
+/**
+ * Components - Header Global Styles
+ */
+
+/* Imports */
+
+@use "sass:map";
+@use "@alanizcreative/formation/lib/config/config" as con;
+
+/* Styles */
+
+.header {
+  z-index: map.get(con.$z-index, "header");
+}

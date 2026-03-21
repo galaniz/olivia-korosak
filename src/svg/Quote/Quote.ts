@@ -20,13 +20,13 @@ const QuoteSvg = (args?: SvgArgs): string => {
 
   const {
     width = '2xs',
-    height = '2xs',
+    height = '3xs',
     classes
   } = isObjectStrict(args) ? args : {}
 
   /* Add to svg sprite */
 
-  const viewBox = '0 0 20 20'
+  const viewBox = '0 0 20 15'
   const id = 'svg-quote'
 
   configVars.svg.set(id, {
@@ -52,7 +52,7 @@ const QuoteSvg = (args?: SvgArgs): string => {
   return /* html */`
     <svg
       width="20"
-      height="20"
+      height="15"
       aria-hidden="true"
       focusable="false"
       role="img"

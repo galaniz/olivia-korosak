@@ -14,6 +14,13 @@
   }
 }
 
+.collapsible-toggle {
+  position: var(--clp-position);
+  inset: var(--clp-inset);
+}
+
 .collapsible-icon {
-  transform: rotate(var(--clp-rotate), 0deg);
+  --ok-prop: transform;
+
+  transform: rotate(var(--clp-rotate, 0deg));
 }

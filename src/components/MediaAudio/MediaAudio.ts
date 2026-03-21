@@ -4,6 +4,7 @@
 
 /* Imports */
 
+import { v4 as uuid } from 'uuid'
 import { addScript, addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { configVars } from '../../config/config.js'
 import { Loader } from '../../objects/Loader/Loader.js'
@@ -30,7 +31,7 @@ const MediaAudio = (): string => {
       <div class="container flex gap-4xs">
         ${ErrorSvg({ width: 'xs', height: 's' })}
         <p class="text-s wt-medium lead-base py-5xs e-line-out">
-          Sorry, there is a problem with the service. Download track <a href="" data-rich data-media-link></a>.
+          Sorry, there is a problem with the service. Download track <a data-rich data-media-link></a>.
         </p>
       </div>
     </div>
@@ -38,28 +39,26 @@ const MediaAudio = (): string => {
 
   /* Scripts and styles */
 
-  addStyle('components/Media/Media')
-  addScript('components/Media/MediaClient')
+  addStyle('components/MediaAudio/MediaAudio')
+  addScript('components/MediaAudio/MediaAudioClient')
 
   /* Output */
 
   return /* html */`
     <ok-media-audio
+      id="${uuid()}"
       type="audio"
-      class="media-audio bg-background-light sticky bottom-0 left-0 right-0 z-1 num-normal e-trans"
-      title=""
-      url=""
+      class="media-audio bg-background-light fixed bottom-0 left-0 right-0 z-1 num-normal e-trans"
       loader="${loaderId}"
       error="${errorId}"
-      global
     >
-      <audio></audio>
-      <div class="container pl-5xs pr-3xs py-5xs py-3xs-m px-2xs-m flex align-center wrap gap-5xs gap-s-m">
+      <audio inert></audio>
+      <div class="container px-5xs py-5xs py-3xs-m px-2xs-m flex align-center wrap gap-5xs gap-s-m" inert>
         <div class="flex align-center gap-3xs gap-s-m outline-snug">
           <div class="flex align-center">
             <button
               type="button"
-              class="media-audio-control b-radius-full sharp"
+              class="media-audio-control b-radius-full sharp flex"
               aria-label="Previous track"
               data-media-prev
             >
@@ -86,18 +85,18 @@ const MediaAudio = (): string => {
             </button>
             <button
               type="button"
-              class="media-audio-control b-radius-full sharp"
+              class="media-audio-control b-radius-full sharp flex"
               aria-label="Next track"
               data-media-next
             >
               ${ControlSvg({ type: 'next', width: 'm', height: 'm' })}
             </button>
           </div>
-          <p class="media-audio-text text-s lead-close wt-medium clamp-1 outline-tight e-line-in">
-            <a href="" data-rich data-media-link></a>
+          <p class="media-audio-text text-s wt-medium clamp-1 outline-tight e-line-in">
+            <a class="lead-close" data-rich data-media-link></a>
           </p>
         </div>
-        <div class="flex align-center wrap gap-5xs grow-1 col-12 col-5-m">
+        <div class="media-audio-seek flex align-center wrap gap-5xs grow-1 col-12 col-5-m">
           <span
             class="text-xs-flex lead-close sharp order-first-m w-l"
             aria-hidden="true"
@@ -116,7 +115,7 @@ const MediaAudio = (): string => {
             aria-valuetext=""
             data-media-progress
           >
-            <div class="media-audio-bar absolute top-0 left-0 w-full h-full bg-foreground-base"></div>
+            <div class="media-audio-bar absolute top-0 left-0 w-full after"></div>
             <div class="media-audio-scrub absolute left-0 bg-foreground-base w-4xs h-4xs b-radius-full e-trans"></div>
           </div>
           <span
@@ -133,6 +132,7 @@ const MediaAudio = (): string => {
         class="absolute right-0 top-0 z-1 w-xs h-xs flex align-center justify-center sharp outline-snug"
         aria-label="Close audio player"
         data-media-close
+        inert
       >
         ${CloseSvg()}
       </button>

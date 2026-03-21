@@ -56,22 +56,7 @@
   background: currentcolor;
 }
 
-.bg-overlay::after {
-  background: var(--ok-foreground-base);
-  opacity: 0.3;
-}
-
-.bg-fade-up::after {
-  background:
-    linear-gradient(
-      to top,
-      var(--ok-foreground-base) 0%,
-      hsla(var(--ok-foreground-base-hsl, 0)) 100%
-    );
-}
-
-.bg-diagonal,
-.bg-diagonal-before::before {
+.bg-diagonal {
   background:
     linear-gradient(
       135deg,

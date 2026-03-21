@@ -11,6 +11,6 @@
 
 .gap-xl-m-s {
   @include util.breakpoint-min("s") {
-    --ok-gap: var(--ok-m) var(--ok-xl);
+    gap: var(--ok-xl) var(--ok-m);
   }
 }

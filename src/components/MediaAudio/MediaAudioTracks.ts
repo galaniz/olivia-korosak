@@ -8,7 +8,7 @@ import type { MediaAudioTracks, MediaAudioTracksArgs } from './MediaAudioTypes.j
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
-import { scripts } from '@alanizcreative/formation-static/scripts/scripts.js'
+import { addScript, addStyle, scripts } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { getPermalink, getSlug } from '@alanizcreative/formation-static/utils/link/link.js'
 import { getDuration, getDurationSeconds } from '../../utils/duration/duration.js'
 import { Collapsible } from '../../objects/Collapsible/Collapsible.js'
@@ -30,6 +30,7 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
 
   const {
     items,
+    itemContains,
     contentType = 'page',
     parents
   } = args
@@ -83,6 +84,7 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
   const head = headCells.map((cell, i) => {
     const { text, id } = cell
     const isLast = i === headLastIndex
+    const isFirst = i === 0
   
     let classes = 'text-m-flex sharp pb-3xs pb-2xs-m'
     let textOutput = text
@@ -90,18 +92,18 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
     if (isLast) {
       classes += ' text-right'
     } else {
-      classes += ' text-left pr-2xs pr-m-m'
+      classes += ' text-left' + (!isFirst ? ' pr-2xs pr-m-m' : '')
     }
 
     if (i > 0) {
-      classes = `media-audio-wide ${classes}`
+      classes = `media-audio-track-wide ${classes}`
     }
 
-    if (i === 0 && hasDetails) {
+    if (isFirst && hasDetails) {
       textOutput = /* html */`
         <div class="flex justify-between gap-2xs gap-m-m">
           ${text}
-          <span class="media-audio-compact" aria-hidden="true">Details</span>
+          <span class="media-audio-track-compact" aria-hidden="true">Details</span>
         </div>
       `
     }
@@ -153,7 +155,7 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
     const trackLink = getPermalink(
       getSlug({
         id,
-        contentType,
+        contentType: 'track',
         slug
       })
     )
@@ -237,17 +239,19 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
     let detailsOutput = ''
 
     if (hasDetails) {
+      const detailsLastIndex = details.length - 1
+
       detailsOutput = Collapsible({
         label: `${title} details`,
-        classes: '',
+        classes: 'media-audio-track-compact isolate',
         content: /* html */`
           <dl class="text-m-flex num-normal muted lead-base e-line-in m-0-last pb-2xs pb-s-m">
-            ${details.map(detail => {
+            ${details.map((detail, i) => {
               const { title: detailTitle, desc: detailDesc } = detail
 
-              return /* html */`
+              return `
                 <dt class="sharp mb-5xs">${detailTitle}</dt>
-                <dd class="mb-2xs">${detailDesc}</dd>
+                <dd${i === detailsLastIndex ? '' : ' class="mb-2xs"'}>${detailDesc}</dd>
               `
             }).join('')}
           </dl>
@@ -259,11 +263,11 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
       size: 'l',
       headers: 'title',
       output: /* html */`
-        <div class="flex gap-2xs gap-s-m align-center relative">
+        <div class="media-audio-track-item before flex gap-2xs gap-s-m align-center isolate">
           <button
             type="button"
             id="${id}"
-            class="w-m h-m sharp bg-background-light b-radius-full"
+            class="media-audio-track-control w-m h-m sharp bg-background-light b-radius-full"
             aria-label="Play ${title}"
           >
             ${ControlSvg({
@@ -300,7 +304,7 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
     const cellsLastIndex = cells.length - 1
 
     rows.push(/* html */`
-      <tr class="media-audio-track b-top" id="${id}-track" data-media-track>
+      <tr class="media-audio-track" id="${id}-track" data-media-track>
         ${cells.map((cell, i) => {
           const {
             headers: cellHeaders,
@@ -309,21 +313,23 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
           } = cell
 
           const isLast = i === cellsLastIndex
-          let classes = `media-audio-track-cell-${cellSize}`
+          const isFirst = i === 0
+
+          let classes = `media-audio-track-cell-${cellSize} b-top`
 
           if (i > 0) {
-            classes += ' media-audio-wide'
+            classes += ' media-audio-track-wide'
           }
 
-          if (!isLast) {
+          if (!isLast && !isFirst) {
             classes += ' pr-2xs pr-m-m'
           }
 
           return /* html */`
             <td headers="${cellHeaders}" class="${classes}">
-              ${i === 0 ? '<div class="media-audio-track-bg relative before pr-2xs pr-m-m">' : ''}
+              ${isFirst ? '<div class="relative flex col justify-center">' : ''}
                 ${cellOutput}
-              ${i === 0 ? '</div>' : ''}
+              ${isFirst ? '</div>' : ''}
             </td>
           `
         }).join('')}
@@ -332,6 +338,8 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
   })
 
   /* Output */
+
+  itemContains?.add('mediaAudio')
 
   return /* html */`
     <thead>
@@ -353,10 +361,15 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
  * @return {string} HTMLTableElement
  */
 const MediaAudioTracksContainer = (output: string, pagination?: boolean): string => {
+  addStyle('components/MediaAudio/MediaAudioTracks')
+  addScript('components/MediaAudio/MediaAudioTracksClient')
+
   return /* html */`
-    <table class="b-dull" aria-label="Tracks"${pagination ? ' data-pag-slot="entry"' : ''}>
-      ${output}
-    </table>
+    <ok-media-audio-tracks class="media-audio-tracks block">
+      <table class="b-dull" aria-label="Tracks"${pagination ? ' data-pag-slot="entry"' : ''}>
+        ${output}
+      </table>
+    </ok-media-audio-tracks>
   `
 }
 

@@ -12,7 +12,8 @@ import { RichText } from '@alanizcreative/formation-static/text/RichText/RichTex
 import {
   configBreakpointNumbers,
   configColumnFloats,
-  configContainerNumbers
+  configContainerNumbers,
+  configAspectRatio
 } from '../../config/configOptions.js'
 
 /**
@@ -75,11 +76,11 @@ const Image = (props: ImageProps): string => {
   /* Classes */
 
   let imageClasses = 'absolute top-0 left-0 w-full h-full object-cover'
-  let containerClasses = `relative overflow-hidden h-full ar-${hasAspectRatio ? aspectRatio : '1-1'}`
+  let containerClasses = `relative overflow-hidden ar-${hasAspectRatio ? configAspectRatio.get(aspectRatio) : '1-1'}`
 
   if (isCard) {
     imageClasses += ' e-trans'
-    containerClasses += ' after bg-fade-up'
+    containerClasses += ' z--1 after e-overlay-item order-first'
   }
 
   if (isStringStrict(classes)) {
@@ -124,7 +125,7 @@ const Image = (props: ImageProps): string => {
     lazy
   }, true)
 
-  let imageOutput = imageDetails.output
+  const imageOutput = imageDetails.output
   const imageAspectRatio = imageDetails.aspectRatio
 
   if (!imageOutput) {
@@ -135,14 +136,6 @@ const Image = (props: ImageProps): string => {
 
   const containerAttr =
     imageAspectRatio && !hasAspectRatio ? ` style="--ok-aspect-ratio:1 / ${imageAspectRatio}"` : ''
-
-  if (isCard) {
-    imageOutput = /* html */`
-      <div class="relative z--1 overflow-hidden after bg-overlay order-first e-overlay-item">
-        ${imageOutput}
-      </div>
-    `
-  }
 
   let output = /* html */`
     <div class="${containerClasses}"${containerAttr}>

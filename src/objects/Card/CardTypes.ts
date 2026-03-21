@@ -7,7 +7,7 @@
 import type { RenderFunctionArgs, RenderRichText } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { InternalLink } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { ConfigGapLabel } from '../../config/configTypes.js'
-import type { Item } from '../../global/globalTypes.js'
+import type { Color, Item } from '../../global/globalTypes.js'
 
 /**
  * @typedef {object} CardArgs
@@ -19,6 +19,7 @@ import type { Item } from '../../global/globalTypes.js'
  * @prop {boolean} [embed=false]
  * @prop {string} [embedTitle]
  * @prop {RenderRichText[]} [embedText]
+ * @prop {Color} [colorFrom] - Background gradient. Back end option.
  */
 export interface CardArgs {
   internalLink?: InternalLink
@@ -29,6 +30,7 @@ export interface CardArgs {
   embed?: boolean
   embedTitle?: string
   embedText?: RenderRichText[]
+  colorFrom?: Color
 }
 
 /**

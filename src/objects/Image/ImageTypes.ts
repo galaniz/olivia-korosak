@@ -9,13 +9,13 @@ import type {
   RenderFile,
   RenderRichText
 } from '@alanizcreative/formation-static/render/renderTypes.js'
-import type { ConfigAspectRatio } from '../../config/configTypes.js'
+import type { ConfigAspectRatioLabel } from '../../config/configTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 
 /**
  * @typedef {object} ImageArgs
  * @prop {RenderFile} [image]
- * @prop {ConfigAspectRatio} [aspectRatio]
+ * @prop {ConfigAspectRatioLabel} [aspectRatio]
  * @prop {number} [maxWidth]
  * @prop {number} [viewportWidth=80]
  * @prop {string} [sizes]
@@ -25,7 +25,7 @@ import type { Item } from '../../global/globalTypes.js'
  */
 export interface ImageArgs {
   image?: RenderFile
-  aspectRatio?: ConfigAspectRatio
+  aspectRatio?: ConfigAspectRatioLabel
   maxWidth?: number
   viewportWidth?: number
   sizes?: string

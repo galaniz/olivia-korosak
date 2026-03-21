@@ -8,6 +8,7 @@ import type { MediaAudioTrack } from './MediaAudioTypes.js'
 import { Media } from '@alanizcreative/formation/objects/Media/Media.js'
 import { isStringStrict } from '@alanizcreative/formation/utils/string/string.js'
 import { isHtmlElement } from '@alanizcreative/formation/utils/html/html.js'
+import { addFilter, removeFilter } from '@alanizcreative/formation/filters/filters.js'
 import { getItem } from '@alanizcreative/formation/items/items.js'
 
 /**
@@ -43,6 +44,13 @@ class MediaAudio extends Media {
   next: HTMLButtonElement | null = null
 
   /**
+   * Close player button element.
+   *
+   * @type {HTMLButtonElement|null}
+   */
+  close: HTMLButtonElement | null = null
+
+  /**
    * Title link element.
    *
    * @type {HTMLAnchorElement|null}
@@ -55,6 +63,13 @@ class MediaAudio extends Media {
    * @type {number}
    */
   current: number = 0
+
+  /**
+   * Open state of player.
+   *
+   * @type {boolean}
+   */
+  open: boolean = false
 
   /**
    * Initialize success.
@@ -72,6 +87,14 @@ class MediaAudio extends Media {
   #ids: string[] = []
 
   /**
+   * Track index by ID.
+   *
+   * @private
+   * @type {Map<string, number>}
+   */
+  #indexById: Map<string, number> = new Map()
+
+  /**
    * Last track index.
    *
    * @private
@@ -87,7 +110,9 @@ class MediaAudio extends Media {
   #toggleHandler = this.#toggle.bind(this) as EventListener
   #prevHandler = this.#prev.bind(this) as EventListener
   #nextHandler = this.#next.bind(this) as EventListener
+  #closeHandler = this.#close.bind(this) as EventListener
   #toggledHandler = this.#toggled.bind(this)
+  #activeHandler = this.#active.bind(this)
 
   /**
    * Create new instance.
@@ -133,7 +158,12 @@ class MediaAudio extends Media {
 
     this.prev?.removeEventListener('click', this.#prevHandler)
     this.next?.removeEventListener('click', this.#nextHandler)
+    this.close?.removeEventListener('click', this.#closeHandler)
     this.removeEventListener('media:toggle', this.#toggledHandler)
+
+    /* Remove filters */
+
+    removeFilter(`media:active:${this.id}`, this.#activeHandler)
 
     /* Empty props */
 
@@ -146,6 +176,7 @@ class MediaAudio extends Media {
     this.subInit = false
     this.#ids = []
     this.#lastIndex = 0
+    this.#indexById.clear()
   }
 
   /**
@@ -160,6 +191,7 @@ class MediaAudio extends Media {
     const link = getItem('[data-media-link]', this)
     const prev = getItem('[data-media-prev]', this)
     const next = getItem('[data-media-next]', this)
+    const close = getItem('[data-media-close]', this)
     const tracks = window.ok.tracks
 
     /* Check required items exist */
@@ -168,6 +200,7 @@ class MediaAudio extends Media {
       !isHtmlElement(link, HTMLAnchorElement) ||
       !isHtmlElement(prev, HTMLButtonElement) ||
       !isHtmlElement(next, HTMLButtonElement) ||
+      !isHtmlElement(close, HTMLButtonElement) ||
       !tracks
     ) {
       return false
@@ -176,6 +209,8 @@ class MediaAudio extends Media {
     /* Tracks */
 
     const ids: string[] = []
+
+    let counter = 0
 
     Object.entries(tracks).forEach(([id, data]) => {
       const { url, title, link } = data
@@ -198,6 +233,9 @@ class MediaAudio extends Media {
 
       this.tracks.set(id, track)
       this.toggles.set(id, toggle)
+      this.#indexById.set(id, counter)
+
+      counter += 1
     })
 
     if (!this.tracks.size || !this.toggles.size) {
@@ -207,23 +245,58 @@ class MediaAudio extends Media {
     /* IDs */
 
     this.#ids = ids
-    this.#lastIndex = ids.length - 1
+    this.#lastIndex = counter - 1
 
-    /* Title link */
+    /* Props */
 
     this.link = link
-
-    /* Previous and next controls */
-
     this.prev = prev
     this.next = next
+    this.close = close
+
+    /* Event listeners */
+
     this.prev.addEventListener('click', this.#prevHandler)
     this.next.addEventListener('click', this.#nextHandler)
+    this.close.addEventListener('click', this.#closeHandler)
     this.addEventListener('media:toggle', this.#toggledHandler)
+
+    /* Filters */
+
+    addFilter(`media:active:${this.id}`, this.#activeHandler)
 
     /* Init successful */
 
     return true
+  }
+
+  /**
+   * Active state for key listeners.
+   *
+   * @return {boolean}
+   */
+  #active (): boolean {
+    return this.open
+  }
+
+  /**
+   * Open and close player.
+   *
+   * @param {boolean} open
+   * @return {void}
+   */
+  #open (open: boolean): void {
+    this.open = open
+
+    for (const child of this.children) {
+      (child as HTMLElement).inert = !open // Inert on children as container possibly inert from modal
+    }
+
+    if (open) {
+      this.setAttribute('open', '')
+    } else {
+      this.removeAttribute('open')
+    }
   }
 
   /**
@@ -250,16 +323,23 @@ class MediaAudio extends Media {
    * @param {number} current
    * @return {Promise<void>}
    */
-  async #update (id: string, current?: number): Promise<void> {
+  async #update (id: string, current: number): Promise<void> {
     /* Current track */
 
     const currentId = this.#ids[this.current] as string
-    const currentPause = id === currentId
+    const currentPause = this.open && this.playing && id === currentId
 
     if (currentPause) {
       await this.toggle(false)
       return
     }
+
+    const toggle = this.toggles.get(currentId)
+    const search = 'Pause'
+    const replace = 'Play'
+
+    this.tracks.get(currentId)?.setAttribute('data-media-track', '')
+    toggle?.setAttribute('aria-label', toggle.ariaLabel?.replace(search, replace) || replace)
 
     /* New track */
 
@@ -268,10 +348,7 @@ class MediaAudio extends Media {
     this.loaded = false
     this.title = title
     this.url = url
-
-    if (current) {
-      this.current = current
-    }
+    this.current = current
 
     if (isHtmlElement(this.link)) {
       this.link.href = link
@@ -291,7 +368,13 @@ class MediaAudio extends Media {
   async #toggle (e: Event): Promise<void> {
     e.preventDefault()
 
-    await this.#update((e.target as HTMLElement).id)
+    if (!this.open) {
+      this.#open(true)
+    }
+
+    const id = (e.currentTarget as HTMLElement).id
+
+    await this.#update(id, this.#indexById.get(id) as number)
   }
 
   /**
@@ -330,6 +413,18 @@ class MediaAudio extends Media {
     }
 
     await this.#update(this.#ids[next] as string, next)
+  }
+
+  /**
+   * Click handler on close button to close player.
+   *
+   * @private
+   * @return {Promise<void>}
+   */
+  async #close (): Promise<void> {
+    this.#open(false)
+
+    await this.toggle(false)
   }
 }
 
