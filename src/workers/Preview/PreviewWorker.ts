@@ -1,10 +1,10 @@
 /**
- * Workers - Staging
+ * Workers - Preview
  */
 
 /* Imports */
 
-import type { StagingWorkerEnv } from './StagingTypes.js'
+import type { PreviewWorkerEnv } from './PreviewTypes.js'
 import type { WorkerRequest } from '../workerTypes.js'
 import type { PostsServerlessProps } from '../../objects/Posts/PostsTypes.js'
 import type { RenderServerlessData, RenderPreviewData } from '@alanizcreative/formation-static/render/renderTypes.js'
@@ -15,13 +15,13 @@ import { serverlessRender, serverlessPreview } from '@alanizcreative/formation-s
 import { workerServerlessSetup, workerServerlessFilter, workerServerlessPosts } from '../workerUtils.js'
 
 /**
- * Manage staging site assets and requests.
+ * Manage preview site assets and requests.
  */
 export default class extends WorkerEntrypoint {
   /**
    * Typed env.
    */
-  declare env: StagingWorkerEnv
+  declare env: PreviewWorkerEnv
 
   /**
    * Route serverless and serve assets.

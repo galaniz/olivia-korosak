@@ -8,6 +8,11 @@ import type { InternalLink } from '@alanizcreative/formation-static/global/globa
 import type { RenderItem, RenderFile } from '@alanizcreative/formation-static/render/renderTypes.js'
 
 /**
+ * @typedef {'en-CA'} Locale
+ */
+export type Locale = 'en-CA'
+
+/**
  * @typedef {object} Color
  * @prop {string} value
  */
@@ -18,6 +23,7 @@ export interface Color {
 /**
  * @typedef {object} Item
  * @extends {RenderItem}
+ * @prop {Locale} [locale]
  * @prop {string} [heroTitle]
  * @prop {string} [heroText]
  * @prop {RenderFile} [heroImage]
@@ -32,8 +38,10 @@ export interface Color {
  * @prop {Item[]} [project]
  * @prop {InternalLink[]} [projectType]
  * @prop {InternalLink[]} [genre]
+ * @prop {number} [code]
  */
 export interface Item extends RenderItem {
+  locale?: Locale,
   heroTitle?: string
   heroText?: string
   heroImage?: RenderFile
@@ -48,4 +56,5 @@ export interface Item extends RenderItem {
   project?: Item[]
   projectType?: InternalLink[]
   genre?: InternalLink[]
+  code?: number
 }

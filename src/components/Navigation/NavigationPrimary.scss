@@ -105,7 +105,7 @@
   --ok-duration: 0ms, var(--nav-duration);
   --ok-delay: var(--nav-delay);
 
-  max-width: #{util.calc-rem(320px)};
+  max-width: #{util.calc-rem(350px)};
   transform: translateX(var(--nav-modal-x, 100%));
 }
 

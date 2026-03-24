@@ -90,14 +90,14 @@ export interface ConfigVars {
 }
 
 /**
- * @typedef {'project'|'track'} ConfigContentType
+ * @typedef {'project'|'track'|'term'} ConfigContentType
  */
-export type ConfigContentType = 'project' | 'track'
+export type ConfigContentType = 'project' | 'track' | 'term'
 
 /**
- * @typedef {'Project'|'Track'} ConfigContentTypeLabel
+ * @typedef {'Project'|'Track'|'Term'} ConfigContentTypeLabel
  */
-export type ConfigContentTypeLabel = 'Project' | 'Track'
+export type ConfigContentTypeLabel = 'Project' | 'Track' | 'Term'
 
 /**
  * @typedef {'foreground-base'|'foreground-light'|'foreground-dark'|'background-light'} ConfigBackgroundColor

@@ -10,6 +10,7 @@ import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/ob
 import { addScript, addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { minify } from '@alanizcreative/formation-static/utils/minify/minify.js'
 import { getArchiveLink } from '@alanizcreative/formation-static/utils/archive/archive.js'
+import { renderMeta } from '@alanizcreative/formation-static/render/render.js'
 import { CaretSvg } from '../../svg/Caret/Caret.js'
 import { Loader } from '../../objects/Loader/Loader.js'
 import { Info } from '../../objects/Info/Info.js'
@@ -44,10 +45,7 @@ const Pagination = <R extends PaginationReturnKind = 'string'>(
     filters
   } = args
 
-  const {
-    baseUrl,
-    meta
-  } = itemData
+  const { baseUrl } = itemData
 
   /* Output check  */
 
@@ -119,13 +117,13 @@ const Pagination = <R extends PaginationReturnKind = 'string'>(
 
   /* Data */
 
-  if (isData && meta) {
+  if (isData) {
     const {
       title,
       canonical,
       prev,
       next
-    } = meta
+    } = renderMeta(itemData)
 
     return {
       nav: minify(paginationOutput),
@@ -157,12 +155,10 @@ const Pagination = <R extends PaginationReturnKind = 'string'>(
       ${output}
       <nav aria-label="Pagination">
         <ol
-          class="pagination-nav list-none pt-xl pt-2xl-m flex justify-center gap-4xs gap-3xs-s num-normal wt-medium text-l"
+          class="pagination-nav list-none deco-none pt-xl pt-2xl-m flex wrap justify-center gap-4xs gap-3xs-s num-normal wt-medium text-l"
           data-pag-slot="nav"
           role="list"
-        >
-          ${paginationOutput}
-        </ol>
+        >${paginationOutput}</ol>
       </nav>
     </ok-pagination>
   ` as PaginationReturnType<R>

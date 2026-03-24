@@ -19,7 +19,7 @@ import { Seo, seoSchema } from '../../seo/Seo.js'
 import { Header } from '../Header/Header.js'
 import { Footer } from '../Footer/Footer.js'
 import { Hero } from '../Hero/Hero.js'
-// import { Single } from '../Single/Single.js'
+import { Single } from '../Single/Single.js'
 import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs.js'
 import { MediaAudio } from '../MediaAudio/MediaAudio.js'
 
@@ -29,7 +29,7 @@ import { MediaAudio } from '../MediaAudio/MediaAudio.js'
  * @param {LayoutArgs} args
  * @return {Promise<string>} HTMLHtmlElement
  */
-const Layout = (args: LayoutArgs): string => {
+const Layout = async (args: LayoutArgs): Promise<string> => {
   /* Args required */
 
   if (!isObjectStrict(args)) {
@@ -49,13 +49,19 @@ const Layout = (args: LayoutArgs): string => {
 
   /* Page data */
 
-  const { baseType, colorFrom } = itemData
+  const {
+    baseType,
+    colorFrom,
+    project,
+    code
+  } = itemData
 
   /* Type */
 
   const isIndex = meta.isIndex
   const isProject = contentType === 'project'
   const isTrack = contentType === 'track'
+  const isTerm = contentType === 'term'
 
   /* Assets link */
 
@@ -70,9 +76,14 @@ const Layout = (args: LayoutArgs): string => {
   /* Gradient */
 
   let gradientOutput = ''
+  let gradientHex = colorFrom?.value
 
-  if (isStringStrict(colorFrom?.value)) {
-    gradientOutput = getGradient(colorFrom.value, 'page', true)
+  if (isTrack) {
+    gradientHex = project?.[0]?.colorFrom?.value
+  }
+
+  if (!isTerm && isStringStrict(gradientHex)) {
+    gradientOutput = getGradient(gradientHex, 'page', !code)
   }
 
   /* Header, breadcrumbs, hero and footer */
@@ -84,10 +95,10 @@ const Layout = (args: LayoutArgs): string => {
 
   /* Content */
 
-  const contentOutput = content
+  let contentOutput = content
 
   if (isProject || isTrack) {
-    // contentOutput = await Single(content, itemData)
+    contentOutput = await Single(content, itemData, itemContains)
   }
 
   /* Seo */

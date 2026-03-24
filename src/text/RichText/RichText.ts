@@ -28,7 +28,7 @@ import { Table } from '../../objects/Table/Table.js'
 const RichTextProps: RichTextPropsFilter = (props) => {
   /* Props and args */
 
-  const { args, parents } = props
+  const { args, parents, itemData } = props
   const newArgs = { ...args }
   const {
     tag = '',
@@ -46,7 +46,7 @@ const RichTextProps: RichTextPropsFilter = (props) => {
 
   /* Data attribute */
 
-  let dataAttr = false
+  let dataAttr = itemData?.contentType === 'project'
 
   /* Parents */
 
@@ -113,10 +113,13 @@ const RichTextProps: RichTextPropsFilter = (props) => {
         return text
       }).join(' ')
 
-      newArgs.content = /* html */`
-        <a class="before" href="${cardLink}">
-          <span role="text">${linkText}</span>
-        </a>
+      newArgs.tag = ''
+      newArgs.content = `
+        <${tag}${classesArr.length ? ` class="${classesArr.join(' ')}"` : ''}>
+          <a class="before" href="${cardLink}">
+            <span role="text">${linkText}</span>
+          </a>
+        </${tag}>
       `
     }
 

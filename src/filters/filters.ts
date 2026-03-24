@@ -12,6 +12,7 @@ import { Column } from '../layouts/Column/Column.js'
 import { Term } from '../components/Term/Term.js'
 import { Form } from '../objects/Form/Form.js'
 import { FormField } from '../objects/Form/FormField.js'
+import { Taxonomy } from '../components/Taxonomy/Taxonomy.js'
 
 /**
  * Filters to hook into.
@@ -26,8 +27,14 @@ const filters: Partial<Filters> = {
   formProps: Form,
   formFieldProps: FormField,
   renderItemData: (item: Item) => {
-    if (item.contentType === 'term') {
+    const { contentType } = item
+
+    if (contentType === 'term') {
       return Term(item)
+    }
+
+    if (contentType === 'taxonomy') {
+      return Taxonomy(item)
     }
 
     return item

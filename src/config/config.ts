@@ -8,6 +8,7 @@ import type { ConfigVars, ConfigEnv } from './configTypes.js'
 import type { Config } from '@alanizcreative/formation-static/config/configTypes.js'
 import { setConfig } from '@alanizcreative/formation-static/config/config.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
+import { configContentType } from './configOptions.js'
 
 /**
  * Style, script, svg and template options.
@@ -68,6 +69,10 @@ const config: Config = setConfig({
   taxonomyInSlug: {
     types: 'types',
     genres: 'genres'
+  },
+  normalTypes: {
+    Project: configContentType.Project,
+    Track: configContentType.Track
   },
   renderTypes: {
     button: 'button',

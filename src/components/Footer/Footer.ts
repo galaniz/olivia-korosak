@@ -4,12 +4,11 @@
 
 /* Imports */
 
-import type { SocialSvgType } from '../../svg/Social/SocialTypes.js'
 import { getYear } from '@alanizcreative/formation-static/utils/year/year.js'
 import { navigationsInstance } from '../Navigation/Navigations.js'
 import { config } from '../../config/config.js'
 import { Logo } from '../../objects/Logo/Logo.js'
-import { SocialSvg } from '../../svg/Social/Social.js'
+import { Social } from '../../objects/Social/Social.js'
 
 /**
  * Output footer.
@@ -32,22 +31,7 @@ const Footer = (currentLink: string, currentType?: string | string[]): string =>
 
   /* Social */
 
-  const socialOutput = navigationsInstance?.getOutput('Social', {
-    currentLink,
-    currentType,
-    listClass: 'flex wrap justify-center gap-2xs list-none',
-    listAttr: 'role="list"',
-    linkClass: 'flex align-center justify-center w-l h-l relative b-radius-full b-all e-trans e-border',
-    filterBeforeLinkText: ({ output }) => {
-      output.ref += '<span class="a-hide-vis">'
-    },
-    filterAfterLinkText: ({ item, output }) => {
-      const { title } = item
-
-      output.ref += '</span>'
-      output.ref += SocialSvg({ type: title.toLowerCase() as SocialSvgType })
-    }
-  }, 1) ?? ''
+  const socialOutput = Social('justify-center')
 
   /* Output */
 

@@ -150,6 +150,14 @@ const getRgba = (hex: string, alpha: number = 1): [number, number, number, numbe
 const getHue = (hex: string, alpha: number = 1): number => {
   let [r, g, b] = getRgba(hex, alpha)
 
+  if ( // Gray check
+    Math.abs(r - g) < 5 &&
+    Math.abs(r - b) < 5 &&
+    Math.abs(g - b) < 5
+  ) {
+    return -1
+  }
+
   r /= 255
   g /= 255
   b /= 255
@@ -190,8 +198,10 @@ const getHue = (hex: string, alpha: number = 1): number => {
 const getGradient = (hex: string, type: 'card' | 'page' = 'card', full: boolean = true): string => {
   /* Hue */
 
+  const hue = getHue(hex)
+  const gray = hue === -1
   const rotate = -30
-  const fromHue = getHue(hex)
+  const fromHue = hue
   const fromSat = fromHue >= 330 || fromHue <= 10 ? 45 : 35
   let toHue = fromHue + rotate
 
@@ -200,9 +210,9 @@ const getGradient = (hex: string, type: 'card' | 'page' = 'card', full: boolean 
   }
 
   const toSat = toHue >= 330 || toHue <= 10 ? 45 : 35
-  const colorFrom = `${fromHue}, ${fromSat}%, 25%, 1`
-  const colorBetween = `${toHue}, ${toSat}%, 25%, 0.25`
-  const colorTo = `${toHue}, ${toSat}%, 25%, 0`
+  const colorFrom = gray ? '0, 0%, 25%, 1' : `${fromHue}, ${fromSat}%, 25%, 1`
+  const colorBetween = gray ? '0, 0%, 25%, 0.25' : `${toHue}, ${toSat}%, 25%, 0.25`
+  const colorTo = gray ? '0, 0%, 25%, 0' : `${toHue}, ${toSat}%, 25%, 0`
   const styles = `--ok-bg-from:${colorFrom};--ok-bg-to:${colorTo}`
 
   /* Card */

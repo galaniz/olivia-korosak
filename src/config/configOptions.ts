@@ -43,7 +43,8 @@ import type {
  */
 export const configContentType: Record<ConfigContentTypeLabel, ConfigContentType> = {
   Project: 'project',
-  Track: 'track'
+  Track: 'track',
+  Term: 'term'
 }
 
 /**
@@ -53,7 +54,8 @@ export const configContentType: Record<ConfigContentTypeLabel, ConfigContentType
  */
 export const configContentTypeLabel: Record<ConfigContentType, ConfigContentTypeLabel> = {
   project: 'Project',
-  track: 'Track'
+  track: 'Track',
+  term: 'Term'
 }
 
 /**

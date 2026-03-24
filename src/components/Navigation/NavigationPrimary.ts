@@ -5,13 +5,12 @@
 /* Imports */
 
 import type { NavigationPrimaryArgs } from './NavigationTypes.js'
-import type { SocialSvgType } from '../../svg/Social/SocialTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { addScript, addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { navigationsInstance } from './Navigations.js'
 import { configVars } from '../../config/config.js'
 import { Logo } from '../../objects/Logo/Logo.js'
-import { SocialSvg } from '../../svg/Social/Social.js'
+import { Social } from '../../objects/Social/Social.js'
 
 /**
  * Output primary navigation.
@@ -79,22 +78,7 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
 
   /* Social */
 
-  const socialOutput = navigationsInstance?.getOutput('Social', {
-    currentLink,
-    currentType,
-    listClass: 'flex wrap gap-2xs pt-m list-none',
-    listAttr: 'role="list"',
-    linkClass: 'flex align-center justify-center w-l h-l relative b-radius-full b-all e-trans e-border',
-    filterBeforeLinkText: ({ output }) => {
-      output.ref += '<span class="a-hide-vis">'
-    },
-    filterAfterLinkText: ({ item, output }) => {
-      const { title } = item
-
-      output.ref += '</span>'
-      output.ref += SocialSvg({ type: title.toLowerCase() as SocialSvgType })
-    }
-  }, 1) ?? ''
+  const socialOutput = Social('pt-m')
 
   /* Modal */
 

@@ -61,7 +61,7 @@ const Card = (props: CardProps): string | string[] => {
 
   if (isStringStrict(colorFrom?.value)) {
     classes += ' bg-diagonal'
-    styles += getGradient(colorFrom.value || '#4e515f')
+    styles += getGradient(colorFrom.value || '#606060')
   }
 
   /* Gap */
@@ -93,7 +93,7 @@ const Card = (props: CardProps): string | string[] => {
   /* Output */
 
   return [
-    `<div class="${classes}"${styles ? ` styles="${styles}"` : ''}>`,
+    `<div class="${classes}"${styles ? ` style="${styles}"` : ''}>`,
     '</div>'
   ]
 }
@@ -118,7 +118,6 @@ const CardColumn = (args: PostsItemArgs): string => {
     primaryContentType,
     contentType,
     headingLevel = 'h3',
-    archive,
     parents
   } = args
 
@@ -140,7 +139,7 @@ const CardColumn = (args: PostsItemArgs): string => {
 
   const isTaxonomy = contentType === 'taxonomy'
   const isTerm = contentType === 'term'
-  const isArchive = archive === 'project' || isTaxonomy || isTerm
+  const isProject = contentType === 'project'
 
   /* Parents */
 
@@ -160,7 +159,7 @@ const CardColumn = (args: PostsItemArgs): string => {
         width: '12',
         widthSmall: '6',
         widthMedium: '4',
-        widthLarge: isArchive ? '3' : undefined
+        widthLarge: !isProject ? '3' : undefined
       }
     },
     ...(parents || [])
@@ -184,14 +183,14 @@ const CardColumn = (args: PostsItemArgs): string => {
 
   /* Classes */
 
-  let classes = 'flex col col-12 col-6-s col-3-m'
+  let classes = 'flex col col-12 col-6-s col-4-m'
   let contentClasses = 'flex col grow-1 gap-5xs gap-4xs-m'
 
   if (!heroImage) {
     contentClasses += ' isolate py-s px-s'
   }
 
-  if (isArchive) {
+  if (!isProject) {
     classes += ' col-3-l'
   }
 
@@ -229,7 +228,7 @@ const CardColumn = (args: PostsItemArgs): string => {
   return /* html */`
     <li class="${classes}">
       ${cardStart}
-        ${!hasImage ? '<div class="ar-16-9 e-overlay-item"></div>' : ''}
+        ${!hasImage ? '<div class="ar-16-9 e-overlay-item after"></div>' : ''}
         <div class="${contentClasses}">
           ${RichText({
             args: {

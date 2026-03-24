@@ -171,6 +171,7 @@ const setupBuild = async (build: boolean, devPaths: string[] = []): Promise<Rend
             dynamicAttributes: [
               'data-scroll',
               'data-loader',
+              'data-media-track',
               'show-modal',
               'open',
               'playing'
@@ -225,21 +226,26 @@ const setupBuild = async (build: boolean, devPaths: string[] = []): Promise<Rend
 
   if (build) {
     data = await getAllContentfulData()
+
+    let countEntries: Item[] = []
+
+    if (data?.content.project) {
+      countEntries = [
+        ...data.content.project
+      ]
+    }
+
+    if (data?.content.track) {
+      countEntries = [
+        ...countEntries,
+        ...data.content.track
+      ]
+    }
+
+    storeCounts(countEntries)
   } else {
     data = await getDevData(devPaths)
   }
-
-  const countEntries: Item[] = []
-
-  if (data?.content.project) {
-    countEntries.concat(data.content.project)
-  }
-
-  if (data?.content.track) {
-    countEntries.concat(data.content.track)
-  }
-
-  storeCounts(countEntries)
 
   const output = await render({ allData: data })
 

@@ -5,7 +5,7 @@
 /* Imports */
 
 import type { SeoSchema } from './seoTypes.js'
-import type { Item } from '../global/globalTypes.js'
+import type { Item, Locale } from '../global/globalTypes.js'
 import type { Generic } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { RenderMeta } from '@alanizcreative/formation-static/render/renderTypes.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
@@ -59,7 +59,7 @@ const Seo = (meta: RenderMeta, itemData: Item, home: boolean = false): string =>
 
   /* Locale */
 
-  const locale = 'en-CA'
+  const locale: Locale = 'en-CA'
 
   /* Title */
 

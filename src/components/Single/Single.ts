@@ -19,13 +19,14 @@ import { Content } from '../../text/Content/Content.js'
 import { Links } from '../../text/Links/Links.js'
 
 /**
- * Output singular post content.
+ * Output singular project or track content.
  *
  * @param {string} content
  * @param {Item} itemData
+ * @prop {Set<string>} [itemContains]
  * @return {Promise<string>} HTMLElement
  */
-const Single = async (content: string, itemData: Item): Promise<string> => {
+const Single = async (content: string, itemData: Item, itemContains?: Set<string>): Promise<string> => {
   /* Data required */
 
   if (!isObjectStrict(itemData)) {
@@ -97,15 +98,20 @@ const Single = async (content: string, itemData: Item): Promise<string> => {
 
   if (isArrayStrict(similar)) {
     similarIds = similar.map(({ id }) => id as string)
-  } else {
-    /* Entries matching genres or project types */
-
+  } else { // Fallback to entries matching genres, projects or project types
     const params = { ...similarParams }
 
     if (hasGenres) {
       const genreIds = genre.map(({ id }) => id as string)
 
       params[`fields.genre.sys.id${genreIds.length > 1 ? '[in]' : ''}`] = genreIds.join()
+      params['sys.id[ne]'] = id
+    }
+
+    if (!hasGenres && hasProjects) {
+      const projects = project.map(({ id }) => id as string)
+
+      params[`fields.project.sys.id${projects.length > 1 ? '[in]' : ''}`] = projects.join()
       params['sys.id[ne]'] = id
     }
 
@@ -124,35 +130,8 @@ const Single = async (content: string, itemData: Item): Promise<string> => {
     }
   }
 
-  /* Fallback if limited or no similar ids */
-
-  const similarCount = similarIds.length
-
-  if (similarCount < similarDisplay) {
-    const newParams = { ...similarParams }
-
-    newParams['sys.id[nin]'] = similarIds.concat([id]).join()
-    newParams.limit = Math.abs(similarCount - similarDisplay)
-
-    if (hasProjects) {
-      const projects = project.map(({ id }) => id as string)
-
-      newParams[`fields.project.sys.id${projects.length > 1 ? '[in]' : ''}`] = projects.join()
-    }
-
-    const data = await getContentfulData(`${similarKey}_fallback`, newParams)
-    const items = data.items
-
-    if (isArrayStrict(items)) {
-      similarIds = [
-        ...similarIds,
-        ...items.map(({ id }) => id as string)
-      ]
-    }
-  }
-
   if (similarIds.length > similarDisplay) {
-    similarIds = [...similarIds].sort(() => 0.5 - Math.random()).slice(0, similarDisplay)
+    similarIds = [...similarIds].slice(0, similarDisplay)
   }
 
   similarOutput = await Posts({
@@ -160,10 +139,10 @@ const Single = async (content: string, itemData: Item): Promise<string> => {
       contentTypes: [configContentTypeLabel[contentType]],
       filters: [
         `sys.id[in]:${similarIds.join()}`
-      ],
-      order: 'rand'
+      ]
     },
     itemData,
+    itemContains,
     parents: [
       {
         renderType: 'container',
@@ -217,7 +196,7 @@ const Single = async (content: string, itemData: Item): Promise<string> => {
 
               return /* html */`
                 <div>
-                  <dt class="lead-base mb-5xs mb-4xs-m">${title}</dt>
+                  <dt class="lead-base mb-5xs mb-4xs-m sharp">${title}</dt>
                   <dd>${desc}</dd>
                 </div>
               `
@@ -245,17 +224,18 @@ const Single = async (content: string, itemData: Item): Promise<string> => {
       contentTypes: ['Track'],
       filters: [`fields.project.sys.id:${id}`]
     },
-    itemData
+    itemData,
+    itemContains
   })
 
   const hasTracks = !!tracksOutput
 
-  /* Output */
-
   return /* html */`
     <section class="container-s pb-2xl pb-4xl-m">
-      ${contentStart}${content}${contentEnd}
+      ${contentStart}
+      ${content}
       ${hasTracks ? `<h2 id="tracks" data-rich>Tracks</h2>${tracksOutput}` : ''}
+      ${contentEnd}
     </section>
     <section class="container-m flex col gap-s pb-2xl pb-4xl-m">
       ${hasSimilar ? `<h2>${similarTitle}</h2>${similarOutput}` : ''}

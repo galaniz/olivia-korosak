@@ -52,13 +52,13 @@ const Breadcrumbs = (itemData: Item): string => {
   /* Trail */
 
   const lastIndex = parentsCount - 1
+  const separator = '<span class="text-s lead-base px-4xs" aria-hidden="true">&sol;</span>'
   const breadcrumbs = parents.map((item, i) => {
     const { title: itemTitle } = item
 
     return `
       <li${i < lastIndex ? ' class="none block-m"' : ''}>
-        <a href="${getLink(item)}" class="text-s lead-base" data-rich>${itemTitle}</a>
-        <span class="text-s lead-base px-4xs" aria-hidden="true">&sol;</span>
+        <a href="${getLink(item)}" class="text-s lead-base" data-rich>${itemTitle}</a>${separator}
       </li>
     `
   })
@@ -67,11 +67,10 @@ const Breadcrumbs = (itemData: Item): string => {
 
   return /* html */`
     <nav aria-label="Breadcrumb">
-      <ol class="flex list-none e-line-in e-line-thin" role="list">
+      <ol class="container flex list-none e-line-in e-line-thin" role="list">
         ${breadcrumbs.join('')}
         <li class="relative text-s lead-base wt-medium clamp-1">
-          ${title}
-          <span class="a-hide-vis"> (current page)</span>
+          ${title}<span class="a-hide-vis"> (current page)</span>
         </li>
       </ol>
     </nav>

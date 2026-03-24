@@ -36,10 +36,10 @@ export interface WorkerTurnstileResult {
 
 /**
  * @typedef {object} WorkerServerlessReturn
- * @prop {'404'|'reload'} type
+ * @prop {'404'|'reload'|'posts'} type
  * @prop {RenderServerlessData} [data]
  */
 export interface WorkerServerlessReturn {
-  type: '404' | 'reload'
+  type: '404' | 'reload' | 'posts'
   data?: RenderServerlessData
 }

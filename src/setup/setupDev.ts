@@ -7,6 +7,7 @@
 import type { Filters } from '@alanizcreative/formation-static/filters/filtersTypes.js'
 import type { RenderAllData, RenderData, RenderItem } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Store } from '@alanizcreative/formation-static/store/storeTypes.js'
+import type { StoreExtra } from '../store/storeTypes.js'
 import { resolve } from 'node:path'
 import { getContentfulData } from '@alanizcreative/formation-static/contentful/contentfulData.js'
 import { isObject } from '@alanizcreative/formation-static/utils/object/object.js'
@@ -81,15 +82,18 @@ const getDevData = async (devPaths: string[] = []): Promise<RenderAllData> => {
   const archiveMetaContents = await readFile(getPath('archiveMeta', 'store'), 'utf8')
   const navigationsContents = await readFile(getPath('navigations', 'store'), 'utf8')
   const navigationItemsContents = await readFile(getPath('navigationItems', 'store'), 'utf8')
+  const countsContents = await readFile(getPath('counts', 'store'), 'utf8')
   const slugs = JSON.parse(slugsContents) as Store['slugs']
   const parents = JSON.parse(parentsContents) as Store['parents']
   const archiveMeta = JSON.parse(archiveMetaContents) as Store['archiveMeta']
   const navigations = JSON.parse(navigationsContents) as Store['navigations']
   const navigationItems = JSON.parse(navigationItemsContents) as Store['navigationItems']
+  const counts = JSON.parse(countsContents) as StoreExtra['counts']
 
   setStoreItem('parents', parents)
   setStoreItem('archiveMeta', archiveMeta)
   setStoreItem('slugs', slugs)
+  setStoreItem('counts', counts)
 
   const allData: RenderAllData = {
     navigation: navigations,

@@ -32,8 +32,3 @@ export interface MediaAudioTrack {
   link: string
   url: string
 }
-
-/**
- * @typedef {Object<string, MediaAudioTrack>} MediaAudioTracks
- */
-export type MediaAudioTracks = Record<string, MediaAudioTrack>

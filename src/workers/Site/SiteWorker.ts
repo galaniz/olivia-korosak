@@ -6,12 +6,12 @@
 
 import type { SiteWorkerEnv } from './SiteTypes.js'
 import type { WorkerRequest } from '../workerTypes.js'
-import type { RenderServerlessData } from '@alanizcreative/formation-static/render/renderTypes.js'
+import type { PostsServerlessProps } from '../../objects/Posts/PostsTypes.js'
 import { WorkerEntrypoint } from 'cloudflare:workers'
 import { getAllContentfulData } from '@alanizcreative/formation-static/contentful/contentfulData.js'
 import { renderHttpError } from '@alanizcreative/formation-static/render/render.js'
 import { serverlessRender } from '@alanizcreative/formation-static/serverless/serverless.js'
-import { workerServerlessSetup, workerServerlessFilter } from '../workerUtils.js'
+import { workerServerlessSetup, workerServerlessFilter, workerServerlessPosts } from '../workerUtils.js'
 
 /**
  * Manage site assets and requests.
@@ -44,10 +44,16 @@ export default class extends WorkerEntrypoint {
     const { type, data } = serverless
 
     if (type === 'reload') {
-      return await this.render(data)
+      await workerServerlessSetup(data, undefined, this.env)
+      return serverlessRender(getAllContentfulData, data)
     }
 
-    await workerServerlessSetup(undefined, undefined, true, this.env)
+    if (type === 'posts') {
+      const props = await request.json() as PostsServerlessProps
+      return await workerServerlessPosts({ ...props, serverlessData: data }, this.env)
+    }
+
+    await workerServerlessSetup(undefined, undefined, this.env, true)
 
     return new Response(await renderHttpError({ code: 404 }), {
       status: 404,
@@ -55,16 +61,5 @@ export default class extends WorkerEntrypoint {
         'Content-Type': 'text/html;charset=UTF-8'
       }
     })
-  }
-
-  /**
-   * Re-render page with serverless data.
-   *
-   * @param {RenderServerlessData} [serverlessData]
-   * @return {Promise<Response>}
-   */
-  async render (serverlessData?: RenderServerlessData): Promise<Response> {
-    await workerServerlessSetup(serverlessData, undefined, false, this.env)
-    return serverlessRender(getAllContentfulData, serverlessData)
   }
 }

@@ -16,6 +16,7 @@ import { HttpError } from '../components/HttpError/HttpError.js'
 import { Layout } from '../components/Layout/Layout.js'
 import { Content } from '../text/Content/Content.js'
 import { Testimonial } from '../objects/Testimonial/Testimonial.js'
+import { Navigation } from '../objects/Navigation/Navigation.js'
 import { Button } from '../objects/Button/Button.js'
 import { Image } from '../objects/Image/Image.js'
 import { Posts } from '../objects/Posts/Posts.js'
@@ -39,7 +40,8 @@ const renderFunctions: RenderFunctionsArgs = {
     formOption: FormOption,
     testimonial: Testimonial,
     posts: Posts,
-    card: Card
+    card: Card,
+    navigation: Navigation
   }
 }
 

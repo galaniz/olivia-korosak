@@ -40,6 +40,7 @@ const HttpError: RenderHttpError = async (args) => {
 
   return await renderInlineItem({
     id,
+    code,
     slug,
     contentType,
     title,

@@ -10,8 +10,8 @@ import { isStringStrict } from '@alanizcreative/formation-static/utils/string/st
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { Image } from '../../objects/Image/Image.js'
 import { ArrowSvg } from '../../svg/Arrow/Arrow.js'
-import { ControlSvg } from '../../svg/Control/Control.js'
 import { Links } from '../../text/Links/Links.js'
+import { MediaAudioHero } from '../MediaAudio/MediaAudio.js'
 
 /**
  * Output hero section.
@@ -28,6 +28,7 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
   }
 
   const {
+    code,
     contentType = 'page',
     heroTitle,
     heroImage,
@@ -42,6 +43,12 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
 
   if (heroTitle) {
     title = heroTitle
+  }
+
+  /* Skip HTTP error */
+
+  if (code) {
+    return ''
   }
 
   /* Title required */
@@ -61,14 +68,22 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
   let imageOutput = ''
 
   if (heroImage) {
+    let sizes =
+      `(min-width: ${1040 / 16}rem) ${386 / 16}rem, (min-width: ${900 / 16}rem) 33.333vw, (min-width: ${600 / 16}rem) 40vw, (min-width: ${450 / 16}rem) ${450 / 16}rem, 80vw`
+
+    if (isIndex) {
+      sizes =
+        `(min-width: ${1300 / 16}rem) ${610 / 16}rem, (min-width: ${900 / 16}rem) 40vw, (min-width: ${650 / 16}rem) ${650 / 16}rem, 80vw`
+    }
+
     imageOutput = Image({
       args: {
         image: heroImage,
         lazy: false,
         aspectRatio: '1:1',
         maxWidth: isIndex ? 1200 : 800,
-        classes: `hero-max-${isIndex ? 's' : 'xs'} m-auto`
-        // sizes: // '(min-width: 75rem) 35.5rem, (min-width: 40rem) 40rem, 80vw' TODO
+        classes: `hero-max-${isIndex ? 's' : 'xs'} m-auto`,
+        sizes
       }
     })
   }
@@ -113,7 +128,7 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
     const arrowIcon = ArrowSvg({ width: 'm', height: 'm' })
 
     arrowOutput = /* html */`
-      <a href="#content" class="none-m w-m h-m" aria-label="Jump to content">
+      <a href="#content" class="none-m w-m h-m" aria-label="Skip to content">
         ${arrowIcon}
       </a>
     `
@@ -122,7 +137,7 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
       <div class="my-auto pt-2xl-m">
         ${textOutput}
       </div>
-      <a href="#content" class="none block-m w-m h-m mt-m" aria-label="Jump to content">
+      <a href="#content" class="none block-m w-m h-m mt-m" aria-label="Skip to content">
         ${arrowIcon}
       </a>
     `
@@ -133,30 +148,7 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
   /* Track */
   
   if (isTrack) {
-    classes = 'pt-xl pb-xl pt-2xl-m'
-    textOutput = /* html */`
-      <div class="flex col row-l gap-s gap-m-l">
-        <button
-          type="button"
-          class="control w-xl h-xl w-2xl-m h-2xl-m sharp bg-background-light b-radius-full"
-          aria-label="Play ${title}"
-        >
-          ${ControlSvg({
-            type: 'play',
-            width: 'full',
-            height: 'full',
-            classes: 'control-play'
-          })}
-          ${ControlSvg({
-            type: 'pause',
-            width: 'full',
-            height: 'full',
-            classes: 'control-pause'
-          })}
-        </button>
-        ${textOutput}
-      </div>
-    `
+    return MediaAudioHero(itemData)
   }
 
   /* Output */
@@ -164,9 +156,9 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
   let output = ''
 
   if (hasImage) {
-    classes += ` flex wrap gap-m gap-2xl-l${hasArrow ? ' align-center' : ''}`
+    classes += ' flex wrap gap-m gap-2xl-l align-center'
     output = /* html */`
-      <div class="${isMedium ? 'col-6-s col-7-m' : 'col-6-m'}${hasArrow ? ' flex col' : ''}">
+      <div class="col-12 ${isMedium ? 'col-6-s col-7-m' : 'col-6-m'}${hasArrow ? ' flex col' : ''}">
         ${textOutput}
       </div>
       <div class="col-12 ${isMedium ? 'col-6-s col-5-m order-first-s' : 'col-6-m order-first-m'}">
@@ -174,11 +166,7 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
       </div>
     `
   } else {
-    output = textOutput
-
-    if (!isTrack) {
-      output = `<div class="col-8-m">${output}</div>`
-    }
+    output = `<div class="col-12 col-8-m">${textOutput}</div>`
   }
 
   return /* html */`

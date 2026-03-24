@@ -4,7 +4,7 @@
 
 /* Imports */
 
-import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
+import type { RenderFunctionArgs, RenderServerlessData } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { ParentArgs } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { ConfigContentTypeLabel, ConfigHeadingLabel, ConfigHeadingLevel } from '../../config/configTypes.js'
 import type { PaginationServerlessData } from '../../components/Pagination/PaginationTypes.js'
@@ -17,7 +17,6 @@ import type { Item } from '../../global/globalTypes.js'
  * @prop {ConfigHeadingLabel} [headingLevel='Heading Three']
  * @prop {boolean} [pagination=false]
  * @prop {string[]} [filters]
- * @prop {'date'|'rand'} [order='date']
  * @prop {boolean} [exclude=false]
  */
 export interface PostsArgs {
@@ -26,7 +25,6 @@ export interface PostsArgs {
   headingLevel?: ConfigHeadingLabel
   pagination?: boolean
   filters?: string[]
-  order?: 'date' | 'rand'
   exclude?: boolean
 }
 
@@ -50,6 +48,18 @@ export type PostsReturnKind = 'string' | 'data'
  * @typedef {string|PaginationServerlessData} PostsReturnType
  */
 export type PostsReturnType<R extends PostsReturnKind> = R extends 'data' ? PaginationServerlessData : string
+
+/**
+ * @typedef {object} PostsServerlessProps
+ * @prop {PostsArgs} args
+ * @prop {Item} [itemData]
+ * @prop {RenderServerlessData} [serverlessData]
+ */
+export interface PostsServerlessProps {
+  args: PostsArgs
+  itemData?: Item
+  serverlessData?: RenderServerlessData
+}
 
 /**
  * @typedef {object} PostsItemArgs

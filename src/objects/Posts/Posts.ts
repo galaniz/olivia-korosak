@@ -18,7 +18,7 @@ import { scripts } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { print } from '@alanizcreative/formation-static/utils/print/print.js'
 import { getContentfulData } from '@alanizcreative/formation-static/contentful/contentfulData.js'
 import { configContentType, configHeadingLevel } from '../../config/configOptions.js'
-import { MediaAudioTracks, MediaAudioTracksContainer } from '../../components/MediaAudio/MediaAudioTracks.js'
+import { MediaAudioTracks, MediaAudioTracksContainer } from '../../components/MediaAudio/MediaAudio.js'
 import { Pagination } from '../../components/Pagination/Pagination.js'
 import { CardColumn, CardContainer } from '../Card/Card.js'
 
@@ -36,7 +36,8 @@ const postsCache: Map<string, RenderData> = new Map()
  */
 const postsFields: Record<ConfigContentType, string> = {
   project: 'fields.heroImage,fields.projectType',
-  track: 'fields.audio,fields.audioDuration,fields.project,fields.genre'
+  track: 'fields.audio,fields.audioDuration,fields.project,fields.genre',
+  term: 'fields.colorFrom,fields.taxonomy'
 }
 
 /**
@@ -46,7 +47,8 @@ const postsFields: Record<ConfigContentType, string> = {
  */
 const postsTermFields: Record<ConfigContentType, string> = {
   project: 'fields.projectType',
-  track: 'fields.genre'
+  track: 'fields.genre',
+  term: ''
 }
 
 /**
@@ -84,7 +86,6 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
 
   const {
     display = 12,
-    order = 'date',
     headingLevel: headingLevelLabel = 'Heading Three',
     contentTypes: contentTypesLabels,
     filters = [],
@@ -114,7 +115,8 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     contentType,
     taxonomy,
     baseUrl,
-    meta
+    meta,
+    locale
   } = itemData
 
   /* ID required */
@@ -137,24 +139,30 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     }) || []
   }
 
+  /* Taxonomy */
+
+  const isTaxonomy = contentType === 'taxonomy'
+
+  if (isTaxonomy) {
+    pagination = true
+    contentTypes = ['term']
+    filters.push(`fields.taxonomy.sys.id:${id}`)
+  }
+
   /* Content types required */
 
   if (!isArrayStrict(contentTypes)) {
     return fallback as PostsReturnType<R>
   }
 
-
-
   const multiContentType = contentTypes.length > 1
   const primaryContentType = contentTypes[0] as ConfigContentType
-
-  /* Layout */
-
   const isTrack = primaryContentType === 'track'
+  const isProject = primaryContentType === 'project'
 
   /* Select fields */
 
-  let select = 'sys.id,fields.title,fields.slug'
+  let select = 'sys.id,sys.contentType,fields.title,fields.slug'
 
   contentTypes.forEach(type => {
     select += `,${postsFields[type]}`
@@ -168,9 +176,14 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
   /* Query prep */
 
   let key = `posts_${id}_${contentTypes.join('_')}_${display}`
-  const params: ContentfulDataParams = {
-    order: contentType === 'term' ? '-fields.order' : order === 'date' ? '-fields.date' : order,
-    select
+  const params: ContentfulDataParams = { select }
+
+  if (isTaxonomy) {
+    params.order = '-fields.order'
+  }
+
+  if (isTrack || isProject) {
+    params.order = '-fields.date'
   }
 
   if (multiContentType) {
@@ -244,13 +257,19 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
 
     if (isTrack) {
       postsOutput = MediaAudioTracks({
-        items: posts,
+        items: posts.map(post => {
+          post.locale = locale // Locale for correct link resolution
+
+          return post
+        }),
         itemContains,
         contentType,
         parents
       })
     } else {
       posts.forEach(post => {
+        post.locale = locale // Locale for correct link resolution
+
         const itemArgs: PostsItemArgs = {
           post,
           contentType,
@@ -273,7 +292,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     let output = postsOutput
 
     if (isTrack) {
-      output = MediaAudioTracksContainer(output, pagination)
+      output = MediaAudioTracksContainer(output, contentType, pagination)
     } else {
       output = CardContainer(output, pagination)
     }

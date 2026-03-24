@@ -8,7 +8,7 @@ import type { ContentProps } from './ContentTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
-import { configGap } from '../../config/configOptions.js'
+import { configGap, configTextStyle } from '../../config/configOptions.js'
 
 /**
  * Output content wrapper.
@@ -36,6 +36,7 @@ const Content = (props: ContentProps): string[] => {
     gap,
     gapLarge,
     richTextStyles = true,
+    textStyle = 'Extra Large',
     classes
   } = args
 
@@ -51,6 +52,10 @@ const Content = (props: ContentProps): string[] => {
 
   if (richTextStyles) {
     classesArr.push('rich-text e-line-out')
+
+    if (isStringStrict(textStyle)) {
+      classesArr.push(`text-${configTextStyle.get(textStyle)}`)
+    }
 
     addStyle('text/RichText/RichText')
   }

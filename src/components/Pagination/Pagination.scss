@@ -15,6 +15,7 @@ html {
 
 .pagination {
   --ld-position: fixed;
+  --ld-bg: hsla(var(--ok-foreground-base-hsl), 0.8);
   --ld-z: #{map.get(con.$z-index, "loader")};
 }
 

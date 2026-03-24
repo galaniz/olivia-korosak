@@ -5,10 +5,12 @@
 /* Imports */
 
 import type { MediaAudioTrack } from './MediaAudioTypes.js'
+import type { ActionResizeArgs } from '@alanizcreative/formation/actions/actionsTypes.js'
 import { Media } from '@alanizcreative/formation/objects/Media/Media.js'
 import { isStringStrict } from '@alanizcreative/formation/utils/string/string.js'
 import { isHtmlElement } from '@alanizcreative/formation/utils/html/html.js'
 import { addFilter, removeFilter } from '@alanizcreative/formation/filters/filters.js'
+import { onResize, removeResize } from '@alanizcreative/formation/actions/actionResize.js'
 import { getItem } from '@alanizcreative/formation/items/items.js'
 
 /**
@@ -79,6 +81,13 @@ class MediaAudio extends Media {
   subInit: boolean = false
 
   /**
+   * Track row to target for width.
+   *
+   * @type {HTMLButtonElement|null}
+   */
+  #row: HTMLElement | null = null
+
+  /**
    * Track IDs.
    *
    * @private
@@ -111,6 +120,7 @@ class MediaAudio extends Media {
   #prevHandler = this.#prev.bind(this) as EventListener
   #nextHandler = this.#next.bind(this) as EventListener
   #closeHandler = this.#close.bind(this) as EventListener
+  #resizeHandler = this.#resize.bind(this)
   #toggledHandler = this.#toggled.bind(this)
   #activeHandler = this.#active.bind(this)
 
@@ -160,6 +170,7 @@ class MediaAudio extends Media {
     this.next?.removeEventListener('click', this.#nextHandler)
     this.close?.removeEventListener('click', this.#closeHandler)
     this.removeEventListener('media:toggle', this.#toggledHandler)
+    removeResize(this.#resizeHandler)
 
     /* Remove filters */
 
@@ -174,6 +185,7 @@ class MediaAudio extends Media {
     this.link = null
     this.current = 0
     this.subInit = false
+    this.#row = null
     this.#ids = []
     this.#lastIndex = 0
     this.#indexById.clear()
@@ -227,6 +239,10 @@ class MediaAudio extends Media {
         return
       }
 
+      if (track.tagName === 'TR' && !this.#row) {
+        this.#row = track
+      }
+
       toggle.id = id
       toggle.addEventListener('click', this.#toggleHandler)
       ids.push(id)
@@ -260,10 +276,15 @@ class MediaAudio extends Media {
     this.next.addEventListener('click', this.#nextHandler)
     this.close.addEventListener('click', this.#closeHandler)
     this.addEventListener('media:toggle', this.#toggledHandler)
+    onResize(this.#resizeHandler)
 
     /* Filters */
 
     addFilter(`media:active:${this.id}`, this.#activeHandler)
+
+    /* Row width */
+
+    this.#setWidth()
 
     /* Init successful */
 
@@ -300,18 +321,35 @@ class MediaAudio extends Media {
   }
 
   /**
-   * Update track presentation on toggle.
+   * Row width for hover and active state.
    *
    * @private
    * @return {void}
    */
-  #toggled (): void {
-    const id = this.#ids[this.current] as string
-    const toggle = this.toggles.get(id)
-    const search = this.playing ? 'Play' : 'Pause'
-    const replace = this.playing ? 'Pause' : 'Play'
+  #setWidth (): void {
+    document.documentElement.style.setProperty('--med-row-width', `${this.#row?.clientWidth}px`)
+  }
 
-    this.tracks.get(id)?.setAttribute('data-media-track', this.playing ? 'playing' : '')
+  /**
+   * Update track presentation.
+   *
+   * @private
+   * @param {string} [id]
+   * @return {void}
+   */
+  #updateTrack (id?: string): void {
+    let isDynamic = false
+
+    if (!id) {
+      id = this.#ids[this.current] as string
+      isDynamic = true
+    }
+
+    const toggle = this.toggles.get(id)
+    const search = isDynamic && this.playing ? 'Play' : 'Pause'
+    const replace = isDynamic && this.playing ? 'Pause' : 'Play'
+
+    this.tracks.get(id)?.setAttribute('data-media-track', isDynamic && this.playing ? 'playing' : '')
     toggle?.setAttribute('aria-label', toggle.ariaLabel?.replace(search, replace) || replace)
   }
 
@@ -334,12 +372,7 @@ class MediaAudio extends Media {
       return
     }
 
-    const toggle = this.toggles.get(currentId)
-    const search = 'Pause'
-    const replace = 'Play'
-
-    this.tracks.get(currentId)?.setAttribute('data-media-track', '')
-    toggle?.setAttribute('aria-label', toggle.ariaLabel?.replace(search, replace) || replace)
+    this.#updateTrack(currentId)
 
     /* New track */
 
@@ -425,6 +458,33 @@ class MediaAudio extends Media {
     this.#open(false)
 
     await this.toggle(false)
+  }
+
+  /**
+   * Handler on media toggle to update track.
+   *
+   * @private
+   * @return {void}
+   */
+  #toggled (): void {
+    this.#updateTrack()
+  }
+
+  /**
+   * Resize action callback.
+   *
+   * @private
+   * @param {ActionResizeArgs} args
+   * @return {void}
+   */
+  #resize (args: ActionResizeArgs): void {
+    const [oldViewportWidth, newViewportWidth] = args
+
+    if (oldViewportWidth === newViewportWidth) {
+      return
+    }
+
+    this.#setWidth()
   }
 }
 
