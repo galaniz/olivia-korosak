@@ -9,6 +9,7 @@ import type { PaginationSource } from '@alanizcreative/formation/components/Pagi
 import { Pagination as PaginationBase } from '@alanizcreative/formation/components/Pagination/Pagination.js'
 import { isHtmlElement } from '@alanizcreative/formation/utils/html/html.js'
 import { getItem } from '@alanizcreative/formation/items/items.js'
+import { doActions } from '@alanizcreative/formation/actions/actions.js'
 
 /**
  * Handles posts pagination.
@@ -84,6 +85,7 @@ class Pagination extends PaginationBase {
       const {
         nav,
         entries,
+        script,
         title,
         canonical: canonicalUrl,
         prev: prevUrl,
@@ -93,6 +95,16 @@ class Pagination extends PaginationBase {
       /* Nav and entries */
 
       this.update('success', source, nav, entries)
+
+      /* Update script meta */
+
+      if (script) {
+        window.ok = JSON.parse(script) // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+      }
+
+      /* Update subscribers */
+
+      doActions('pag:update', 'success')
 
       /* Title and canonical */
 
@@ -121,6 +133,8 @@ class Pagination extends PaginationBase {
       }
     } catch {
       this.update('error', source)
+
+      doActions('pag:update', 'error')
     }
   }
 }

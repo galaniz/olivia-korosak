@@ -144,6 +144,7 @@ const workerServerlessPosts = async (props: PostsServerlessProps, env?: Generic)
     setStoreItem('counts', counts)
     setConfig(config)
     setConfigFilter(env || {})
+    setFilters(filters)
 
     const data = await Posts(props, 'data')
 

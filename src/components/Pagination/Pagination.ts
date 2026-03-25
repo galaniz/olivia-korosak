@@ -11,6 +11,7 @@ import { addScript, addStyle } from '@alanizcreative/formation-static/scripts/sc
 import { minify } from '@alanizcreative/formation-static/utils/minify/minify.js'
 import { getArchiveLink } from '@alanizcreative/formation-static/utils/archive/archive.js'
 import { renderMeta } from '@alanizcreative/formation-static/render/render.js'
+import { getScriptMeta } from '../../utils/script/script.js'
 import { CaretSvg } from '../../svg/Caret/Caret.js'
 import { Loader } from '../../objects/Loader/Loader.js'
 import { Info } from '../../objects/Info/Info.js'
@@ -101,7 +102,7 @@ const Pagination = <R extends PaginationReturnKind = 'string'>(
     args: {
       itemsWrap: false,
       itemClass: 'relative',
-      currentClass: `${pagClasses} bg-faded`,
+      currentClass: `${pagClasses} sharp bg-faded`,
       prevSpanClass: `${pagClasses} b-all b-dull faded`,
       prevLinkClass: `${pagClasses} b-all e-trans e-border`,
       nextSpanClass: `${pagClasses} b-all b-dull faded`,
@@ -128,6 +129,7 @@ const Pagination = <R extends PaginationReturnKind = 'string'>(
     return {
       nav: minify(paginationOutput),
       entries: minify(output),
+      script: getScriptMeta(false),
       title,
       canonical,
       prev,

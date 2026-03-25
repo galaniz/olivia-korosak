@@ -295,8 +295,15 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
     items,
     itemContains,
     contentType = 'page',
+    pagination = false,
     parents
   } = args
+
+  /* Reset tracks */
+
+  if (pagination) {
+    scripts.meta.tracks = {}
+  }
 
   /* Types */
 
@@ -571,11 +578,11 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
  * Output media audio tracks table.
  *
  * @param {string} output
+ * @param {boolean} [pagination]
  * @param {string} [contentType]
- * @param {boolean} [pagination=false]
  * @return {string} HTMLTableElement
  */
-const MediaAudioTracksContainer = (output: string, contentType?: string, pagination?: boolean): string => {
+const MediaAudioTracksContainer = (output: string, pagination?: boolean, contentType?: string): string => {
   return /* html */`
     <div class="media-audio-tracks${contentType === 'project' ? '-compact' : ''} block b-dull">
       <table aria-label="Tracks"${pagination ? ' data-pag-slot="entry"' : ''}>

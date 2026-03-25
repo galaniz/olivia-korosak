@@ -43,6 +43,7 @@ export type PaginationReturnType<R extends PaginationReturnKind> =
  * @typedef {object} PaginationServerlessData
  * @prop {string} nav
  * @prop {string} entries
+ * @prop {string} script
  * @prop {string} title
  * @prop {string} canonical
  * @prop {string} prev
@@ -51,6 +52,7 @@ export type PaginationReturnType<R extends PaginationReturnKind> =
 export interface PaginationServerlessData {
   nav: string
   entries: string
+  script: string
   title: string
   canonical: string
   prev: string

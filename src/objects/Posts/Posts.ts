@@ -264,7 +264,8 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
         }),
         itemContains,
         contentType,
-        parents
+        parents,
+        pagination
       })
     } else {
       posts.forEach(post => {
@@ -292,7 +293,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     let output = postsOutput
 
     if (isTrack) {
-      output = MediaAudioTracksContainer(output, contentType, pagination)
+      output = MediaAudioTracksContainer(output, pagination, contentType)
     } else {
       output = CardContainer(output, pagination)
     }

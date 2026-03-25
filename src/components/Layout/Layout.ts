@@ -8,13 +8,10 @@ import type { LayoutArgs } from './LayoutTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { getPermalink } from '@alanizcreative/formation-static/utils/link/link.js'
-import {
-  scripts,
-  outputScripts,
-  outputStyles
-} from '@alanizcreative/formation-static/scripts/scripts.js'
+import { outputScripts, outputStyles } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { config, configVars } from '../../config/config.js'
 import { getGradient } from '../../utils/gradient/gradient.js'
+import { getScriptMeta } from '../../utils/script/script.js'
 import { Seo, seoSchema } from '../../seo/Seo.js'
 import { Header } from '../Header/Header.js'
 import { Footer } from '../Footer/Footer.js'
@@ -111,13 +108,7 @@ const Layout = async (args: LayoutArgs): Promise<string> => {
 
   /* Script data */
 
-  const scriptJson = JSON.stringify(scripts.meta)
-  const scriptMeta = /* html */`
-    <script>
-      var namespace = '${ns}';
-      var ${ns} = ${scriptJson};
-    </script>
-  `
+  const scriptMeta = getScriptMeta()
 
   /* Scripts */
 

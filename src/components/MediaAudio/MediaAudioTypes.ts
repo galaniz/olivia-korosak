@@ -12,12 +12,14 @@ import type { ParentArgs } from '@alanizcreative/formation-static/global/globalT
  * @prop {Item[]} items
  * @prop {Set<string>} [itemContains]
  * @prop {string} [contentType='page']
+ * @prop {boolean} [pagination=false]
  * @prop {ParentArgs[]} [parents]
  */
 export interface MediaAudioTracksArgs {
   items: Item[]
   itemContains?: Set<string>
   contentType?: string
+  pagination?: boolean
   parents?: ParentArgs[]
 }
 

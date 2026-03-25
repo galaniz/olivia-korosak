@@ -10,6 +10,7 @@ import { Media } from '@alanizcreative/formation/objects/Media/Media.js'
 import { isStringStrict } from '@alanizcreative/formation/utils/string/string.js'
 import { isHtmlElement } from '@alanizcreative/formation/utils/html/html.js'
 import { addFilter, removeFilter } from '@alanizcreative/formation/filters/filters.js'
+import { addAction, removeAction } from '@alanizcreative/formation/actions/actions.js'
 import { onResize, removeResize } from '@alanizcreative/formation/actions/actionResize.js'
 import { getItem } from '@alanizcreative/formation/items/items.js'
 
@@ -123,6 +124,7 @@ class MediaAudio extends Media {
   #resizeHandler = this.#resize.bind(this)
   #toggledHandler = this.#toggled.bind(this)
   #activeHandler = this.#active.bind(this)
+  #resetTracksHandler = this.#resetTracks.bind(this)
 
   /**
    * Create new instance.
@@ -160,11 +162,11 @@ class MediaAudio extends Media {
       return
     }
 
-    /* Clear event listeners */
+    /* Clean up tracks */
 
-    this.toggles.forEach(toggle => {
-      toggle.removeEventListener('click', this.#toggleHandler)
-    })
+    this.#clearTracks()
+
+    /* Clear event listeners */
 
     this.prev?.removeEventListener('click', this.#prevHandler)
     this.next?.removeEventListener('click', this.#nextHandler)
@@ -172,23 +174,17 @@ class MediaAudio extends Media {
     this.removeEventListener('media:toggle', this.#toggledHandler)
     removeResize(this.#resizeHandler)
 
-    /* Remove filters */
+    /* Remove filters and actions */
 
     removeFilter(`media:active:${this.id}`, this.#activeHandler)
+    removeAction('pag:update', this.#resetTracksHandler)
 
     /* Empty props */
 
-    this.tracks.clear()
-    this.toggles.clear()
     this.prev = null
     this.next = null
     this.link = null
-    this.current = 0
     this.subInit = false
-    this.#row = null
-    this.#ids = []
-    this.#lastIndex = 0
-    this.#indexById.clear()
   }
 
   /**
@@ -204,7 +200,6 @@ class MediaAudio extends Media {
     const prev = getItem('[data-media-prev]', this)
     const next = getItem('[data-media-next]', this)
     const close = getItem('[data-media-close]', this)
-    const tracks = window.ok.tracks
 
     /* Check required items exist */
 
@@ -212,56 +207,18 @@ class MediaAudio extends Media {
       !isHtmlElement(link, HTMLAnchorElement) ||
       !isHtmlElement(prev, HTMLButtonElement) ||
       !isHtmlElement(next, HTMLButtonElement) ||
-      !isHtmlElement(close, HTMLButtonElement) ||
-      !tracks
+      !isHtmlElement(close, HTMLButtonElement)
     ) {
       return false
     }
 
     /* Tracks */
 
-    const ids: string[] = []
+    const set = this.#setTracks()
 
-    let counter = 0
-
-    Object.entries(tracks).forEach(([id, data]) => {
-      const { url, title, link } = data
-      const track = document.getElementById(`${id}-track`)
-      const toggle = document.getElementById(id)
-
-      if (
-        !isStringStrict(url) ||
-        !isStringStrict(title) ||
-        !isStringStrict(link) ||
-        !isHtmlElement(track) ||
-        !isHtmlElement(toggle, HTMLButtonElement)
-      ) {
-        return
-      }
-
-      if (track.tagName === 'TR' && !this.#row) {
-        this.#row = track
-      }
-
-      toggle.id = id
-      toggle.addEventListener('click', this.#toggleHandler)
-      ids.push(id)
-
-      this.tracks.set(id, track)
-      this.toggles.set(id, toggle)
-      this.#indexById.set(id, counter)
-
-      counter += 1
-    })
-
-    if (!this.tracks.size || !this.toggles.size) {
+    if (!set) {
       return false
     }
-
-    /* IDs */
-
-    this.#ids = ids
-    this.#lastIndex = counter - 1
 
     /* Props */
 
@@ -278,9 +235,10 @@ class MediaAudio extends Media {
     this.addEventListener('media:toggle', this.#toggledHandler)
     onResize(this.#resizeHandler)
 
-    /* Filters */
+    /* Filters and actions */
 
     addFilter(`media:active:${this.id}`, this.#activeHandler)
+    addAction('pag:update', this.#resetTracksHandler)
 
     /* Row width */
 
@@ -331,6 +289,98 @@ class MediaAudio extends Media {
   }
 
   /**
+   * Track listeners and info from global data.
+   *
+   * @private
+   * @return {boolean}
+   */
+  #setTracks (): boolean {
+    const tracks = window.ok.tracks
+
+    if (!tracks) {
+      return false
+    }
+
+    const ids: string[] = []
+    let counter = 0
+
+    Object.entries(tracks).forEach(([id, data]) => {
+      const { url, title, link } = data
+      const track = document.getElementById(`${id}-track`)
+      const toggle = document.getElementById(id)
+
+      if (
+        !isStringStrict(url) ||
+        !isStringStrict(title) ||
+        !isStringStrict(link) ||
+        !isHtmlElement(track) ||
+        !isHtmlElement(toggle, HTMLButtonElement)
+      ) {
+        return
+      }
+
+      if (track.tagName === 'TR' && !this.#row) {
+        this.#row = track
+      }
+
+      toggle.id = id
+      toggle.addEventListener('click', this.#toggleHandler)
+      ids.push(id)
+
+      this.tracks.set(id, track)
+      this.toggles.set(id, toggle)
+      this.#indexById.set(id, counter)
+
+      counter += 1
+    })
+
+    if (!this.tracks.size || !this.toggles.size) {
+      return false
+    }
+
+    this.#ids = ids
+    this.#lastIndex = counter - 1
+
+    return true
+  }
+
+  /**
+   * Clear track listeners and props. 
+   *
+   * @private
+   * @return {void}
+   */
+  #clearTracks (): void {
+    this.toggles.forEach(toggle => {
+      toggle.removeEventListener('click', this.#toggleHandler)
+    })
+
+    this.tracks.clear()
+    this.toggles.clear()
+    this.current = 0
+    this.#ids = []
+    this.#lastIndex = 0
+    this.#indexById.clear()
+    this.#row = null
+  }
+
+  /**
+   * Clear and reinitialize tracks.
+   * 
+   * @private
+   * @return {void}
+   */
+  #resetTracks (): void {
+    this.#clearTracks()
+
+    if (this.playing) {
+      this.current = -1
+    }
+
+    this.#setTracks()
+  }
+
+  /**
    * Update track presentation.
    *
    * @private
@@ -346,11 +396,16 @@ class MediaAudio extends Media {
     }
 
     const toggle = this.toggles.get(id)
+
+    if (!toggle) { // Might not exist eg. current is -1
+      return
+    }
+
     const search = isDynamic && this.playing ? 'Play' : 'Pause'
     const replace = isDynamic && this.playing ? 'Pause' : 'Play'
 
     this.tracks.get(id)?.setAttribute('data-media-track', isDynamic && this.playing ? 'playing' : '')
-    toggle?.setAttribute('aria-label', toggle.ariaLabel?.replace(search, replace) || replace)
+    toggle.setAttribute('aria-label', toggle.ariaLabel?.replace(search, replace) || replace)
   }
 
   /**
