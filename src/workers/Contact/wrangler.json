@@ -9,7 +9,7 @@
   "kv_namespaces": [
     {
       "binding": "CONTACT_KV",
-      "id": "1618bb23224b4298847ab1eccde44307"
+      "id": "e7aaa78c1e944e5bae8126bedd908414"
     }
   ],
   "routes": [
@@ -32,7 +32,7 @@
       "kv_namespaces": [
         {
           "binding": "CONTACT_KV",
-          "id": "7581134931d6459f9ce3ed39d465825a"
+          "id": "7cff93c48bc343d4b1abb24bfec5e95a"
         }
       ],
       "routes": [

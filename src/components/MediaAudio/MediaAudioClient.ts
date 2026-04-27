@@ -442,7 +442,7 @@ class MediaAudio extends Media {
       this.link.textContent = this.title
     }
 
-    await this.toggle(true, true)
+    await this.toggle(true/*, true*/)
   }
 
   /**

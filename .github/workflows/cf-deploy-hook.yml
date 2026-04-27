@@ -1,0 +1,121 @@
+name: Cloudflare Deploy Hook
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    # Set environment variables
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CF_WORKER_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+      NPM_CONFIG_USERCONFIG: .npmrc.prod
+      NODE_ENV: production
+      ENVIRONMENT: ${{ inputs.branch == 'main' && 'production' || 'development' }}
+      CTFL_SPACE_ID: ${{ secrets.CTFL_SPACE_ID }}
+      CTFL_DEVELOPMENT_TOKEN: ${{ secrets.CTFL_DEVELOPMENT_TOKEN }}
+      CTFL_DEVELOPMENT_HOST: ${{ secrets.CTFL_DEVELOPMENT_HOST }}
+      CTFL_PRODUCTION_TOKEN: ${{ secrets.CTFL_PRODUCTION_TOKEN }}
+      CTFL_PRODUCTION_HOST: ${{ secrets.CTFL_PRODUCTION_HOST }}
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.branch }}
+
+      # Install PNPM
+      - name: Install PNPM
+        uses: pnpm/action-setup@v5
+
+      # Set up Node.js for PNPM
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      # Install PNPM dependencies
+      - name: Install PNPM dependencies
+        run: pnpm install --frozen-lockfile --optional
+
+      # Build the site
+      - name: Build site
+        run: pnpm build
+
+      # Deploy to staging
+      - name: Deploy to staging
+        if: inputs.branch == 'staging'
+        run: pnpm exec wrangler deploy --config wrangler.json --env staging
+
+      # Deploy to preview
+      - name: Deploy to preview
+        if: inputs.branch == 'preview'
+        run: pnpm exec wrangler deploy --config wrangler.json --env preview
+
+      # Deploy to production
+      - name: Deploy to production
+        if: inputs.branch == 'main'
+        run: pnpm exec wrangler deploy --config wrangler.json --env=""
+
+      # Success notification
+      - name: Success notification
+        run: |
+          echo "Successfully deployed to ${{ inputs.branch }}"
+          echo "Triggered by: ${{ github.actor }}"
+          echo "Commit SHA: ${{ github.sha }}"
+
+  notify-success:
+    needs: build-deploy
+    if: success()
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Notify deploy success
+        run: |
+          curl -X POST https://oliviakorosak.com/api/deploy \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.CF_DEPLOY_TOKEN }}" \
+            -H "X-GitHub-Request: true" \
+            -d '{
+              "branch": "${{ github.event.inputs.branch }}",
+              "status": "Done",
+              "commit": "${{ github.sha }}",
+              "actor": "${{ github.actor }}",
+              "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
+            }'
+
+  notify-failure:
+    needs: build-deploy
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Notify deploy failure
+        run: |
+          curl -X POST https://oliviakorosak.com/api/deploy \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.CF_DEPLOY_TOKEN }}" \
+            -H "X-GitHub-Request: true" \
+            -d '{
+              "branch": "${{ github.event.inputs.branch }}",
+              "status": "Failed",
+              "commit": "${{ github.sha }}",
+              "actor": "${{ github.actor }}",
+              "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
+            }'

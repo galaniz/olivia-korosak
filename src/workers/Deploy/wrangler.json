@@ -1,0 +1,21 @@
+{
+  "name": "olivia-korosak-deploy",
+  "main": "./DeployWorker.ts",
+  "preview_urls": false,
+  "workers_dev": false,
+  "compatibility_date": "2025-09-24",
+  "keep_vars": true,
+  "minify": true,
+  "kv_namespaces": [
+    {
+      "binding": "DEPLOY_KV",
+      "id": "e7aaa78c1e944e5bae8126bedd908414"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "oliviakorosak.com/api/deploy",
+      "zone_name": "oliviakorosak.com"
+    }
+  ]
+}
