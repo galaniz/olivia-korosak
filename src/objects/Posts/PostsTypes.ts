@@ -5,7 +5,7 @@
 /* Imports */
 
 import type { RenderFunctionArgs, RenderServerlessData } from '@alanizcreative/formation-static/render/renderTypes.js'
-import type { ParentArgs } from '@alanizcreative/formation-static/global/globalTypes.js'
+import type { Parent } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { ConfigContentTypeLabel, ConfigHeadingLabel, ConfigHeadingLevel } from '../../config/configTypes.js'
 import type { PaginationServerlessData } from '../../components/Pagination/PaginationTypes.js'
 import type { Item } from '../../global/globalTypes.js'
@@ -68,7 +68,7 @@ export interface PostsServerlessProps {
  * @prop {string} [contentType]
  * @prop {ConfigHeadingLevel} [headingLevel='h3']
  * @prop {string} [archive]
- * @prop {ParentArgs[]} [parents]
+ * @prop {Parent[]} [parents]
  */
 export interface PostsItemArgs {
   post: Item
@@ -76,5 +76,5 @@ export interface PostsItemArgs {
   contentType?: string
   headingLevel?: ConfigHeadingLevel
   archive?: string
-  parents?: ParentArgs[]
+  parents?: Parent[]
 }

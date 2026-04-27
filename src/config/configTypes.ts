@@ -77,6 +77,7 @@ export interface ConfigVarsJs {
  * @prop {ConfigVarsCss} css
  * @prop {ConfigVarsJs} js
  * @prop {string} formId
+ * @prop {string} stripe
  */
 export interface ConfigVars {
   local: boolean
@@ -87,6 +88,7 @@ export interface ConfigVars {
   css: ConfigVarsCss
   js: ConfigVarsJs
   formId: string
+  stripe: string
 }
 
 /**

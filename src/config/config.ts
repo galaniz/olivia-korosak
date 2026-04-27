@@ -9,6 +9,7 @@ import type { Config } from '@alanizcreative/formation-static/config/configTypes
 import { setConfig } from '@alanizcreative/formation-static/config/config.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { configContentType } from './configOptions.js'
+import { normalJsonKeys } from '@alanizcreative/formation-static/contentful/contentfulDataNormal.js'
 
 /**
  * Style, script, svg and template options.
@@ -32,7 +33,8 @@ const configVars: ConfigVars = {
     in: 'lib/global/globalClient',
     out: 'js/global/globalClient'
   },
-  formId: ''
+  formId: '',
+  stripe: ''
 }
 
 /**
@@ -95,6 +97,8 @@ const config: Config = setConfig({
     track: 'track'
   },
   filter: (config, env: ConfigEnv) => {
+    normalJsonKeys.add('colorFrom') // JSON fields to skip normalizing
+
     const isDev = env.ENVIRONMENT === 'development'
     const isProd = env.ENVIRONMENT === 'production'
 
@@ -119,6 +123,7 @@ const config: Config = setConfig({
     config.cms.prodHost = host
 
     configVars.local = env.LOCAL === 'true'
+    configVars.stripe = isStringStrict(env.STRIPE_API_TOKEN) ? env.STRIPE_API_TOKEN : ''
 
     return config
   }

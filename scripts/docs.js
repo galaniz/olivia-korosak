@@ -12,11 +12,11 @@ await renderMarkdownDocs({
   include: 'src/**/*.ts',
   docsExclude: 'src/**/!(*global)Types.ts', // 'src/**/!(*global|*config)Types.ts'
   docsTypes: 'src/**/*Types.ts',
-  index: `
+  root: `
   /**
    * @file
    * title: Olivia Korosak
-   * Static site for Olivia Korosak using [Formation Static](https://github.com/galaniz/formation-static).
+   * Static site for Olivia Korosak using [Formation](https://github.com/galaniz/formation) and [Formation Static](https://github.com/galaniz/formation-static).
    *
    * @example
    * title: Installation
@@ -30,7 +30,7 @@ await renderMarkdownDocs({
    * pnpm build
    * pnpm start
    *
-   * @index
+   * @reference
    */
   `
 })

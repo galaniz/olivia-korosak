@@ -19,6 +19,7 @@ import { Hero } from '../Hero/Hero.js'
 import { Single } from '../Single/Single.js'
 import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs.js'
 import { MediaAudio } from '../MediaAudio/MediaAudio.js'
+import { Shop } from '../Shop/Shop.js'
 
 /**
  * Output root.
@@ -96,6 +97,10 @@ const Layout = async (args: LayoutArgs): Promise<string> => {
 
   if (isProject || isTrack) {
     contentOutput = await Single(content, itemData, itemContains)
+  }
+
+  if (slug === '/shop/') {
+    contentOutput = await Shop()
   }
 
   /* Seo */

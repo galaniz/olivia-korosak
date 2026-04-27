@@ -174,10 +174,6 @@
   --med-cell-width: #{util.fluid-size-clamp((200px, 300px), ("xs", "m"))};
 }
 
-.media-audio-track-control {
-  --ok-outline-color: var(--ok-background-light);
-}
-
 .media-audio-track-wide {
   display: none;
 }

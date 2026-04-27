@@ -105,7 +105,7 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
         aria-label="Primary menu"
         data-nav-modal
       >
-        <div class="nav-modal-scroll overflow-y-auto overscroll-none overflow-x-hidden col-10 bg-background-light h-full ml-auto px-s pt-3xl pb-xs e-trans">
+        <div class="nav-modal-scroll overflow-y-auto overscroll-none overflow-x-hidden col-10 bg-background-light outline-base h-full ml-auto px-s pt-3xl pb-xs e-trans">
           <ul class="nav-modal-list flex col gap-2xs list-none" role="list" data-nav-modal-slot></ul>
           ${socialOutput}
           <button

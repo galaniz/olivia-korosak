@@ -240,7 +240,10 @@ $sizes: (
   /* Borders */
 
   $borders: (
-    "sides": ("all", "top"),
+    "sides": (
+      "all",
+      "top"
+    ),
     "colors": (
       "default": "var(--ok-faded-color)",
       "dull": "var(--ok-dull-color)",
@@ -269,7 +272,7 @@ $sizes: (
       "default": 4.8px,
       "snug": 0px,
       "tight": -3.2px,
-      "inset": -8px,
+      "inset": -6.4px,
     ),
     "none": true,
   ),

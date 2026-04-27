@@ -391,7 +391,7 @@ class MediaAudio extends Media {
     let isDynamic = false
 
     if (!id) {
-      id = this.#ids[this.current] as string
+      id = this.#ids[this.current] as string // eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
       isDynamic = true
     }
 

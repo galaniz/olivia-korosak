@@ -29,3 +29,7 @@
 .muted {
   color: var(--ok-muted-color);
 }
+
+.outline-base {
+  --ok-outline-color: var(--ok-foreground-base);
+}

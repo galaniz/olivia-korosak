@@ -17,6 +17,7 @@
     "noImplicitThis": true,
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
+    "rootDir": "./src",
     "lib": [
       "es2022",
       "dom",

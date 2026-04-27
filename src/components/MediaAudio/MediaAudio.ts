@@ -85,7 +85,7 @@ const getMediaAudioTrackData = (item: Item): MediaAudioTrackData | undefined => 
   /* Scripts data */
 
   if (scripts.meta.tracks == null) {
-    scripts.meta.tracks = {} as Record<string, MediaAudioTrack>
+    scripts.meta.tracks = {}
   }
 
   (scripts.meta.tracks as Record<string, MediaAudioTrack>)[id] = {
@@ -119,7 +119,7 @@ const MediaAudio = (): string => {
 
   configVars.template.set(errorId, /* html */`
     <div class="bg-background-light absolute inset-0 flex col justify-center" tabindex="-1">
-      <div class="container flex gap-4xs">
+      <div class="container flex gap-4xs outline-base">
         ${ErrorSvg({ width: 'xs', height: 's' })}
         <p class="text-s wt-medium lead-base py-5xs e-line-out">
           Sorry, there is a problem with the service. Download track <a data-rich data-media-link></a>.
@@ -139,7 +139,7 @@ const MediaAudio = (): string => {
     <ok-media-audio
       id="${uuid()}"
       type="audio"
-      class="media-audio bg-background-light fixed bottom-0 left-0 right-0 z-1 num-normal e-trans"
+      class="media-audio bg-background-light outline-base fixed bottom-0 left-0 right-0 z-1 num-normal e-trans"
       loader="${loaderId}"
       error="${errorId}"
     >
@@ -256,7 +256,7 @@ const MediaAudioHero = (itemData: Item): string => {
         <button
           type="button"
           id="${id}"
-          class="media-audio-track-control w-xl h-xl w-2xl-m h-2xl-m sharp bg-background-light b-radius-full"
+          class="w-xl h-xl w-2xl-m h-2xl-m sharp bg-background-light b-radius-full"
           aria-label="Play ${title}"
         >
           ${ControlSvg({
@@ -496,7 +496,7 @@ const MediaAudioTracks = (args: MediaAudioTracksArgs): string => {
           <button
             type="button"
             id="${id}"
-            class="media-audio-track-control w-m h-m sharp bg-background-light b-radius-full"
+            class="w-m h-m sharp bg-background-light b-radius-full"
             aria-label="Play ${title}"
           >
             ${ControlSvg({

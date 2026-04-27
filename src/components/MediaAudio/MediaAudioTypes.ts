@@ -5,7 +5,7 @@
 /* Imports */
 
 import type { Item } from '../../global/globalTypes.js'
-import type { ParentArgs } from '@alanizcreative/formation-static/global/globalTypes.js'
+import type { Parent } from '@alanizcreative/formation-static/global/globalTypes.js'
 
 /**
  * @typedef {object} MediaAudioTracksArgs
@@ -13,14 +13,14 @@ import type { ParentArgs } from '@alanizcreative/formation-static/global/globalT
  * @prop {Set<string>} [itemContains]
  * @prop {string} [contentType='page']
  * @prop {boolean} [pagination=false]
- * @prop {ParentArgs[]} [parents]
+ * @prop {Parent[]} [parents]
  */
 export interface MediaAudioTracksArgs {
   items: Item[]
   itemContains?: Set<string>
   contentType?: string
   pagination?: boolean
-  parents?: ParentArgs[]
+  parents?: Parent[]
 }
 
 /**
