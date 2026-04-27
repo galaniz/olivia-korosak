@@ -41,7 +41,6 @@ const Shop = async (/*itemData: Item*/): Promise<string> => {
 
   /*
   for (const product of products.data) {
-    console.log(product)
   }
   */
 

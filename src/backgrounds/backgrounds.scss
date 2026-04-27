@@ -18,6 +18,7 @@
   --ok-muted-color: hsla(var(--ok-background-light-hsl), 0.6);
   --ok-faded-color: hsla(var(--ok-background-light-hsl), 0.35);
   --ok-dull-color: hsla(var(--ok-background-light-hsl), 0.2);
+  --ok-frost-color: hsla(var(--ok-background-light-hsl), 0.1);
   --ok-negative-color: var(--ok-negative-light);
   --ok-positive-color: var(--ok-positive-light);
   --ok-sharp-hsl: var(--ok-background-light-hsl);
@@ -49,6 +50,10 @@
 
 .bg-faded {
   background: var(--ok-faded-color);
+}
+
+.bg-frost {
+  background: var(--ok-frost-color);
 }
 
 .bg-current {

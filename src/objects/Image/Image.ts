@@ -76,7 +76,7 @@ const Image = (props: ImageProps): string => {
   /* Classes */
 
   let imageClasses = 'absolute top-0 left-0 w-full h-full object-cover'
-  let containerClasses = `relative overflow-hidden ar-${hasAspectRatio ? configAspectRatio.get(aspectRatio) : '1-1'}`
+  let containerClasses = `relative overflow-hidden bg-frost ar-${hasAspectRatio ? configAspectRatio.get(aspectRatio) : '1-1'}`
 
   if (isCard) {
     imageClasses += ' e-trans'

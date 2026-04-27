@@ -391,20 +391,20 @@ class MediaAudio extends Media {
     let isDynamic = false
 
     if (!id) {
-      id = this.#ids[this.current] as string // eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
+      id = this.#ids[this.current]
       isDynamic = true
     }
 
-    const toggle = this.toggles.get(id)
+    const toggle = this.toggles.get(id as string)
 
-    if (!toggle) { // Might not exist eg. current is -1
+    if (!toggle) { // Might not exist (eg. current is -1)
       return
     }
 
     const search = isDynamic && this.playing ? 'Play' : 'Pause'
     const replace = isDynamic && this.playing ? 'Pause' : 'Play'
 
-    this.tracks.get(id)?.setAttribute('data-media-track', isDynamic && this.playing ? 'playing' : '')
+    this.tracks.get(id as string)?.setAttribute('data-media-track', isDynamic && this.playing ? 'playing' : '')
     toggle.setAttribute('aria-label', toggle.ariaLabel?.replace(search, replace) || replace)
   }
 
@@ -433,7 +433,6 @@ class MediaAudio extends Media {
 
     const { url, title, link } = window.ok.tracks?.[id] as MediaAudioTrack
 
-    this.loaded = false
     this.title = title
     this.url = url
     this.current = current
@@ -443,7 +442,7 @@ class MediaAudio extends Media {
       this.link.textContent = this.title
     }
 
-    await this.toggle(true)
+    await this.toggle(true, true)
   }
 
   /**
