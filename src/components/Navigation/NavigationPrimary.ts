@@ -36,7 +36,7 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
   const listAttr = 'role="list"'
   const linkClass = 'nav-link'
   const itemClass = 'nav-item'
-  const listOutput = navigationsInstance?.getOutput('Main', {
+  const listOutput = navigationsInstance?.getOutput('Primary', {
     currentLink,
     currentType,
     listClass,

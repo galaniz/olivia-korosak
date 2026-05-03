@@ -35,7 +35,7 @@ const Button = (props: ButtonProps): string => {
     title,
     internalLink,
     externalLink,
-    type = 'Main',
+    type = 'Primary',
     size,
     justify,
     paddingTop,
@@ -57,7 +57,7 @@ const Button = (props: ButtonProps): string => {
   /* Classes */
 
   let linkClasses =
-    `button ${type === 'Main' ? 'button-primary' : 'button-secondary b-all b-current'} b-radius-s e-trans-quad`
+    `button ${type === 'Primary' ? 'button-primary' : 'button-secondary b-all b-current'} b-radius-s e-trans-quad`
 
   if (size === 'Large') {
     linkClasses += ' button-l'

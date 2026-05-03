@@ -1,7 +1,7 @@
 {
   "name": "olivia-korosak-contact",
   "main": "./ContactWorker.ts",
-  "compatibility_date": "2025-10-14",
+  "compatibility_date": "2026-04-26",
   "workers_dev": false,
   "preview_urls": false,
   "keep_vars": true,

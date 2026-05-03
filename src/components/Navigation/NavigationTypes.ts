@@ -3,9 +3,9 @@
  */
 
 /**
- * @typedef {'Main'|'Footer'|'Social'} NavigationsLocations
+ * @typedef {'Primary'|'Footer'|'Social'} NavigationsLocations
  */
-export type NavigationLocations = 'Main' | 'Footer' | 'Social'
+export type NavigationLocations = 'Primary' | 'Footer' | 'Social'
 
 /**
  * @typedef {object} NavigationPrimaryArgs

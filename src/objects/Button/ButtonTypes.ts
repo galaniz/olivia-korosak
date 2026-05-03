@@ -15,7 +15,7 @@ import type { Item } from '../../global/globalTypes.js'
  * @prop {InternalLink} [internalLink]
  * @prop {string} [externalLink]
  * @prop {string} [link]
- * @prop {'Main'|'Secondary'|'Icon'} [type='Main']
+ * @prop {'Primary'|'Secondary'|'Icon'} [type='Primary']
  * @prop {'Large'} [size]
  * @prop {ConfigJustifyLabel} [justify]
  * @prop {ConfigPaddingLabel} [paddingTop]
@@ -26,7 +26,7 @@ export interface ButtonArgs {
   internalLink?: InternalLink
   externalLink?: string
   link?: string
-  type?: 'Main' | 'Secondary' | 'Icon'
+  type?: 'Primary' | 'Secondary' | 'Icon'
   size?: 'Large'
   justify?: ConfigJustifyLabel
   paddingTop?: ConfigPaddingLabel

@@ -16,8 +16,8 @@ importers:
   .:
     dependencies:
       '@alanizcreative/formation':
-        specifier: 0.0.2
-        version: 0.0.2
+        specifier: 0.0.3
+        version: 0.0.3
       '@alanizcreative/formation-static':
         specifier: 0.0.5
         version: 0.0.5(contentful-resolve-response@1.9.8)(sharp@0.34.5)
@@ -128,8 +128,8 @@ packages:
       sharp:
         optional: true
 
-  '@alanizcreative/formation@0.0.2':
-    resolution: {integrity: sha512-G6vJ+FxP4voivenasdAG15yCqrDtmUorS3Ytiy/xRiT4jXkYBPVVkGqyb74jIlg4z6XBu0qN+QOahOMFkqPrng==}
+  '@alanizcreative/formation@0.0.3':
+    resolution: {integrity: sha512-33FDvGA6CN4wZwPKe4+OfrREM6se/wDJ9P1POGDuG5iJZicNras4TFLin67DyAAAF/W8ZL0DX/wjmn2RdMwkrA==}
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -2518,7 +2518,7 @@ snapshots:
       contentful-resolve-response: 1.9.8
       sharp: 0.34.5
 
-  '@alanizcreative/formation@0.0.2': {}
+  '@alanizcreative/formation@0.0.3': {}
 
   '@babel/code-frame@7.27.1':
     dependencies:
