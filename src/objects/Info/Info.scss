@@ -3,19 +3,19 @@
  */
 
 .info-error {
-  --ok-text-color: var(--ok-negative-color);
+  --in-theme: var(--ok-negative-color);
   --ok-bg-from: var(--ok-negative-hsl), 0.1;
   --ok-bg-to: var(--ok-negative-hsl), 0.05;
 }
 
 .info-success {
-  --ok-text-color: var(--ok-positive-color);
+  --in-theme: var(--ok-positive-color);
   --ok-bg-from: var(--ok-positive-hsl), 0.1;
   --ok-bg-to: var(--ok-positive-hsl), 0.05;
 }
 
 .info-neutral {
-  --ok-text-color: var(--ok-sharp-color);
+  --in-theme: var(--ok-sharp-color);
   --ok-bg-from: var(--ok-neutral-hsl), 0.1;
   --ok-bg-to: var(--ok-neutral-hsl), 0.05;
 }
@@ -23,7 +23,6 @@
 .info-error,
 .info-success,
 .info-neutral {
-  color: var(--ok-text-color);
   position: var(--info-pos, static);
   inset: var(--info-inset, auto);
   flex-direction: var(--info-layout, row);
@@ -31,7 +30,11 @@
   align-items: var(--info-align, start);
   text-align: var(--info-align, left);
 
+  svg {
+    color: var(--in-theme);
+  }
+
   &[tabindex="-1"]:focus {
-    box-shadow: inset 0 0 0 var(--ok-outline-width) var(--ok-text-color);
+    box-shadow: inset 0 0 0 var(--ok-outline-width) var(--in-theme);
   }
 }

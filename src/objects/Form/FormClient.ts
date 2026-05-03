@@ -32,6 +32,13 @@ class Form extends FormBase {
   action: FormAction = 'contact'
 
   /**
+   * CMS environment.
+   *
+   * @type {string}
+   */
+  env: string = 'master'
+
+  /**
    * Success title.
    *
    * @type {string}
@@ -106,6 +113,10 @@ class Form extends FormBase {
     /* Action */
 
     this.action = (this.getAttribute('action') || 'contact') as FormAction
+
+    /* Environment */
+
+    this.env = this.getAttribute('env') || 'master'
 
     /* Site key */
 
@@ -342,16 +353,14 @@ class Form extends FormBase {
       const resp = await fetch(`https://alanizcreative.com/api/${this.action}`, {
         method: 'POST',
         credentials: 'include',
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        headers: {
+          env: this.env
+        }
       })
 
       if (!resp.ok) {
         throw new ResponseError('Action failed', resp)
-      }
-
-      if (this.action.startsWith('password')) {
-        window.location.reload()
-        return
       }
 
       this.#displayResult('success', loader, this.successTitle, this.successText)

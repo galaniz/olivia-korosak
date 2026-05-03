@@ -11,6 +11,7 @@ import type { Generic } from '@alanizcreative/formation-static/global/globalType
  * @extends {Generic}
  * @prop {string} [ENVIRONMENT]
  * @prop {string} [CTFL_SPACE_ID]
+ * @prop {string} [CTFL_ENV]
  * @prop {string} [CTFL_PRODUCTION_TOKEN]
  * @prop {string} [CTFL_PRODUCTION_HOST]
  * @prop {string} [CTFL_DEVELOPMENT_TOKEN]
@@ -22,6 +23,7 @@ import type { Generic } from '@alanizcreative/formation-static/global/globalType
 export interface ConfigEnv extends Generic {
   ENVIRONMENT?: string
   CTFL_SPACE_ID?: string
+  CTFL_ENV?: string
   CTFL_PRODUCTION_TOKEN?: string
   CTFL_PRODUCTION_HOST?: string
   CTFL_DEVELOPMENT_TOKEN?: string

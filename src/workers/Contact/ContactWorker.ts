@@ -27,7 +27,7 @@ const contact: ServerlessAction = async (data, request, env: ContactEnv) => {
 
   /* Form meta */
 
-  setStoreItem('formMeta', await env.CONTACT_KV?.get('formMeta', 'json') as Store['formMeta'])
+  setStoreItem('formMeta', await env.CONTACT_KV?.get(`${request.headers.get('env')}:formMeta`, 'json') as Store['formMeta'])
 
   /* Process inputs and send email */
 
@@ -67,7 +67,7 @@ export default {
 
     const corsHeaders: Record<string, string> = {
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+      'Access-Control-Allow-Headers': 'Authorization, Content-Type, env',
       'Access-Control-Allow-Credentials': 'true',
       'Access-Control-Allow-Origin': origin,
       'Content-Type': 'application/json'

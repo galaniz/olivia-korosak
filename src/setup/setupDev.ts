@@ -80,18 +80,21 @@ const getDevData = async (devPaths: string[] = []): Promise<RenderAllData> => {
   const slugsContents = await readFile(getPath('slugs', 'store'), 'utf8')
   const parentsContents = await readFile(getPath('parents', 'store'), 'utf8')
   const archiveMetaContents = await readFile(getPath('archiveMeta', 'store'), 'utf8')
+  const formMetaContents = await readFile(getPath('formMeta', 'store'), 'utf8')
   const navigationsContents = await readFile(getPath('navigations', 'store'), 'utf8')
   const navigationItemsContents = await readFile(getPath('navigationItems', 'store'), 'utf8')
   const countsContents = await readFile(getPath('counts', 'store'), 'utf8')
   const slugs = JSON.parse(slugsContents) as Store['slugs']
   const parents = JSON.parse(parentsContents) as Store['parents']
   const archiveMeta = JSON.parse(archiveMetaContents) as Store['archiveMeta']
+  const formMeta = JSON.parse(formMetaContents) as Store['formMeta']
   const navigations = JSON.parse(navigationsContents) as Store['navigations']
   const navigationItems = JSON.parse(navigationItemsContents) as Store['navigationItems']
   const counts = JSON.parse(countsContents) as StoreExtra['counts']
 
   setStoreItem('parents', parents)
   setStoreItem('archiveMeta', archiveMeta)
+  setStoreItem('formMeta', formMeta)
   setStoreItem('slugs', slugs)
   setStoreItem('counts', counts)
 

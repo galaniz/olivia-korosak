@@ -117,6 +117,7 @@ const config: Config = setConfig({
     config.env.prodUrl = 'https://alanizcreative.com'
     config.cms.name = 'contentful'
     config.cms.space = isStringStrict(env.CTFL_SPACE_ID) ? env.CTFL_SPACE_ID : ''
+    config.cms.env = isStringStrict(env.CTFL_ENV) ? env.CTFL_ENV : 'master'
     config.cms.devCredential = cred
     config.cms.devHost = host
     config.cms.prodCredential = cred

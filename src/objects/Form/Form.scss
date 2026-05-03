@@ -10,6 +10,8 @@
 
 .form {
   --frm-label-margin: var(--ok-4xs);
+  --ld-color: var(--ok-inverse-color);
+  --ld-bg: var(--ok-sharp-color);
 
   @include util.breakpoint-min("m") {
     --frm-label-margin: var(--ok-3xs);

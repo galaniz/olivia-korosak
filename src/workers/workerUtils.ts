@@ -84,7 +84,7 @@ const workerServerlessSetup = async (
 }
 
 /**
- * Filter worker responses for password protection.
+ * Filter worker responses.
  *
  * @param {WorkerRequest} request
  * @return {Promise<WorkerServerlessReturn|undefined>}
