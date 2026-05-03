@@ -99,7 +99,7 @@ class Pagination extends PaginationBase {
       /* Update script meta */
 
       if (script) {
-        window.ok = JSON.parse(script) // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+        window.ok = script
       }
 
       /* Update subscribers */

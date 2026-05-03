@@ -299,32 +299,30 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     }
 
     if (pagination) {
-      if (returnType === 'string') {
-        const postsItemData: Item = {
-          id,
-          slug,
-          title,
-          contentType,
-          archive,
-          baseUrl
-        }
+      const postsItemData: Item = {
+        id,
+        slug,
+        title,
+        contentType,
+        archive,
+        baseUrl
+      }
 
-        if (taxonomy) {
-          postsItemData.taxonomy = taxonomy
-        }
+      if (taxonomy) {
+        postsItemData.taxonomy = taxonomy
+      }
 
-        if (meta) {
-          postsItemData.meta = {
-            title: meta.title,
-            canonical: meta.canonical,
-            index: meta.index
-          }
+      if (meta) {
+        postsItemData.meta = {
+          title: meta.title,
+          canonical: meta.canonical,
+          index: meta.index
         }
+      }
 
-        scripts.meta.posts = {
-          args,
-          itemData: postsItemData
-        }
+      scripts.meta.posts = {
+        args: { ...args },
+        itemData: postsItemData
       }
 
       return Pagination({

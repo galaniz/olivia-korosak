@@ -5,6 +5,7 @@
 /* Imports */
 
 import type { RenderServerlessData } from '@alanizcreative/formation-static/render/renderTypes.js'
+import type { Generic } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { ConfigContentType } from '../../config/configTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 
@@ -43,18 +44,18 @@ export type PaginationReturnType<R extends PaginationReturnKind> =
  * @typedef {object} PaginationServerlessData
  * @prop {string} nav
  * @prop {string} entries
- * @prop {string} script
  * @prop {string} title
  * @prop {string} canonical
  * @prop {string} prev
  * @prop {string} next
+ * @prop {Generic} [script]
  */
 export interface PaginationServerlessData {
   nav: string
   entries: string
-  script: string
   title: string
   canonical: string
   prev: string
   next: string
+  script?: Generic
 }
