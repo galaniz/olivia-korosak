@@ -350,7 +350,7 @@ class Form extends FormBase {
     /* Request */
 
     try {
-      const resp = await fetch(`https://alanizcreative.com/api/${this.action}`, {
+      const resp = await fetch(`https://oliviakorosak.com/api/${this.action}`, {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify(data),
