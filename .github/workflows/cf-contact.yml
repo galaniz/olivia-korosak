@@ -33,10 +33,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --optional
 
-      # Build file dependencies
-      - name: Build file dependencies
-        run: pnpm build
-
       # Upload worker
       - name: Upload worker
         run: |
