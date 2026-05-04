@@ -116,7 +116,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     taxonomy,
     baseUrl,
     meta,
-    locale
+    locale = 'en-CA'
   } = itemData
 
   /* ID required */
@@ -305,7 +305,8 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
         title,
         contentType,
         archive,
-        baseUrl
+        baseUrl,
+        locale
       }
 
       if (taxonomy) {

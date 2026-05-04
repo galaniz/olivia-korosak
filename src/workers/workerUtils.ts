@@ -139,8 +139,16 @@ const workerServerlessPosts = async (props: PostsServerlessProps, env?: Generic)
 
     /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
     // @ts-ignore - may not exist in build context
+    const { default: parents } = await import('../../lib/store/parents.json') as { default: Store['parents'] }
+    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+    // @ts-ignore - may not exist in build context
+    const { default: archiveMeta } = await import('../../lib/store/archiveMeta.json') as { default: Store['archiveMeta'] }
+    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+    // @ts-ignore - may not exist in build context
     const { default: counts } = await import('../../lib/store/counts.json') as { default: StoreExtra['counts'] }
 
+    setStoreItem('parents', parents)
+    setStoreItem('archiveMeta', archiveMeta)
     setStoreItem('counts', counts)
     setConfig(config)
     setConfigFilter(env || {})
