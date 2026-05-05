@@ -22,6 +22,27 @@ import { config } from '../config/config.js'
 const seoSchema: SeoSchema = new Map()
 
 /**
+ * Create SEO title.
+ *
+ * @param {RenderMeta} meta
+ * @return {string}
+ */
+const getSeoTitle = (meta: RenderMeta): string => {
+  const {
+    title,
+    paginationTitle
+  } = meta
+
+  let seoTitle = title
+
+  if (isStringStrict(paginationTitle)) {
+    seoTitle = `${title} - ${paginationTitle}`
+  }
+
+  return `${seoTitle} | ${config.title}`
+}
+
+/**
  * Output head link and meta tags.
  *
  * @param {RenderMeta} meta
@@ -34,7 +55,6 @@ const Seo = (meta: RenderMeta, itemData: Item, home: boolean = false): string =>
 
   const {
     url,
-    paginationTitle,
     description,
     image,
     canonical,
@@ -42,8 +62,6 @@ const Seo = (meta: RenderMeta, itemData: Item, home: boolean = false): string =>
     next,
     index = true
   } = meta
-
-  let { title } = meta
 
   /* Data */
 
@@ -63,11 +81,8 @@ const Seo = (meta: RenderMeta, itemData: Item, home: boolean = false): string =>
 
   /* Title */
 
-  if (isStringStrict(paginationTitle)) {
-    title = `${title} - ${paginationTitle}`
-  }
+  const title = getSeoTitle(meta)
 
-  title = `${title} | ${config.title}`
   output += `<title>${title}</title>`
 
   /* Description */
@@ -264,5 +279,6 @@ const Seo = (meta: RenderMeta, itemData: Item, home: boolean = false): string =>
 
 export {
   Seo,
-  seoSchema
+  seoSchema,
+  getSeoTitle
 }

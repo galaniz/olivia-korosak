@@ -176,7 +176,10 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
   /* Query prep */
 
   let key = `posts_${id}_${contentTypes.join('_')}_${display}`
-  const params: ContentfulDataParams = { select }
+  const params: ContentfulDataParams = {
+    select,
+    include: 2
+  }
 
   if (isTaxonomy) {
     params.order = '-fields.order'

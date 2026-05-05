@@ -12,6 +12,7 @@ import { minify } from '@alanizcreative/formation-static/utils/minify/minify.js'
 import { getArchiveLink } from '@alanizcreative/formation-static/utils/archive/archive.js'
 import { renderMeta } from '@alanizcreative/formation-static/render/render.js'
 import { scripts } from '@alanizcreative/formation-static/scripts/scripts.js'
+import { getSeoTitle } from '../../seo/Seo.js'
 import { CaretSvg } from '../../svg/Caret/Caret.js'
 import { Loader } from '../../objects/Loader/Loader.js'
 import { Info } from '../../objects/Info/Info.js'
@@ -119,18 +120,18 @@ const Pagination = <R extends PaginationReturnKind = 'string'>(
   /* Data */
 
   if (isData) {
+    const meta = renderMeta(itemData)
     const {
-      title,
       canonical,
       prev,
       next
-    } = renderMeta(itemData)
+    } = meta
 
     return {
       nav: minify(paginationOutput),
       entries: minify(output),
       script: scripts.meta,
-      title,
+      title: getSeoTitle(meta),
       canonical,
       prev,
       next

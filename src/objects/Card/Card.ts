@@ -209,7 +209,7 @@ const CardColumn = (args: PostsItemArgs): string => {
   
   if (isTaxonomy) {
     const count = getStoreCount(id)
-    const { singular, plural } = getArchiveLabels(primaryContentType)
+    const { singular, plural } = getArchiveLabels(post.taxonomy?.contentTypes[0] as string)
 
     textOutput = `<p class="text-s num-normal">${count} ${count === 1 ? singular : plural}</p>`
   }
