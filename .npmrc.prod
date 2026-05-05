@@ -1,0 +1,9 @@
+package-lock=false  # Prevents npm from generating a package-lock.json
+lockfile=true       # Allow pnpm lock file generation
+optional=false      # Do not install optional dependencies
+production=true     # Optimize for production build
+audit=false         # Disables audit during install
+fund=false          # Disables funding messages
+loglevel=error      # Only shows error messages
+save-exact=true     # Saves exact versions
+prefer-offline=true # Tries to use cached packages first

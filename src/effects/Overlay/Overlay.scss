@@ -1,0 +1,23 @@
+/**
+ * Effects - Overlay
+ */
+
+@property --ov-alpha {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.3;
+}
+
+.e-overlay:hover {
+  --ov-alpha: 0;
+}
+
+.e-overlay-item::after {
+  transition: --ov-alpha var(--ok-duration) var(--ok-easing);
+  background:
+    linear-gradient(
+      to bottom,
+      hsla(var(--ok-foreground-base-hsl), var(--ov-alpha)) 0%,
+      hsla(var(--ok-foreground-base-hsl), 1) 100%
+    );
+}

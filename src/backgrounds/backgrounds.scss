@@ -1,0 +1,70 @@
+/**
+ * Backgrounds - Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/backgrounds/backgrounds";
+
+/* Styles */
+
+.bg-foreground-base,
+.bg-foreground-light,
+.bg-foreground-dark {
+  --ok-text-color: hsla(var(--ok-background-light-hsl), 0.8);
+  --ok-sharp-color: var(--ok-background-light);
+  --ok-inverse-color: var(--ok-foreground-base);
+  --ok-interactive-color: var(--ok-background-light);
+  --ok-muted-color: hsla(var(--ok-background-light-hsl), 0.6);
+  --ok-faded-color: hsla(var(--ok-background-light-hsl), 0.35);
+  --ok-dull-color: hsla(var(--ok-background-light-hsl), 0.2);
+  --ok-frost-color: hsla(var(--ok-background-light-hsl), 0.1);
+  --ok-negative-color: var(--ok-negative-light);
+  --ok-positive-color: var(--ok-positive-light);
+  --ok-sharp-hsl: var(--ok-background-light-hsl);
+  --ok-negative-hsl: var(--ok-negative-light-hsl);
+  --ok-positive-hsl: var(--ok-positive-light-hsl);
+  --ok-neutral-hsl: var(--ok-background-light-hsl);
+
+  color: var(--ok-text-color);
+}
+
+.bg-background-light {
+  --ok-text-color: hsla(var(--ok-foreground-base-hsl), 0.8);
+  --ok-sharp-color: var(--ok-foreground-base);
+  --ok-inverse-color: var(--ok-background-light);
+  --ok-interactive-color: var(--ok-foreground-base);
+  --ok-border-color: hsla(var(--ok-foreground-base-hsl), 0.5);
+  --ok-muted-color: hsla(var(--ok-foreground-base-hsl), 0.6);
+  --ok-faded-color: hsla(var(--ok-foreground-base-hsl), 0.35);
+  --ok-dull-color: hsla(var(--ok-foreground-base-hsl), 0.2);
+  --ok-negative-color: var(--ok-negative-dark);
+  --ok-positive-color: var(--ok-positive-dark);
+  --ok-sharp-hsl: var(--ok-foreground-base-hsl);
+  --ok-negative-hsl: var(--ok-negative-dark-hsl);
+  --ok-positive-hsl: var(--ok-positive-dark-hsl);
+  --ok-neutral-hsl: var(--ok-foreground-base-hsl);
+
+  color: var(--ok-text-color);
+}
+
+.bg-faded {
+  background: var(--ok-faded-color);
+}
+
+.bg-frost {
+  background: var(--ok-frost-color);
+}
+
+.bg-current {
+  background: currentcolor;
+}
+
+.bg-diagonal {
+  background:
+    linear-gradient(
+      135deg,
+      hsla(var(--ok-bg-from)) 0%,
+      hsla(var(--ok-bg-to)) 100%
+    );
+}

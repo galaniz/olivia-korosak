@@ -1,0 +1,59 @@
+/**
+ * Global - Styles
+ */
+
+/* Base */
+
+@use "../base/base";
+
+/* A11y */
+
+@use "@alanizcreative/formation/lib/a11y/a11y";
+
+/* Backgrounds */
+
+@use "../backgrounds/backgrounds";
+
+/* Text */
+
+@use "../text/text";
+
+/* Colors */
+
+@use "../colors/colors";
+
+/* Borders */
+
+@use "@alanizcreative/formation/lib/borders/borders";
+
+/* Layouts */
+
+@use "../layouts/layouts";
+
+/* Logo */
+
+@use "../objects/Logo/LogoGlobal";
+
+/* Buttons */
+
+@use "../objects/Button/ButtonGlobal";
+
+/* Header */
+
+@use "../components/Header/HeaderGlobal";
+
+/* Hero */
+
+@use "../components/Hero/HeroGlobal";
+
+/* Skip Link */
+
+@use "@alanizcreative/formation/lib/components/SkipLink/SkipLink";
+
+/* Effects */
+
+@use "../effects/effects";
+
+/* Breakpoints */
+
+@use "./globalBreakpoints";

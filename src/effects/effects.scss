@@ -1,0 +1,34 @@
+/**
+ * Effects - Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/effects/Transition/Transition";
+@use "./Line/Line";
+@use "./Overlay/Overlay";
+@use "./Title/Title";
+@use "./Border/Border";
+
+/* Remove animations */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  #ok .ok {
+    *,
+    *::before,
+    *::after {
+      --ok-duration: 0.001ms;
+      --ok-easing: linear;
+
+      transition: none;
+      transition-timing-function: linear;
+      transition-duration: var(--ok-duration);
+      animation-duration: var(--ok-duration);
+      animation-iteration-count: 1;
+    }
+  }
+}

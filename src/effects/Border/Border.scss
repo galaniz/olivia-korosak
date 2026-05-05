@@ -1,0 +1,20 @@
+/**
+ * Effects - Border Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/config/config" as con;
+
+/* Styles */
+
+.e-border {
+  --ok-prop: border-color;
+  --ok-duration: #{con.$default-duration};
+  --ok-delay: 0ms;
+
+  &:hover,
+  &:active {
+    --ok-border-color: var(--ok-outline-color);
+  }
+}

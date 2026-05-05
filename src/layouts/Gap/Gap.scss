@@ -1,0 +1,16 @@
+/**
+ * Layouts - Gap Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+@use "@alanizcreative/formation/lib/layouts/Gap/Gap";
+
+/* Styles */
+
+.gap-xl-m-s {
+  @include util.breakpoint-min("s") {
+    gap: var(--ok-xl) var(--ok-m);
+  }
+}

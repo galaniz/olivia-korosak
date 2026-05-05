@@ -1,0 +1,207 @@
+/**
+ * Components - Media Audio Styles
+ */
+
+/* Imports */
+
+@use "sass:math";
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+
+/* Player */
+
+.media-audio {
+  --med-y: 100%;
+  --med-offset: var(--ok-5xs);
+
+  transform: translateY(var(--med-y));
+
+  &[open] {
+    --med-y: 0;
+
+    position: sticky;
+  }
+
+  &[playing] {
+    --med-play-display: none;
+    --med-pause-display: block;
+  }
+
+  &[dragging] {
+    --med-scrub-opacity: 1;
+  }
+
+  @include util.breakpoint-min("m") {
+    --med-text-width: #{util.calc-rem(200px)};
+    --med-prog-top: #{util.calc-rem(-20px)};
+    --med-prog-width: auto;
+    --med-offset: 0;
+  }
+
+  @include util.breakpoint-min("l") {
+    --med-text-width: #{util.calc-rem(250px)};
+  }
+}
+
+.media-audio-control:hover {
+  background: hsla(var(--ok-foreground-base-hsl), 0.125);
+}
+
+.media-audio-play {
+  display: var(--med-play-display, block);
+}
+
+.media-audio-pause {
+  display: var(--med-pause-display, none);
+}
+
+.media-audio-text {
+  width: var(--med-text-width, auto);
+}
+
+.media-audio-text,
+.media-audio-seek {
+  margin: 0 var(--med-offset);
+}
+
+.media-audio-progress {
+  width: var(--med-prog-width, 100%);
+  height: #{util.calc-rem(3px)};
+  touch-action: none;
+  user-select: none;
+  cursor: pointer;
+
+  &::before {
+    height: var(--ok-m);
+    top: var(--med-prog-top, #{util.calc-rem(-10px)});
+    left: #{util.calc-rem(-5px)};
+    right: #{util.calc-rem(-5px)};
+  }
+
+  &:hover {
+    --med-scrub-opacity: 1;
+  }
+}
+
+.media-audio-bar {
+  background: hsla(var(--ok-foreground-base-hsl), 0.2);
+  height: inherit;
+
+  &::after {
+    background: var(--ok-foreground-base),;
+    transform: scaleX(var(--med-progress-bar));
+    transform-origin: 0 0;
+  }
+}
+
+.media-audio-scrub {
+  --ok-prop: opacity;
+  --ok-duration: 100ms;
+
+  top: #{util.calc-rem(-3.5px)};
+  left: #{util.calc-rem(-5px)};
+  opacity: var(--med-scrub-opacity, 0);
+  transform: translateX(var(--med-progress-scrub));
+}
+
+/* Tracks */
+
+.media-audio-tracks,
+.media-audio-tracks-compact {
+  --med-cell-height: var(--ok-2xl);
+  --med-head-right: var(--ok-2xs);
+  --clp-inset: calc((var(--med-cell-height) / 2) - (var(--ok-xs) / 2)) 0 auto auto;
+  --clp-position: absolute;
+
+  container-type: inline-size;
+  container-name: track-wide;
+
+  @include util.breakpoint-min("m") {
+    --med-cell-height: var(--ok-3xl);
+    --med-head-right: var(--ok-m);
+    --med-item-right: var(--ok-m);
+  }
+}
+
+.media-audio-tracks-compact {
+  container-name: track-compact;
+}
+
+.media-audio-track {
+  --ok-border-color: var(--ok-foreground-tint);
+
+  &[data-media-track="playing"] {
+    --med-row-border-color: var(--ok-faded-color);
+    --med-row-opacity: 1;
+    --med-play-display: none;
+    --med-pause-display: block;
+
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    --med-row-opacity: 1;
+  }
+}
+
+.media-audio-track-item {
+  min-height: var(--med-cell-height);
+  padding-right: var(--med-item-right, var(--ok-s));
+
+  &::before {
+    opacity: var(--med-row-opacity, 0);
+    background: var(--ok-foreground-light);
+    box-shadow: 0 0 0 #{util.calc-rem(1px)} var(--ok-foreground-light);
+    left: calc(var(--ok-container-padding) * -1);
+    width: calc(var(--med-row-width, 100%) + var(--ok-container-padding) * 2);
+    border-radius: var(--ok-border-radius-s);
+    border: #{util.calc-rem(1px)} solid var(--med-row-border-color, var(--ok-foreground-light));
+    z-index: -1;
+  }
+}
+
+.media-audio-track-cell-s,
+.media-audio-track-cell-m,
+.media-audio-track-cell-l {
+  min-width: var(--med-cell-width, #{util.calc-rem(80px)});
+}
+
+.media-audio-track-cell-m {
+  --med-cell-width: #{util.calc-rem(200px)};
+}
+
+.media-audio-track-cell-l {
+  --med-cell-width: #{util.fluid-size-clamp((200px, 300px), ("xs", "m"))};
+}
+
+.media-audio-track-wide {
+  display: none;
+}
+
+@container track-wide (width > #{util.calc-rem(800px)}) {
+  .media-audio-track-head {
+    padding-right: var(--med-head-right);
+  }
+
+  .media-audio-track-wide {
+    display: table-cell;
+  }
+
+  .media-audio-track-compact {
+    display: none;
+  }
+}
+
+@container track-compact (width > #{util.calc-rem(600px)}) {
+  .media-audio-track-head {
+    padding-right: var(--med-head-right);
+  }
+
+  .media-audio-track-wide {
+    display: table-cell;
+  }
+
+  .media-audio-track-compact {
+    display: none;
+  }
+}

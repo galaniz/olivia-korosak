@@ -1,0 +1,50 @@
+{
+  "name": "olivia-korosak-contact",
+  "main": "./ContactWorker.ts",
+  "compatibility_date": "2026-04-26",
+  "workers_dev": false,
+  "preview_urls": false,
+  "keep_vars": true,
+  "minify": true,
+  "kv_namespaces": [
+    {
+      "binding": "CONTACT_KV",
+      "id": "e7aaa78c1e944e5bae8126bedd908414"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "oliviakorosak.com/api/contact",
+      "zone_name": "oliviakorosak.com"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "env": {
+    "dev": {
+      "main": "./ContactWorker.ts",
+      "workers_dev": false,
+      "preview_urls": false,
+      "keep_vars": true,
+      "minify": true,
+      "kv_namespaces": [
+        {
+          "binding": "CONTACT_KV",
+          "id": "7cff93c48bc343d4b1abb24bfec5e95a"
+        }
+      ],
+      "routes": [
+        {
+          "pattern": "oliviakorosak.com/api/contact-dev",
+          "zone_name": "oliviakorosak.com"
+        }
+      ],
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 1
+      }
+    }
+  }
+}

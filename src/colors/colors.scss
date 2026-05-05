@@ -1,0 +1,35 @@
+/**
+ * Colors - Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/colors/colors";
+
+/* Styles */
+
+.sharp {
+  color: var(--ok-sharp-color);
+}
+
+.current {
+  --ok-interactive-color: currentcolor;
+
+  color: currentcolor;
+}
+
+.faded {
+  color: var(--ok-faded-color);
+}
+
+.dull {
+  color: var(--ok-dull-color);
+}
+
+.muted {
+  color: var(--ok-muted-color);
+}
+
+.outline-base {
+  --ok-outline-color: var(--ok-foreground-base);
+}

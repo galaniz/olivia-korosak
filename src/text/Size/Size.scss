@@ -1,0 +1,129 @@
+/**
+ * Text - Size Styles
+ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading-2xl,
+.heading-xl,
+.heading-l,
+.heading-m,
+.heading-s,
+.heading-xs {
+  font-family: var(--ok-font-secondary);
+  color: var(--ok-sharp-color);
+}
+
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading-xl,
+.heading-l,
+.heading-m,
+.heading-s,
+.heading-xs {
+  font-weight: var(--ok-font-weight-normal);
+  line-height: var(--ok-line-height-base);
+}
+
+p,
+.text-quote,
+.text-xl,
+.text-l,
+.text-m,
+.text-m-flex,
+.text-s,
+.text-xs,
+.text-xs-flex {
+  font-family: var(--ok-font-primary);
+  font-weight: var(--ok-font-weight-light);
+  line-height: var(--ok-line-height-loose);
+  letter-spacing: var(--ok-letter-spacing-base);
+}
+
+h1,
+.heading-2xl {
+  font-size: var(--ok-font-64-flex);
+  font-weight: var(--ok-font-weight-bold);
+  letter-spacing: var(--ok-letter-spacing-base);
+  line-height: var(--ok-line-height-snug);
+}
+
+h2,
+.heading-xl {
+  font-size: var(--ok-font-40-flex);
+  letter-spacing: var(--ok-letter-spacing-base);
+}
+
+h3,
+.heading-l {
+  font-size: var(--ok-font-30-flex);
+  letter-spacing: var(--ok-letter-spacing-open);
+}
+
+h4,
+.heading-m {
+  font-size: var(--ok-font-24);
+  letter-spacing: var(--ok-letter-spacing-open);
+}
+
+h5,
+.heading-s {
+  font-size: var(--ok-font-20);
+  letter-spacing: var(--ok-letter-spacing-loose);
+}
+
+h6,
+.heading-xs {
+  font-size: var(--ok-font-18);
+  letter-spacing: var(--ok-letter-spacing-loose);
+}
+
+.text-italic,
+.text-quote {
+  font-style: italic;
+}
+
+.text-quote {
+  font-size: var(--ok-font-28-flex);
+  line-height: var(--ok-line-height-open);
+}
+
+p,
+.text-xl {
+  font-size: var(--ok-font-22-flex);
+}
+
+.text-l {
+  font-size: var(--ok-font-20-flex);
+}
+
+.text-m { 
+  font-size: var(--ok-font-18);
+}
+
+.text-m-flex {
+  font-size: var(--ok-font-18-flex);
+}
+
+.text-s {
+  font-size: var(--ok-font-16);
+}
+
+.text-xs {
+  font-size: var(--ok-font-14);
+}
+
+.text-xs-flex {
+  font-size: var(--ok-font-14-flex);
+}
+
+.text-inherit {
+  font-size: inherit;
+}

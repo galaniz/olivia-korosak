@@ -1,0 +1,24 @@
+/**
+ * Components - Pagination Styles
+ */
+
+/* Imports */
+
+@use "sass:map";
+@use "@alanizcreative/formation/lib/config/config" as con;
+
+/* Styles */
+
+html {
+  scroll-behavior: auto;
+}
+
+.pagination {
+  --ld-position: fixed;
+  --ld-bg: hsla(var(--ok-foreground-base-hsl), 0.8);
+  --ld-z: #{map.get(con.$z-index, "loader")};
+}
+
+.pagination-nav:empty {
+  display: none;
+}

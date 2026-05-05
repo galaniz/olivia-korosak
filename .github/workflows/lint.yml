@@ -1,0 +1,36 @@
+name: Lint
+
+on:
+  pull_request:
+    branches:
+      - staging
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      # Install PNPM
+      - name: Install PNPM
+        uses: pnpm/action-setup@v5
+
+      # Set up Node.js for PNPM
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      # Install PNPM dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Lint TS and SCSS files
+      - name: Lint files (TS and SCSS)
+        run: pnpm lint

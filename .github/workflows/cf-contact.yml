@@ -1,0 +1,46 @@
+name: Cloudflare Contact Worker
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+    paths:
+      - 'src/workers/Contact/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      # Install PNPM
+      - name: Install PNPM
+        uses: pnpm/action-setup@v5
+
+      # Set up Node.js for PNPM
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      # Install PNPM dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --optional
+
+      # Upload worker
+      - name: Upload worker
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            pnpm exec wrangler deploy --env="" --config src/workers/Contact/wrangler.json
+          else
+            pnpm exec wrangler deploy --env dev --config src/workers/Contact/wrangler.json
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_WORKER_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}

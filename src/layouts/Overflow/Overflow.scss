@@ -1,0 +1,22 @@
+/**
+ * Layouts - Overflow Styles
+ */
+
+.overflow {
+  [left="true"] & {
+    --ov-left: var(--ok-l);
+  }
+
+  [right="true"] & {
+    --ov-right: calc(100% - var(--ok-l));
+  }
+
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent,
+      black var(--ov-left, 0),
+      black var(--ov-right, 100%),
+      transparent
+    );
+}

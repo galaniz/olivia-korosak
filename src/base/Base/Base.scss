@@ -1,0 +1,48 @@
+/**
+ * Base - Base Styles
+ */
+
+@view-transition {
+  navigation: auto;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-weight: var(--ok-font-weight-normal);
+  line-height: var(--ok-line-height-base);
+  font-family: var(--ok-font-primary);
+  color: var(--ok-text-color);
+}
+
+body {
+  min-height: 100vh; // Fallback for old browsers
+  min-height: 100dvh;
+}
+
+a {
+  color: var(--ok-interactive-color);
+}
+
+p {
+  color: var(--ok-text-color);
+}
+
+b,
+strong {
+  font-weight: var(--ok-font-weight-medium);
+}
+
+hr {
+  height: var(--ok-border-width);
+  background: var(--ok-dull-color);
+  margin: 0;
+  border: 0;
+}
+
+th {
+  text-align: left;
+}
+
+:target {
+  scroll-margin-top: var(--ok-xl);
+}

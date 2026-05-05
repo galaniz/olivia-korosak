@@ -1,0 +1,30 @@
+/**
+ * Objects - Table Styles
+ */
+
+.table {
+  --ok-border-color: var(--ok-foreground-tint);
+
+  th {
+    color: var(--ok-sharp-color);
+    line-height: var(--ok-line-height-base);
+    font-weight: var(--ok-font-weight-medium);
+  }
+
+  th,
+  td {
+    padding: var(--ok-2xs);
+    vertical-align: top;
+    min-width: var(--ok-4xl);
+  }
+
+  tr:nth-child(odd) {
+    background: var(--ok-foreground-light);
+    border-bottom: var(--ok-border-width) solid var(--ok-border-color);
+    border-top: var(--ok-border-width) solid var(--ok-border-color);
+  }
+
+  tr:first-child {
+    border-top: 0;
+  }
+}

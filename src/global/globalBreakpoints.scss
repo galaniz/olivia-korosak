@@ -1,0 +1,11 @@
+/**
+ * Global - Breakpoint Styles
+ */
+
+/* Imports */
+
+@use "@alanizcreative/formation/lib/utils/utils" as util;
+
+/* Breakpoints */
+
+@include util.breakpoint-batch;
