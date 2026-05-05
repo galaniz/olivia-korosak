@@ -45,7 +45,7 @@ jobs:
 
       # Build site
       - name: Build site
-        run: pnpm build:site
+        run: pnpm build
 
       # Upload version
       - name: Upload preview
