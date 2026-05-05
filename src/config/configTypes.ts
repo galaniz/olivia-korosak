@@ -109,7 +109,7 @@ export type ConfigContentTypeLabel = 'Project' | 'Track' | 'Term'
 export type ConfigBackgroundColor = 'foreground-base' | 'foreground-light' | 'foreground-dark' | 'background-light'
 
 /**
- * @typedef {'div'|'section'|'ul'|'ol' |'li'|'figure'|'figcaption'|'article'|'aside'|'header'|'footer'|'address'} ConfigTag
+ * @typedef {'div'|'section'|'ul'|'ol'|'li'|'figure'|'figcaption'|'article'|'aside'|'header'|'footer'|'address'} ConfigTag
  */
 export type ConfigTag =
   'div' |
@@ -126,7 +126,7 @@ export type ConfigTag =
   'address'
 
 /**
- * @typedef {'Div'|'Section'|'Unordered List'|'Ordered List'|'List Item'|'Figure'|'Figure Caption'|'Article'|'Aside'|'Header|'Footer'|'Address'} ConfigTagLabel
+ * @typedef {'Div'|'Section'|'Unordered List'|'Ordered List'|'List Item'|'Figure'|'Figure Caption'|'Article'|'Aside'|'Header'|'Footer'|'Address'} ConfigTagLabel
  */
 export type ConfigTagLabel =
   'Div' |
