@@ -11,7 +11,7 @@
 .button {
   --btn-translate: #{util.calc-rem(-2px)};
   --btn-offset: #{util.calc-rem(6px)};
-  --btn-drop: var(--ok-inverse-color);
+  --btn-drop: var(--ok-sharp-color);
 
   display: inline-flex;
   justify-content: center;

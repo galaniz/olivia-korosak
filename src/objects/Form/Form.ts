@@ -128,7 +128,7 @@ const Form = (props: FormProps): FormProps => {
       fieldsClasses: 'form flex col row-l wrap align-end-l gap-s gap-m-m',
       fieldsAttr: 'novalidate',
       submitFieldClasses: 'relative mt-4xs',
-      submitClasses: 'button button-l b-radius-s e-trans-quad bg-background-light sharp',
+      submitClasses: 'button button-primary button-l b-radius-s e-trans-quad sharp',
       submitLabel,
       honeypotName: 'ok_hp',
       honeypotFieldClasses: 'form-field-hp col-12',
