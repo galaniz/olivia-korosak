@@ -25,6 +25,11 @@
 
 /*! purgecss end ignore */
 
+.embed-button:hover {
+  --em-scale: 1.06;
+}
+
 .embed-play {
   width: clamp(var(--ok-l), 20%, var(--ok-3xl));
+  transform: scale(var(--em-scale, 1));
 }

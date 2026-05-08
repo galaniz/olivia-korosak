@@ -43,7 +43,10 @@ const Collapsible = (args: CollapsibleArgs): string => {
   /* Output */
 
   return /* html */`
-    <ok-collapsible class="collapsible block${isStringStrict(classes) ? ` ${classes}` : ''}">
+    <ok-collapsible
+      class="collapsible block${isStringStrict(classes) ? ` ${classes}` : ''}"
+      duration="400"
+    >
       <button
         type="button"
         class="collapsible-toggle w-s h-s flex align-center justify-center"

@@ -110,7 +110,7 @@ const Embed = (props: EmbedProps): string => {
         <button
           type="button"
           aria-label="Play ${title}"
-          class="absolute inset-0 flex justify-center align-center"
+          class="embed-button absolute inset-0 flex justify-center align-center"
           data-embed-load
         >
           <span class="embed-play ar-1-1 b-radius-full b-all bg-background-light sharp relative e-trans">
