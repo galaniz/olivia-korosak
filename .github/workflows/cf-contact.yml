@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - staging
+    paths:
+      - 'src/workers/Contact/**'
 
 jobs:
   deploy:

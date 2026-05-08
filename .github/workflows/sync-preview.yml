@@ -1,0 +1,26 @@
+name: Sync Preview
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # Full clone
+
+      # Sync changes from main to preview
+      - name: Sync preview to match main
+        run: |
+          git fetch origin
+          git checkout preview
+          git reset --hard origin/main
+          git push --force origin preview
