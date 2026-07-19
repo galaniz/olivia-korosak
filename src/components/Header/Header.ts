@@ -2,8 +2,6 @@
  * Components - Header
  */
 
-/* Imports */
-
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { NavigationPrimary } from '../Navigation/NavigationPrimary.js'
 import { SkipLink } from '../SkipLink/SkipLink.js'
@@ -13,14 +11,16 @@ import { SkipLink } from '../SkipLink/SkipLink.js'
  *
  * @param {string} currentLink
  * @param {string|string[]} [currentType]
+ * @param {boolean} [preview=false]
  * @return {string} HTMLElement
  */
-const Header = (currentLink: string, currentType?: string | string[]): string => {
+const Header = (currentLink: string, currentType?: string | string[], preview: boolean = false): string => {
   /* Navigation required */
 
   const navigation = NavigationPrimary({
     currentLink,
-    currentType
+    currentType,
+    preview
   })
 
   if (!isStringStrict(navigation)) {

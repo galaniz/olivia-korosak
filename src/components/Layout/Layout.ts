@@ -2,8 +2,6 @@
  * Components - Layout
  */
 
-/* Imports */
-
 import type { LayoutArgs } from './LayoutTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
@@ -41,7 +39,8 @@ const Layout = async (args: LayoutArgs): Promise<string> => {
     content,
     itemData,
     itemContains,
-    meta
+    meta,
+    previewData
   } = args
 
   /* Page data */
@@ -59,6 +58,7 @@ const Layout = async (args: LayoutArgs): Promise<string> => {
   const isProject = contentType === 'project'
   const isTrack = contentType === 'track'
   const isTerm = contentType === 'term'
+  const isPreview = !!previewData
 
   /* Assets link */
 
@@ -85,17 +85,17 @@ const Layout = async (args: LayoutArgs): Promise<string> => {
 
   /* Header, breadcrumbs, hero and footer */
 
-  const headerOutput = Header(slug, baseType)
+  const headerOutput = Header(slug, baseType, isPreview)
   const breadcrumbsOutput = Breadcrumbs(itemData)
   const footerOutput = Footer(slug, baseType)
-  const heroOutput = Hero({ ...itemData, meta }, !!breadcrumbsOutput)
+  const heroOutput = Hero({ ...itemData, meta }, !!breadcrumbsOutput, previewData)
 
   /* Content */
 
   let contentOutput = content
 
   if (isProject || isTrack) {
-    contentOutput = await Single(content, itemData, itemContains)
+    contentOutput = await Single(content, itemData, itemContains, previewData)
   }
 
   if (slug === '/shop/') {
@@ -118,8 +118,12 @@ const Layout = async (args: LayoutArgs): Promise<string> => {
 
   let scriptsOutput = ''
 
-  if (configVars.js.out) {
-    scriptsOutput += `<script type="module" src="${baseLink}${configVars.js.out}.js"></script>`
+  if (configVars.js.globalOut) {
+    scriptsOutput += `<script type="module" src="${baseLink}${configVars.js.globalOut}.js"></script>`
+  }
+
+  if (isPreview && configVars.js.previewOut) {
+    scriptsOutput += `<script type="module" src="${baseLink}${configVars.js.previewOut}.js"></script>`
   }
 
   scriptsOutput += outputScripts(baseLink)
@@ -127,10 +131,14 @@ const Layout = async (args: LayoutArgs): Promise<string> => {
   /* Styles */
 
   configVars.css.replace =
-    `<link rel="stylesheet" href="${baseLink}${configVars.css.out}.css" media="all">` + outputStyles(baseLink)
+    `<link rel="stylesheet" href="${baseLink}${configVars.css.globalOut}.css" media="all">` + outputStyles(baseLink)
 
   let stylesOutput =
     '@media (prefers-reduced-motion:reduce){.no-motion-show{display:block}.no-motion-hide{display:none}}'
+
+  if (isPreview && configVars.css.previewOut) {
+    stylesOutput += `<link rel="stylesheet" href="${baseLink}${configVars.css.previewOut}.css" media="all">`
+  }
 
   configVars.style.forEach(s => {
     stylesOutput += s
@@ -171,7 +179,7 @@ const Layout = async (args: LayoutArgs): Promise<string> => {
 
   /* No script */
 
-  let noscriptOutput = `<link rel="stylesheet" href="${baseLink}css/global/globalNoJs.css" media="all">`
+  let noscriptOutput = `<link rel="stylesheet" href="${baseLink}${configVars.css.noJsOut}.css" media="all">`
 
   configVars.noscript.forEach(noscript => {
     noscriptOutput += noscript

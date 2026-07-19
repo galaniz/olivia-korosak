@@ -2,8 +2,6 @@
  * Components - Breadcrumbs
  */
 
-/* Imports */
-
 import type { Item } from '../../global/globalTypes.ts'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { getLink, getSlug } from '@alanizcreative/formation-static/utils/link/link.js'

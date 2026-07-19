@@ -2,8 +2,6 @@
  * Workers - Preview
  */
 
-/* Imports */
-
 import type { PreviewWorkerEnv } from './PreviewTypes.js'
 import type { WorkerRequest } from '../workerTypes.js'
 import type { PostsServerlessProps } from '../../objects/Posts/PostsTypes.js'

@@ -2,8 +2,6 @@
  * Svg - Logo
  */
 
-/* Imports */
-
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { configVars } from '../../config/config.js'
 

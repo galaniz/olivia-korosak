@@ -2,13 +2,12 @@
  * Components - Navigation Primary
  */
 
-/* Imports */
-
 import type { NavigationPrimaryArgs } from './NavigationTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { addScript, addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { navigationsInstance } from './Navigations.js'
 import { configVars } from '../../config/config.js'
+import { getAttr } from '../../utils/attr/attr.js'
 import { Logo } from '../../objects/Logo/Logo.js'
 import { Social } from '../../objects/Social/Social.js'
 
@@ -27,7 +26,8 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
 
   const {
     currentLink,
-    currentType
+    currentType,
+    preview = false
   } = args
 
   /* List */
@@ -56,11 +56,11 @@ const NavigationPrimary = (args: NavigationPrimaryArgs): string => {
       args.listAttr = listAttrs
       args.listClass = listClasses
     },
-    filterBeforeItem ({ args, depth }) {
+    filterBeforeItem ({ args, depth, item }) {
       let itemAttrs = ''
 
       if (depth === 0) {
-        itemAttrs = 'data-nav-item'
+        itemAttrs = getAttr(['data-nav-item'], preview, item.id, 'title')
       }
 
       args.itemAttr = itemAttrs

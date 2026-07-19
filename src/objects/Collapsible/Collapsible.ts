@@ -2,8 +2,6 @@
  * Objects - Collapsible
  */
 
-/* Imports */
-
 import type { CollapsibleArgs } from './CollapsibleTypes.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'

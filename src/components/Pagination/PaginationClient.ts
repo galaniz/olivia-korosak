@@ -2,8 +2,6 @@
  * Components - Pagination Client
  */
 
-/* Imports */
-
 import type { PaginationServerlessData } from './PaginationTypes.js'
 import type { PaginationSource } from '@alanizcreative/formation/components/Pagination/PaginationTypes.js'
 import { Pagination as PaginationBase } from '@alanizcreative/formation/components/Pagination/Pagination.js'

@@ -2,8 +2,6 @@
  * Components - Shop
  */
 
-/* Imports */
-
 import type { Item } from '../../global/globalTypes.js'
 import { configVars } from '../../config/config.js'
 import Stripe from 'stripe'

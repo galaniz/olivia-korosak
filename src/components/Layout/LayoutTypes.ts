@@ -2,8 +2,6 @@
  * Components - Layout Types
  */
 
-/* Imports */
-
 import type { RenderLayoutArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 

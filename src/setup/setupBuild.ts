@@ -2,8 +2,6 @@
  * Setup - Build
  */
 
-/* Imports */
-
 import type { Item } from '../global/globalTypes.js'
 import type { RenderAllData, RenderReturn } from '@alanizcreative/formation-static/render/renderTypes.js'
 import { resolve } from 'node:path'
@@ -60,18 +58,29 @@ const setupBuild = async (build: boolean, devPaths: string[] = []): Promise<Rend
   actions.renderEnd = async () => {
     const entryPoints: Record<string, string> = {
       ...Object.fromEntries(scripts.build.entries()),
-      ...Object.fromEntries(styles.build.entries()),
-      'css/global/globalNoJs': 'src/global/globalNoJs.scss'
+      ...Object.fromEntries(styles.build.entries())
     }
 
     const { css, js } = configVars
 
-    if (css.in && css.out) {
-      entryPoints[css.out] = `${css.in}.scss`
+    if (css.globalIn && css.globalOut) {
+      entryPoints[css.globalOut] = `${css.globalIn}.scss`
     }
 
-    if (js.in && js.out) {
-      entryPoints[js.out] = `${js.in}.js`
+    if (css.previewIn && css.previewOut) {
+      entryPoints[css.previewOut] = `${css.previewIn}.scss`
+    }
+
+    if (css.noJsIn && css.noJsOut) {
+      entryPoints[css.noJsOut] = `${css.noJsIn}.scss`
+    }
+
+    if (js.globalIn && js.globalOut) {
+      entryPoints[js.globalOut] = `${js.globalIn}.js`
+    }
+
+    if (js.previewIn && js.previewOut) {
+      entryPoints[js.previewOut] = `${js.previewIn}.js`
     }
 
     await esbuild.build({
@@ -81,7 +90,7 @@ const setupBuild = async (build: boolean, devPaths: string[] = []): Promise<Rend
       bundle: true,
       splitting: true,
       format: 'esm',
-      target: 'es6',
+      target: 'es2022',
       external: [
         '*.woff',
         '*.woff2'
@@ -99,11 +108,11 @@ const setupBuild = async (build: boolean, devPaths: string[] = []): Promise<Rend
   /* Inline styles */
 
   filters.renderItem = async (output) => {
-    if (!configVars.css.in || !configVars.css.replace) {
+    if (!configVars.css.globalIn || !configVars.css.replace) {
       return output
     }
 
-    const globalFile = `${configVars.css.in}.scss`
+    const globalFile = `${configVars.css.globalIn}.scss`
     const inlineFiles = new Set(styles.item.values())
 
     inlineFiles.add(globalFile)

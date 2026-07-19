@@ -2,8 +2,6 @@
  * Utils - Gradient
  */
 
-/* Imports */
-
 import { addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
 
 /**

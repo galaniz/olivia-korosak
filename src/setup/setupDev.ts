@@ -2,8 +2,6 @@
  * Setup - Dev
  */
 
-/* Imports */
-
 import type { Filters } from '@alanizcreative/formation-static/filters/filtersTypes.js'
 import type { RenderAllData, RenderData, RenderItem } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Store } from '@alanizcreative/formation-static/store/storeTypes.js'

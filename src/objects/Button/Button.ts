@@ -2,13 +2,12 @@
  * Objects - Button
  */
 
-/* Imports */
-
 import type { ButtonProps } from './ButtonTypes.js'
 import { getLink } from '@alanizcreative/formation-static/utils/link/link.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { configJustify, configPadding } from '../../config/configOptions.js'
+import { getAttr } from '../../utils/attr/attr.js'
 
 /**
  * Output link button.
@@ -23,7 +22,7 @@ const Button = (props: ButtonProps): string => {
     return ''
   }
 
-  const { args } = props
+  const { args, previewData } = props
 
   if (!isObjectStrict(args)) {
     return ''
@@ -32,6 +31,7 @@ const Button = (props: ButtonProps): string => {
   /* Args */
 
   const {
+    id,
     title,
     internalLink,
     externalLink,
@@ -56,35 +56,42 @@ const Button = (props: ButtonProps): string => {
 
   /* Classes */
 
-  let linkClasses =
+  let classes =
     `button ${type === 'Primary' ? 'button-primary' : 'button-secondary b-all b-current'} b-radius-s e-trans-quad`
 
   if (size === 'Large') {
-    linkClasses += ' button-l'
+    classes += ' button-l'
   }
 
   /* Layout */
 
-  const classes: string[] = []
+  const containerClasses: string[] = []
 
   if (isStringStrict(paddingTop)) {
-    classes.push(`pt-${configPadding.get(paddingTop)}`)
+    containerClasses.push(`pt-${configPadding.get(paddingTop)}`)
   }
 
   if (isStringStrict(paddingBottom)) {
-    classes.push(`pt-${configPadding.get(paddingBottom)}`)
+    containerClasses.push(`pt-${configPadding.get(paddingBottom)}`)
   }
 
   if (isStringStrict(justify)) {
-    classes.push(`flex justify-${configJustify.get(justify)}`)
+    containerClasses.push(`flex justify-${configJustify.get(justify)}`)
   }
+
+  /* Attributes */
+
+  const attr = [
+    `href="${link}"`,
+    `class="${classes}"`
+  ]
 
   /* Output */
 
-  let output = `<a class="${linkClasses}" href="${link}">${title}</a>`
+  let output = `<a ${getAttr(attr, !!previewData, id, 'title')}>${title}</a>`
 
-  if (classes.length) {
-    output = `<div class="${classes.join(' ')}">${output}</div>`
+  if (containerClasses.length) {
+    output = `<div class="${containerClasses.join(' ')}">${output}</div>`
   }
 
   return output

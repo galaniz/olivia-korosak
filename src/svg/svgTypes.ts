@@ -2,8 +2,6 @@
  * Svg - Types
  */
 
-/* Imports */
-
 import type { ConfigSize } from '../config/configTypes.js'
 
 /**

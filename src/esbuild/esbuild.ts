@@ -2,8 +2,6 @@
  * Esbuild
  */
 
-/* Imports */
-
 import type { BuildOptions } from 'esbuild'
 import dotenv from 'dotenv'
 import esbuild from 'esbuild'

@@ -2,8 +2,6 @@
  * Layouts - Overflow
  */
 
-/* Imports */
-
 import {
   addStyle,
   addScript

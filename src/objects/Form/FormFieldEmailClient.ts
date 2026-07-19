@@ -2,8 +2,6 @@
  * Objects - Form Field Email Client
  */
 
-/* Imports */
-
 import type {
   FormValidateFilterArgs,
   FormValidateResult

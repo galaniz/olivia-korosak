@@ -2,8 +2,6 @@
  * Worker - Turnstile
  */
 
-/* Imports */
-
 import type { WorkerEnv, WorkerTurnstileResult } from './workerTypes.js'
 import type { ServerlessActionData } from '@alanizcreative/formation-static/serverless/serverlessTypes.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'

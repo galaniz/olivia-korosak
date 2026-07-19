@@ -2,8 +2,6 @@
  * Workers - Site
  */
 
-/* Imports */
-
 import type { SiteWorkerEnv } from './SiteTypes.js'
 import type { WorkerRequest } from '../workerTypes.js'
 import type { PostsServerlessProps } from '../../objects/Posts/PostsTypes.js'

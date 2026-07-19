@@ -2,8 +2,6 @@
  * Objects - Image Types
  */
 
-/* Imports */
-
 import type {
   RenderFunctionArgs,
   RenderFile,
@@ -14,6 +12,8 @@ import type { Item } from '../../global/globalTypes.js'
 
 /**
  * @typedef {object} ImageArgs
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {RenderFile} [image]
  * @prop {ConfigAspectRatioLabel} [aspectRatio]
  * @prop {number} [maxWidth]
@@ -24,6 +24,8 @@ import type { Item } from '../../global/globalTypes.js'
  * @prop {string} [classes]
  */
 export interface ImageArgs {
+  id?: string
+  field?: string
   image?: RenderFile
   aspectRatio?: ConfigAspectRatioLabel
   maxWidth?: number

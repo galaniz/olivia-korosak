@@ -2,8 +2,6 @@
  * Layouts - Column
  */
 
-/* Imports */
-
 import type { ColumnProps } from './ColumnTypes.js'
 import type { ConfigTagLabel, ConfigColumnLabel } from '../../config/configTypes.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'

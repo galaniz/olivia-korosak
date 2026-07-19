@@ -2,8 +2,6 @@
  * Components - Http Error
  */
 
-/* Imports */
-
 import type { RenderHttpError } from '@alanizcreative/formation-static/render/renderTypes.js'
 import { renderInlineItem } from '@alanizcreative/formation-static/render/renderInline.js'
 import { getStoreItem } from '@alanizcreative/formation-static/store/store.js'

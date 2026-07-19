@@ -2,8 +2,6 @@
  * Worker - Utils
  */
 
-/* Imports */
-
 import type { WorkerRequest, WorkerServerlessReturn } from './workerTypes.js'
 import type { PostsServerlessProps } from '../objects/Posts/PostsTypes.js'
 import type { StoreExtra } from '../store/storeTypes.js'

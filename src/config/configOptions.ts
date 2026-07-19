@@ -2,8 +2,6 @@
  * Config - Options
  */
 
-/* Imports */
-
 import type {
   FormFieldType as FormationFormFieldType
 } from '@alanizcreative/formation-static/objects/Form/FormTypes.js'

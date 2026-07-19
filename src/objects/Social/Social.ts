@@ -2,8 +2,6 @@
  * Objects - Social
  */
 
-/* Imports */
-
 import type { SocialSvgType } from '../../svg/Social/SocialTypes.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { navigationsInstance } from '../../components/Navigation/Navigations.js'

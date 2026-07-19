@@ -2,8 +2,6 @@
  * Components - Media Audio Client
  */
 
-/* Imports */
-
 import type { MediaAudioTrack } from './MediaAudioTypes.js'
 import type { ActionResizeArgs } from '@alanizcreative/formation/actions/actionsTypes.js'
 import { Media } from '@alanizcreative/formation/objects/Media/Media.js'

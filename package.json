@@ -1,6 +1,6 @@
 {
   "name": "olivia-korosak",
-  "packageManager": "pnpm@10.33.3",
+  "packageManager": "pnpm@11.0.9",
   "type": "module",
   "scripts": {
     "build:client": "npx tsc --project tsconfig.client.json",
@@ -15,25 +15,22 @@
     "lint": "pnpm lint:ts && pnpm lint:scss",
     "wrangler:contact": "npx wrangler dev --config src/workers/Contact/wrangler.json",
     "wrangler:site": "npx wrangler dev --config wrangler.json",
+    "wrangler:preview": "npx wrangler dev --config wrangler.json --env preview",
     "wrangler:staging": "npx wrangler dev --config wrangler.json --env staging",
     "clean": "rm -rf node_modules/.cache/tsbuildinfo.* || true && rm -rf .cache || true && rm -rf site || true && rm -rf lib || true"
   },
   "engines": {
-    "node": ">=22"
-  },
-  "pnpm": {
-    "overrides": {
-      "uuid@<14.0.0": ">=14.0.0"
-    }
+    "node": ">=24"
   },
   "dependencies": {
     "@alanizcreative/formation": "0.0.3",
     "@alanizcreative/formation-static": "0.0.5",
-    "@cloudflare/workers-types": "4.20260505.1",
+    "@cloudflare/workers-types": "4.20260508.1",
+    "@contentful/live-preview": "4.10.4",
     "@esbuild/linux-x64": "0.28.0",
     "@fullhuman/postcss-purgecss": "8.0.0",
     "@types/html-minifier-terser": "^7.0.2",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.6.2",
     "@types/validator": "13.15.10",
     "autoprefixer": "^10.5.0",
     "contentful-resolve-response": "1.9.8",
@@ -43,14 +40,14 @@
     "postcss": "^8.5.14",
     "postcss-modules": "^6.0.1",
     "sass": "^1.99.0",
-    "stripe": "22.1.0",
+    "stripe": "22.1.1",
     "typescript": "^6.0.3",
     "uuid": "^14.0.0",
     "validator": "13.15.35"
   },
   "devDependencies": {
     "eslint": "10.3.0",
-    "stylelint": "^17.10.0",
+    "stylelint": "^17.11.0",
     "stylelint-config-standard-scss": "^17.0.0",
     "typescript-eslint": "8.59.2"
   },
@@ -61,7 +58,7 @@
     "nodemon": "3.1.14",
     "npm-run-all": "^4.1.5",
     "safe-json-stringify": "^1.2.0",
-    "wrangler": "^4.87.0"
+    "wrangler": "^4.90.0"
   },
   "browserslist": [
     "> 0.5%"

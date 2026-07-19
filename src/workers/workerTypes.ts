@@ -2,8 +2,6 @@
  * Workers - Types
  */
 
-/* Imports */
-
 import type { IncomingRequestCfProperties } from '@cloudflare/workers-types'
 import type { Generic } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { RenderServerlessData } from '@alanizcreative/formation-static/render/renderTypes.js'

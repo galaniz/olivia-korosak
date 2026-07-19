@@ -2,8 +2,6 @@
  * Workers - Staging
  */
 
-/* Imports */
-
 import type { StagingWorkerEnv } from './StagingTypes.js'
 import type { WorkerRequest } from '../workerTypes.js'
 import type { PostsServerlessProps } from '../../objects/Posts/PostsTypes.js'

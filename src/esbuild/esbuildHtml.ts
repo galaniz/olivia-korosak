@@ -2,8 +2,6 @@
  * Esbuild - Html
  */
 
-/* Imports */
-
 import type { Plugin } from 'esbuild'
 import type { RenderReturn } from '@alanizcreative/formation-static/render/renderTypes.js'
 import { resolve } from 'node:path'

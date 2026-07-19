@@ -2,8 +2,6 @@
  * Workers - Preview Types
  */
 
-/* Imports */
-
 import type { Generic } from '@alanizcreative/formation-static/global/globalTypes.js'
 
 /**

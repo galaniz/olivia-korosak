@@ -2,8 +2,6 @@
  * Objects - Info
  */
 
-/* Imports */
-
 import type { InfoArgs } from './InfoTypes.js'
 import { isString, isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
@@ -88,10 +86,10 @@ const Info = (args: InfoArgs): string => {
 
   /* Attributes */
 
-  let attrs = ''
+  let attr = ''
 
   if (template) {
-    attrs = ' tabindex="-1"' + (isAlert ? ' role="alert"' : '')
+    attr = ' tabindex="-1"' + (isAlert ? ' role="alert"' : '')
   }
 
   /* Classes */
@@ -102,7 +100,7 @@ const Info = (args: InfoArgs): string => {
   /* Output */
 
   const output = /* html */`
-    <div class="${classes}"${attrs}>
+    <div class="${classes}"${attr}>
       ${Icon({
         width: 's',
         height: 'm',

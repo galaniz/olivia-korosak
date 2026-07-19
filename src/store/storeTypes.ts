@@ -2,8 +2,6 @@
  * Store - Types
  */
 
-/* Imports */
-
 import type { Store } from '@alanizcreative/formation-static/store/storeTypes.js'
 
 /**

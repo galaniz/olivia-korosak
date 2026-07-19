@@ -2,8 +2,6 @@
  * Eslint
  */
 
-/* Imports */
-
 import tseslint from 'typescript-eslint'
 
 /* Config */

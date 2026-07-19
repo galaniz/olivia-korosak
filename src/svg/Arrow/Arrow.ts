@@ -2,8 +2,6 @@
  * Svg - Arrow
  */
 
-/* Imports */
-
 import type { SvgArgs } from '../svgTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'

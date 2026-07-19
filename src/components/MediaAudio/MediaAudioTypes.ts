@@ -2,8 +2,6 @@
  * Components - Media Audio Types
  */
 
-/* Imports */
-
 import type { Item } from '../../global/globalTypes.js'
 import type { Parent } from '@alanizcreative/formation-static/global/globalTypes.js'
 

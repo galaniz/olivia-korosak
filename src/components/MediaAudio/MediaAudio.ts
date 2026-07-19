@@ -2,16 +2,16 @@
  * Components - Media Audio
  */
 
-/* Imports */
-
 import type { MediaAudioTrack, MediaAudioTracksArgs } from './MediaAudioTypes.js'
 import type { Item } from '../../global/globalTypes.js'
+import type { RenderPreviewData } from '@alanizcreative/formation-static/render/renderTypes.js'
 import { v4 as uuid } from 'uuid'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { addScript, addStyle, scripts } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { getLink } from '@alanizcreative/formation-static/utils/link/link.js'
+import { getAttr } from '../../utils/attr/attr.js'
 import { getDuration, getDurationSeconds } from '../../utils/duration/duration.js'
 import { Collapsible } from '../../objects/Collapsible/Collapsible.js'
 import { configVars } from '../../config/config.js'
@@ -235,9 +235,10 @@ const MediaAudio = (): string => {
  * Output track hero section.
  *
  * @param {Item} itemData
+ * @param {RenderPreviewData} [previewData]
  * @return {string} HTMLSectionElement
  */
-const MediaAudioHero = (itemData: Item): string => {
+const MediaAudioHero = (itemData: Item, previewData?: RenderPreviewData): string => {
   /* Data required */
 
   const data = getMediaAudioTrackData(itemData)
@@ -272,7 +273,7 @@ const MediaAudioHero = (itemData: Item): string => {
             classes: 'media-audio-pause'
           })}
         </button>
-        <h1 class="m-0">${title}</h1>
+        <h1 ${getAttr(['class="m-0"'], !!previewData, itemData.id, 'title')}>${title}</h1>
       </div>
     </section>
   `

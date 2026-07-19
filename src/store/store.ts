@@ -2,8 +2,6 @@
  * Store
  */
 
-/* Imports */
-
 import type { StoreArgs, StoreExtended, StoreExtra } from './storeTypes.js'
 import type { Item } from '../global/globalTypes.js'
 import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'

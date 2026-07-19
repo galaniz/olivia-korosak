@@ -4,8 +4,6 @@
  * Scripts - Watch
  */
 
-/* Imports */
-
 import { readFile } from 'node:fs/promises'
 import esbuild from 'esbuild'
 import nodemon from 'nodemon'

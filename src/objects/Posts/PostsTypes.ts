@@ -2,8 +2,6 @@
  * Objects - Posts Types
  */
 
-/* Imports */
-
 import type { RenderFunctionArgs, RenderServerlessData } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Parent } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { ConfigContentTypeLabel, ConfigHeadingLabel, ConfigHeadingLevel } from '../../config/configTypes.js'
@@ -12,6 +10,8 @@ import type { Item } from '../../global/globalTypes.js'
 
 /**
  * @typedef {object} PostsArgs
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {ConfigContentTypeLabel[]} [contentTypes=['Project']]
  * @prop {number} [display=12]
  * @prop {ConfigHeadingLabel} [headingLevel='Heading Three']
@@ -20,6 +20,8 @@ import type { Item } from '../../global/globalTypes.js'
  * @prop {boolean} [exclude=false]
  */
 export interface PostsArgs {
+  id?: string
+  field?: string
   contentTypes?: ConfigContentTypeLabel[]
   display?: number
   headingLevel?: ConfigHeadingLabel

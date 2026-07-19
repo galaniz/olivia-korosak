@@ -2,8 +2,6 @@
  * Workers - Contact Types
  */
 
-/* Imports */
-
 import type { Generic } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { KVNamespace } from '@cloudflare/workers-types'
 

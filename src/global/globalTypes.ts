@@ -2,8 +2,6 @@
  * Global - Types
  */
 
-/* Imports */
-
 import type { InternalLink } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { RenderItem, RenderFile } from '@alanizcreative/formation-static/render/renderTypes.js'
 

@@ -2,8 +2,6 @@
  * Svg - Control Types
  */
 
-/* Imports */
-
 import type { SvgArgs } from '../svgTypes.js'
 
 /**

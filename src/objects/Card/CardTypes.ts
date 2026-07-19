@@ -2,8 +2,6 @@
  * Objects - Card Types
  */
 
-/* Imports */
-
 import type { RenderFunctionArgs, RenderRichText } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { InternalLink } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { ConfigGapLabel } from '../../config/configTypes.js'
@@ -11,6 +9,8 @@ import type { Color, Item } from '../../global/globalTypes.js'
 
 /**
  * @typedef {object} CardArgs
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {InternalLink} [internalLink]
  * @prop {string} [externalLink]
  * @prop {ConfigGapLabel} [gap]
@@ -22,6 +22,8 @@ import type { Color, Item } from '../../global/globalTypes.js'
  * @prop {Color} [colorFrom] - Background gradient. Back end option.
  */
 export interface CardArgs {
+  id?: string
+  field?: string
   internalLink?: InternalLink
   externalLink?: string
   gap?: ConfigGapLabel

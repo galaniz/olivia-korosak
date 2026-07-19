@@ -2,8 +2,6 @@
  * Workers - Contact
  */
 
-/* Imports */
-
 import type { ContactEnv } from './ContactTypes.js'
 import type { Store } from '@alanizcreative/formation-static/store/storeTypes.js'
 import type { ServerlessAction } from '@alanizcreative/formation-static/serverless/serverlessTypes.js'
