@@ -24,6 +24,8 @@ Filter formation column props.
 **Augments:** <code>FormationColumnArgs</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`tag`** <code>ColumnTag</code> optional  
 Default: `'Div'`  
 - **`width`** <code><a href="#columnwidth">ColumnWidth</a></code> optional  

@@ -13,10 +13,6 @@ Filter formation container props.
 
 ## Types
 
-### ContainerTag  
-
-**Type:** <code><a href="/src/config/README.md#configtag">ConfigTag</a> | <a href="/src/config/README.md#configtaglabel">ConfigTagLabel</a></code>
-
 ### ContainerMaxWidth  
 
 **Type:** <code><a href="/src/config/README.md#configcontainer">ConfigContainer</a> | <a href="/src/config/README.md#configcontainerlabel">ConfigContainerLabel</a></code>
@@ -28,7 +24,9 @@ Filter formation container props.
 **Augments:** <code>FormationContainerArgs</code>
 
 #### Properties  
-- **`tag`** <code><a href="#containertag">ContainerTag</a></code> optional  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
+- **`tag`** <code><a href="/src/layouts/Column/README.md#containertag">ContainerTag</a></code> optional  
 Default: `'Div'`  
 - **`maxWidth`** <code><a href="#containermaxwidth">ContainerMaxWidth</a></code> optional  
 - **`layout`** <code>&#39;Block&#39; | &#39;Column&#39; | &#39;Row&#39;</code> optional  

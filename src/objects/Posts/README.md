@@ -32,6 +32,8 @@ Default: `'string'`
 **Type:** <code>object</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`contentTypes`** <code><a href="/src/config/README.md#configcontenttypelabel">ConfigContentTypeLabel</a>[]</code> optional  
 Default: `['Project']`  
 - **`display`** <code>number</code> optional  

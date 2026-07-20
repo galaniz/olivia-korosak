@@ -64,6 +64,8 @@ Output YouTube or Vimeo embed.
 **Type:** <code>object</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`link`** <code>string</code> optional  
 - **`title`** <code>string</code> optional  
 - **`text`** <code>RenderRichText[]</code> optional

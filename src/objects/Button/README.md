@@ -18,6 +18,8 @@ Output link button.
 **Type:** <code>object</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`title`** <code>string</code> optional  
 - **`internalLink`** <code>InternalLink</code> optional  
 - **`externalLink`** <code>string</code> optional  

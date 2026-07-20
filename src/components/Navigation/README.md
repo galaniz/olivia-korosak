@@ -33,4 +33,6 @@ Output primary navigation.
 
 #### Properties  
 - **`currentLink`** <code>string</code> optional  
-- **`currentType`** <code>string | string[]</code> optional
+- **`currentType`** <code>string | string[]</code> optional  
+- **`preview`** <code>boolean</code> optional  
+Default: `false`
