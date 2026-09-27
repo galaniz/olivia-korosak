@@ -15,7 +15,7 @@ import type {
 } from '../../config/configTypes.js'
 
 /**
- * @typedef {ConfigTag|ConfigTagLabel} ContainerTag
+ * @typedef {ConfigTag|ConfigTagLabel} ColumnTag
  */
 export type ColumnTag = ConfigTag | ConfigTagLabel
 

@@ -1,12 +1,12 @@
 # Site
 
-## exports  
+## SiteWorker  
 
-Manage staging site assets and requests.
+Manage site assets and requests.
 
 ### Constructor  
 
-**<code>new exports(): exports</code>**
+**<code>new SiteWorker(): SiteWorker</code>**
 
 ## fetch  
 

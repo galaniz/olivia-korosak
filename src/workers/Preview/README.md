@@ -1,12 +1,12 @@
 # Preview
 
-## exports  
+## PreviewWorker  
 
-Manage staging site assets and requests.
+Manage preview site assets and requests.
 
 ### Constructor  
 
-**<code>new exports(): exports</code>**
+**<code>new PreviewWorker(): PreviewWorker</code>**
 
 ## fetch  
 
