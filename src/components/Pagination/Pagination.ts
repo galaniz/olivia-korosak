@@ -2,8 +2,6 @@
  * Components - Pagination
  */
 
-/* Imports */
-
 import type { PaginationArgs, PaginationReturnKind, PaginationReturnType } from './PaginationTypes.js'
 import { Pagination as PaginationBase } from '@alanizcreative/formation-static/components/Pagination/Pagination.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'

@@ -2,13 +2,12 @@
  * Text - Content
  */
 
-/* Imports */
-
 import type { ContentProps } from './ContentTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { configGap, configTextStyle } from '../../config/configOptions.js'
+import { getAttr } from '../../utils/attr/attr.js'
 
 /**
  * Output content wrapper.
@@ -23,7 +22,7 @@ const Content = (props: ContentProps): string[] => {
     return []
   }
 
-  const { args } = props
+  const { args, previewData } = props
 
   if (!isObjectStrict(args)) {
     return []
@@ -32,6 +31,7 @@ const Content = (props: ContentProps): string[] => {
   /* Args */
 
   const {
+    id,
     align = 'Left',
     gap,
     gapLarge,
@@ -76,14 +76,24 @@ const Content = (props: ContentProps): string[] => {
     classesArr.push(`mb-${configGap.get(gapLarge)}-all-m`)
   }
 
+  /* Attributes */
+
+  const attr: string[] = []
+
+  if (classesArr.length) {
+    attr.push(`class="${classesArr.join(' ')}"`)
+  }
+
   /* Output */
 
-  if (!classesArr.length) {
+  const newAttr = getAttr(attr, !!previewData, id, 'content')
+
+  if (!newAttr) {
     return []
   }
 
   return [
-    `<div class="${classesArr.join(' ')}">`,
+    `<div ${newAttr}>`,
     '</div>'
   ]
 }

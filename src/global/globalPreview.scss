@@ -1,0 +1,13 @@
+/**
+ * Global - Preview Styles
+ */
+
+html[data-preview="contentful"] {
+  [data-contentful-before]::before {
+    content: none;
+  }
+
+  [data-contentful-offset] {
+    padding: var(--ok-5xs);
+  }
+}

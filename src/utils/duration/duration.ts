@@ -2,8 +2,6 @@
  * Utils - Duration
  */
 
-/* Imports */
-
 import { isNumber } from '@alanizcreative/formation-static/utils/number/number.js'
 
 /**

@@ -2,8 +2,6 @@
  * Seo
  */
 
-/* Imports */
-
 import type { SeoSchema } from './seoTypes.js'
 import type { Item, Locale } from '../global/globalTypes.js'
 import type { Generic } from '@alanizcreative/formation-static/global/globalTypes.js'

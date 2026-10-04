@@ -2,8 +2,6 @@
  * Components - Term
  */
 
-/* Imports */
-
 import type { Item } from '../../global/globalTypes.js'
 
 /**

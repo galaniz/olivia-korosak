@@ -2,8 +2,6 @@
  * Svg - Caret
  */
 
-/* Imports */
-
 import type { CaretSvgType, CaretSvgArgs } from './CaretTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'

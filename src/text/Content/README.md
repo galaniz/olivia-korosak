@@ -18,6 +18,8 @@ Output content wrapper.
 **Type:** <code>object</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`textStyle`** <code><a href="/src/config/README.md#configtextlabel">ConfigTextLabel</a></code> optional  
 Default: `'Extra Large'`  
 - **`headingStyle`** <code><a href="/src/config/README.md#configheadinglabel">ConfigHeadingLabel</a></code> optional  

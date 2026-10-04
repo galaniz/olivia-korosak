@@ -2,8 +2,6 @@
  * Layouts - Container Types
  */
 
-/* Imports */
-
 import type {
   ContainerArgs as FormationContainerArgs
 } from '@alanizcreative/formation-static/layouts/Container/ContainerTypes.js'
@@ -33,6 +31,8 @@ export type ContainerMaxWidth = ConfigContainer | ConfigContainerLabel
 /**
  * @typedef {object} ContainerArgs
  * @extends {FormationContainerArgs}
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {ContainerTag} [tag='Div']
  * @prop {ContainerMaxWidth} [maxWidth]
  * @prop {'Block'|'Column'|'Row'} [layout='Block']
@@ -47,6 +47,8 @@ export type ContainerMaxWidth = ConfigContainer | ConfigContainerLabel
  * @prop {string} [classes] - Custom classes. Back end option.
  */
 export interface ContainerArgs extends FormationContainerArgs<ContainerTag, ContainerMaxWidth> {
+  id?: string
+  field?: string
   layout?: 'Block' | 'Column' | 'Row'
   paddingTop?: ConfigPaddingLabel
   paddingTopLarge?: ConfigPaddingLabel
@@ -65,7 +67,7 @@ export interface ContainerArgs extends FormationContainerArgs<ContainerTag, Cont
  * @prop {ContainerArgs} args
  * @prop {Item} [itemData]
  */
-export interface ContainerProps extends RenderFunctionArgs  {
+export interface ContainerProps extends RenderFunctionArgs {
   args: ContainerArgs
   itemData?: Item
 }

@@ -2,13 +2,12 @@
  * Objects - Image
  */
 
-/* Imports */
-
 import type { ImageProps } from './ImageTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { getImage, getImageSizes } from '@alanizcreative/formation-static/utils/image/image.js'
 import { RichText } from '@alanizcreative/formation-static/text/RichText/RichText.js'
+import { getAttr } from '../../utils/attr/attr.js'
 import {
   configBreakpointNumbers,
   configColumnFloats,
@@ -29,7 +28,7 @@ const Image = (props: ImageProps): string => {
     return ''
   }
 
-  const { args, itemData, parents } = props
+  const { args, itemData, parents, previewData } = props
 
   if (!isObjectStrict(args)) {
     return ''
@@ -38,6 +37,8 @@ const Image = (props: ImageProps): string => {
   /* Args */
 
   const {
+    id,
+    field = 'image',
     image,
     aspectRatio = '1:1',
     viewportWidth = 80,
@@ -132,13 +133,18 @@ const Image = (props: ImageProps): string => {
     return ''
   }
 
+  /* Attributes */
+
+  const attr = [`class="${containerClasses}"`]
+
+  if (imageAspectRatio && !hasAspectRatio) {
+    attr.push(`style="--ok-aspect-ratio:1 / ${imageAspectRatio}"`)
+  }
+
   /* Output */
 
-  const containerAttr =
-    imageAspectRatio && !hasAspectRatio ? ` style="--ok-aspect-ratio:1 / ${imageAspectRatio}"` : ''
-
-  let output = /* html */`
-    <div class="${containerClasses}"${containerAttr}>
+  let output = `
+    <div ${getAttr(attr, !!previewData, id, field)}>
       ${imageOutput}
     </div>
   `

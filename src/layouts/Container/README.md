@@ -28,6 +28,8 @@ Filter formation container props.
 **Augments:** <code>FormationContainerArgs</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`tag`** <code><a href="#containertag">ContainerTag</a></code> optional  
 Default: `'Div'`  
 - **`maxWidth`** <code><a href="#containermaxwidth">ContainerMaxWidth</a></code> optional  

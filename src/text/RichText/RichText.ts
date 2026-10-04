@@ -2,8 +2,6 @@
  * Text - Rich Text
  */
 
-/* Imports */
-
 import type { ContentArgs } from '../Content/ContentTypes.js'
 import type { CardArgs } from '../../objects/Card/CardTypes.js'
 import type {
@@ -28,7 +26,7 @@ import { Table } from '../../objects/Table/Table.js'
 const RichTextProps: RichTextPropsFilter = (props) => {
   /* Props and args */
 
-  const { args, parents, itemData } = props
+  const { args, parents, itemData, previewData } = props
   const newArgs = { ...args }
   const {
     tag = '',
@@ -116,7 +114,7 @@ const RichTextProps: RichTextPropsFilter = (props) => {
       newArgs.tag = ''
       newArgs.content = `
         <${tag}${classesArr.length ? ` class="${classesArr.join(' ')}"` : ''}>
-          <a class="before" href="${cardLink}">
+          <a class="before" href="${cardLink}"${!!previewData ? ' data-contentful-before' : ''}>
             <span role="text">${linkText}</span>
           </a>
         </${tag}>

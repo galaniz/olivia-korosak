@@ -18,6 +18,8 @@ Output testimonial quote.
 **Type:** <code>object</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`quote`** <code>string</code> optional  
 - **`title`** <code>string</code> optional  
 - **`info`** <code>string</code> optional

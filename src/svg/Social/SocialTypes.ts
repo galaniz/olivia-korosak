@@ -2,8 +2,6 @@
  * Svg - Social Types
  */
 
-/* Imports */
-
 import type { SvgArgs } from '../svgTypes.js'
 
 /**

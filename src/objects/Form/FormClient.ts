@@ -2,8 +2,6 @@
  * Objects - Form Client
  */
 
-/* Imports */
-
 import type { FormAction } from './FormTypes.js'
 import type { ServerlessActionData } from '@alanizcreative/formation-static/serverless/serverlessTypes.js'
 import { ResponseError } from '@alanizcreative/formation/utils/ResponseError/ResponseError.js'

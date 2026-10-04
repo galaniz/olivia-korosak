@@ -2,8 +2,6 @@
  * Object - Form Field
  */
 
-/* Imports */
-
 import type { FormFieldProps } from './FormTypes.js'
 import type { ConfigColumnLabel, ConfigFieldTypeLabel } from '../../config/configTypes.js'
 import type { FormFieldType } from '@alanizcreative/formation-static/objects/Form/FormTypes.js'
@@ -11,6 +9,7 @@ import { isStringStrict } from '@alanizcreative/formation-static/utils/string/st
 import { addScript } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { configColumns, configFieldType } from '../../config/configOptions.js'
 import { configVars } from '../../config/config.js'
+import { getAttr } from '../../utils/attr/attr.js'
 
 /**
  * Filter formation form field props.
@@ -21,8 +20,9 @@ import { configVars } from '../../config/config.js'
 const FormField = (props: FormFieldProps): FormFieldProps => {
   /* Props and args */
 
-  const { args } = props
+  const { args, previewData } = props
   const {
+    id,
     name,
     type = 'Text',
     width = '1/1',
@@ -50,7 +50,7 @@ const FormField = (props: FormFieldProps): FormFieldProps => {
 
   /* Attributes */
 
-  let fieldAttr = 'data-form-field'
+  const fieldAttr = ['data-form-field']
   const attr: string[] = []
 
   if (isStringStrict(placeholder)) {
@@ -70,7 +70,7 @@ const FormField = (props: FormFieldProps): FormFieldProps => {
   if (newType === 'email') {
     args.fieldTag = 'ok-form-field-email'
 
-    fieldAttr += ` form-id="${configVars.formId}" input-name="${name}"`
+    fieldAttr.push(`form-id="${configVars.formId}" input-name="${name}"`)
 
     addScript('objects/Form/FormFieldEmailClient')
   }
@@ -83,7 +83,7 @@ const FormField = (props: FormFieldProps): FormFieldProps => {
       ...args,
       type: newType,
       fieldClasses,
-      fieldAttr,
+      fieldAttr: getAttr(fieldAttr, !!previewData, id, 'internalTitle'),
       labelClasses: 'form-label',
       classes,
       attr: attr.join('\n'),

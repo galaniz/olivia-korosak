@@ -2,15 +2,15 @@
  * Components - Single
  */
 
-/* Imports */
-
 import type { Item } from '../../global/globalTypes.js'
 import type { ContentfulDataParams } from '@alanizcreative/formation-static/contentful/contentfulDataTypes.js'
+import type { RenderPreviewData } from '@alanizcreative/formation-static/render/renderTypes.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
 import { getArchiveLink } from '@alanizcreative/formation-static/utils/archive/archive.js'
 import { getContentfulData } from '@alanizcreative/formation-static/contentful/contentfulData.js'
+import { getAttr } from '../../utils/attr/attr.js'
 import { getDuration, getDurationSeconds } from '../../utils/duration/duration.js'
 import { configContentTypeLabel } from '../../config/configOptions.js'
 import { Posts } from '../../objects/Posts/Posts.js'
@@ -24,9 +24,15 @@ import { Links } from '../../text/Links/Links.js'
  * @param {string} content
  * @param {Item} itemData
  * @prop {Set<string>} [itemContains]
+ * @prop {RenderPreviewData} [previewData]
  * @return {Promise<string>} HTMLElement
  */
-const Single = async (content: string, itemData: Item, itemContains?: Set<string>): Promise<string> => {
+const Single = async (
+  content: string,
+  itemData: Item,
+  itemContains?: Set<string>,
+  previewData?: RenderPreviewData
+): Promise<string> => {
   /* Data required */
 
   if (!isObjectStrict(itemData)) {
@@ -136,6 +142,8 @@ const Single = async (content: string, itemData: Item, itemContains?: Set<string
 
   similarOutput = await Posts({
     args: {
+      id,
+      field: 'similar',
       contentTypes: [configContentTypeLabel[contentType]],
       filters: [
         `sys.id[in]:${similarIds.join()}`
@@ -143,6 +151,7 @@ const Single = async (content: string, itemData: Item, itemContains?: Set<string
     },
     itemData,
     itemContains,
+    previewData,
     parents: [
       {
         renderType: 'container',
@@ -166,23 +175,23 @@ const Single = async (content: string, itemData: Item, itemContains?: Set<string
 
     /* Details */
 
-    const details: [string, string][] = []
+    const details: [string, string, string][] = []
 
     /* Projects */
 
     if (hasProjects) {
-      details.push(['Projects', Links(project)])
+      details.push(['Projects', Links(project), 'project'])
     }
 
     /* Genres */
 
     if (hasGenres) {
-      details.push(['Genres', Links(genre)])
+      details.push(['Genres', Links(genre), 'genre'])
     }
 
     /* Duration */
 
-    details.push(['Duration', getDuration(getDurationSeconds(audioDuration), true)])
+    details.push(['Duration', getDuration(getDurationSeconds(audioDuration), true), 'audioDuration'])
 
     /* Output */
 
@@ -192,12 +201,12 @@ const Single = async (content: string, itemData: Item, itemContains?: Set<string
           <h2 class="heading-m">Track Details</h2>
           <dl class="flex col row-s wrap gap-s gap-l-m text-l muted num-normal lead-base e-line-in">
             ${details.map(detail => {
-              const [title, desc] = detail
+              const [title, desc, field] = detail
 
               return /* html */`
                 <div>
                   <dt class="lead-base mb-5xs mb-4xs-m sharp">${title}</dt>
-                  <dd>${desc}</dd>
+                  <dd ${getAttr([], !!previewData, id, field)}>${desc}</dd>
                 </div>
               `
             }).join('')}
@@ -215,8 +224,10 @@ const Single = async (content: string, itemData: Item, itemContains?: Set<string
 
   const [contentStart, contentEnd] = Content({
     args: {
+      id,
       richTextStyles: true
-    }
+    },
+    previewData
   })
 
   const tracksOutput = await Posts({

@@ -2,8 +2,6 @@
  * Seo - Sitemap Files
  */
 
-/* Imports */
-
 import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { print } from '@alanizcreative/formation-static/utils/print/print.js'

@@ -2,13 +2,12 @@
  * Object - Form
  */
 
-/* Imports */
-
 import type { FormAction, FormProps } from './FormTypes.js'
 import { v4 as uuid } from 'uuid'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { setStoreItem } from '@alanizcreative/formation-static/store/store.js'
 import { addScript, addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
+import { getAttr } from '../../utils/attr/attr.js'
 import { config, configVars } from '../../config/config.js'
 import { ErrorSvg } from '../../svg/Error/Error.js'
 import { Loader } from '../Loader/Loader.js'
@@ -23,8 +22,9 @@ import { Info } from '../Info/Info.js'
 const Form = (props: FormProps): FormProps => {
   /* Props and args */
 
-  const { args } = props
+  const { args, previewData } = props
   const {
+    id,
     successTitle,
     successText,
     toEmail,
@@ -76,7 +76,7 @@ const Form = (props: FormProps): FormProps => {
 
   /* ID */
 
-  const formId = uuid()
+  const formId = isStringStrict(id) ? id : uuid() // Entry ID stable across builds and serverless renders
   configVars.formId = formId
 
   /* Action */
@@ -89,20 +89,21 @@ const Form = (props: FormProps): FormProps => {
 
   /* Attributes */
 
-  let formAttr =
-    ` action="${action}" error-summary="${errorSummaryId}" error-inline="${errorInlineId}" error="${errorId}" success="${successId}" loader="${loaderId}" sitekey="${siteKey}" env="${config.cms.env}"`
+  const formAttr = [
+    `action="${action}" error-summary="${errorSummaryId}" error-inline="${errorInlineId}" error="${errorId}" success="${successId}" loader="${loaderId}" sitekey="${siteKey}" env="${config.cms.env}"`
+  ]
 
   if (isStringStrict(successTitle)) {
-    formAttr += ` success-title="${successTitle}"`
+    formAttr.push(`success-title="${successTitle}"`)
   }
 
   if (isStringStrict(successText)) {
-    formAttr += ` success-text="${successText}"`
+    formAttr.push(`success-text="${successText}"`)
   }
 
   /* Meta */
 
-  if (isStringStrict(toEmail) && isStringStrict('senderEmail')) {
+  if (isStringStrict(toEmail) && isStringStrict(senderEmail)) {
     setStoreItem('formMeta', {
       toEmail,
       senderEmail
@@ -123,9 +124,9 @@ const Form = (props: FormProps): FormProps => {
       id: formId,
       formTag: 'ok-form',
       formClasses: 'form',
-      formAttr,
+      formAttr: getAttr(formAttr, !!previewData, id, 'content', true),
       fields: `<div id="ok-turnstile-${formId}" class="none"></div>`,
-      fieldsClasses: 'form flex col row-l wrap align-end-l gap-s gap-m-m',
+      fieldsClasses: 'form flex wrap align-end gap-s gap-m-m',
       fieldsAttr: 'novalidate',
       submitFieldClasses: 'relative mt-4xs',
       submitClasses: 'button button-primary button-l b-radius-s e-trans-quad sharp',

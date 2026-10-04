@@ -158,6 +158,8 @@ Filter formation form props.
 **Augments:** <code>FormationFormFieldArgs</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`type`** <code><a href="#formfieldtype">FormFieldType</a></code> optional  
 Default: `'Text'`  
 - **`width`** <code><a href="/src/layouts/Column/README.md#columnwidth">ColumnWidth</a></code> optional  
@@ -188,6 +190,8 @@ Default: `5`
 **Augments:** <code>FormationFormArgs</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`successTitle`** <code>string</code> optional  
 - **`successText`** <code>string</code> optional  
 - **`senderEmail`** <code>string</code> optional  

@@ -2,8 +2,6 @@
  * Objects - Card
  */
 
-/* Imports */
-
 import type { CardProps } from './CardTypes.js'
 import type { PostsItemArgs } from '../Posts/PostsTypes.js'
 import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
@@ -11,6 +9,7 @@ import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/ob
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { getArchiveLabels } from '@alanizcreative/formation-static/utils/archive/archive.js'
 import { RichText } from '@alanizcreative/formation-static/text/RichText/RichText.js'
+import { getAttr } from '../../utils/attr/attr.js'
 import { getGradient } from '../../utils/gradient/gradient.js'
 import { getStoreCount } from '../../store/store.js'
 import { configGap } from '../../config/configOptions.js'
@@ -31,7 +30,7 @@ const Card = (props: CardProps): string | string[] => {
     return []
   }
 
-  const { args, parents, children } = props
+  const { args, parents, children, previewData } = props
 
   if (!isObjectStrict(args)) {
     return []
@@ -40,6 +39,7 @@ const Card = (props: CardProps): string | string[] => {
   /* Args */
 
   const {
+    id,
     gap,
     gapLarge,
     externalLink,
@@ -61,7 +61,7 @@ const Card = (props: CardProps): string | string[] => {
 
   if (isStringStrict(colorFrom?.value)) {
     classes += ' bg-diagonal'
-    styles += getGradient(colorFrom.value || '#606060')
+    styles = `style=${getGradient(colorFrom.value || '#606060')}`
   }
 
   /* Gap */
@@ -79,21 +79,31 @@ const Card = (props: CardProps): string | string[] => {
   if (embed) {
     return Embed({
       args: {
+        id,
         link: externalLink,
         title: embedTitle,
         text: embedText
       },
       parents,
-      children
+      children,
+      previewData
     })
   } else {
     classes += ' z-1'
   }
 
+  /* Attributes */
+
+  const attr = [`class="${classes}"`]
+
+  if (styles) {
+    attr.push(styles)
+  }
+
   /* Output */
 
   return [
-    `<div class="${classes}"${styles ? ` style="${styles}"` : ''}>`,
+    `<div ${getAttr(attr, !!previewData, id, 'internalTitle', true)}>`,
     '</div>'
   ]
 }

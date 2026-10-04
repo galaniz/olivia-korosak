@@ -13,6 +13,10 @@ Filter formation column props.
 
 ## Types
 
+### ColumnTag  
+
+**Type:** <code><a href="/src/config/README.md#configtag">ConfigTag</a> | <a href="/src/config/README.md#configtaglabel">ConfigTagLabel</a></code>
+
 ### ColumnWidth  
 
 **Type:** <code><a href="/src/config/README.md#configcolumn">ConfigColumn</a> | <a href="/src/config/README.md#configcolumnlabel">ConfigColumnLabel</a></code>
@@ -24,7 +28,9 @@ Filter formation column props.
 **Augments:** <code>FormationColumnArgs</code>
 
 #### Properties  
-- **`tag`** <code>ColumnTag</code> optional  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
+- **`tag`** <code><a href="#columntag">ColumnTag</a></code> optional  
 Default: `'Div'`  
 - **`width`** <code><a href="#columnwidth">ColumnWidth</a></code> optional  
 Default: `'1/1'`  

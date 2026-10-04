@@ -2,8 +2,6 @@
  * Objects - Table
  */
 
-/* Imports */
-
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { addStyle } from '@alanizcreative/formation-static/scripts/scripts.js'
 

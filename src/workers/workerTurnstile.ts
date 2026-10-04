@@ -2,8 +2,6 @@
  * Worker - Turnstile
  */
 
-/* Imports */
-
 import type { WorkerEnv, WorkerTurnstileResult } from './workerTypes.js'
 import type { ServerlessActionData } from '@alanizcreative/formation-static/serverless/serverlessTypes.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
@@ -39,7 +37,7 @@ const workerServerlessTurnstile = async (
     })
   })
 
-  const turnstileRes = await turnstileResp.json() as WorkerTurnstileResult
+  const turnstileRes = await turnstileResp.json<WorkerTurnstileResult>()
 
   if (!turnstileRes.success) {
     throw new Error('Verification failed')

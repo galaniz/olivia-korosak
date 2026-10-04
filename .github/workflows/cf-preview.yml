@@ -26,17 +26,17 @@ jobs:
     steps:
       # Checkout the repository
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       # Install PNPM
       - name: Install PNPM
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
 
       # Set up Node.js for PNPM
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'pnpm'
 
       # Install PNPM dependencies
@@ -51,7 +51,7 @@ jobs:
       - name: Upload preview
         id: upload
         run: |
-          RESULT=$(pnpm exec wrangler versions upload --preview-alias ${{ github.head_ref }}-${{ github.event.pull_request.number }} --config wrangler.json --env="")
+          RESULT=$(pnpm exec wrangler versions upload --preview-alias ${{ github.head_ref }}-${{ github.event.pull_request.number }} --config wrangler.jsonc --env="")
 
           echo "$RESULT"
 

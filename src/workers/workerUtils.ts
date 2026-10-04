@@ -2,14 +2,11 @@
  * Worker - Utils
  */
 
-/* Imports */
-
 import type { WorkerRequest, WorkerServerlessReturn } from './workerTypes.js'
 import type { PostsServerlessProps } from '../objects/Posts/PostsTypes.js'
 import type { StoreExtra } from '../store/storeTypes.js'
 import type { Store, StoreServerless } from '@alanizcreative/formation-static/store/storeTypes.js'
 import type { RenderServerlessData, RenderPreviewData } from '@alanizcreative/formation-static/render/renderTypes.js'
-import type { Generic } from '@alanizcreative/formation-static/global/globalTypes.js'
 import { setConfig, setConfigFilter } from '@alanizcreative/formation-static/config/config.js'
 import { setActions } from '@alanizcreative/formation-static/actions/actions.js'
 import { setFilters } from '@alanizcreative/formation-static/filters/filters.js'
@@ -29,13 +26,13 @@ import { Posts } from '../objects/Posts/Posts.js'
  *
  * @param {RenderServerlessData} [serverlessData]
  * @param {RenderPreviewData} [previewData]
- * @param {Generic} [env]
+ * @param {object} [env]
  * @param {boolean} [error=false]
  */
 const workerServerlessSetup = async (
   serverlessData?: RenderServerlessData,
   previewData?: RenderPreviewData,
-  env?: Generic,
+  env?: object,
   error: boolean = false
 ) => {
   const isPreview = !!previewData
@@ -130,10 +127,10 @@ const workerServerlessFilter = async (request: WorkerRequest): Promise<WorkerSer
  * Posts and pagination as JSON data.
  *
  * @param {PostsServerlessProps} props
- * @param {Generic} [env]
+ * @param {object} [env]
  * @return {Promise<Response>}
  */
-const workerServerlessPosts = async (props: PostsServerlessProps, env?: Generic): Promise<Response> => {
+const workerServerlessPosts = async (props: PostsServerlessProps, env?: object): Promise<Response> => {
   try {
     setStore(storeArgs)
 

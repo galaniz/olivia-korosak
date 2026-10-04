@@ -48,6 +48,8 @@ Default: `false`
 **Type:** <code>object</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`internalLink`** <code>InternalLink</code> optional  
 - **`externalLink`** <code>string</code> optional  
 - **`gap`** <code><a href="/src/config/README.md#configgaplabel">ConfigGapLabel</a></code> optional  

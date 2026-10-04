@@ -2,8 +2,6 @@
  * Objects - Navigation
  */
 
-/* Imports */
-
 import type { NavigationProps } from './NavigationTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { Social } from '../Social/Social.js'

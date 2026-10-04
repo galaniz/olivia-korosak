@@ -2,14 +2,14 @@
 
 ## workerServerlessSetup  
 
-**<code>workerServerlessSetup(serverlessData?: RenderServerlessData, previewData?: RenderPreviewData, env?: Generic, error?: boolean): </code>**  
+**<code>workerServerlessSetup(serverlessData?: RenderServerlessData, previewData?: RenderPreviewData, env?: object, error?: boolean): </code>**  
 
 Set up config, filters, actions and store in serverless context.
 
 ### Parameters  
 - **`serverlessData`** <code>RenderServerlessData</code> optional  
 - **`previewData`** <code>RenderPreviewData</code> optional  
-- **`env`** <code>Generic</code> optional  
+- **`env`** <code>object</code> optional  
 - **`error`** <code>boolean</code> optional  
 Default: `false`
 
@@ -28,13 +28,13 @@ Filter worker responses.
 
 ## workerServerlessPosts  
 
-**<code>workerServerlessPosts(props: PostsServerlessProps, env?: Generic): Promise&lt;Response&gt;</code>**  
+**<code>workerServerlessPosts(props: PostsServerlessProps, env?: object): Promise&lt;Response&gt;</code>**  
 
 Posts and pagination as JSON data.
 
 ### Parameters  
 - **`props`** <code><a href="/src/objects/Posts/README.md#postsserverlessprops">PostsServerlessProps</a></code> required  
-- **`env`** <code>Generic</code> optional
+- **`env`** <code>object</code> optional
 
 ### Returns  
 
@@ -76,9 +76,7 @@ Verify Turnstile token.
 
 ### WorkerEnv  
 
-**Type:** <code>object</code>  
-
-**Augments:** <code>Generic</code>
+**Type:** <code>object</code>
 
 #### Properties  
 - **`CF_TURNSTILE_KEY`** <code>string</code> optional

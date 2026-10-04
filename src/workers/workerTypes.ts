@@ -2,10 +2,6 @@
  * Workers - Types
  */
 
-/* Imports */
-
-import type { IncomingRequestCfProperties } from '@cloudflare/workers-types'
-import type { Generic } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { RenderServerlessData } from '@alanizcreative/formation-static/render/renderTypes.js'
 
 /**
@@ -19,10 +15,9 @@ export type WorkerRequest = Request & {
 
 /**
  * @typedef {object} WorkerEnv
- * @extends {Generic}
  * @prop {string} [CF_TURNSTILE_KEY]
  */
-export interface WorkerEnv extends Generic {
+export interface WorkerEnv {
   CF_TURNSTILE_KEY?: string
 }
 

@@ -2,8 +2,6 @@
  * Objects - Embed Types
  */
 
-/* Imports */
-
 import type { RenderFunctionArgs, RenderRichText } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 
@@ -14,11 +12,15 @@ export type EmbedTemplate = 'loader' | 'error'
 
 /**
  * @typedef {object} EmbedArgs
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {string} [link]
  * @prop {string} [title]
  * @prop {RenderRichText[]} [text]
  */
 export interface EmbedArgs {
+  id?: string
+  field?: string
   link?: string
   title?: string
   text?: RenderRichText[]

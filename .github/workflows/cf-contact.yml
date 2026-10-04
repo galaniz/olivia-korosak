@@ -16,17 +16,17 @@ jobs:
     steps:
       # Checkout repository
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       # Install PNPM
       - name: Install PNPM
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
 
       # Set up Node.js for PNPM
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'pnpm'
 
       # Install PNPM dependencies
@@ -37,9 +37,9 @@ jobs:
       - name: Upload worker
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
-            pnpm exec wrangler deploy --env="" --config src/workers/Contact/wrangler.json
+            pnpm exec wrangler deploy --env="" --config src/workers/Contact/wrangler.jsonc
           else
-            pnpm exec wrangler deploy --env dev --config src/workers/Contact/wrangler.json
+            pnpm exec wrangler deploy --env dev --config src/workers/Contact/wrangler.jsonc
           fi
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_WORKER_API_TOKEN }}

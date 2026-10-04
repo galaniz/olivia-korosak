@@ -2,8 +2,6 @@
  * Filters
  */
 
-/* Imports */
-
 import type { Item } from '../global/globalTypes.js'
 import type { Filters } from '@alanizcreative/formation-static/filters/filtersTypes.js'
 import { RichTextProps, RichTextContentItem } from '../text/RichText/RichText.js'

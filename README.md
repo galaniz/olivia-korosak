@@ -139,6 +139,7 @@ pnpm start
 <details>
 <summary>Utils</summary>
   
+- <a href="/src/utils/attr/README.md">Attr</a>  
 - <a href="/src/utils/duration/README.md">Duration</a>  
 - <a href="/src/utils/gradient/README.md">Gradient</a>
 

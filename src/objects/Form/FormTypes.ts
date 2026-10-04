@@ -2,8 +2,6 @@
  * Objects - Form Types
  */
 
-/* Imports */
-
 import type {
   FormArgs as FormationFormArgs,
   FormFieldArgs as FormationFormFieldArgs,
@@ -22,6 +20,8 @@ export type FormAction = 'contact' | 'contact-dev'
 /**
  * @typedef {object} FormArgs
  * @extends {FormationFormArgs}
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {string} [successTitle]
  * @prop {string} [successText]
  * @prop {string} [senderEmail]
@@ -29,6 +29,8 @@ export type FormAction = 'contact' | 'contact-dev'
  * @prop {string} [subject]
  */
 export interface FormArgs extends FormationFormArgs {
+  id?: string
+  field?: string
   successTitle?: string
   successText?: string
   senderEmail?: string
@@ -42,7 +44,7 @@ export interface FormArgs extends FormationFormArgs {
  * @prop {FormArgs} args
  * @prop {Item} [itemData]
  */
-export interface FormProps extends RenderFunctionArgs  {
+export interface FormProps extends RenderFunctionArgs {
   args: FormArgs
   itemData?: Item
 }
@@ -55,6 +57,8 @@ export type FormFieldType = FormationFormFieldType | ConfigFieldTypeLabel
 /**
  * @typedef {object} FormFieldArgs
  * @extends {FormationFormFieldArgs}
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {FormFieldType} [type='Text']
  * @prop {ColumnWidth} [width='1/1']
  * @prop {string} [autoComplete]
@@ -62,6 +66,8 @@ export type FormFieldType = FormationFormFieldType | ConfigFieldTypeLabel
  * @prop {number} [rows=5]
  */
 export interface FormFieldArgs extends FormationFormFieldArgs {
+  id?: string
+  field?: string
   // type?: FormFieldType | ConfigFieldTypeLabel
   width?: ColumnWidth
   autoComplete?: string

@@ -1,12 +1,12 @@
 # Staging
 
-## exports  
+## StagingWorker  
 
 Manage staging site assets and requests.
 
 ### Constructor  
 
-**<code>new exports(): exports</code>**
+**<code>new StagingWorker(): StagingWorker</code>**
 
 ## fetch  
 

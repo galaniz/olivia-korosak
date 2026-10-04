@@ -2,17 +2,19 @@
  * Objects - Navigation Types
  */
 
-/* Imports */
-
 import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { NavigationLocations } from '../../components/Navigation/NavigationTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 
 /**
  * @typedef {object} NavigationArgs
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {NavigationLocations} [location]
  */
 export interface NavigationArgs {
+  id?: string
+  field?: string
   location?: NavigationLocations
 }
 

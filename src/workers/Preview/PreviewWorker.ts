@@ -2,9 +2,6 @@
  * Workers - Preview
  */
 
-/* Imports */
-
-import type { PreviewWorkerEnv } from './PreviewTypes.js'
 import type { WorkerRequest } from '../workerTypes.js'
 import type { PostsServerlessProps } from '../../objects/Posts/PostsTypes.js'
 import type { RenderServerlessData, RenderPreviewData } from '@alanizcreative/formation-static/render/renderTypes.js'
@@ -17,12 +14,7 @@ import { workerServerlessSetup, workerServerlessFilter, workerServerlessPosts } 
 /**
  * Manage preview site assets and requests.
  */
-export default class extends WorkerEntrypoint {
-  /**
-   * Typed env.
-   */
-  declare env: PreviewWorkerEnv
-
+export default class extends WorkerEntrypoint<SiteBindings> {
   /**
    * Route serverless and serve assets.
    * 
@@ -57,7 +49,7 @@ export default class extends WorkerEntrypoint {
     }
 
     if (type === 'posts') {
-      const props = await request.json() as PostsServerlessProps
+      const props = await request.json<PostsServerlessProps>()
       return await workerServerlessPosts({ ...props, serverlessData: data }, this.env)
     }
 

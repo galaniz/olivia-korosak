@@ -2,8 +2,6 @@
  * Layouts - Column Types
  */
 
-/* Imports */
-
 import type { ColumnArgs as FormationColumnArgs } from '@alanizcreative/formation-static/layouts/Column/ColumnTypes.js'
 import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Item } from '../../global/globalTypes.js'
@@ -17,7 +15,7 @@ import type {
 } from '../../config/configTypes.js'
 
 /**
- * @typedef {ConfigTag|ConfigTagLabel} ContainerTag
+ * @typedef {ConfigTag|ConfigTagLabel} ColumnTag
  */
 export type ColumnTag = ConfigTag | ConfigTagLabel
 
@@ -29,6 +27,8 @@ export type ColumnWidth = ConfigColumn | ConfigColumnLabel
 /**
  * @typedef {object} ColumnArgs
  * @extends {FormationColumnArgs}
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {ColumnTag} [tag='Div']
  * @prop {ColumnWidth} [width='1/1']
  * @prop {ColumnWidth} [widthSmall]
@@ -39,6 +39,8 @@ export type ColumnWidth = ConfigColumn | ConfigColumnLabel
  * @prop {string} [classes] - Custom classes. Back end option.
  */
 export interface ColumnArgs extends FormationColumnArgs<ColumnTag, ColumnWidth> {
+  id?: string
+  field?: string
   justify?: ConfigJustifyLabel
   align?: ConfigAlignLabel
   classes?: string
@@ -50,7 +52,7 @@ export interface ColumnArgs extends FormationColumnArgs<ColumnTag, ColumnWidth> 
  * @prop {ColumnArgs} args
  * @prop {Item} [itemData]
  */
-export interface ColumnProps extends RenderFunctionArgs  {
+export interface ColumnProps extends RenderFunctionArgs {
   args: ColumnArgs
   itemData?: Item
 }

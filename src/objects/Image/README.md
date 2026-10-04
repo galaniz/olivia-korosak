@@ -18,6 +18,8 @@ Output image.
 **Type:** <code>object</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`image`** <code>RenderFile</code> optional  
 - **`aspectRatio`** <code><a href="/src/config/README.md#configaspectratiolabel">ConfigAspectRatioLabel</a></code> optional  
 - **`maxWidth`** <code>number</code> optional  

@@ -2,8 +2,6 @@
  * Objects - Embed
  */
 
-/* Imports */
-
 import type { EmbedProps } from './EmbedTypes.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
@@ -15,6 +13,7 @@ import { Loader } from '../Loader/Loader.js'
 import { Info } from '../Info/Info.js'
 import { Image } from '../Image/Image.js'
 import { ImageArgs } from '../Image/ImageTypes.js'
+import { getAttr } from '../../utils/attr/attr.js'
 
 /**
  * Output YouTube or Vimeo embed.
@@ -29,7 +28,7 @@ const Embed = (props: EmbedProps): string => {
     return ''
   }
 
-  const { args, children, parents } = props
+  const { args, children, parents, previewData } = props
 
   if (!isObjectStrict(args)) {
     return ''
@@ -38,6 +37,7 @@ const Embed = (props: EmbedProps): string => {
   /* Args */
 
   const {
+    id,
     link,
     title,
     text
@@ -63,7 +63,8 @@ const Embed = (props: EmbedProps): string => {
         ...(child as ImageArgs),
         aspectRatio: '16:9'
       },
-      parents
+      parents,
+      previewData
     })
   })
 
@@ -95,17 +96,21 @@ const Embed = (props: EmbedProps): string => {
     type: 'error'
   })
 
+  /* Attributes */
+
+  const attr = [
+    'class="embed bg-foreground-light block relative overflow-hidden outline-inset"',
+    `url="${link}&autoplay=1&rel=0"`,
+    `title="${title}"`,
+    `loader="${loaderId}"`,
+    `error="${errorId}"`
+  ]
+
   /* Output */
 
   return /* html */`
     <figure>
-      <ok-embed
-        class="embed bg-foreground-light block relative overflow-hidden outline-inset"
-        url="${link}&autoplay=1&rel=0"
-        title="${title}"
-        loader="${loaderId}"
-        error="${errorId}"
-      >
+      <ok-embed ${getAttr(attr, !!previewData, id, 'internalTitle', true)}>
         ${thumbOutput}
         <button
           type="button"

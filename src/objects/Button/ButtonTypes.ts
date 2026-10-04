@@ -2,8 +2,6 @@
  * Objects - Button Types
  */
 
-/* Imports */
-
 import type { InternalLink } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { ConfigJustifyLabel, ConfigPaddingLabel } from '../../config/configTypes.js'
@@ -11,6 +9,8 @@ import type { Item } from '../../global/globalTypes.js'
 
 /**
  * @typedef {object} ButtonArgs
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {string} [title]
  * @prop {InternalLink} [internalLink]
  * @prop {string} [externalLink]
@@ -22,6 +22,8 @@ import type { Item } from '../../global/globalTypes.js'
  * @prop {ConfigPaddingLabel} [paddingBottom]
  */
 export interface ButtonArgs {
+  id?: string
+  field?: string
   title?: string
   internalLink?: InternalLink
   externalLink?: string

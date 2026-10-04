@@ -2,12 +2,12 @@
  * Components - Hero
  */
 
-/* Imports */
-
 import type { Item } from '../../global/globalTypes.js'
+import type { RenderPreviewData } from '@alanizcreative/formation-static/render/renderTypes.js'
 import { isArrayStrict } from '@alanizcreative/formation-static/utils/array/array.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'
 import { isObjectStrict } from '@alanizcreative/formation-static/utils/object/object.js'
+import { getAttr } from '../../utils/attr/attr.js'
 import { Image } from '../../objects/Image/Image.js'
 import { ArrowSvg } from '../../svg/Arrow/Arrow.js'
 import { Links } from '../../text/Links/Links.js'
@@ -18,9 +18,10 @@ import { MediaAudioHero } from '../MediaAudio/MediaAudio.js'
  *
  * @param {Item} itemData
  * @param {boolean} [condensed=false]
+ * @param {RenderPreviewData} [previewData]
  * @return {string} HTMLSectionElement
  */
-const Hero = (itemData: Item, condensed: boolean = false): string => {
+const Hero = (itemData: Item, condensed: boolean = false, previewData?: RenderPreviewData): string => {
   /* Data required */
 
   if (!isObjectStrict(itemData)) {
@@ -28,6 +29,7 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
   }
 
   const {
+    id,
     code,
     contentType = 'page',
     heroTitle,
@@ -62,6 +64,8 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
   const isIndex = meta?.isIndex
   const isProject = contentType === 'project'
   const isTrack = contentType === 'track'
+  const isPage = contentType === 'page'
+  const isPreview = !!previewData
 
   /* Image */
 
@@ -78,13 +82,16 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
 
     imageOutput = Image({
       args: {
+        id,
+        field: 'heroImage',
         image: heroImage,
         lazy: false,
         aspectRatio: '1:1',
         maxWidth: isIndex ? 1200 : 800,
         classes: `hero-max-${isIndex ? 's' : 'xs'} m-auto`,
         sizes
-      }
+      },
+      previewData
     })
   }
 
@@ -105,11 +112,16 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
 
   /* Text */
 
-  let textOutput = `<h1 class="m-0">${title}</h1>`
-  let textClasses = 'text-l m-0 pt-4xs pt-3xs-m'
+  let textOutput = `
+    <h1 ${getAttr(['class="m-0"'], isPreview, id, isPage ? 'heroTitle' : 'title')}>
+      ${title}
+    </h1>
+  `
+
+  let textClasses = 'text-l m-0 mt-4xs mt-3xs-m'
 
   if (isProject) {
-    textClasses = 'text-m wt-medium relative m-0 pt-3xs pt-2xs-m e-line-in'
+    textClasses = 'text-m wt-medium relative m-0 mt-3xs mt-2xs-m e-line-in'
 
     if (isArrayStrict(projectType)) {
       heroText = `<span class="a-hide-vis">Types: </span>${Links(projectType)}`
@@ -117,7 +129,11 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
   }
 
   if (isStringStrict(heroText)) {
-    textOutput += `<p class="${textClasses}">${heroText}</p>`
+    textOutput += `
+      <p ${getAttr([`class="${textClasses}"`], isPreview, id, isProject ? 'projectType' : 'heroText')}>
+        ${heroText}
+      </p>
+    `
   }
 
   /* Arrow */
@@ -148,7 +164,7 @@ const Hero = (itemData: Item, condensed: boolean = false): string => {
   /* Track */
   
   if (isTrack) {
-    return MediaAudioHero(itemData)
+    return MediaAudioHero(itemData, previewData)
   }
 
   /* Output */

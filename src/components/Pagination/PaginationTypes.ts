@@ -2,8 +2,6 @@
  * Components - Pagination Types
  */
 
-/* Imports */
-
 import type { RenderServerlessData } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Generic } from '@alanizcreative/formation-static/global/globalTypes.js'
 import type { ConfigContentType } from '../../config/configTypes.js'

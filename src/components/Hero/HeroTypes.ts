@@ -2,8 +2,6 @@
  * Components - Hero Types
  */
 
-/* Imports */
-
 import type { RenderFile } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { ButtonArgs } from '../../objects/Button/ButtonTypes.js'
 import type { Item } from '../../global/globalTypes.js'

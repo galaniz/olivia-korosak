@@ -2,8 +2,6 @@
  * Text - Content Types
  */
 
-/* Imports */
-
 import type { RenderFunctionArgs } from '@alanizcreative/formation-static/render/renderTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 import type {
@@ -15,6 +13,8 @@ import type {
 
 /**
  * @typedef {object} ContentArgs
+ * @prop {string} [id]
+ * @prop {string} [field]
  * @prop {ConfigTextLabel} [textStyle='Extra Large']
  * @prop {ConfigHeadingLabel} [headingStyle]
  * @prop {ConfigTextAlignLabel} [align='Left']
@@ -24,6 +24,8 @@ import type {
  * @prop {string} [classes] - Custom classes. Back end option.
  */
 export interface ContentArgs {
+  id?: string
+  field?: string
   textStyle?: ConfigTextLabel
   headingStyle?: ConfigHeadingLabel
   align?: ConfigTextAlignLabel

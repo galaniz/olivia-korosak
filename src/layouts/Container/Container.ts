@@ -2,8 +2,6 @@
  * Layouts - Container
  */
 
-/* Imports */
-
 import type { ContainerProps } from './ContainerTypes.js'
 import type { ConfigTagLabel, ConfigContainerLabel } from '../../config/configTypes.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'

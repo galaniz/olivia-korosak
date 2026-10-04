@@ -2,8 +2,6 @@
  * Objects - Posts
  */
 
-/* Imports */
-
 import type { PostsItemArgs, PostsProps, PostsReturnKind, PostsReturnType } from './PostsTypes.js'
 import type { Item } from '../../global/globalTypes.js'
 import type { ConfigContentType, ConfigContentTypeLabel } from '../../config/configTypes.js'
@@ -17,6 +15,7 @@ import { isNumber } from '@alanizcreative/formation-static/utils/number/number.j
 import { scripts } from '@alanizcreative/formation-static/scripts/scripts.js'
 import { print } from '@alanizcreative/formation-static/utils/print/print.js'
 import { getContentfulData } from '@alanizcreative/formation-static/contentful/contentfulData.js'
+import { getAttr } from '../../utils/attr/attr.js'
 import { configContentType, configHeadingLevel } from '../../config/configOptions.js'
 import { MediaAudioTracks, MediaAudioTracksContainer } from '../../components/MediaAudio/MediaAudio.js'
 import { Pagination } from '../../components/Pagination/Pagination.js'
@@ -76,7 +75,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     return fallback as PostsReturnType<R>
   }
 
-  const { args, itemData, itemContains, serverlessData, parents } = props
+  const { args, itemData, itemContains, serverlessData, previewData, parents } = props
 
   if (!isObjectStrict(args)) {
     return fallback as PostsReturnType<R>
@@ -85,6 +84,8 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
   /* Args */
 
   const {
+    id,
+    field = 'internalTitle',
     display = 12,
     headingLevel: headingLevelLabel = 'Heading Three',
     contentTypes: contentTypesLabels,
@@ -108,7 +109,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
   }
 
   const {
-    id,
+    id: itemId,
     slug,
     title,
     archive,
@@ -119,9 +120,9 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
     locale = 'en-CA'
   } = itemData
 
-  /* ID required */
+  /* Item ID required */
 
-  if (!isStringStrict(id)) {
+  if (!isStringStrict(itemId)) {
     return fallback as PostsReturnType<R>
   }
 
@@ -133,7 +134,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
       const type = configContentType[contentType as ConfigContentTypeLabel]
       const field = postsTermFields[type]
 
-      filters.push(`${field}.sys.id:${id}`)
+      filters.push(`${field}.sys.id:${itemId}`)
 
       return type
     }) || []
@@ -146,7 +147,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
   if (isTaxonomy) {
     pagination = true
     contentTypes = ['term']
-    filters.push(`fields.taxonomy.sys.id:${id}`)
+    filters.push(`fields.taxonomy.sys.id:${itemId}`)
   }
 
   /* Content types required */
@@ -175,7 +176,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
 
   /* Query prep */
 
-  let key = `posts_${id}_${contentTypes.join('_')}_${display}`
+  let key = `posts_${itemId}_${contentTypes.join('_')}_${display}`
   const params: ContentfulDataParams = {
     select,
     include: 2
@@ -200,7 +201,7 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
   }
 
   if (exclude) {
-    params['sys.id[ne]'] = id
+    params['sys.id[ne]'] = itemId
   }
 
   filters.forEach(filter => {
@@ -301,9 +302,13 @@ const Posts = async <R extends PostsReturnKind = 'string'>(
       output = CardContainer(output, pagination)
     }
 
+    if (previewData) {
+      output = `<div ${getAttr([], true, id, field)}>${output}</div>`
+    }
+
     if (pagination) {
       const postsItemData: Item = {
-        id,
+        id: itemId,
         slug,
         title,
         contentType,

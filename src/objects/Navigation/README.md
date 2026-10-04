@@ -18,6 +18,8 @@ Output navigation inline (only social).
 **Type:** <code>object</code>
 
 #### Properties  
+- **`id`** <code>string</code> optional  
+- **`field`** <code>string</code> optional  
 - **`location`** <code>NavigationLocations</code> optional
 
 ### NavigationProps  

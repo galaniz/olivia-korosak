@@ -14,17 +14,17 @@ jobs:
     steps:
       # Checkout repository
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       # Install PNPM
       - name: Install PNPM
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
 
       # Set up Node.js for PNPM
       - name: Set up Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'pnpm'
 
       # Install PNPM dependencies
@@ -34,3 +34,11 @@ jobs:
       # Lint TS and SCSS files
       - name: Lint files (TS and SCSS)
         run: pnpm lint
+
+      # Check worker types are up to date
+      - name: Check worker types
+        run: pnpm types:check
+
+      # Typecheck client, node and workers
+      - name: Typecheck
+        run: pnpm typecheck

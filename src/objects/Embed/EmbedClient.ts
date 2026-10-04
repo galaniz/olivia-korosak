@@ -2,8 +2,6 @@
  * Objects - Embed Client
  */
 
-/* Imports */
-
 import type { EmbedTemplate } from './EmbedTypes.js'
 import { getItem, getTemplateItem, cloneItem } from '@alanizcreative/formation/items/items.js'
 import { isHtmlElement } from '@alanizcreative/formation/utils/html/html.js'

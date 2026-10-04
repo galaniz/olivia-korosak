@@ -105,12 +105,13 @@ Output media audio player.
 
 ## MediaAudioHero  
 
-**<code>MediaAudioHero(itemData: Item): string</code>**  
+**<code>MediaAudioHero(itemData: Item, previewData?: RenderPreviewData): string</code>**  
 
 Output track hero section.
 
 ### Parameters  
-- **`itemData`** <code><a href="/src/global/README.md#item">Item</a></code> required
+- **`itemData`** <code><a href="/src/global/README.md#item">Item</a></code> required  
+- **`previewData`** <code>RenderPreviewData</code> optional
 
 ### Returns  
 

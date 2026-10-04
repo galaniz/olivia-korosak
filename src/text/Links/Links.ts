@@ -2,8 +2,6 @@
  * Text - Links
  */
 
-/* Imports */
-
 import type { Item } from '../../global/globalTypes.js'
 import type { InternalLink } from '@alanizcreative/formation-static/global/globalTypes.js'
 import { isStringStrict } from '@alanizcreative/formation-static/utils/string/string.js'

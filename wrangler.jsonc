@@ -4,7 +4,6 @@
   "compatibility_date": "2026-04-26",
   "workers_dev": false,
   "preview_urls": true,
-  "keep_vars": true,
   "minify": true,
   "kv_namespaces": [
     {
@@ -20,15 +19,38 @@
   },
   "observability": {
     "enabled": true,
-    "head_sampling_rate": 0.02
+    "head_sampling_rate": 0.02,
+    "issues": {
+      "enabled": true
+    }
+  },
+  "vars": {
+    "ENVIRONMENT": "production",
+    "CTFL_PRODUCTION_HOST": "cdn.contentful.com"
+  },
+  "secrets": {
+    "required": [
+      "CTFL_SPACE_ID",
+      "CTFL_PRODUCTION_TOKEN"
+    ]
   },
   "env": {
     "preview": {
       "main": "./src/workers/Preview/PreviewWorker.ts",
       "preview_urls": false,
       "workers_dev": false,
-      "keep_vars": true,
       "minify": true,
+      "vars": {
+        "ENVIRONMENT": "development",
+        "CTFL_PRODUCTION_HOST": "cdn.contentful.com",
+        "CTFL_DEVELOPMENT_HOST": "preview.contentful.com"
+      },
+      "secrets": {
+        "required": [
+          "CTFL_SPACE_ID",
+          "CTFL_DEVELOPMENT_TOKEN"
+        ]
+      },
       "kv_namespaces": [
         {
           "binding": "SITE_KV",
@@ -37,15 +59,29 @@
       ],
       "observability": {
         "enabled": true,
-        "head_sampling_rate": 1
+        "head_sampling_rate": 1,
+        "issues": {
+          "enabled": true
+        }
       }
     },
     "staging": {
-      "main": "./src/workers/Site/SiteWorker.ts",
+      "main": "./src/workers/Staging/StagingWorker.ts",
       "preview_urls": false,
       "workers_dev": false,
-      "keep_vars": true,
       "minify": true,
+      "vars": {
+        "ENVIRONMENT": "development",
+        "CTFL_ENV": "staging",
+        "CTFL_PRODUCTION_HOST": "cdn.contentful.com",
+        "CTFL_DEVELOPMENT_HOST": "preview.contentful.com"
+      },
+      "secrets": {
+        "required": [
+          "CTFL_SPACE_ID",
+          "CTFL_DEVELOPMENT_TOKEN"
+        ]
+      },
       "kv_namespaces": [
         {
           "binding": "SITE_KV",
@@ -54,7 +90,10 @@
       ],
       "observability": {
         "enabled": true,
-        "head_sampling_rate": 1
+        "head_sampling_rate": 1,
+        "issues": {
+          "enabled": true
+        }
       }
     }
   }
