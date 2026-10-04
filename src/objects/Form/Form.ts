@@ -76,7 +76,7 @@ const Form = (props: FormProps): FormProps => {
 
   /* ID */
 
-  const formId = uuid()
+  const formId = isStringStrict(id) ? id : uuid() // Entry ID stable across builds and serverless renders
   configVars.formId = formId
 
   /* Action */
@@ -103,7 +103,7 @@ const Form = (props: FormProps): FormProps => {
 
   /* Meta */
 
-  if (isStringStrict(toEmail) && isStringStrict('senderEmail')) {
+  if (isStringStrict(toEmail) && isStringStrict(senderEmail)) {
     setStoreItem('formMeta', {
       toEmail,
       senderEmail
