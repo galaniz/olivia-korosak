@@ -51,7 +51,7 @@ jobs:
       - name: Upload preview
         id: upload
         run: |
-          RESULT=$(pnpm exec wrangler versions upload --preview-alias ${{ github.head_ref }}-${{ github.event.pull_request.number }} --config wrangler.json --env="")
+          RESULT=$(pnpm exec wrangler versions upload --preview-alias ${{ github.head_ref }}-${{ github.event.pull_request.number }} --config wrangler.jsonc --env="")
 
           echo "$RESULT"
 

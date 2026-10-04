@@ -17,10 +17,12 @@
     "typecheck:node": "npx tsc --noEmit --project tsconfig.node.json",
     "typecheck:workers": "npx tsc --noEmit --project src/workers/tsconfig.json",
     "typecheck": "pnpm typecheck:client && pnpm typecheck:node && pnpm typecheck:workers",
-    "wrangler:contact": "npx wrangler dev --config src/workers/Contact/wrangler.json",
-    "wrangler:site": "npx wrangler dev --config wrangler.json",
-    "wrangler:preview": "npx wrangler dev --config wrangler.json --env preview",
-    "wrangler:staging": "npx wrangler dev --config wrangler.json --env staging",
+    "types": "node scripts/types.js",
+    "types:check": "node scripts/types.js --check",
+    "wrangler:contact": "npx wrangler dev --config src/workers/Contact/wrangler.jsonc",
+    "wrangler:site": "npx wrangler dev --config wrangler.jsonc",
+    "wrangler:preview": "npx wrangler dev --config wrangler.jsonc --env preview",
+    "wrangler:staging": "npx wrangler dev --config wrangler.jsonc --env staging",
     "clean": "rm -rf node_modules/.cache/tsbuildinfo.* || true && rm -rf .cache || true && rm -rf site || true && rm -rf lib || true"
   },
   "engines": {
@@ -29,7 +31,6 @@
   "dependencies": {
     "@alanizcreative/formation": "0.0.5",
     "@alanizcreative/formation-static": "0.0.8",
-    "@cloudflare/workers-types": "5.20260927.1",
     "@contentful/live-preview": "4.10.26",
     "@esbuild/linux-x64": "0.28.2",
     "@fullhuman/postcss-purgecss": "8.0.0",

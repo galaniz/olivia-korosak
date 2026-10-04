@@ -4,7 +4,6 @@
   "compatibility_date": "2026-04-26",
   "workers_dev": false,
   "preview_urls": false,
-  "keep_vars": true,
   "minify": true,
   "kv_namespaces": [
     {
@@ -18,6 +17,15 @@
       "zone_name": "oliviakorosak.com"
     }
   ],
+  "vars": {
+    "CF_CONTACT_ALLOWED_ORIGINS": "https://oliviakorosak.com"
+  },
+  "secrets": {
+    "required": [
+      "CF_TURNSTILE_KEY",
+      "RESEND_API_KEY"
+    ]
+  },
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
@@ -27,8 +35,16 @@
       "main": "./ContactWorker.ts",
       "workers_dev": false,
       "preview_urls": false,
-      "keep_vars": true,
       "minify": true,
+      "vars": {
+        "CF_CONTACT_ALLOWED_ORIGINS": "https://staging.oliviakorosak.com,https://preview.oliviakorosak.com"
+      },
+      "secrets": {
+        "required": [
+          "CF_TURNSTILE_KEY",
+          "RESEND_API_KEY"
+        ]
+      },
       "kv_namespaces": [
         {
           "binding": "CONTACT_KV",

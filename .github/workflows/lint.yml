@@ -34,3 +34,11 @@ jobs:
       # Lint TS and SCSS files
       - name: Lint files (TS and SCSS)
         run: pnpm lint
+
+      # Check worker types are up to date
+      - name: Check worker types
+        run: pnpm types:check
+
+      # Typecheck client, node and workers
+      - name: Typecheck
+        run: pnpm typecheck

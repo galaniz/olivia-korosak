@@ -4,7 +4,6 @@
   "compatibility_date": "2026-04-26",
   "workers_dev": false,
   "preview_urls": true,
-  "keep_vars": true,
   "minify": true,
   "kv_namespaces": [
     {
@@ -22,13 +21,32 @@
     "enabled": true,
     "head_sampling_rate": 0.02
   },
+  "vars": {
+    "ENVIRONMENT": "production",
+    "CTFL_PRODUCTION_HOST": "cdn.contentful.com"
+  },
+  "secrets": {
+    "required": [
+      "CTFL_SPACE_ID",
+      "CTFL_PRODUCTION_TOKEN"
+    ]
+  },
   "env": {
     "preview": {
       "main": "./src/workers/Preview/PreviewWorker.ts",
       "preview_urls": false,
       "workers_dev": false,
-      "keep_vars": true,
       "minify": true,
+      "vars": {
+        "ENVIRONMENT": "development",
+        "CTFL_DEVELOPMENT_HOST": "preview.contentful.com"
+      },
+      "secrets": {
+        "required": [
+          "CTFL_SPACE_ID",
+          "CTFL_DEVELOPMENT_TOKEN"
+        ]
+      },
       "kv_namespaces": [
         {
           "binding": "SITE_KV",
@@ -44,8 +62,18 @@
       "main": "./src/workers/Site/SiteWorker.ts",
       "preview_urls": false,
       "workers_dev": false,
-      "keep_vars": true,
       "minify": true,
+      "vars": {
+        "ENVIRONMENT": "development",
+        "CTFL_ENV": "staging",
+        "CTFL_DEVELOPMENT_HOST": "preview.contentful.com"
+      },
+      "secrets": {
+        "required": [
+          "CTFL_SPACE_ID",
+          "CTFL_DEVELOPMENT_TOKEN"
+        ]
+      },
       "kv_namespaces": [
         {
           "binding": "SITE_KV",

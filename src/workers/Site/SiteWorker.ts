@@ -2,7 +2,6 @@
  * Workers - Site
  */
 
-import type { SiteWorkerEnv } from './SiteTypes.js'
 import type { WorkerRequest } from '../workerTypes.js'
 import type { PostsServerlessProps } from '../../objects/Posts/PostsTypes.js'
 import { WorkerEntrypoint } from 'cloudflare:workers'
@@ -14,12 +13,7 @@ import { workerServerlessSetup, workerServerlessFilter, workerServerlessPosts } 
 /**
  * Manage site assets and requests.
  */
-export default class extends WorkerEntrypoint {
-  /**
-   * Typed env.
-   */
-  declare env: SiteWorkerEnv
-
+export default class extends WorkerEntrypoint<SiteBindings> {
   /**
    * Route serverless and serve assets.
    * 
@@ -47,7 +41,7 @@ export default class extends WorkerEntrypoint {
     }
 
     if (type === 'posts') {
-      const props = await request.json() as PostsServerlessProps
+      const props = await request.json<PostsServerlessProps>()
       return await workerServerlessPosts({ ...props, serverlessData: data }, this.env)
     }
 

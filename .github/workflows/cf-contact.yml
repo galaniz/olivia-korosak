@@ -37,9 +37,9 @@ jobs:
       - name: Upload worker
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
-            pnpm exec wrangler deploy --env="" --config src/workers/Contact/wrangler.json
+            pnpm exec wrangler deploy --env="" --config src/workers/Contact/wrangler.jsonc
           else
-            pnpm exec wrangler deploy --env dev --config src/workers/Contact/wrangler.json
+            pnpm exec wrangler deploy --env dev --config src/workers/Contact/wrangler.jsonc
           fi
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_WORKER_API_TOKEN }}
