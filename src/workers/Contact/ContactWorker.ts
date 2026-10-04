@@ -16,7 +16,7 @@ import { workerServerlessTurnstile } from '../workerTurnstile.js'
  *
  * @type {ServerlessAction}
  */
-const contact: ServerlessAction = async (data, request, env: ContactEnv) => {
+const contact: ServerlessAction<ContactEnv> = async (data, request, env) => {
   /* Turnstile check */
 
   await workerServerlessTurnstile(data, request, env)
