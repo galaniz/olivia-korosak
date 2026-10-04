@@ -85,9 +85,10 @@ const Layout = async (args: LayoutArgs): Promise<string> => {
 
   /* Header, breadcrumbs, hero and footer */
 
-  const headerOutput = Header(slug, baseType, isPreview)
+  const currentLink = getPermalink(slug)
+  const headerOutput = Header(currentLink, baseType, isPreview)
   const breadcrumbsOutput = Breadcrumbs(itemData)
-  const footerOutput = Footer(slug, baseType)
+  const footerOutput = Footer(currentLink, baseType)
   const heroOutput = Hero({ ...itemData, meta }, !!breadcrumbsOutput, previewData)
 
   /* Content */
