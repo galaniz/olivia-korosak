@@ -126,7 +126,7 @@ const Form = (props: FormProps): FormProps => {
       formClasses: 'form',
       formAttr: getAttr(formAttr, !!previewData, id, 'content', true),
       fields: `<div id="ok-turnstile-${formId}" class="none"></div>`,
-      fieldsClasses: 'form flex col row-l wrap align-end-l gap-s gap-m-m',
+      fieldsClasses: 'form flex wrap align-end gap-s gap-m-m',
       fieldsAttr: 'novalidate',
       submitFieldClasses: 'relative mt-4xs',
       submitClasses: 'button button-primary button-l b-radius-s e-trans-quad sharp',
