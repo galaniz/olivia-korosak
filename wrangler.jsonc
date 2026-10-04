@@ -39,6 +39,7 @@
       "minify": true,
       "vars": {
         "ENVIRONMENT": "development",
+        "CTFL_PRODUCTION_HOST": "cdn.contentful.com",
         "CTFL_DEVELOPMENT_HOST": "preview.contentful.com"
       },
       "secrets": {
@@ -66,6 +67,7 @@
       "vars": {
         "ENVIRONMENT": "development",
         "CTFL_ENV": "staging",
+        "CTFL_PRODUCTION_HOST": "cdn.contentful.com",
         "CTFL_DEVELOPMENT_HOST": "preview.contentful.com"
       },
       "secrets": {
