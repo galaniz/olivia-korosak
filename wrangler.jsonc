@@ -59,7 +59,7 @@
       }
     },
     "staging": {
-      "main": "./src/workers/Site/SiteWorker.ts",
+      "main": "./src/workers/Staging/StagingWorker.ts",
       "preview_urls": false,
       "workers_dev": false,
       "minify": true,
