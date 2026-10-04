@@ -58,8 +58,10 @@ const Collapsible = (args: CollapsibleArgs): string => {
           classes: 'collapsible-icon sharp e-trans'
         })}
       </button>
-      <div class="collapsible-panel e-trans outline-tight" data-collapsible-panel>
-        ${content}
+      <div class="collapsible-panel grid e-trans outline-tight" data-collapsible-panel>
+        <div class="collapsible-content overflow-hidden e-trans">
+          ${content}
+        </div>
       </div>
     </ok-collapsible>
   `
